@@ -1,0 +1,316 @@
+package clustering.smellDetectionClustering;
+
+import clustering.bootstrappingClustering.CellClusterMatrix;
+import clustering.bootstrappingClustering.FeatureCellMatrix;
+import clustering.bootstrappingClustering.FeatureClusterMatrix;
+import utility.BasicUtility;
+import entity.CellFeature;
+import entity.Cluster;
+import featureExtraction.semllDetectionFeatureExtraction.TokenFeature;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellReference;
+import weka.classifiers.rules.DecisionTableHashKey;
+import weka.core.Attribute;
+import weka.core.Instance;
+import weka.core.Instances;
+import weka.core.SparseInstance;
+import weka.filters.Filter;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class SmellDetectionClustering {
+
+	private Sheet sheet = null;
+	private List<Cluster> clusters = null;
+	private List<CellFeature> fts = null;
+	private List<Smell> detectedSmellyCells = new ArrayList<Smell>();
+	private BasicUtility bu = new BasicUtility();
+
+	private List<String> featureVector = null;
+	private List<CellFeature> subFtList = null;
+	
+	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts) {
+		this.sheet = sheet;
+		this.clusters = clusters;
+		this.fts = fts;
+	}
+
+	public void outlierDetection() throws Exception {
+		for (Cluster cl : clusters) {
+			Map<CellReference, Double> cellRefsValue = cl.cellRefsWithValue();
+			List<Cell> formulaInCluster = new ArrayList<Cell>();
+			List<CellReference> formulaRefInCluster = new ArrayList<CellReference>();
+
+			for (Entry<CellReference, Double> entry : cellRefsValue.entrySet()) {
+				CellReference cr = entry.getKey();
+				Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
+				if (cell.getCellType() == 0) {
+					Smell sl = new Smell(cr);
+					sl.isMissingFormulaSmell = true;
+					detectedSmellyCells.add(sl);
+				} else if (cell.getCellType() == 2) {
+					formulaInCluster.add(cell);
+					formulaRefInCluster.add(cr);
+				}
+			}
+			
+			if (checkAllTheSame(formulaInCluster)) {
+				continue;
+			}
+			
+			detectionFeatureExtraction(sheet.getWorkbook(), formulaInCluster);
+			
+			FeatureCellMatrix fc = new FeatureCellMatrix(featureVector, formulaRefInCluster);
+			RealMatrix fcM = fc.matrixCreationForDetection(subFtList);
+			
+			Instances originalDataset = createInstances(fcM);
+			Instances outliers;
+			
+			if (originalDataset.size() == 3) {
+				outliers = twoUniqueInstancesHandling(originalDataset);
+			}
+			else if (originalDataset.size() > 3) { 
+				outliers = LofAnalysis(originalDataset);
+				reportAll(outliers, formulaRefInCluster, fcM);
+			}
+		}
+	}
+
+	private boolean checkAllTheSame(List<Cell> cluster) {
+		for (int i=0; i<cluster.size()-1; i++) {
+			Cell cLeft = cluster.get(i);
+			String rcLeft = bu.convertA1ToR1C1(
+					cLeft.getRowIndex(), cLeft.getColumnIndex(), cLeft.getCellFormula());
+			for (int j=i+1; j<cluster.size(); j++) {
+				Cell cRight = cluster.get(j);
+				String rcRight = bu.convertA1ToR1C1(
+						cRight.getRowIndex(), cRight.getColumnIndex(), cRight.getCellFormula());
+				if (! rcLeft.equals(rcRight)) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+
+	private void reportAll(Instances dataset, List<CellReference> cellRefsInCluster, 
+			RealMatrix featureCellM) {
+		boolean[] taggedCells = new boolean[cellRefsInCluster.size()];
+		Boolean outlierExist = false;
+		Boolean inlierExist = false;
+		for (int i = 0; i < dataset.size(); i++)
+			if (dataset.get(i).value(dataset.numAttributes() - 1) > 0.0001) {
+				// True for outlier in taggedCells
+				taggedCells[i] = true;
+				outlierExist = true;
+			} else {
+				taggedCells[i] = false;
+				inlierExist = true;
+			}
+
+		if (outlierExist && inlierExist) {
+			detectedSmellyCells.addAll(smellDescriptionDetection(
+					taggedCells, featureCellM, cellRefsInCluster));
+		}
+	}
+
+	private List<Smell> smellDescriptionDetection(boolean[] taggedCells,
+			RealMatrix featureCellM, List<CellReference> cellRefsVector) {
+		List<Smell> smells = new ArrayList<Smell>();
+
+		CellClusterMatrix cc = new CellClusterMatrix();
+		RealMatrix lierMatrix = cc.matrixCreation(taggedCells);
+
+		FeatureClusterMatrix fcm = new FeatureClusterMatrix(featureCellM,
+				lierMatrix);
+		RealMatrix featureLierM = fcm.matrixCreation();
+
+		featureLierM = fcm.computeNPMI(featureLierM);
+		double[] inlierFeatureAssociation = featureLierM.getColumn(0);
+		int[] sigFeatureSet = new int[inlierFeatureAssociation.length];
+
+		for (int i = 0; i < inlierFeatureAssociation.length; i++) {
+			if (inlierFeatureAssociation[i] > 0) {
+				sigFeatureSet[i] = 1;
+			}
+		}
+
+		for (int i = 0; i < cellRefsVector.size(); i++) {
+			if (taggedCells[i]) {
+				CellReference cr = cellRefsVector.get(i);
+				Smell smell = new Smell(cr);
+
+				RealMatrix cellFtM = featureCellM
+						.getColumnMatrix(cellRefsVector.indexOf(cr));
+
+				for (int i1 = 0; i1 < sigFeatureSet.length; i1++) {
+					if (cellFtM.getEntry(i1, 0) == 0 && sigFeatureSet[i1] == 1) {
+						String description = featureVector.get(i1);
+
+						smell.isDissimilarFormulaSmell = true;
+
+						if (description.contains("Operation=")) {
+							smell.isDissimilarOperationSmell = true;
+						} else if (description.contains("ScalarConstantPtg")) {
+							smell.isHardCodedConstantSmell = true;
+						} else if (description.contains("RefToken")) {
+							smell.isDissimilarCellReferenceSmell = true;
+						}
+					}
+				}
+				smells.add(smell);
+			}
+		}
+
+		return smells;
+	}
+
+	private Instances LofAnalysis(Instances dataset) throws Exception {
+		LOF lof = new LOF();
+		String minPotsLowerBound = Integer.toString((int) Math.floor(Math
+				.sqrt(dataset.size())));
+		String minPotsUpperBound = Integer.toString((int) Math.floor(Math
+				.sqrt(dataset.size())));
+		lof.setMinPointsLowerBound(minPotsLowerBound);
+		lof.setMinPointsUpperBound(minPotsUpperBound);
+		lof.setInputFormat(dataset);
+		dataset = Filter.useFilter(dataset, lof);
+		return dataset;
+	}
+
+	private Instances twoUniqueInstancesHandling(Instances originalDataset) throws Exception {
+		Instances outliers;
+
+		Map<DecisionTableHashKey, Integer> twoInst = new HashMap<DecisionTableHashKey, Integer>();
+		for (Instance inst : originalDataset) {
+			DecisionTableHashKey key = new DecisionTableHashKey(inst,
+					originalDataset.numAttributes(), true);
+			if (!twoInst.containsKey(key)) {
+				twoInst.put(key, 0);
+			}
+			twoInst.put(key, twoInst.get(key) + 1);
+		}
+		outliers = new Instances(originalDataset);
+		outliers.insertAttributeAt(new Attribute("LOF"),
+				outliers.numAttributes());
+
+		for (int j = 0; j < outliers.numInstances(); j++) {
+			Instance instN = outliers.get(j);
+			for (Entry<DecisionTableHashKey, Integer> entry : twoInst
+					.entrySet()) {
+				if (new DecisionTableHashKey(instN,
+						originalDataset.numAttributes(), true).equals(entry.getKey())) {
+					double value = 1 - (double) entry.getValue()
+							/ (double) originalDataset.size();
+					instN.setValue(outliers.numAttributes() - 1, value);
+				}
+			}
+		}
+		return outliers;
+	}
+
+	private Instances createInstances(RealMatrix subFeatureCellMatrix) {
+		double data[][] = subFeatureCellMatrix.getData();
+		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
+		List<Instance> instances = new ArrayList<Instance>();
+
+		for (int obj = 0; obj < subFeatureCellMatrix.getColumnDimension(); obj++) {
+			instances.add(new SparseInstance(subFeatureCellMatrix
+					.getRowDimension()));
+
+		}
+
+		for (int dim = 0; dim < subFeatureCellMatrix.getRowDimension(); dim++) {
+
+			// Create new attribute / dimension
+			Attribute current = new Attribute("Attribute" + dim, dim);
+
+			// Fill the value of dimension "dim" into each object
+			for (int obj = 0; obj < subFeatureCellMatrix.getColumnDimension(); obj++) {
+				instances.get(obj).setValue(current, data[dim][obj]);
+			}
+			// Add attribute to total attributes
+			attributes.add(current);
+		}
+
+		Instances dataset = new Instances("Dataset", attributes, instances.size());
+
+		for (Instance inst : instances)
+			dataset.add(inst);
+
+		return new Instances(dataset);
+	}
+
+	private void detectionFeatureExtraction(Workbook wb, List<Cell> cells) {
+		subFtList = new ArrayList<CellFeature>();
+		featureVector = new ArrayList<String>();
+		for (Cell cell : cells) {
+			CellReference cr = new CellReference(cell);
+			CellFeature ft = new CellFeature(cr);
+			CellFeature ftInList = fts.get(fts.indexOf(ft));
+			TokenFeature tokenF = new TokenFeature(cell, wb);
+			List<List<String>> tokens = tokenF.getFeature();
+
+			if (tokens != null && !tokens.isEmpty()) {
+
+				ftInList.setTokens(tokenF.getFeature());
+
+				List<String> opTokens = tokens.get(0);
+
+				if (opTokens != null) {
+					ftInList.setOpTokens(opTokens);
+					String ops = "";
+					for (String opToken : opTokens) {
+						ops = ops + opToken + ",";
+					}
+					if (!featureVector.contains("Operation=" + ops)) {
+						featureVector.add("Operation=" + ops);
+					}
+				}
+
+				List<String> refTokens = tokens.get(1);
+				if (refTokens != null && !refTokens.isEmpty()) {
+					ftInList.setRefTokens(refTokens);
+					String ref = "";
+					for (String refToken : refTokens) {
+						ref = ref + refToken + ",";
+					}
+					if (!featureVector.contains("RefToken" + ref)) {
+						featureVector.add("RefToken" + ref);
+					}
+
+				}
+				List<String> scalarToken = tokens.get(2);
+				if (!featureVector.contains("ScalarConstantPtg")) {
+					featureVector.add("ScalarConstantPtg");
+				}
+				if (scalarToken != null && !scalarToken.isEmpty()) {
+					ftInList.setScalarInFormula(true);
+				}
+			}
+			subFtList.add(ftInList);
+		}
+	}
+
+	public Sheet getSheet() {
+		return sheet;
+	}
+
+	public void setSheet(Sheet sheet) {
+		this.sheet = sheet;
+	}
+
+	public List<Smell> getDetectedSmellyCells() {
+		return detectedSmellyCells;
+	}
+
+}

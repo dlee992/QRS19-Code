@@ -1,0 +1,59 @@
+#!/bin/bash
+
+echo `date +%Y-%m-%d:%H:%M:%S` > logfile
+echo "This shell script will execute the following command: java -jar CC2s.jar -default"
+#java -jar CC2s.jar -default O2.1 O2.2 O3 logicalOp para1 para3
+# O1
+java -jar CC2s.jar -default false false false false 0 0
+ 
+
+echo `date +%Y-%m-%d:%H:%M:%S` >> logfile
+echo "O1 has done." > logfile
+
+# O1 + O2.1
+java -jar CC2s.jar -default true false false false 0.01 0
+ 
+java -jar CC2s.jar -default true false false false 0.001 0
+ 
+java -jar CC2s.jar -default true false false false 0.0001 0
+ 
+java -jar CC2s.jar -default true false false true 0.0001 0
+
+
+
+echo `date +%Y-%m-%d:%H:%M:%S` >> logfile
+echo "O2.1 has done." > logfile
+
+# O1 + O2.1 + O2.2
+java -jar CC2s.jar -default true true false true 0.0001 0
+ 
+
+echo `date +%Y-%m-%d:%H:%M:%S` >> logfile
+echo "O2.2 has done." >> logfile
+
+# O1 + O3
+java -jar CC2s.jar -default false false true false 0 0.2
+ 
+java -jar CC2s.jar -default false false true false 0 0.1
+ 
+java -jar CC2s.jar -default false false true false 0 0.01
+ 
+
+echo `date +%Y-%m-%d:%H:%M:%S` >> logfile
+echo "O3 has done." >> logfile
+
+# O1 + O2.1 + O3
+java -jar CC2s.jar -default true false true true 0.0001 0.1
+
+echo `date +%Y-%m-%d:%H:%M:%S` >> logfile
+echo "O2.1 + O3 has done." >> logfile
+
+
+
+# O1 + O2.1 + O2.2 + O3
+java -jar CC2s.jar -default true true true true 0.0001 0.1
+
+echo `date +%Y-%m-%d:%H:%M:%S` >> logfile
+echo "O2.1 + O2.2 + O3 has done." >> logfile
+echo "End." >> logfile
+

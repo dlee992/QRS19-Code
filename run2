@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "hi null"
+java -jar CC2s.jar -default false false false false 0 0
+
