@@ -1,0 +1,4 @@
+World 1996
+index = 1, CellArray=[5, 7] ------ [12, 7]
+index = 2, CellArray=[26, 3] ------ [26, 4]
+index = 3, CellArray=[31, 6] ------ [33, 6]

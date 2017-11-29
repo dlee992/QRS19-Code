@@ -1,0 +1,9 @@
+Capital Projects Page 6
+index = 1, CellArray=[11, 9] ------ [18, 9]
+index = 2, CellArray=[21, 9] ------ [26, 9]
+index = 3, CellArray=[29, 9] ------ [33, 9]
+index = 4, CellArray=[36, 9] ------ [39, 9]
+index = 5, CellArray=[44, 7] ------ [45, 7]
+index = 6, CellArray=[52, 9] ------ [60, 9]
+index = 7, CellArray=[64, 9] ------ [66, 9]
+index = 8, CellArray=[69, 7] ------ [70, 7]

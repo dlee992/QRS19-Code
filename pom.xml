@@ -32,7 +32,7 @@
             <artifactId>rted</artifactId>
             <version>v1.1</version>
             <scope>system</scope>
-            <systemPath>/Users/lida/IdeaProjects/Scratch/src/main/resources/RTED_v1.1.jar</systemPath>
+            <systemPath>A:/CC1s-concurrent/src/main/resources/RTED_v1.1.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -40,7 +40,7 @@
             <artifactId>z3</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>/Users/lida/IdeaProjects/Scratch/src/main/resources/com.microsoft.z3.jar</systemPath>
+            <systemPath>A:/CC1s-concurrent/src/main/resources/com.microsoft.z3.jar</systemPath>
         </dependency>
 
         <dependency>

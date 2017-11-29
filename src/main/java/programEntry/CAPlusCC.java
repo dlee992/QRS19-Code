@@ -161,9 +161,7 @@ public class CAPlusCC {
 
         //FIXME:
         System.out.println(statisticsResult);
-
         System.out.println("formula numbers : " + numberOfFormula);
-
     }
 
     private static void testSpreadsheet(File file, StatisticsForAll staAll)

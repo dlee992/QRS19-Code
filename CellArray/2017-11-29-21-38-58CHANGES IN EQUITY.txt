@@ -1,0 +1,4 @@
+CHANGES IN EQUITY
+index = 1, CellArray=[11, 2] ------ [11, 3]
+index = 2, CellArray=[17, 2] ------ [17, 3]
+index = 3, CellArray=[19, 2] ------ [19, 3]

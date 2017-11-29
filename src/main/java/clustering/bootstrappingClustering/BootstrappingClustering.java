@@ -15,6 +15,7 @@ import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
+import org.apache.poi.ss.formula.ptg.RefPtg;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import programEntry.GP;
@@ -24,6 +25,7 @@ import utility.FormulaParsing;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.in;
 import static java.lang.System.out;
 //import static programEntry.GP.O3;
 
@@ -153,6 +155,13 @@ public class BootstrappingClustering {
 //                                            continue;
 //                                        }
 
+                                        if (index == 1) {
+                                            boolean flag = NumericAndNotOutOfRange(childCell, parentCluster, sheetOrigin);
+                                            if (!flag) {
+                                                continue;
+                                            }
+                                        }
+
                                         out.printf("harvest the cell %s\n", childCR.formatAsString());
                                         childCluster.setAssociationValue(maxValue);
                                         parentCluster.addChild(childCluster);
@@ -177,6 +186,101 @@ public class BootstrappingClustering {
 
 		return clusters;
 	}
+
+	private boolean NumericAndNotOutOfRange(Cell cellToAdd, Cluster cluster, Sheet sheet) {
+	    //这个判断其实有冗余部分，可优化。
+        for (Cell cell:
+             cluster.getSeedCells()) {
+            boolean flag = replaceAndCorrect(cellToAdd, cell, sheet);
+            if (flag) return true;
+        }
+
+        return false;
+    }
+
+    private int stringToInt(String columnS) {
+        int ret = 0;
+        for (int index = 0; index < columnS.length(); index++) {
+            ret = ret*26 + columnS.charAt(index)-'A';
+        }
+        return ret;
+    }
+
+    //e.g. type inference
+    private boolean replaceAndCorrect(Cell cellToAdd, Cell cell, Sheet sheet) {
+        Workbook workbook = sheet.getWorkbook();
+        String cellFormula = cell.getCellFormula();
+        int sheetIndex = workbook.getSheetIndex(sheet);
+        Ptg[] ptgList = new FormulaParsing().getPtg(cellFormula, workbook, FormulaType.forInt(2), sheetIndex);
+
+        for (Ptg aPtg:
+             ptgList) {
+//            out.println("Ptg type = " + aPtg.toString());
+            String ptgString = aPtg.toString();
+            if (ptgString.contains("RefPtg")) {
+                //from parent class to child class.
+                RefPtg exactPtg = new RefPtg(aPtg.toFormulaString());
+                int rowPtg = exactPtg.getRow();
+                int columnPtg = exactPtg.getColumn();
+
+                if (!ptgString.contains("$")) {
+                    //重复的代码块：1
+                    int row = 0, column = 0;
+                    row = cellToAdd.getRowIndex() - (cell.getRowIndex() - rowPtg);
+                    column = cellToAdd.getColumnIndex() - (cell.getColumnIndex() - columnPtg);
+
+                    //TODO: validate 这个新单元格
+                    Row validRow = sheet.getRow(row);
+                    if (validRow == null)
+                        return false;
+                    Cell validCell = validRow.getCell(column);
+                    if (validCell == null)
+                        return false;
+                    if (validCell.getCellType() != 0 && validCell.getCellType() != 2)
+                        return false;
+                }
+                else {
+                    //TODO: 存在绝对引用的情况
+                }
+            }
+            else if (aPtg.toString().contains("AreaPtg")) {
+                AreaPtg exactPtg = new AreaPtg(aPtg.toFormulaString());
+
+                if (!ptgString.contains("$")) {
+                    int firstRow = exactPtg.getFirstRow();
+                    int lastRow = exactPtg.getLastRow();
+                    int firstCol = exactPtg.getFirstColumn();
+                    int lastCol = exactPtg.getLastColumn();
+
+                    for (int rowPtg = firstRow; rowPtg <= lastRow; rowPtg++) {
+                        for (int columnPtg = firstCol; columnPtg <= lastCol; columnPtg++) {
+                            //重复的代码块：2
+                            int row = 0, column = 0;
+                            row = cellToAdd.getRowIndex() - (cell.getRowIndex() - rowPtg);
+                            column = cellToAdd.getColumnIndex() - (cell.getColumnIndex() - columnPtg);
+
+                            //TODO: validate 这个新单元格
+                            Row validRow = sheet.getRow(row);
+                            if (validRow == null)
+                                return false;
+                            Cell validCell = validRow.getCell(column);
+                            if (validCell == null)
+                                return false;
+                            if (validCell.getCellType() != 0 && validCell.getCellType() != 2)
+                                return false;
+                        }
+                    }
+
+                }
+                else {
+                    //TODO: 存在绝对引用的情况
+                }
+
+            }
+        }
+
+	    return true;
+    }
 
     private boolean diffSnippet(Cluster parentCluster, Cell childCell) {
         CellFeature feature1 = new CellFeature(null);

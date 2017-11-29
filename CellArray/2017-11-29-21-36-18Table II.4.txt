@@ -1,0 +1,4 @@
+Table II.4
+index = 1, CellArray=[7, 1] ------ [7, 2]
+index = 2, CellArray=[30, 1] ------ [30, 2]
+index = 3, CellArray=[30, 4] ------ [30, 5]

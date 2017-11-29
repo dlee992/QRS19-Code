@@ -1,0 +1,5 @@
+Balances
+index = 1, CellArray=[16, 1] ------ [16, 2]
+index = 2, CellArray=[19, 1] ------ [19, 2]
+index = 3, CellArray=[21, 1] ------ [21, 2]
+index = 4, CellArray=[22, 1] ------ [22, 2]

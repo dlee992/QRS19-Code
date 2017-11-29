@@ -1,0 +1,7 @@
+Annex C - Trading Results
+index = 1, CellArray=[16, 1] ------ [16, 2]
+index = 2, CellArray=[16, 4] ------ [16, 6]
+index = 3, CellArray=[25, 1] ------ [25, 2]
+index = 4, CellArray=[25, 4] ------ [25, 6]
+index = 5, CellArray=[27, 1] ------ [27, 2]
+index = 6, CellArray=[27, 4] ------ [27, 6]

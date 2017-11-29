@@ -1,0 +1,6 @@
+Global Biotech Acres
+index = 1, CellArray=[7, 2] ------ [7, 9]
+index = 2, CellArray=[16, 2] ------ [16, 9]
+index = 3, CellArray=[25, 2] ------ [25, 9]
+index = 4, CellArray=[29, 2] ------ [29, 9]
+index = 5, CellArray=[31, 2] ------ [31, 9]

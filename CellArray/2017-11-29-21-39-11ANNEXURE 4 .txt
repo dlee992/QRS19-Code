@@ -1,0 +1,4 @@
+ANNEXURE 4 
+index = 1, CellArray=[7, 6] ------ [8, 6]
+index = 2, CellArray=[11, 6] ------ [13, 6]
+index = 3, CellArray=[24, 6] ------ [26, 6]

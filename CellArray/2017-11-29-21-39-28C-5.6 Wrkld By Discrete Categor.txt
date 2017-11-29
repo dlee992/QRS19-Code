@@ -1,0 +1,7 @@
+C-5.6 Wrkld By Discrete Categor
+index = 1, CellArray=[46, 2] ------ [46, 3]
+index = 2, CellArray=[54, 2] ------ [54, 4]
+index = 3, CellArray=[59, 2] ------ [59, 4]
+index = 4, CellArray=[65, 2] ------ [65, 4]
+index = 5, CellArray=[71, 2] ------ [71, 4]
+index = 6, CellArray=[74, 2] ------ [74, 4]

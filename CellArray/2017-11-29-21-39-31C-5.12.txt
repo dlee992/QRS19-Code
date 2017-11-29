@@ -1,0 +1,12 @@
+C-5.12
+index = 1, CellArray=[8, 2] ------ [8, 4]
+index = 2, CellArray=[15, 2] ------ [15, 4]
+index = 3, CellArray=[17, 2] ------ [17, 4]
+index = 4, CellArray=[26, 2] ------ [26, 4]
+index = 5, CellArray=[33, 2] ------ [33, 4]
+index = 6, CellArray=[41, 2] ------ [41, 4]
+index = 7, CellArray=[47, 2] ------ [47, 4]
+index = 8, CellArray=[49, 2] ------ [49, 4]
+index = 9, CellArray=[58, 2] ------ [58, 4]
+index = 10, CellArray=[67, 2] ------ [67, 4]
+index = 11, CellArray=[69, 2] ------ [69, 4]

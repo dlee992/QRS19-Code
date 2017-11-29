@@ -1,0 +1,7 @@
+C-5.7
+index = 1, CellArray=[6, 1] ------ [6, 3]
+index = 2, CellArray=[13, 2] ------ [13, 3]
+index = 3, CellArray=[17, 2] ------ [17, 3]
+index = 4, CellArray=[21, 2] ------ [21, 3]
+index = 5, CellArray=[25, 2] ------ [25, 3]
+index = 6, CellArray=[26, 2] ------ [26, 3]
