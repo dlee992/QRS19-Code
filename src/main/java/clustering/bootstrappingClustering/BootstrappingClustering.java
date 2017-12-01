@@ -236,7 +236,11 @@ public class BootstrappingClustering {
                     Cell validCell = validRow.getCell(column);
                     if (validCell == null)
                         return false;
-                    if (validCell.getCellType() != 0 && validCell.getCellType() != 2)
+                    List<Integer> validTypes = new ArrayList<>();
+                    validTypes.add(0);
+                    validTypes.add(2);
+                    validTypes.add(3);
+                    if (!validTypes.contains(validCell.getCellType()))
                         return false;
                 }
                 else {
@@ -266,7 +270,11 @@ public class BootstrappingClustering {
                             Cell validCell = validRow.getCell(column);
                             if (validCell == null)
                                 return false;
-                            if (validCell.getCellType() != 0 && validCell.getCellType() != 2)
+                            List<Integer> validTypes = new ArrayList<>();
+                            validTypes.add(0);//numeric
+                            validTypes.add(2);//formula
+                            validTypes.add(3);//blank
+                            if (!validTypes.contains(validCell.getCellType()))
                                 return false;
                         }
                     }

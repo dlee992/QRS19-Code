@@ -122,7 +122,6 @@ public class CAPlusCC {
         //TODO: for ThirdParty.CACheck
         analysisPattern.setType(3);
 
-
         ExecutorService executorService = Executors.newFixedThreadPool(8);
 
         for (int i = 0; categories != null && i < categories.length; i++) {
