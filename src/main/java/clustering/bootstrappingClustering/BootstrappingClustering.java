@@ -25,7 +25,6 @@ import utility.FormulaParsing;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.in;
 import static java.lang.System.out;
 //import static programEntry.GP.O3;
 
@@ -157,9 +156,11 @@ public class BootstrappingClustering {
 
                                         if (index == 1) {
                                             boolean flag = NumericAndNotOutOfRange(childCell, parentCluster, sheetOrigin);
-                                            if (!flag) {
+                                            if (!flag)
                                                 continue;
-                                            }
+//                                            boolean flag =
+//                                                    doubleAndInteger(childCell, parentCluster, sheetOrigin);
+//                                            if (!flag) continue;
                                         }
 
                                         out.printf("harvest the cell %s\n", childCR.formatAsString());
@@ -186,6 +187,28 @@ public class BootstrappingClustering {
 
 		return clusters;
 	}
+
+//	private boolean doubleAndInteger(Cell cellToAdd, Cluster cluster, Sheet sheet) {
+//        int doubleNumber = 0, intNumber = 0;
+//	    for (Cell cell:
+//             cluster.getSeedCells()) {
+//            double ret = cell.getNumericCellValue();
+//            if ((ret % 1) == 0) intNumber++;
+//            else doubleNumber++;
+//        }
+//
+//        double ret = cellToAdd.getNumericCellValue();
+//	    if ((ret % 1) == 0) {
+//	        if (doubleNumber > 0)
+//	            return false;
+//	        else return true;
+//        }
+//        else {
+//	        if (intNumber > 0)
+//	            return false;
+//	        return true;
+//        }
+//    }
 
 	private boolean NumericAndNotOutOfRange(Cell cellToAdd, Cluster cluster, Sheet sheet) {
 	    //这个判断其实有冗余部分，可优化。
@@ -239,7 +262,7 @@ public class BootstrappingClustering {
                     List<Integer> validTypes = new ArrayList<>();
                     validTypes.add(0);
                     validTypes.add(2);
-                    validTypes.add(3);
+//                    validTypes.add(3);
                     if (!validTypes.contains(validCell.getCellType()))
                         return false;
                 }
@@ -273,7 +296,7 @@ public class BootstrappingClustering {
                             List<Integer> validTypes = new ArrayList<>();
                             validTypes.add(0);//numeric
                             validTypes.add(2);//formula
-                            validTypes.add(3);//blank
+//                            validTypes.add(3);//blank
                             if (!validTypes.contains(validCell.getCellType()))
                                 return false;
                         }
