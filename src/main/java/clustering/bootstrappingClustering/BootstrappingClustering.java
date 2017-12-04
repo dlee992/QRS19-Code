@@ -163,14 +163,15 @@ public class BootstrappingClustering {
 //                                            if (!flag) continue;
                                         }
 
-                                        out.printf("harvest the cell %s\n", childCR.formatAsString());
+                                        out.printf("harvest the cell %s with the value %.4f\n",
+												childCR.formatAsString(), maxValue);
                                         childCluster.setAssociationValue(maxValue);
                                         parentCluster.addChild(childCluster);
 
-                                        if (index == 0 && GP.plusFirstSecond) {
-                                            parentCluster.extractCells(childCell.getSheet(), parentCluster, 2);
-                                            parentCluster.extractCellRefs(parentCluster, 2);
-                                        }
+//                                        if (index == 0 && GP.plusFirstSecond) {
+//                                            parentCluster.extractCells(childCell.getSheet(), parentCluster, 2);
+//                                            parentCluster.extractCellRefs(parentCluster, 2);
+//                                        }
                                         break;
                                     }
                                 }
@@ -183,7 +184,8 @@ public class BootstrappingClustering {
             index ++;
         }
 
-		clusters.addAll(clusterVector);
+        //TODO: post-process the overlap situation within a cluster.
+
 
 		return clusters;
 	}
