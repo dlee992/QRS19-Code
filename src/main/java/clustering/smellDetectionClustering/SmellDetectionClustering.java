@@ -51,6 +51,7 @@ public class SmellDetectionClustering {
 	public void outlierDetection() throws Exception {
 		for (Cluster cl : clusters) {
 			Map<CellReference, Double> cellRefsValue = cl.cellRefsWithValue();
+
 			List<Cell> formulaInCluster = new ArrayList<Cell>();
 			List<CellReference> formulaRefInCluster = new ArrayList<CellReference>();
 
@@ -73,7 +74,16 @@ public class SmellDetectionClustering {
 				}
 			}
 
-
+            //把剩余的data cells标记为smell
+            for (Cell cell:
+                 cl.getClusterCells()) {
+                if (cell.getCellType() == 0) {
+                    CellReference cr = new CellReference(cell);
+                    Smell smell = new Smell(cr);
+                    smell.isMissingFormulaSmell = true;
+                    detectedSmellyCells.add(smell);
+                }
+            }
 
 			if (checkAllTheSame(formulaInCluster)) {
 				continue;
@@ -182,6 +192,11 @@ public class SmellDetectionClustering {
         //Careful: 目前都是只考虑相对引用，对于绝对引用还是要修改最底层的算法。
 
         List<Cell> cells = cluster.getClusterCells();
+        List<Boolean> deleteList = new ArrayList<>();
+        for (int i = 0; i < cells.size(); i++) {
+            deleteList.add(false);
+        }
+
         for (int i = 0; i < cells.size(); i++) {
             Cell cell_i = cells.get(i);
             FakeCell fakeCell_i = new FakeCell(cell_i.getRowIndex(), cell_i.getColumnIndex());
@@ -211,17 +226,23 @@ public class SmellDetectionClustering {
                 if (flag) {
                     //删除这两个cells中的data cell。
                     if (cell_i.getCellType() == 0)
-                        cluster.removeChild(cell_i);
+                        deleteList.set(i, true);
                     if (cell_j.getCellType() == 0)
-                        cluster.removeChild(cell_j);
+                        deleteList.set(j, true);
                 }
+            }
+        }
+
+        for (int i = deleteList.size()-1; i > 0; i--) {
+            if (deleteList.get(i)) {
+                cluster.removeChild(cells.get(i));
             }
         }
 
     }
 
     private List<FakeCell> getDataFakeCellList(Cell cell, Cell refCell) {
-        List<FakeCell> fakeCellList = null;
+        List<FakeCell> fakeCellList = new ArrayList<>();
         if (cell.getCellType() == 0) {
             List<FakeCell> refList = getFakeCellList(refCell);
             for (FakeCell fakeCell:

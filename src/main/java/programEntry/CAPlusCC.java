@@ -14,6 +14,7 @@ import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.hacClustering.HacClustering;
 import clustering.hacClustering.TreeEditDistance;
 import clustering.smellDetectionClustering.SmellDetectionClustering;
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import entity.Cluster;
 import entity.InfoOfSheet;
 import experiment.GroundTruthStatistics;
@@ -51,7 +52,7 @@ public class CAPlusCC {
     private static String programState;
 
     private static double threshold = 0.5;
-    private static String testDate = "2017-12-02 (float and int)";
+    private static String testDate = "2017-12-06";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -223,21 +224,15 @@ public class CAPlusCC {
         List<CAResult> allCARs = new ArrayList<>();
 
         if (GP.plusCellArray) {
-        //TODO: 1 from ThirdParty.CACheck get "Cell Array", actually which is contained in "CAResult"
-
-
-        AMSheet amSheet = Utils.extractSheet(sheet, fileName);
-        ExtractSnippet extractSnippet = new ExtractSnippet(amSheet);
-        List<Snippet> snippets = extractSnippet.extractSnippet();
-        for (Snippet snippet : snippets) {
-            List<CAResult> CAResults = ExcelAnalysis.processSnippet(fileName, amSheet,
+            //TODO: 1 from ThirdParty.CACheck get "Cell Array", actually which is contained in "CAResult"
+            AMSheet amSheet = Utils.extractSheet(sheet, fileName);
+            ExtractSnippet extractSnippet = new ExtractSnippet(amSheet);
+            List<Snippet> snippets = extractSnippet.extractSnippet();
+            for (Snippet snippet : snippets) {
+                List<CAResult> CAResults = ExcelAnalysis.processSnippet(fileName, amSheet,
                     snippet, snippets, Log.writer, analysisPattern);
-            allCARs.addAll(CAResults);
-        }
-
-
-
-
+                allCARs.addAll(CAResults);
+            }
 
             int clusterCount = 0;
             for (CAResult car : allCARs) {
@@ -284,7 +279,6 @@ public class CAPlusCC {
 
                     System.out.printf("Cell Array = [");
                     for (Cluster cluster : root.getChildren()) {
-
                         System.out.printf("%s, ", cluster.getName());
                     }
                     System.out.println("]");
@@ -344,8 +338,6 @@ public class CAPlusCC {
             List<Cluster> stageIIClusters;
 
             if (nonSeedCells != null && !nonSeedCells.isEmpty()) {
-
-
                 stageIIClusters = bc.addCellToCluster(
                         cellClusterM,
                         nonSeedCellRefs,

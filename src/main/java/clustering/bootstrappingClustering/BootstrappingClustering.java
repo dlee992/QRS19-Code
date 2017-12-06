@@ -154,16 +154,13 @@ public class BootstrappingClustering {
 //                                            continue;
 //                                        }
 
-                                        if (index == 1) {
-                                            boolean flag = NumericAndNotOutOfRange(childCell, parentCluster, sheetOrigin);
-                                            if (!flag)
-                                                continue;
-//                                            boolean flag =
-//                                                    doubleAndInteger(childCell, parentCluster, sheetOrigin);
-//                                            if (!flag) continue;
-                                        }
+//                                        if (index == 1) {
+//                                            boolean flag = NumericAndNotOutOfRange(childCell, parentCluster, sheetOrigin);
+//                                            if (!flag)
+//                                                continue;
+//                                        }
 
-                                        out.printf("harvest the cell %s with the value %.4f\n",
+                                        out.printf("\nharvest the cell %s with the value %.4f\n",
 												childCR.formatAsString(), maxValue);
                                         childCluster.setAssociationValue(maxValue);
                                         parentCluster.addChild(childCluster);
@@ -184,6 +181,7 @@ public class BootstrappingClustering {
             index ++;
         }
 
+        clusters.addAll(clusterVector);
         //TODO: post-process the overlap situation within a cluster.
 
 
@@ -433,8 +431,8 @@ public class BootstrappingClustering {
 //        System.out.printf("Average = %f, Minimum = %f, toHarvest = %f\n", average, minimum, maxValue);
 
         if (check) {
-		    out.printf("threshold * argument = %.6f, min = %.6f, (min - sim) / min = %.6f, ",
-                    threshold * argument, minimum, (minimum - maxValue) / minimum);
+//		    out.printf("threshold * argument = %.6f, min = %.6f, (min - sim) / min = %.6f, ",
+//                    threshold * argument, minimum, (minimum - maxValue) / minimum);
         }
 		return check;
 	}
