@@ -3,6 +3,10 @@ package clustering.smellDetectionClustering;
 import clustering.bootstrappingClustering.CellClusterMatrix;
 import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.bootstrappingClustering.FeatureClusterMatrix;
+import org.apache.poi.ss.formula.FormulaType;
+import org.apache.poi.ss.formula.ptg.AreaPtg;
+import org.apache.poi.ss.formula.ptg.Ptg;
+import org.apache.poi.ss.formula.ptg.RefPtg;
 import utility.BasicUtility;
 import entity.CellFeature;
 import entity.Cluster;
@@ -12,6 +16,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import utility.FormulaParsing;
 import weka.classifiers.rules.DecisionTableHashKey;
 import weka.core.Attribute;
 import weka.core.Instance;
@@ -49,19 +54,27 @@ public class SmellDetectionClustering {
 			List<Cell> formulaInCluster = new ArrayList<Cell>();
 			List<CellReference> formulaRefInCluster = new ArrayList<CellReference>();
 
+			List<Cell> dataInCluster = new ArrayList<>();
+			List<CellReference> dataRefInCluster = new ArrayList<>();
+
 			for (Entry<CellReference, Double> entry : cellRefsValue.entrySet()) {
 				CellReference cr = entry.getKey();
 				Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
 				if (cell.getCellType() == 0) {
-					Smell sl = new Smell(cr);
-					sl.isMissingFormulaSmell = true;
-					detectedSmellyCells.add(sl);
+					dataInCluster.add(cell);
+					dataRefInCluster.add(cr);
+                    filterDataCells(dataInCluster, dataRefInCluster, cl);
+//					Smell sl = new Smell(cr);
+//					sl.isMissingFormulaSmell = true;
+//					detectedSmellyCells.add(sl);
 				} else if (cell.getCellType() == 2) {
 					formulaInCluster.add(cell);
 					formulaRefInCluster.add(cr);
 				}
 			}
-			
+
+
+
 			if (checkAllTheSame(formulaInCluster)) {
 				continue;
 			}
@@ -83,6 +96,102 @@ public class SmellDetectionClustering {
 			}
 		}
 	}
+
+    /* todo
+    1: 统计2项预定义指标（追对相邻的两个cells）：引用是否重叠；其中一个是否属于另一个的引用集合。
+    2: 总体看是否2项指标每次都为空，或非空，否则该指标失效。（这是一个hard-rule，一刀切，我没有进行调参）
+    3: 针对所有的cells，对于任意两个cells(其中必须含有至少一个data cell)，同样统计2项指标，和2中统计结果对比，如果不一致，
+       那么就认定这个data cell(s)需要被剔除。
+     */
+	private void filterDataCells(List<Cell> datum, List<CellReference> dataRefs, Cluster cluster) {
+	    // step 1
+	    int RRCountInSeed = 0,  RCCountInSeed = 0;
+
+	    List<Cell> seedCells = cluster.getSeedCells();
+        for (int i = 0; i < seedCells.size(); i++) {
+            Cell cell_i = seedCells.get(i);
+            FakeCell fakeCell_i = new FakeCell(cell_i.getRowIndex(), cell_i.getColumnIndex());
+            List<FakeCell> fakeCellList_i = getFakeCellSet(cell_i);
+
+            for (int j = i+1; j < seedCells.size(); j++) {
+                Cell cell_j = seedCells.get(j);
+                FakeCell fakeCell_j = new FakeCell(cell_j.getRowIndex(), cell_j.getColumnIndex());
+                List<FakeCell> fakeCellList_j = getFakeCellSet(cell_j);
+
+                for (FakeCell fc:
+                     fakeCellList_i) {
+                    if (fakeCellList_j.contains(fc))
+                        RRCountInSeed++;
+                }
+                if (fakeCellList_j.contains(fakeCell_i) || fakeCellList_i.contains(fakeCell_j))
+                    RCCountInSeed++;
+            }
+        }
+
+        // step 2
+        // 0: no overlapping 1: whole overlapping 2: undecidable
+        int maximum = seedCells.size()*(seedCells.size()-1)/2;
+        if (RRCountInSeed == 0)
+            RRCountInSeed = 0;
+        else if (RRCountInSeed == maximum)
+            RRCountInSeed = 1;
+        else
+            RRCountInSeed = 2;
+
+        if (RCCountInSeed == 0)
+            RCCountInSeed = 0;
+        else if (RCCountInSeed == maximum)
+            RCCountInSeed = 1;
+        else
+            RCCountInSeed = 2;
+
+	    // step 3
+        List<Cell> cells = cluster.getClusterCells();
+        for (int i = 0; i < cells.size(); i++) {
+
+
+            for (int j = i+1; j < cells.size(); j++) {
+
+            }
+        }
+
+    }
+
+    private List<FakeCell> getFakeCellSet(Cell cell) {
+        Workbook workbook = sheet.getWorkbook();
+        String cellFormula = cell.getCellFormula();
+        int sheetIndex = workbook.getSheetIndex(sheet);
+        Ptg[] ptgList = new FormulaParsing().getPtg(cellFormula, workbook, FormulaType.forInt(2), sheetIndex);
+
+        List<FakeCell> fakeCellList = new ArrayList<>();
+
+        for (Ptg aPtg:
+                ptgList) {
+            String ptgString = aPtg.toString();
+
+            if (ptgString.contains("RefPtg")) {
+                RefPtg exactPtg = new RefPtg(aPtg.toFormulaString());
+                int rowPtg = exactPtg.getRow();
+                int columnPtg = exactPtg.getColumn();
+                fakeCellList.add(new FakeCell(rowPtg, columnPtg));
+            }
+            else if (ptgString.contains("AreaPtg")) {
+                AreaPtg exactPtg = new AreaPtg(aPtg.toFormulaString());
+                int firstRow = exactPtg.getFirstRow();
+                int lastRow = exactPtg.getLastRow();
+                int firstCol = exactPtg.getFirstColumn();
+                int lastCol = exactPtg.getLastColumn();
+
+                for (int i = firstRow; i <= lastRow; i++) {
+                    for (int j = firstCol; j <= lastCol; j++) {
+                        fakeCellList.add(new FakeCell(i, j));
+                    }
+                }
+            }
+        }
+
+        return fakeCellList;
+    }
 
 	private boolean checkAllTheSame(List<Cell> cluster) {
 		for (int i=0; i<cluster.size()-1; i++) {

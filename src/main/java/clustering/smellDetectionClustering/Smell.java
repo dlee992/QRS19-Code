@@ -17,12 +17,16 @@ public class Smell {
 
 	@Override
 	public String toString() {
-		return "isMissingFormulaSmell=" + isMissingFormulaSmell
-				+ "\n isDissimilarFormulaSmell=" + isDissimilarFormulaSmell
-				+ "\n isDissimilarOperationSmell=" + isDissimilarOperationSmell
-				+ "\n isDissimilarCellReferenceSmell="
-				+ isDissimilarCellReferenceSmell
-				+ "\n isHardCodedConstantSmell=" + isHardCodedConstantSmell+ "\n";
+		if (isMissingFormulaSmell)
+			return "MissingFormula";
+		else if (isDissimilarOperationSmell)
+			return "DissimilarOperation";
+		else if (isDissimilarCellReferenceSmell)
+			return "DissimilarCellReference";
+		else if (isHardCodedConstantSmell)
+			return "HardCodedConstant";
+
+		return null;
 	}
 	
 	public CellReference getCr() {

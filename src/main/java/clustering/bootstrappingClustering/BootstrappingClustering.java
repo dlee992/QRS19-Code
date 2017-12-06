@@ -272,7 +272,7 @@ public class BootstrappingClustering {
                     //TODO: 存在绝对引用的情况
                 }
             }
-            else if (aPtg.toString().contains("AreaPtg")) {
+            else if (ptgString.contains("AreaPtg")) {
                 AreaPtg exactPtg = new AreaPtg(aPtg.toFormulaString());
 
                 if (!ptgString.contains("$")) {
