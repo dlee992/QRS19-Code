@@ -134,13 +134,12 @@ public class CAPlusCC {
             for (File eachFile : files) {
                 //TODO: test specific spreadsheet files
                 if (eachFile.getName().startsWith("0000")) continue;
-//                if (!eachFile.getName().startsWith("VRS")) continue;
+                if (!eachFile.getName().startsWith("WCA")) continue;
                 System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
 //                if (index.get() != 1) continue;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
-
 
                 executorService.execute(() -> {
                     try {
@@ -434,6 +433,19 @@ public class CAPlusCC {
             sdc.outlierDetection();
 
             System.out.println("---- Smell detection finished ----");
+
+            for (Cluster cluster : stageIClusters) {
+                cluster.extractCellRefs(cluster, 1);
+                cluster.extractCells(sheet,cluster, 1);
+                cluster.computeBorders();
+
+                System.out.printf("Smell Detection Clusters = [");
+                for (CellReference leaf: cluster.getClusterCellRefs()) {
+
+                    System.out.printf("%s, ", leaf.formatAsString());
+                }
+                System.out.println("]");
+            }
 
             //TODO: 6 mark the worksheet
             bu.clusterPrintMark(stageIIClusters, sheet);

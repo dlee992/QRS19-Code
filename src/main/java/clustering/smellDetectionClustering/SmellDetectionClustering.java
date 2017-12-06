@@ -180,6 +180,10 @@ public class SmellDetectionClustering {
             }
         }
 
+        //先搞个强行停止的算法，回头再细想。这本质上是当多个formula数量都排第一该怎么办。
+        if (count == 1)
+            return;
+
         Cell refCell = null;
         for (Cell cell:
              seedCells) {
