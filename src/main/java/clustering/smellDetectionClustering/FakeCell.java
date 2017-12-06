@@ -3,6 +3,15 @@ package clustering.smellDetectionClustering;
 import java.util.Objects;
 
 public class FakeCell {
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
     int row, column;
 
     public FakeCell(int row, int column) {

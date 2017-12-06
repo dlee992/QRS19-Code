@@ -1,10 +1,12 @@
 package clustering.bootstrappingClustering;
 
+import clustering.smellDetectionClustering.FakeCell;
 import entity.CellFeature;
 import entity.CellLocation;
 import entity.Cluster;
 import featureExtraction.FeatureExtraction;
 import featureExtraction.weakFeatureExtraction.Snippet;
+import featureExtraction.weakFeatureExtraction.SnippetExtraction;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.descriptive.rank.Max;
@@ -25,6 +27,7 @@ import utility.FormulaParsing;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.in;
 import static java.lang.System.out;
 //import static programEntry.GP.O3;
 
@@ -106,8 +109,68 @@ public class BootstrappingClustering {
 		return rm.getSubMatrix(selectedRow, selectedCol);
 	}
 
+	private int getSnippet(FakeCell fakeCell, List<Snippet> snippetList) {
+	    int rowInit = fakeCell.getRow()-2;
+	    int columnInit = fakeCell.getColumn();
+
+        for (int i = rowInit; i >= 0; i--) {
+            for (int j = 0; j < snippetList.size(); j++) {
+                Snippet snippet = snippetList.get(j);
+                if (snippet.up <= i && snippet.bottom >= i &&
+                        snippet.left <= columnInit && snippet.right >= columnInit) {
+                    return j;
+                }
+            }
+        }
+
+        return -1;
+    }
+
 	public List<Cluster> addCellToCluster(RealMatrix cellClusterMF, List<CellReference> nonSeedCellRefs,
 			List<Cell> nonSeedCells, double parameter) {
+
+		//对整个worksheet进行分割，划分成若干个table单位，然后对其进行编号
+		//统计某个cluster中的seed cells位于某几个table中
+		//考虑当某个data cell在加入到cluster中时，这个data cell是否来自于一个新的未被cluster覆盖的table
+		//如果是新的table，就拒绝它加入到cluster中
+        SnippetExtraction snippetExt = new SnippetExtraction(sheetOrigin);
+        List<Snippet> snippetList = snippetExt.extractSnippet();
+        List<Integer> disjointSet = new ArrayList<>();
+        for (int i = 0; i < snippetList.size(); i++) {
+            disjointSet.set(i, i);
+        }
+
+        //竟然搞出了一个类似并查集的鬼东西，妈呀
+        for (int i = 0; i < snippetList.size(); i++) {
+            Snippet snippet = snippetList.get(i);
+            boolean flag = false;
+
+            //在头两行，去掉最左边一列的剩余cells里，如果有string类型，那就算一个完整的snippet。
+            for (int j = snippet.up; j <= snippet.up + 1; j++) {
+                Row row = sheetOrigin.getRow(j);
+                if (row == null) continue;
+
+                for (int k = snippet.left+1; k <= snippet.right; k++) {
+                    Cell cell = row.getCell(k);
+                    if (cell == null) continue;
+
+                    if (cell.getCellType() == 1) {
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+
+            if (flag) continue;
+
+            //不完整
+            int leftRoot = getSnippet(new FakeCell(snippet.left+1, snippet.up), snippetList);
+            int rightRoot = getSnippet(new FakeCell(snippet.right, snippet.up), snippetList);
+            if (leftRoot != rightRoot || leftRoot == -1) continue;
+
+            disjointSet.set(i, leftRoot);
+        }
+
 
 		RealMatrix isolatedCellMatrix = splitMatrix(cellClusterMF,
 				nonSeedCellRefs, clusterVector, null);
@@ -149,16 +212,31 @@ public class BootstrappingClustering {
                                             continue;
                                         }
 
-//                                        if (!diffSnippet(parentCluster,childCell)) {
-//                                            out.println("Refuse to join in because of too far");
-//                                            continue;
-//                                        }
-
 //                                        if (index == 1) {
 //                                            boolean flag = NumericAndNotOutOfRange(childCell, parentCluster, sheetOrigin);
 //                                            if (!flag)
-//                                                continue;
+//                                                break;
 //                                        }
+
+                                        if (index == 1) {
+                                            //找到这个data cell所属的真正snippet，
+                                            //找到这个cluster包含的所有snippet，
+                                            //是否被这个cluster覆盖的snippet包含。
+                                            boolean flag = false;
+                                            int childIndex = getSnippetIndexFromCell(childCell, snippetList, disjointSet);
+                                            for (Cell cell:
+                                                 parentCluster.getSeedCells()) {
+                                                int indexSeedCell = getSnippetIndexFromCell(cell, snippetList, disjointSet);
+                                                if (childIndex == indexSeedCell) {
+                                                    flag = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!flag) {
+                                                break;
+                                            }
+                                        }
 
                                         out.printf("\nharvest the cell %s with the value %.4f\n",
 												childCR.formatAsString(), maxValue);
@@ -182,11 +260,27 @@ public class BootstrappingClustering {
         }
 
         clusters.addAll(clusterVector);
-        //TODO: post-process the overlap situation within a cluster.
-
-
 		return clusters;
 	}
+
+	private int getSnippetIndexFromCell(Cell cell, List<Snippet> snippetList, List<Integer> disjointSet) {
+        int row = cell.getRowIndex(), column = cell.getColumnIndex();
+        int index = -1;
+	    for (int i = 0; i < snippetList.size(); i++) {
+            Snippet snippet = snippetList.get(i);
+            if (snippet.up <= row && snippet.bottom >= row &&
+                    snippet.left <= column && snippet.right >= column) {
+                index = i;
+                break;
+            }
+        }
+
+        while (disjointSet.get(index) != index) {
+	        index = disjointSet.get(index);
+        }
+
+	    return index;
+    }
 
 //	private boolean doubleAndInteger(Cell cellToAdd, Cluster cluster, Sheet sheet) {
 //        int doubleNumber = 0, intNumber = 0;

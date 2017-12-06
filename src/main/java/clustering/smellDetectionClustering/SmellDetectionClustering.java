@@ -64,7 +64,7 @@ public class SmellDetectionClustering {
 				if (cell.getCellType() == 0) {
 					dataInCluster.add(cell);
 					dataRefInCluster.add(cr);
-                    filterDataCells(dataInCluster, dataRefInCluster, cl);
+//                    filterDataCells(dataInCluster, dataRefInCluster, cl);
 //					Smell sl = new Smell(cr);
 //					sl.isMissingFormulaSmell = true;
 //					detectedSmellyCells.add(sl);
