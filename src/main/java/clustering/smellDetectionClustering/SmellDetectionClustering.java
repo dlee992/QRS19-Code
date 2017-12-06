@@ -111,12 +111,12 @@ public class SmellDetectionClustering {
         for (int i = 0; i < seedCells.size(); i++) {
             Cell cell_i = seedCells.get(i);
             FakeCell fakeCell_i = new FakeCell(cell_i.getRowIndex(), cell_i.getColumnIndex());
-            List<FakeCell> fakeCellList_i = getFakeCellSet(cell_i);
+            List<FakeCell> fakeCellList_i = getFakeCellList(cell_i);
 
             for (int j = i+1; j < seedCells.size(); j++) {
                 Cell cell_j = seedCells.get(j);
                 FakeCell fakeCell_j = new FakeCell(cell_j.getRowIndex(), cell_j.getColumnIndex());
-                List<FakeCell> fakeCellList_j = getFakeCellSet(cell_j);
+                List<FakeCell> fakeCellList_j = getFakeCellList(cell_j);
 
                 for (FakeCell fc:
                      fakeCellList_i) {
@@ -129,7 +129,7 @@ public class SmellDetectionClustering {
         }
 
         // step 2
-        // 0: no overlapping 1: whole overlapping 2: undecidable
+        // 0: no overlapping 1: must overlap 2: undecidable
         int maximum = seedCells.size()*(seedCells.size()-1)/2;
         if (RRCountInSeed == 0)
             RRCountInSeed = 0;
@@ -146,18 +146,99 @@ public class SmellDetectionClustering {
             RCCountInSeed = 2;
 
 	    // step 3
+        Map<String, Integer> formulaCount = new HashMap<>();
+        for (Cell cell:
+             seedCells) {
+            String key = cell.getCellFormula();
+            if (formulaCount.containsKey(key)) {
+                int value = formulaCount.get(key);
+                formulaCount.remove(key);
+                formulaCount.put(key, value+1);
+            }
+            else {
+                formulaCount.put(key, 1);
+            }
+        }
+
+        String formula = null;
+        int count = 0;
+        for (Entry<String, Integer> map:
+             formulaCount.entrySet()) {
+            if (map.getValue() > count) {
+                count = map.getValue();
+                formula = map.getKey();
+            }
+        }
+
+        Cell refCell = null;
+        for (Cell cell:
+             seedCells) {
+            if (cell.getCellFormula().equals(formula)) {
+                refCell = cell;
+                break;
+            }
+        }
+
+        //Careful: 目前都是只考虑相对引用，对于绝对引用还是要修改最底层的算法。
+
         List<Cell> cells = cluster.getClusterCells();
         for (int i = 0; i < cells.size(); i++) {
-
+            Cell cell_i = cells.get(i);
+            FakeCell fakeCell_i = new FakeCell(cell_i.getRowIndex(), cell_i.getColumnIndex());
+            List<FakeCell> fakeCellList_i = getDataFakeCellList(cell_i, refCell);
 
             for (int j = i+1; j < cells.size(); j++) {
+                Cell cell_j = cells.get(j);
+                FakeCell fakeCell_j = new FakeCell(cell_j.getRowIndex(), cell_j.getColumnIndex());
+                List<FakeCell> fakeCellList_j = getDataFakeCellList(cell_j, refCell);
 
+                boolean flag = false;
+                //RR
+                for (FakeCell fakeCell:
+                     fakeCellList_i) {
+                    if (RRCountInSeed == 0 && fakeCellList_j.contains(fakeCell))
+                        flag = true;
+                    if (RRCountInSeed == 1 && !fakeCellList_j.contains(fakeCell))
+                        flag = true;
+                }
+
+                //RC 感觉有点怪怪的，似乎bug了
+                if (RCCountInSeed == 0 && (fakeCellList_i.contains(fakeCell_j) || fakeCellList_j.contains(fakeCell_i)))
+                    flag = true;
+                if (RCCountInSeed == 1 && (!fakeCellList_i.contains(fakeCell_j) || !fakeCellList_j.contains(fakeCell_i)))
+                    flag = true;
+
+                if (flag) {
+                    //删除这两个cells中的data cell。
+                    if (cell_i.getCellType() == 0)
+                        cluster.removeChild(cell_i);
+                    if (cell_j.getCellType() == 0)
+                        cluster.removeChild(cell_j);
+                }
             }
         }
 
     }
 
-    private List<FakeCell> getFakeCellSet(Cell cell) {
+    private List<FakeCell> getDataFakeCellList(Cell cell, Cell refCell) {
+        List<FakeCell> fakeCellList = null;
+        if (cell.getCellType() == 0) {
+            List<FakeCell> refList = getFakeCellList(refCell);
+            for (FakeCell fakeCell:
+                 refList) {
+                int row = cell.getRowIndex() - (refCell.getRowIndex() - fakeCell.row);
+                int column = cell.getColumnIndex() - (refCell.getColumnIndex() - fakeCell.column);
+                fakeCellList.add(new FakeCell(row, column));
+            }
+        }
+        else if (cell.getCellType() == 2) {
+            fakeCellList = getFakeCellList(cell);
+        }
+
+        return fakeCellList;
+    }
+
+    private List<FakeCell> getFakeCellList(Cell cell) {
         Workbook workbook = sheet.getWorkbook();
         String cellFormula = cell.getCellFormula();
         int sheetIndex = workbook.getSheetIndex(sheet);

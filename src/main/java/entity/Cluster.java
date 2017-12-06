@@ -335,4 +335,12 @@ public class Cluster {
 	    return return_val;
     }
 
+	public void removeChild(Cell cell) {
+		CellReference cr = new CellReference(cell);
+		Cluster cluster = new Cluster(cr.formatAsString());
+
+        children.remove(cluster);
+        clusterCells.remove(cell);
+        clusterCellRefs.remove(cr);
+	}
 }
