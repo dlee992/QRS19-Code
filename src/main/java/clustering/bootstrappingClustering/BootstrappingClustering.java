@@ -126,6 +126,16 @@ public class BootstrappingClustering {
         return -1;
     }
 
+    private boolean containAZ(String cellValue) {
+        cellValue = cellValue.toLowerCase();
+	    for (int i = 0; i < cellValue.length(); i++) {
+            if (cellValue.charAt(i) >= 'a' && cellValue.charAt(i) <= 'z')
+                return true;
+        }
+
+	    return false;
+    }
+
 	public List<Cluster> addCellToCluster(RealMatrix cellClusterMF, List<CellReference> nonSeedCellRefs,
 			List<Cell> nonSeedCells, double parameter) {
 
@@ -137,7 +147,7 @@ public class BootstrappingClustering {
         List<Snippet> snippetList = snippetExt.extractSnippet();
         List<Integer> disjointSet = new ArrayList<>();
         for (int i = 0; i < snippetList.size(); i++) {
-            disjointSet.set(i, i);
+            disjointSet.add(i);
         }
 
         //竟然搞出了一个类似并查集的鬼东西，妈呀
@@ -154,7 +164,7 @@ public class BootstrappingClustering {
                     Cell cell = row.getCell(k);
                     if (cell == null) continue;
 
-                    if (cell.getCellType() == 1) {
+                    if (cell.getCellType() == 1 && containAZ(cell.getStringCellValue())) {
                         flag = true;
                         break;
                     }
@@ -168,9 +178,16 @@ public class BootstrappingClustering {
             int rightRoot = getSnippet(new FakeCell(snippet.right, snippet.up), snippetList);
             if (leftRoot != rightRoot || leftRoot == -1) continue;
 
+            if (leftRoot <= -1 || leftRoot >= disjointSet.size())
+                System.out.println("IndexError");
             disjointSet.set(i, leftRoot);
         }
 
+        for (int i = 0; i < disjointSet.size(); i++) {
+            Snippet snippet = snippetList.get(i);
+            System.out.printf("index = %d, snippet = %s, disjoint set = %d\n",
+                    i, snippet.toString(), disjointSet.get(i));
+        }
 
 		RealMatrix isolatedCellMatrix = splitMatrix(cellClusterMF,
 				nonSeedCellRefs, clusterVector, null);
@@ -218,28 +235,28 @@ public class BootstrappingClustering {
 //                                                break;
 //                                        }
 
-                                        if (index == 1) {
-                                            //找到这个data cell所属的真正snippet，
-                                            //找到这个cluster包含的所有snippet，
-                                            //是否被这个cluster覆盖的snippet包含。
-                                            boolean flag = false;
-                                            int childIndex = getSnippetIndexFromCell(childCell, snippetList, disjointSet);
-                                            for (Cell cell:
-                                                 parentCluster.getSeedCells()) {
-                                                int indexSeedCell = getSnippetIndexFromCell(cell, snippetList, disjointSet);
-                                                if (childIndex == indexSeedCell) {
-                                                    flag = true;
-                                                    break;
-                                                }
-                                            }
+                                        //找到这个data cell所属的真正snippet，
+                                        //找到这个cluster包含的所有snippet，
+                                        //是否被这个cluster覆盖的snippet包含。
+//                                        if (index == 1) {
+//                                            boolean flag = false;
+//                                            int childIndex = getSnippetIndexFromCell(childCell, snippetList, disjointSet);
+//                                            for (Cell cell:
+//                                                 parentCluster.getSeedCells()) {
+//                                                int indexSeedCell = getSnippetIndexFromCell(cell, snippetList, disjointSet);
+//                                                if (childIndex == indexSeedCell && childIndex != -1) {
+//                                                    flag = true;
+//                                                    break;
+//                                                }
+//                                            }
+//
+//                                            if (!flag) {
+//                                                break;
+//                                            }
+//                                        }
 
-                                            if (!flag) {
-                                                break;
-                                            }
-                                        }
-
-                                        out.printf("\nharvest the cell %s with the value %.4f\n",
-												childCR.formatAsString(), maxValue);
+//                                        out.printf("harvest the cell %s with the value %.4f\n",
+//												childCR.formatAsString(), maxValue);
                                         childCluster.setAssociationValue(maxValue);
                                         parentCluster.addChild(childCluster);
 
@@ -274,6 +291,9 @@ public class BootstrappingClustering {
                 break;
             }
         }
+
+        if (index == -1)
+            return -1;
 
         while (disjointSet.get(index) != index) {
 	        index = disjointSet.get(index);
