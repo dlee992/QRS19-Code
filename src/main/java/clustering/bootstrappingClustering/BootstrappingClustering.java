@@ -5,6 +5,7 @@ import entity.CellFeature;
 import entity.CellLocation;
 import entity.Cluster;
 import featureExtraction.FeatureExtraction;
+import featureExtraction.weakFeatureExtraction.HeaderExtraction;
 import featureExtraction.weakFeatureExtraction.Snippet;
 import featureExtraction.weakFeatureExtraction.SnippetExtraction;
 import org.apache.commons.lang3.ArrayUtils;
@@ -257,6 +258,14 @@ public class BootstrappingClustering {
 
 //                                        out.printf("harvest the cell %s with the value %.4f\n",
 //												childCR.formatAsString(), maxValue);
+
+                                        if (index == 1) {
+                                            boolean flag = shareSameHeader(childCell, parentCluster, sheetOrigin);
+                                            if (!flag) {
+                                                break;
+                                            }
+                                        }
+
                                         childCluster.setAssociationValue(maxValue);
                                         parentCluster.addChild(childCluster);
 
@@ -279,6 +288,22 @@ public class BootstrappingClustering {
         clusters.addAll(clusterVector);
 		return clusters;
 	}
+
+	private boolean shareSameHeader(Cell cell, Cluster cluster, Sheet sheet) {
+	    //得到每个cell的header的起始位置，作为header的标记位置
+        //检查cell的header是否被cluster的seed cluster的header set包含
+        HeaderExtraction headerExt = new HeaderExtraction(sheet);
+	    FakeCell fakeCell = headerExt.findHeaderPosition(cell, 1, 1);
+
+        for (Cell seedCell:
+             cluster.getSeedCells()) {
+            FakeCell fc = headerExt.findHeaderPosition(seedCell, 1, 1);
+            if (fakeCell.equals(fc))
+                return true;
+        }
+
+	    return false;
+    }
 
 	private int getSnippetIndexFromCell(Cell cell, List<Snippet> snippetList, List<Integer> disjointSet) {
         int row = cell.getRowIndex(), column = cell.getColumnIndex();

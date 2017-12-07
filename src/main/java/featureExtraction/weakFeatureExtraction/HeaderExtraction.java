@@ -1,5 +1,6 @@
 package featureExtraction.weakFeatureExtraction;
 
+import clustering.smellDetectionClustering.FakeCell;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
@@ -22,6 +23,10 @@ public class HeaderExtraction {
 		this.sheet = sheet;
 		this.cell = cell;
 	}
+
+	public HeaderExtraction(Sheet sheet) {
+	    this.sheet = sheet;
+    }
 
 	public List<Header> getFeature() {
 		List<Header> headersList = new ArrayList<Header>();
@@ -49,6 +54,53 @@ public class HeaderExtraction {
 			
 		return headersList;
 	}
+
+	public FakeCell findHeaderPosition(Cell cell, int isRow, int level) {
+        String hd = "";
+        int rowNum = cell.getRowIndex();
+        int colNum = cell.getColumnIndex();
+
+        Cell tempCell = null;
+        Row tempRow = cell.getRow();
+        Row.MissingCellPolicy missingCellPolicy = Row.CREATE_NULL_AS_BLANK;
+        int i = 1;
+
+        if (isRow == 1) {
+            while (rowNum - i >= 0) {
+                tempRow = sheet.getRow(rowNum - i);
+                if (tempRow!=null){
+                    tempCell = tempRow.getCell(colNum, missingCellPolicy);
+                    if (tempCell != null){
+                        if (tempCell.getCellType() != 1 && !hd.equals("")){
+                            break;
+                        }
+                        else if (tempCell.getCellType() == 1){
+                            return new FakeCell(tempCell.getRowIndex(), tempCell.getColumnIndex());
+                        }
+                    }
+                }
+                i++;
+            }
+        }
+        else if (isRow == 0) {
+            while (colNum - i >= 0) {
+                if (tempRow!=null){
+                    tempCell = tempRow.getCell(colNum - i, missingCellPolicy);
+                    if (tempCell != null){
+                        if (tempCell.getCellType() != 1 && !hd.equals("")){
+                            break;
+                        }
+                        else if (tempCell.getCellType() == 1){
+                            return new FakeCell(tempCell.getRowIndex(), tempCell.getColumnIndex());
+                        }
+                    }
+                }
+                i++;
+            }
+        }
+
+	    return null;
+    }
 
 	private Header findHeaderStr(Cell cell, int isRow, int level) {
 		String hd = "";
