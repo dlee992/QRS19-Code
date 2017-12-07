@@ -7,6 +7,7 @@ import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.RefPtg;
+import sun.security.ssl.Debug;
 import utility.BasicUtility;
 import entity.CellFeature;
 import entity.Cluster;
@@ -22,6 +23,7 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SparseInstance;
+import weka.core.logging.OutputLogger;
 import weka.filters.Filter;
 
 
@@ -55,16 +57,15 @@ public class SmellDetectionClustering {
 			List<Cell> formulaInCluster = new ArrayList<Cell>();
 			List<CellReference> formulaRefInCluster = new ArrayList<CellReference>();
 
-			List<Cell> dataInCluster = new ArrayList<>();
-			List<CellReference> dataRefInCluster = new ArrayList<>();
+//			List<Cell> dataInCluster = new ArrayList<>();
+//			List<CellReference> dataRefInCluster = new ArrayList<>();
 
 			for (Entry<CellReference, Double> entry : cellRefsValue.entrySet()) {
 				CellReference cr = entry.getKey();
 				Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
 				if (cell.getCellType() == 0) {
-					dataInCluster.add(cell);
-					dataRefInCluster.add(cr);
-//                    filterDataCells(dataInCluster, dataRefInCluster, cl);
+//					dataInCluster.add(cell);
+//					dataRefInCluster.add(cr);
 //					Smell sl = new Smell(cr);
 //					sl.isMissingFormulaSmell = true;
 //					detectedSmellyCells.add(sl);
@@ -74,6 +75,7 @@ public class SmellDetectionClustering {
 				}
 			}
 
+            filterDataCells(cl);
             //把剩余的data cells标记为smell
             for (Cell cell:
                  cl.getClusterCells()) {
@@ -113,8 +115,10 @@ public class SmellDetectionClustering {
     3: 针对所有的cells，对于任意两个cells(其中必须含有至少一个data cell)，同样统计2项指标，和2中统计结果对比，如果不一致，
        那么就认定这个data cell(s)需要被剔除。
      */
-	private void filterDataCells(List<Cell> datum, List<CellReference> dataRefs, Cluster cluster) {
+	private void filterDataCells(Cluster cluster) {
 	    // step 1
+        System.out.println("begin Filter");
+
 	    int RRCountInSeed = 0,  RCCountInSeed = 0;
 
 	    List<Cell> seedCells = cluster.getSeedCells();
@@ -156,10 +160,15 @@ public class SmellDetectionClustering {
             RCCountInSeed = 2;
 
 	    // step 3
+        BasicUtility basicUtil = new BasicUtility();
+
         Map<String, Integer> formulaCount = new HashMap<>();
         for (Cell cell:
              seedCells) {
+            //transform from A1 to R1C1
             String key = cell.getCellFormula();
+            key = basicUtil.convertA1ToR1C1(cell.getRowIndex(), cell.getColumnIndex(), key);
+
             if (formulaCount.containsKey(key)) {
                 int value = formulaCount.get(key);
                 formulaCount.remove(key);
@@ -180,6 +189,7 @@ public class SmellDetectionClustering {
             }
         }
 
+        System.out.println("formula = " + formula + ", count = " + count);
         //先搞个强行停止的算法，回头再细想。这本质上是当多个formula数量都排第一该怎么办。
         if (count == 1)
             return;
@@ -187,7 +197,9 @@ public class SmellDetectionClustering {
         Cell refCell = null;
         for (Cell cell:
              seedCells) {
-            if (cell.getCellFormula().equals(formula)) {
+            String cellF = cell.getCellFormula();
+            cellF = basicUtil.convertA1ToR1C1(cell.getRowIndex(), cell.getColumnIndex(), cellF);
+            if (cellF.equals(formula)) {
                 refCell = cell;
                 break;
             }
@@ -237,6 +249,7 @@ public class SmellDetectionClustering {
             }
         }
 
+        System.out.println("begin to delete cells");
         for (int i = deleteList.size()-1; i > 0; i--) {
             if (deleteList.get(i)) {
                 cluster.removeChild(cells.get(i));
