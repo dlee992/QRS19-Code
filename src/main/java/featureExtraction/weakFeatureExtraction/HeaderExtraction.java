@@ -99,7 +99,19 @@ public class HeaderExtraction {
             }
         }
 
-	    return null;
+        for (int j = cell.getRowIndex()-1; j >= 0; j--) {
+        	Row row = sheet.getRow(j);
+        	if (row == null) {
+        		return new FakeCell(j+1, cell.getColumnIndex());
+        	}
+
+        	Cell cellInRowi = row.getCell(cell.getColumnIndex());
+        	if (cellInRowi == null || cellInRowi.getCellType() == 3) {
+        		return new FakeCell(j+1, cell.getColumnIndex());
+        	}
+        }
+
+		return null;
     }
 
 	private Header findHeaderStr(Cell cell, int isRow, int level) {

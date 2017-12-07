@@ -298,7 +298,8 @@ public class BootstrappingClustering {
         for (Cell seedCell:
              cluster.getSeedCells()) {
             FakeCell fc = headerExt.findHeaderPosition(seedCell, 1, 1);
-            if (fakeCell.equals(fc))
+
+            if (fakeCell.getRow() == fc.getRow())
                 return true;
         }
 
