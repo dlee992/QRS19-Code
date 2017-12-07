@@ -7,7 +7,7 @@ import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.RefPtg;
-import sun.security.ssl.Debug;
+import org.apache.poi.ss.usermodel.Row;
 import utility.BasicUtility;
 import entity.CellFeature;
 import entity.Cluster;
@@ -23,7 +23,6 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SparseInstance;
-import weka.core.logging.OutputLogger;
 import weka.filters.Filter;
 
 
@@ -75,7 +74,9 @@ public class SmellDetectionClustering {
 				}
 			}
 
-            filterDataCells(cl);
+            filterDataCellsByOverlap(cl);
+			filterDataCellsByReplace(cl);
+
             //把剩余的data cells标记为smell
             for (Cell cell:
                  cl.getClusterCells()) {
@@ -115,7 +116,7 @@ public class SmellDetectionClustering {
     3: 针对所有的cells，对于任意两个cells(其中必须含有至少一个data cell)，同样统计2项指标，和2中统计结果对比，如果不一致，
        那么就认定这个data cell(s)需要被剔除。
      */
-	private void filterDataCells(Cluster cluster) {
+	private void filterDataCellsByOverlap(Cluster cluster) {
 	    // step 1
         System.out.println("begin Filter");
 
@@ -255,7 +256,6 @@ public class SmellDetectionClustering {
                 cluster.removeChild(cells.get(i));
             }
         }
-
     }
 
     private List<FakeCell> getDataFakeCellList(Cell cell, Cell refCell) {
@@ -310,6 +310,128 @@ public class SmellDetectionClustering {
         }
 
         return fakeCellList;
+    }
+
+    private void filterDataCellsByReplace(Cluster cluster) {
+        //这个判断其实有冗余部分，可优化。
+        List<Boolean> deleteList = new ArrayList<>();
+        for (int i = 0; i < cluster.getClusterCells().size(); i++) {
+            deleteList.add(false);
+        }
+
+        List<Cell> cells = cluster.getClusterCells();
+
+        for (Cell cellToAdd:
+                cluster.getClusterCells()) {
+            if (cellToAdd.getCellType() != 0) continue;
+            int index = cells.indexOf(cellToAdd);
+
+            for (Cell cell :
+                    cluster.getSeedCells()) {
+                boolean flag = replaceAndCorrect(cellToAdd, cell, sheet);
+                if (!flag) {
+                    deleteList.set(index, true);
+                }
+            }
+        }
+
+        for (int i = deleteList.size()-1; i > 0; i--) {
+            if (deleteList.get(i)) {
+                cluster.removeChild(cells.get(i));
+            }
+        }
+    }
+
+    private int stringToInt(String columnS) {
+        int ret = 0;
+        for (int index = 0; index < columnS.length(); index++) {
+            ret = ret*26 + columnS.charAt(index)-'A';
+        }
+        return ret;
+    }
+
+    //e.g. type inference
+    private boolean replaceAndCorrect(Cell cellToAdd, Cell cell, Sheet sheet) {
+        Workbook workbook = sheet.getWorkbook();
+        String cellFormula = cell.getCellFormula();
+        int sheetIndex = workbook.getSheetIndex(sheet);
+        Ptg[] ptgList = new FormulaParsing().getPtg(cellFormula, workbook, FormulaType.forInt(2), sheetIndex);
+
+        for (Ptg aPtg:
+                ptgList) {
+//            out.println("Ptg type = " + aPtg.toString());
+            String ptgString = aPtg.toString();
+            if (ptgString.contains("RefPtg")) {
+                //from parent class to child class.
+                RefPtg exactPtg = new RefPtg(aPtg.toFormulaString());
+                int rowPtg = exactPtg.getRow();
+                int columnPtg = exactPtg.getColumn();
+
+                if (!ptgString.contains("$")) {
+                    //重复的代码块：1
+                    int row = 0, column = 0;
+                    row = cellToAdd.getRowIndex() - (cell.getRowIndex() - rowPtg);
+                    column = cellToAdd.getColumnIndex() - (cell.getColumnIndex() - columnPtg);
+
+                    //TODO: validate 这个新单元格
+                    Row validRow = sheet.getRow(row);
+                    if (validRow == null)
+                        return false;
+                    Cell validCell = validRow.getCell(column);
+                    if (validCell == null)
+                        return false;
+                    List<Integer> validTypes = new ArrayList<>();
+                    validTypes.add(0);
+                    validTypes.add(2);
+//                    validTypes.add(3);
+                    if (!validTypes.contains(validCell.getCellType()))
+                        return false;
+                }
+                else {
+                    //TODO: 存在绝对引用的情况
+                }
+            }
+            else if (ptgString.contains("AreaPtg")) {
+                AreaPtg exactPtg = new AreaPtg(aPtg.toFormulaString());
+
+                if (!ptgString.contains("$")) {
+                    int firstRow = exactPtg.getFirstRow();
+                    int lastRow = exactPtg.getLastRow();
+                    int firstCol = exactPtg.getFirstColumn();
+                    int lastCol = exactPtg.getLastColumn();
+
+                    for (int rowPtg = firstRow; rowPtg <= lastRow; rowPtg++) {
+                        for (int columnPtg = firstCol; columnPtg <= lastCol; columnPtg++) {
+                            //重复的代码块：2
+                            int row = 0, column = 0;
+                            row = cellToAdd.getRowIndex() - (cell.getRowIndex() - rowPtg);
+                            column = cellToAdd.getColumnIndex() - (cell.getColumnIndex() - columnPtg);
+
+                            //TODO: validate 这个新单元格
+                            Row validRow = sheet.getRow(row);
+                            if (validRow == null)
+                                return false;
+                            Cell validCell = validRow.getCell(column);
+                            if (validCell == null)
+                                return false;
+                            List<Integer> validTypes = new ArrayList<>();
+                            validTypes.add(0);//numeric
+                            validTypes.add(2);//formula
+//                            validTypes.add(3);//blank
+                            if (!validTypes.contains(validCell.getCellType()))
+                                return false;
+                        }
+                    }
+
+                }
+                else {
+                    //TODO: 存在绝对引用的情况
+                }
+
+            }
+        }
+
+        return true;
     }
 
 	private boolean checkAllTheSame(List<Cell> cluster) {
