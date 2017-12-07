@@ -143,51 +143,51 @@ public class BootstrappingClustering {
 		//统计某个cluster中的seed cells位于某几个table中
 		//考虑当某个data cell在加入到cluster中时，这个data cell是否来自于一个新的未被cluster覆盖的table
 		//如果是新的table，就拒绝它加入到cluster中
-        SnippetExtraction snippetExt = new SnippetExtraction(sheetOrigin);
-        List<Snippet> snippetList = snippetExt.extractSnippet();
-        List<Integer> disjointSet = new ArrayList<>();
-        for (int i = 0; i < snippetList.size(); i++) {
-            disjointSet.add(i);
-        }
+//        SnippetExtraction snippetExt = new SnippetExtraction(sheetOrigin);
+//        List<Snippet> snippetList = snippetExt.extractSnippet();
+//        List<Integer> disjointSet = new ArrayList<>();
+//        for (int i = 0; i < snippetList.size(); i++) {
+//            disjointSet.add(i);
+//        }
 
         //竟然搞出了一个类似并查集的鬼东西，妈呀
-        for (int i = 0; i < snippetList.size(); i++) {
-            Snippet snippet = snippetList.get(i);
-            boolean flag = false;
+//        for (int i = 0; i < snippetList.size(); i++) {
+//            Snippet snippet = snippetList.get(i);
+//            boolean flag = false;
+//
+//            在头两行，去掉最左边一列的剩余cells里，如果有string类型，那就算一个完整的snippet。
+//            for (int j = snippet.up; j <= snippet.up + 1; j++) {
+//                Row row = sheetOrigin.getRow(j);
+//                if (row == null) continue;
+//
+//                for (int k = snippet.left+1; k <= snippet.right; k++) {
+//                    Cell cell = row.getCell(k);
+//                    if (cell == null) continue;
+//
+//                    if (cell.getCellType() == 1 && containAZ(cell.getStringCellValue())) {
+//                        flag = true;
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            if (flag) continue;
+//
+//            不完整
+//            int leftRoot = getSnippet(new FakeCell(snippet.left+1, snippet.up), snippetList);
+//            int rightRoot = getSnippet(new FakeCell(snippet.right, snippet.up), snippetList);
+//            if (leftRoot != rightRoot || leftRoot == -1) continue;
+//
+//            if (leftRoot <= -1 || leftRoot >= disjointSet.size())
+//                System.out.println("IndexError");
+//            disjointSet.set(i, leftRoot);
+//        }
 
-            //在头两行，去掉最左边一列的剩余cells里，如果有string类型，那就算一个完整的snippet。
-            for (int j = snippet.up; j <= snippet.up + 1; j++) {
-                Row row = sheetOrigin.getRow(j);
-                if (row == null) continue;
-
-                for (int k = snippet.left+1; k <= snippet.right; k++) {
-                    Cell cell = row.getCell(k);
-                    if (cell == null) continue;
-
-                    if (cell.getCellType() == 1 && containAZ(cell.getStringCellValue())) {
-                        flag = true;
-                        break;
-                    }
-                }
-            }
-
-            if (flag) continue;
-
-            //不完整
-            int leftRoot = getSnippet(new FakeCell(snippet.left+1, snippet.up), snippetList);
-            int rightRoot = getSnippet(new FakeCell(snippet.right, snippet.up), snippetList);
-            if (leftRoot != rightRoot || leftRoot == -1) continue;
-
-            if (leftRoot <= -1 || leftRoot >= disjointSet.size())
-                System.out.println("IndexError");
-            disjointSet.set(i, leftRoot);
-        }
-
-        for (int i = 0; i < disjointSet.size(); i++) {
-            Snippet snippet = snippetList.get(i);
-            System.out.printf("index = %d, snippet = %s, disjoint set = %d\n",
-                    i, snippet.toString(), disjointSet.get(i));
-        }
+//        for (int i = 0; i < disjointSet.size(); i++) {
+//            Snippet snippet = snippetList.get(i);
+//            System.out.printf("index = %d, snippet = %s, disjoint set = %d\n",
+//                    i, snippet.toString(), disjointSet.get(i));
+//        }
 
 		RealMatrix isolatedCellMatrix = splitMatrix(cellClusterMF,
 				nonSeedCellRefs, clusterVector, null);
