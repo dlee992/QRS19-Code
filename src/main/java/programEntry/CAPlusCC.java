@@ -52,7 +52,7 @@ public class CAPlusCC {
     private static String programState;
 
     private static double threshold = 0.5;
-    private static String testDate = "2017-12-06";
+    private static String testDate = "2017-12-07 1+2+3";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
