@@ -3,6 +3,7 @@ package clustering.smellDetectionClustering;
 import clustering.bootstrappingClustering.CellClusterMatrix;
 import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.bootstrappingClustering.FeatureClusterMatrix;
+import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
@@ -450,11 +451,12 @@ public class SmellDetectionClustering {
         FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
 
 		for (int i=0; i<cellList.size(); i++) {
+		    //evaluator.evaluateAll();
 		    int thisCov = 0;
 
 			Cell cLeft = cellList.get(i);
 			String rcLeft = bu.convertA1ToR1C1(cLeft.getRowIndex(), cLeft.getColumnIndex(), cLeft.getCellFormula());
-			System.out.println("R1C1 formula = " + rcLeft);
+			System.out.println("detect cell:" + new CellReference(cLeft).formatAsString() + ", R1C1 formula = " + rcLeft);
 
 			for (int j=0; j<cellList.size(); j++) {
 				Cell cRight = cellList.get(j);
@@ -472,21 +474,49 @@ public class SmellDetectionClustering {
                     int relativeRow = cRight.getRowIndex() - cLeft.getRowIndex();
                     int relativeColumn = cRight.getColumnIndex() - cLeft.getColumnIndex();
                     String newFormulaS = basicUtil.convertA1ToA1(relativeRow, relativeColumn, cLeft.getCellFormula());
-                    System.out.println("OriginalS = " + originalS +
-                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
+//                    System.out.println("OriginalS = " + originalS +
+//                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
 
                     if (newFormulaS == null || newFormulaS.contains("!")) continue;
 
-                    cRight.setCellFormula(newFormulaS);
-                    CellValue cellValue = evaluator.evaluate(cRight);
+                    boolean notErrorFormula = true;
+                    evaluator.clearAllCachedResultValues();
+                    try {
+                        cRight.setCellFormula(newFormulaS);
+                    }
+                    catch (FormulaParseException e) {
+                        notErrorFormula = false;
+                    }
+                    if (!notErrorFormula) {
+                        //恢复原来的公式
+                        evaluator.clearAllCachedResultValues();
+                        cRight.setCellFormula(originalS);
+                        evaluator.evaluateFormulaCell(cRight);
+                        continue;
+                    }
 
-                    double generatedValue = cellValue.getNumberValue();
-                    if (originalValue == generatedValue) thisCov++;
-                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
+                    evaluator.evaluateFormulaCell(cRight);
 
-                    cRight.setCellFormula(originalS);
-                    evaluator.evaluate(cRight);
                     //TODO: maybe throw an exception when evaluating new formula.
+
+                    double generatedValue = 0;
+                    try {
+                        generatedValue = cRight.getNumericCellValue();
+                    }
+                    catch (IllegalStateException e) {
+                        notErrorFormula = false;
+                    }
+
+                    //恢复原来的公式
+                    evaluator.clearAllCachedResultValues();
+                    cRight.setCellFormula(originalS);
+                    evaluator.evaluateFormulaCell(cRight);
+
+                    if (!notErrorFormula) continue;
+
+                    if (originalValue == generatedValue) thisCov++;
+//                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
+
                 }
 			}
 

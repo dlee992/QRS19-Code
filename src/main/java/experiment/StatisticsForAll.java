@@ -131,6 +131,7 @@ public class StatisticsForAll {
         rowTailor.createCell(4).setCellValue("("+ TP[0] +", "+ FP[0] +", "+ FN[0] +")");
         rowTailor.createCell(6).setCellValue("("+ gt_smellSize +", "+ stageSmellSize +")");
         rowTailor.createCell(7).setCellValue("("+ TP[1] +", "+ FP[1] +", "+ FN[1] +")");
+        System.out.println("TP = " + TP[1] + ", FP = " + FP[1] + ", FN = " + FN[1]);
         rowTailor.createCell(5).setCellValue("("+ roundDouble(precision[0]) +", "+ roundDouble(recall[0]) +", "+ roundDouble(fMeasure[0]) +")");
         rowTailor.createCell(8).setCellValue("("+ roundDouble(precision[1]) +", "+ roundDouble(recall[1]) +", "+ roundDouble(fMeasure[1]) +")");
         rowTailor.createCell(9).setCellValue((endTime-beginTime)/1000);
@@ -146,10 +147,10 @@ public class StatisticsForAll {
         workbook.write(resultStream);
         resultStream.close();
 
-        out.printf("clusterSize <=3: %d, <=10: %d, <=100: %d, >100: %d\n",
-                clusterSize[0], clusterSize[1], clusterSize[2], clusterSize[3]);
-        out.printf("clusterSizeGT <=3: %d, <=10: %d, <=100: %d, >100: %d\n",
-                clusterSizeGT[0], clusterSizeGT[1], clusterSizeGT[2], clusterSizeGT[3]);
+//        out.printf("clusterSize <=3: %d, <=10: %d, <=100: %d, >100: %d\n",
+//                clusterSize[0], clusterSize[1], clusterSize[2], clusterSize[3]);
+//        out.printf("clusterSizeGT <=3: %d, <=10: %d, <=100: %d, >100: %d\n",
+//                clusterSizeGT[0], clusterSizeGT[1], clusterSizeGT[2], clusterSizeGT[3]);
     }
 
     private String roundDouble(double v) {

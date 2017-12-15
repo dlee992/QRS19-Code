@@ -198,8 +198,11 @@ public class BasicUtility {
 							i++;
 						}
                         end = i;
-                        String isOrNotExceedBound = extractCell2(pRow, pColumn,
-                                formula.substring(start, end)).toString();
+
+                        StringBuffer sb = extractCell2(pRow, pColumn, formula.substring(start, end));
+                        if (sb == null) return null;
+                        String isOrNotExceedBound = sb.toString();
+
                         result.append(isOrNotExceedBound);
                     } else { // some func, not row number.
                         end = i;
