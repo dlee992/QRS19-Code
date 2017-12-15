@@ -30,6 +30,8 @@ public class Cluster {
 
 	private int upperBorder, belowBorder, leftBorder, rightBorder;
 
+	public double coverage = 0;
+
 	private Distance distance = new Distance();
 
 	@Override

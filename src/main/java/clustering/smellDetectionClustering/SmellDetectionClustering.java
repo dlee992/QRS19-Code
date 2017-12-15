@@ -7,15 +7,12 @@ import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.RefPtg;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 import utility.BasicUtility;
 import entity.CellFeature;
 import entity.Cluster;
 import featureExtraction.semllDetectionFeatureExtraction.TokenFeature;
 import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import utility.FormulaParsing;
 import weka.classifiers.rules.DecisionTableHashKey;
@@ -42,6 +39,7 @@ public class SmellDetectionClustering {
 
 	private List<String> featureVector = null;
 	private List<CellFeature> subFtList = null;
+	private int indexOfDomaint = -1;
 	
 	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts) {
 		this.sheet = sheet;
@@ -74,9 +72,17 @@ public class SmellDetectionClustering {
 				}
 			}
 
-			if (checkAllTheSame(formulaInCluster)) {
-				continue;
-			}
+            //TODO: 先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
+            double coverageRate = coverageInFormulas(formulaInCluster);
+			cl.coverage = coverageRate;
+			if (coverageRate <= 0.5) {
+			    continue;
+            }
+
+			tackleDataCells(cl);
+
+			//TODO: 直接把和占多数的公式形式不同的formula cell直接标记为smell 效果会不会更好
+            //尚未实现
 			
 			detectionFeatureExtraction(sheet.getWorkbook(), formulaInCluster);
 			
@@ -89,28 +95,28 @@ public class SmellDetectionClustering {
 			if (originalDataset.size() == 3) {
 				outliers = twoUniqueInstancesHandling(originalDataset);
 			}
-			else if (originalDataset.size() > 3) { 
+			else if (originalDataset.size() > 3) {
 				outliers = LofAnalysis(originalDataset);
 				reportAll(outliers, formulaRefInCluster, fcM);
 			}
-
-
-//            filterDataCellsByOverlap(cl);
-//			filterDataCellsByReplace(cl);
-
-            //把剩余的data cells标记为smell
-            //TODO: 先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
-            for (Cell cell:
-                    cl.getClusterCells()) {
-                if (cell.getCellType() == 0) {
-                    CellReference cr = new CellReference(cell);
-                    Smell smell = new Smell(cr);
-                    smell.isMissingFormulaSmell = true;
-                    detectedSmellyCells.add(smell);
-                }
-            }
 		}
 	}
+
+	private void tackleDataCells(Cluster cl) {
+//	    filterDataCellsByOverlap(cl);
+//	    filterDataCellsByReplace(cl);
+
+	    //把剩余的data cells标记为smell
+        for (Cell cell:
+                cl.getClusterCells()) {
+            if (cell.getCellType() == 0) {
+                CellReference cr = new CellReference(cell);
+                Smell smell = new Smell(cr);
+                smell.isMissingFormulaSmell = true;
+                detectedSmellyCells.add(smell);
+            }
+        }
+    }
 
     /* todo
     1: 统计2项预定义指标（追对相邻的两个cells）：引用是否重叠；其中一个是否属于另一个的引用集合。
@@ -436,22 +442,61 @@ public class SmellDetectionClustering {
         return true;
     }
 
-	private boolean checkAllTheSame(List<Cell> cluster) {
-		for (int i=0; i<cluster.size()-1; i++) {
-			Cell cLeft = cluster.get(i);
-			String rcLeft = bu.convertA1ToR1C1(
-					cLeft.getRowIndex(), cLeft.getColumnIndex(), cLeft.getCellFormula());
-			for (int j=i+1; j<cluster.size(); j++) {
-				Cell cRight = cluster.get(j);
-				String rcRight = bu.convertA1ToR1C1(
-						cRight.getRowIndex(), cRight.getColumnIndex(), cRight.getCellFormula());
-				if (! rcLeft.equals(rcRight)) {
-					return false;
+    //Cluster only contains formula cells in a given cluster
+	private double coverageInFormulas(List<Cell> cellList) {
+	    int ret = 0;
+	    indexOfDomaint = -1;
+	    BasicUtility basicUtil = new BasicUtility();
+        FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
+
+		for (int i=0; i<cellList.size(); i++) {
+		    int thisCov = 0;
+
+			Cell cLeft = cellList.get(i);
+			String rcLeft = bu.convertA1ToR1C1(cLeft.getRowIndex(), cLeft.getColumnIndex(), cLeft.getCellFormula());
+			System.out.println("R1C1 formula = " + rcLeft);
+
+			for (int j=0; j<cellList.size(); j++) {
+				Cell cRight = cellList.get(j);
+				String rcRight = bu.convertA1ToR1C1(cRight.getRowIndex(), cRight.getColumnIndex(), cRight.getCellFormula());
+
+				if (rcLeft.equals(rcRight)) {
+					thisCov++;
 				}
+				else {
+                    String originalS = cRight.getCellFormula();
+
+                    //TODO: 参考Cluster.checkWeakCoverage方法
+                    double originalValue = cRight.getNumericCellValue();
+
+                    int relativeRow = cRight.getRowIndex() - cLeft.getRowIndex();
+                    int relativeColumn = cRight.getColumnIndex() - cLeft.getColumnIndex();
+                    String newFormulaS = basicUtil.convertA1ToA1(relativeRow, relativeColumn, cLeft.getCellFormula());
+                    System.out.println("OriginalS = " + originalS +
+                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
+
+                    if (newFormulaS == null || newFormulaS.contains("!")) continue;
+
+                    cRight.setCellFormula(newFormulaS);
+                    CellValue cellValue = evaluator.evaluate(cRight);
+
+                    double generatedValue = cellValue.getNumberValue();
+                    if (originalValue == generatedValue) thisCov++;
+                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
+
+                    cRight.setCellFormula(originalS);
+                    evaluator.evaluate(cRight);
+                    //TODO: maybe throw an exception when evaluating new formula.
+                }
 			}
+
+			if (ret < thisCov) {
+			    ret = thisCov;
+			    indexOfDomaint = i;
+            }
 		}
 		
-		return true;
+		return 1.0*ret/cellList.size();
 	}
 
 	private void reportAll(Instances dataset, List<CellReference> cellRefsInCluster, 

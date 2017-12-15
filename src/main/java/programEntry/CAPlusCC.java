@@ -52,7 +52,7 @@ public class CAPlusCC {
     private static String programState;
 
     private static double threshold = 0.5;
-    private static String testDate = "2017-12-07 1+2+3";
+    private static String testDate = "2017-12-15 Prototype";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -134,7 +134,7 @@ public class CAPlusCC {
             for (File eachFile : files) {
                 //TODO: test specific spreadsheet files
                 if (eachFile.getName().startsWith("0000")) continue;
-//                if (!eachFile.getName().startsWith("VRS")) continue;
+                if (!eachFile.getName().startsWith("chart")) continue;
                 System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
 //                if (index.get() != 1) continue;
@@ -436,7 +436,7 @@ public class CAPlusCC {
 
             for (Cluster cluster : stageIClusters) {
 
-                System.out.printf("Smell Detection Clusters = [");
+                System.out.printf("(%.3f) Smell Detection Clusters = [", cluster.coverage);
                 for (CellReference leaf: cluster.getClusterCellRefs()) {
 
                     System.out.printf("%s, ", leaf.formatAsString());
