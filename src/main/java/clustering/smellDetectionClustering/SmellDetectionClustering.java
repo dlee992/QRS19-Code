@@ -74,20 +74,6 @@ public class SmellDetectionClustering {
 				}
 			}
 
-            filterDataCellsByOverlap(cl);
-			filterDataCellsByReplace(cl);
-
-            //把剩余的data cells标记为smell
-            for (Cell cell:
-                 cl.getClusterCells()) {
-                if (cell.getCellType() == 0) {
-                    CellReference cr = new CellReference(cell);
-                    Smell smell = new Smell(cr);
-                    smell.isMissingFormulaSmell = true;
-                    detectedSmellyCells.add(smell);
-                }
-            }
-
 			if (checkAllTheSame(formulaInCluster)) {
 				continue;
 			}
@@ -107,6 +93,22 @@ public class SmellDetectionClustering {
 				outliers = LofAnalysis(originalDataset);
 				reportAll(outliers, formulaRefInCluster, fcM);
 			}
+
+
+//            filterDataCellsByOverlap(cl);
+//			filterDataCellsByReplace(cl);
+
+            //把剩余的data cells标记为smell
+            //TODO: 先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
+            for (Cell cell:
+                    cl.getClusterCells()) {
+                if (cell.getCellType() == 0) {
+                    CellReference cr = new CellReference(cell);
+                    Smell smell = new Smell(cr);
+                    smell.isMissingFormulaSmell = true;
+                    detectedSmellyCells.add(smell);
+                }
+            }
 		}
 	}
 

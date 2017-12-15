@@ -256,13 +256,13 @@ public class BootstrappingClustering {
 //                                        out.printf("harvest the cell %s with the value %.4f\n",
 //												childCR.formatAsString(), maxValue);
 
-                                        if (index == 1) {
-                                            boolean flag = filterDataCellsByHeaderPosition
-													(childCell, parentCluster, sheetOrigin);
-                                            if (!flag) {
-                                                break;
-                                            }
-                                        }
+//                                        if (index == 1) {
+//                                            boolean flag = filterDataCellsByHeaderPosition
+//													(childCell, parentCluster, sheetOrigin);
+//                                            if (!flag) {
+//                                                break;
+//                                            }
+//                                        }
 
                                         childCluster.setAssociationValue(maxValue);
                                         parentCluster.addChild(childCluster);
