@@ -24,10 +24,7 @@ import weka.core.SparseInstance;
 import weka.filters.Filter;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class SmellDetectionClustering {
@@ -450,6 +447,19 @@ public class SmellDetectionClustering {
 	    BasicUtility basicUtil = new BasicUtility();
         FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
 
+        List<Double> originalValues = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < cellList.size(); i++) {
+            originalValues.add(0.0);
+            Cell cell = cellList.get(i);
+            try {
+                originalValues.set(i, cell.getNumericCellValue());
+            }
+            catch (IllegalStateException ise) {
+                originalValues.set(i, random.nextDouble());
+            }
+        }
+
 		for (int i=0; i<cellList.size(); i++) {
 		    //evaluator.evaluateAll();
 		    int thisCov = 0;
@@ -467,44 +477,46 @@ public class SmellDetectionClustering {
 				}
 				else {
                     String originalS = cRight.getCellFormula();
+                    if (originalS == null || originalS.contains("!")) continue;
 
                     //TODO: 参考Cluster.checkWeakCoverage方法
-                    double originalValue = cRight.getNumericCellValue();
+                    double originalValue = originalValues.get(j);
 
                     int relativeRow = cRight.getRowIndex() - cLeft.getRowIndex();
                     int relativeColumn = cRight.getColumnIndex() - cLeft.getColumnIndex();
                     String newFormulaS = basicUtil.convertA1ToA1(relativeRow, relativeColumn, cLeft.getCellFormula());
-//                    System.out.println("OriginalS = " + originalS +
-//                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
+                    System.out.println("OriginalS = " + originalS +
+                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
 
                     if (newFormulaS == null || newFormulaS.contains("!")) continue;
 
-                    boolean notErrorFormula = true;
+                    //标志位
+                    boolean errors = false;
                     evaluator.clearAllCachedResultValues();
                     try {
                         cRight.setCellFormula(newFormulaS);
                     }
                     catch (FormulaParseException e) {
-                        notErrorFormula = false;
-                    }
-                    if (!notErrorFormula) {
                         //恢复原来的公式
                         evaluator.clearAllCachedResultValues();
                         cRight.setCellFormula(originalS);
                         evaluator.evaluateFormulaCell(cRight);
-                        continue;
+
+                        errors = true;
                     }
 
-                    evaluator.evaluateFormulaCell(cRight);
+                    if (errors) {
+                        continue;
+                    }
 
                     //TODO: maybe throw an exception when evaluating new formula.
 
                     double generatedValue = 0;
                     try {
+                        evaluator.evaluateFormulaCell(cRight);
                         generatedValue = cRight.getNumericCellValue();
-                    }
-                    catch (IllegalStateException e) {
-                        notErrorFormula = false;
+                    } catch (RuntimeException re) {
+                        errors = true;
                     }
 
                     //恢复原来的公式
@@ -512,11 +524,10 @@ public class SmellDetectionClustering {
                     cRight.setCellFormula(originalS);
                     evaluator.evaluateFormulaCell(cRight);
 
-                    if (!notErrorFormula) continue;
+                    if (errors) continue;
 
                     if (originalValue == generatedValue) thisCov++;
-//                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
-
+                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
                 }
 			}
 
@@ -524,6 +535,8 @@ public class SmellDetectionClustering {
 			    ret = thisCov;
 			    indexOfDomaint = i;
             }
+
+            System.out.println();
 		}
 		
 		return 1.0*ret/cellList.size();
