@@ -500,7 +500,12 @@ public class SmellDetectionClustering {
                         //恢复原来的公式
                         evaluator.clearAllCachedResultValues();
                         cRight.setCellFormula(originalS);
-                        evaluator.evaluateFormulaCell(cRight);
+                        try {
+                            evaluator.evaluateFormulaCell(cRight);
+                        }
+                        catch (RuntimeException re) {
+                            errors = true;
+                        }
 
                         errors = true;
                     }
@@ -522,7 +527,12 @@ public class SmellDetectionClustering {
                     //恢复原来的公式
                     evaluator.clearAllCachedResultValues();
                     cRight.setCellFormula(originalS);
-                    evaluator.evaluateFormulaCell(cRight);
+                    try {
+                        evaluator.evaluateFormulaCell(cRight);
+                    }
+                    catch (RuntimeException e) {
+                        errors = true;
+                    }
 
                     if (errors) continue;
 
