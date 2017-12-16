@@ -83,6 +83,19 @@ public class StatisticsForAll {
         rowHeader.createCell(14).setCellValue("(TP,FP,FN) formula");
         rowHeader.createCell(15).setCellValue("(Precision,Recall,FMeasure) formula");
 
+        sheetList.sort(new Comparator<StatisticsForSheet>() {
+            @Override
+            public int compare(StatisticsForSheet o1, StatisticsForSheet o2) {
+                int cmp1 = o1.getSpreadsheet().compareTo(o2.getSpreadsheet());
+                int cmp2 = o1.getWorksheet().compareTo(o2.getWorksheet());
+
+                if (cmp1 != 0)
+                    return cmp1;
+
+                return cmp2;
+            }
+        });
+
         for (StatisticsForSheet staSheet : sheetList) {
             //TODO:
             for (int i=0;i<4;i++) {

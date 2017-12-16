@@ -71,11 +71,11 @@ public class SmellDetectionClustering {
 			}
 
             //TODO: 先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
-            double coverageRate = coverageInFormulas(formulaInCluster);
-			cl.coverage = coverageRate;
-			if (coverageRate <= 0.5) {
-			    continue;
-            }
+//            double coverageRate = coverageInFormulas(formulaInCluster);
+//			cl.coverage = coverageRate;
+//			if (coverageRate <= 0.5) {
+//			    continue;
+//            }
 
 			tackleDataCells(cl);
 
@@ -101,7 +101,7 @@ public class SmellDetectionClustering {
 	}
 
 	private void tackleDataCells(Cluster cl) {
-//	    filterDataCellsByOverlap(cl);
+	    filterDataCellsByOverlap(cl);
 //	    filterDataCellsByReplace(cl);
 
 	    //把剩余的data cells标记为smell
@@ -124,7 +124,7 @@ public class SmellDetectionClustering {
      */
 	private void filterDataCellsByOverlap(Cluster cluster) {
 	    // step 1
-        System.out.println("begin Filter");
+        System.out.println("begin Filter On overlap");
 
 	    int RRCountInSeed = 0,  RCCountInSeed = 0;
 
