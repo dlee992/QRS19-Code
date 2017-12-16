@@ -126,7 +126,8 @@ public class SmellDetectionClustering {
 	    // step 1
         System.out.println("begin Filter On overlap");
 
-	    int RRCountInSeed = 0,  RCCountInSeed = 0;
+	    int RRCountInSeed = 0;
+//	    int RCCountInSeed = 0;
 
 	    List<Cell> seedCells = cluster.getSeedCells();
         for (int i = 0; i < seedCells.size(); i++) {
@@ -144,8 +145,8 @@ public class SmellDetectionClustering {
                     if (fakeCellList_j.contains(fc))
                         RRCountInSeed++;
                 }
-                if (fakeCellList_j.contains(fakeCell_i) || fakeCellList_i.contains(fakeCell_j))
-                    RCCountInSeed++;
+//                if (fakeCellList_j.contains(fakeCell_i) || fakeCellList_i.contains(fakeCell_j))
+//                    RCCountInSeed++;
             }
         }
 
@@ -159,12 +160,12 @@ public class SmellDetectionClustering {
         else
             RRCountInSeed = 2;
 
-        if (RCCountInSeed == 0)
-            RCCountInSeed = 0;
-        else if (RCCountInSeed == maximum)
-            RCCountInSeed = 1;
-        else
-            RCCountInSeed = 2;
+//        if (RCCountInSeed == 0)
+//            RCCountInSeed = 0;
+//        else if (RCCountInSeed == maximum)
+//            RCCountInSeed = 1;
+//        else
+//            RCCountInSeed = 2;
 
 	    // step 3
         BasicUtility basicUtil = new BasicUtility();
@@ -222,29 +223,28 @@ public class SmellDetectionClustering {
 
         for (int i = 0; i < cells.size(); i++) {
             Cell cell_i = cells.get(i);
-            FakeCell fakeCell_i = new FakeCell(cell_i.getRowIndex(), cell_i.getColumnIndex());
+//            FakeCell fakeCell_i = new FakeCell(cell_i.getRowIndex(), cell_i.getColumnIndex());
             List<FakeCell> fakeCellList_i = getDataFakeCellList(cell_i, refCell);
 
             for (int j = i+1; j < cells.size(); j++) {
                 Cell cell_j = cells.get(j);
-                FakeCell fakeCell_j = new FakeCell(cell_j.getRowIndex(), cell_j.getColumnIndex());
+//                FakeCell fakeCell_j = new FakeCell(cell_j.getRowIndex(), cell_j.getColumnIndex());
                 List<FakeCell> fakeCellList_j = getDataFakeCellList(cell_j, refCell);
 
                 boolean flag = false;
                 //RR
                 for (FakeCell fakeCell:
                      fakeCellList_i) {
-                    if (RRCountInSeed == 0 && fakeCellList_j.contains(fakeCell))
-                        flag = true;
-                    if (RRCountInSeed == 1 && !fakeCellList_j.contains(fakeCell))
+                    boolean containFlag = fakeCellList_j.contains(fakeCell);
+                    if ((RRCountInSeed == 0 && containFlag) || (RRCountInSeed == 1 && !containFlag))
                         flag = true;
                 }
 
                 //RC 感觉有点怪怪的，似乎bug了
-                if (RCCountInSeed == 0 && (fakeCellList_i.contains(fakeCell_j) || fakeCellList_j.contains(fakeCell_i)))
-                    flag = true;
-                if (RCCountInSeed == 1 && (!fakeCellList_i.contains(fakeCell_j) || !fakeCellList_j.contains(fakeCell_i)))
-                    flag = true;
+//                if (RCCountInSeed == 0 && (fakeCellList_i.contains(fakeCell_j) || fakeCellList_j.contains(fakeCell_i)))
+//                    flag = true;
+//                if (RCCountInSeed == 1 && (!fakeCellList_i.contains(fakeCell_j) || !fakeCellList_j.contains(fakeCell_i)))
+//                    flag = true;
 
                 if (flag) {
                     //删除这两个cells中的data cell。
