@@ -30,15 +30,14 @@ import java.util.Map.Entry;
 
 public class SmellDetectionClustering {
 
-	private Sheet sheet = null;
-	private List<Cluster> clusters = null;
-	private List<CellFeature> fts = null;
-	private List<Smell> detectedSmellyCells = new ArrayList<Smell>();
+	private Sheet sheet;
+	private List<Cluster> clusters;
+	private List<CellFeature> fts;
+	private List<Smell> detectedSmellyCells = new ArrayList<>();
 	private BasicUtility bu = new BasicUtility();
 
 	private List<String> featureVector = null;
 	private List<CellFeature> subFtList = null;
-	private int indexOfDomaint = -1;
     private Debug out = new Debug();
 	
 	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts) {
@@ -117,8 +116,8 @@ public class SmellDetectionClustering {
 	}
 
 	private void tackleDataCells(Cluster cl, List<Cell> correctFormulaList) {
-	    filterDataCellsByOverlap(cl, correctFormulaList);
-//	    filterDataCellsByReplace(cl);
+//	    filterDataCellsByOverlap(cl, correctFormulaList);
+	    filterDataCellsByReplace(cl);
 
 	    //把剩余的data cells标记为smell
         for (Cell cell:
@@ -132,7 +131,7 @@ public class SmellDetectionClustering {
         }
     }
 
-    /* todo
+    /*
     1: 统计1项预定义指标：引用是否重叠。
     2: 看这项指标是否每次都为空，或非空，否则该指标失效。(这是一个hard-rule)
     3: 针对所有的cells，任取两个cells(其中必须含有至少一个data cell)，比较引用是否重叠，和step 2中的统计结果对比，如果不一致，
@@ -263,13 +262,7 @@ public class SmellDetectionClustering {
         }
 
         //out.println("begin to delete cells");
-        for (int i = deleteList.size()-1; i > 0; i--) {
-            if (deleteList.get(i)) {
-                //out.println("delete the cell " + new CellReference(cells.get(i)).formatAsString());
-                cluster.removeChild(cells.get(i));
-            }
-        }
-
+        deleteDataCells(deleteList, cluster);
 
         //out.println("------");
     }
@@ -356,26 +349,30 @@ public class SmellDetectionClustering {
     private void filterDataCellsByReplace(Cluster cluster) {
         //这个判断其实有冗余部分，可优化。
         List<Boolean> deleteList = new ArrayList<>();
-        for (int i = 0; i < cluster.getClusterCells().size(); i++) {
-            deleteList.add(false);
-        }
-
         List<Cell> cells = cluster.getClusterCells();
+        for (int i = 0; i < cells.size(); i++) deleteList.add(false);
 
-        for (Cell cellToAdd:
-                cluster.getClusterCells()) {
-            if (cellToAdd.getCellType() != 0) continue;
-            int index = cells.indexOf(cellToAdd);
+        for (Cell cell : cluster.getClusterCells()) {
+            if (cell.getCellType() != Cell.CELL_TYPE_NUMERIC) continue;
+            int index = cells.indexOf(cell);
 
-            for (Cell cell :
-                    cluster.getSeedCells()) {
-                boolean flag = replaceAndCorrect(cellToAdd, cell, sheet);
-                if (!flag) {
-                    deleteList.set(index, true);
-                }
+            boolean existOne = false;
+            //NOTE:其实这里只选择seed (formula) cells是一个很tricky的地方
+            for (Cell refCell : cluster.getSeedCells()) {
+                boolean compFlag = compatible(cell, refCell, sheet);
+                if (compFlag) existOne = true;
             }
+
+            if (!existOne) deleteList.set(index, true);
         }
 
+        deleteDataCells(deleteList, cluster);
+    }
+
+    private void deleteDataCells(List<Boolean> deleteList, Cluster cluster) {
+	    List<Cell> cells = cluster.getClusterCells();
+
+	    //NOTE: 这里一定要倒序处理,否则会发生OutOfBoundException.
         for (int i = deleteList.size()-1; i > 0; i--) {
             if (deleteList.get(i)) {
                 cluster.removeChild(cells.get(i));
@@ -391,95 +388,78 @@ public class SmellDetectionClustering {
         return ret;
     }
 
-    //e.g. type inference
-    private boolean replaceAndCorrect(Cell cellToAdd, Cell cell, Sheet sheet) {
+    //i.e., type inference
+    private boolean compatible(Cell cell, Cell refCell, Sheet sheet) {
+        int relativeRow = cell.getRowIndex() - refCell.getRowIndex();
+        int relativeColumn = cell.getColumnIndex() - refCell.getColumnIndex();
+        String newFormulaS = new BasicUtility().convertA1ToA1(relativeRow, relativeColumn, refCell.getCellFormula());
+
         Workbook workbook = sheet.getWorkbook();
-        String cellFormula = cell.getCellFormula();
         int sheetIndex = workbook.getSheetIndex(sheet);
-        Ptg[] ptgList = new FormulaParsing().getPtg(cellFormula, workbook, FormulaType.forInt(2), sheetIndex);
+        Ptg[] ptgList = new FormulaParsing().getPtg(newFormulaS, workbook, FormulaType.forInt(2), sheetIndex);
 
-        for (Ptg aPtg:
-                ptgList) {
-//            out.println("Ptg type = " + aPtg.toString());
-            String ptgString = aPtg.toString();
-            if (ptgString.contains("RefPtg")) {
-                //from parent class to child class.
-                RefPtg exactPtg = new RefPtg(aPtg.toFormulaString());
-                int rowPtg = exactPtg.getRow();
-                int columnPtg = exactPtg.getColumn();
+        boolean ret = true;
+        for (Ptg ptg: ptgList) {
+            String ptgS = ptg.toString();
 
-                if (!ptgString.contains("$")) {
-                    //重复的代码块：1
-                    int row = 0, column = 0;
-                    row = cellToAdd.getRowIndex() - (cell.getRowIndex() - rowPtg);
-                    column = cellToAdd.getColumnIndex() - (cell.getColumnIndex() - columnPtg);
-
-                    //TODO: validate 这个新单元格
-                    Row validRow = sheet.getRow(row);
-                    if (validRow == null)
-                        return false;
-                    Cell validCell = validRow.getCell(column);
-                    if (validCell == null)
-                        return false;
-                    List<Integer> validTypes = new ArrayList<>();
-                    validTypes.add(0);
-                    validTypes.add(2);
-//                    validTypes.add(3);
-                    if (!validTypes.contains(validCell.getCellType()))
-                        return false;
-                }
-                else {
-                    //TODO: 存在绝对引用的情况
+            if (ptgS.contains("RefPtg")) {
+                RefPtg refPtg = new RefPtg(ptg.toFormulaString());
+                FakeCell fakeCell = new FakeCell(refPtg.getRow(), refPtg.getColumn());
+                boolean flag = compatibleInCell(fakeCell);
+                if (!flag) {
+                    ret = false;
+                    break;
                 }
             }
-            else if (ptgString.contains("AreaPtg")) {
-                AreaPtg exactPtg = new AreaPtg(aPtg.toFormulaString());
-
-                if (!ptgString.contains("$")) {
-                    int firstRow = exactPtg.getFirstRow();
-                    int lastRow = exactPtg.getLastRow();
-                    int firstCol = exactPtg.getFirstColumn();
-                    int lastCol = exactPtg.getLastColumn();
-
-                    for (int rowPtg = firstRow; rowPtg <= lastRow; rowPtg++) {
-                        for (int columnPtg = firstCol; columnPtg <= lastCol; columnPtg++) {
-                            //重复的代码块：2
-                            int row = 0, column = 0;
-                            row = cellToAdd.getRowIndex() - (cell.getRowIndex() - rowPtg);
-                            column = cellToAdd.getColumnIndex() - (cell.getColumnIndex() - columnPtg);
-
-                            //TODO: validate 这个新单元格
-                            Row validRow = sheet.getRow(row);
-                            if (validRow == null)
-                                return false;
-                            Cell validCell = validRow.getCell(column);
-                            if (validCell == null)
-                                return false;
-                            List<Integer> validTypes = new ArrayList<>();
-                            validTypes.add(0);//numeric
-                            validTypes.add(2);//formula
-//                            validTypes.add(3);//blank
-                            if (!validTypes.contains(validCell.getCellType()))
-                                return false;
+            else if (ptgS.contains("AreaPtg")) {
+                AreaPtg areaPtg = new AreaPtg(ptg.toFormulaString());
+                for (int rowIndex = areaPtg.getFirstRow(); rowIndex <= areaPtg.getLastRow(); rowIndex++) {
+                    int lastColumn = areaPtg.getLastColumn();
+                    for (int columnIndex = areaPtg.getFirstColumn(); columnIndex <= lastColumn; columnIndex++) {
+                        FakeCell fakeCell = new FakeCell(rowIndex, columnIndex);
+                        boolean flag = compatibleInCell(fakeCell);
+                        if (!flag) {
+                            ret = false;
+                            break;
                         }
                     }
-
                 }
-                else {
-                    //TODO: 存在绝对引用的情况
-                }
-
             }
         }
 
-        return true;
+        return ret;
+    }
+
+    private boolean compatibleInCell(FakeCell fakeCell) {
+	    boolean ret;
+
+	    Row row = sheet.getRow(fakeCell.getRow());
+	    if (row == null) return false;
+	    Cell cell = row.getCell(fakeCell.getColumn());
+	    if (cell == null) return false;
+
+	    switch (cell.getCellTypeEnum()) {
+            case NUMERIC:
+                ret = true;
+                break;
+            case FORMULA:
+                ret = true;
+                break;
+            case BLANK:
+                ret = true;
+                break;
+            default:
+                ret = false;
+                break;
+        }
+
+	    return ret;
     }
 
     //Cluster only contains formula cells in a given cluster
 	private double coverageInFormulas(List<Cell> cellList) {
 	    int ret = 0;
-	    indexOfDomaint = -1;
-	    BasicUtility basicUtil = new BasicUtility();
+        BasicUtility basicUtil = new BasicUtility();
         FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
 
         List<Double> originalValues = new ArrayList<>();
@@ -514,7 +494,7 @@ public class SmellDetectionClustering {
                     String originalS = cRight.getCellFormula();
                     if (originalS == null || originalS.contains("!")) continue;
 
-                    //TODO: 参考Cluster.checkWeakCoverage方法
+                    //参考Cluster.checkWeakCoverage方法
                     double originalValue = originalValues.get(j);
 
                     int relativeRow = cRight.getRowIndex() - cLeft.getRowIndex();
@@ -545,11 +525,7 @@ public class SmellDetectionClustering {
                         errors = true;
                     }
 
-                    if (errors) {
-                        continue;
-                    }
-
-                    //TODO: maybe throw an exception when evaluating new formula.
+                    if (errors) continue;
 
                     double generatedValue = 0;
                     try {
@@ -578,7 +554,6 @@ public class SmellDetectionClustering {
 
 			if (ret < thisCov) {
 			    ret = thisCov;
-			    indexOfDomaint = i;
             }
 
 //            System.out.println();
@@ -604,7 +579,7 @@ public class SmellDetectionClustering {
 				inlierExist = true;
 			}
 
-        List<Smell> formulaSmellList = null;
+        List<Smell> formulaSmellList;
 		if (outlierExist && inlierExist) {
 		    formulaSmellList = smellDescriptionDetection(taggedCells, featureCellM, cellRefList);
 			detectedSmellyCells.addAll(formulaSmellList);
@@ -622,7 +597,7 @@ public class SmellDetectionClustering {
 
 	private List<Smell> smellDescriptionDetection(boolean[] taggedCells,
 			RealMatrix featureCellM, List<CellReference> cellRefsVector) {
-		List<Smell> smells = new ArrayList<Smell>();
+		List<Smell> smells = new ArrayList<>();
 
 		CellClusterMatrix cc = new CellClusterMatrix();
 		RealMatrix lierMatrix = cc.matrixCreation(taggedCells);
@@ -687,7 +662,7 @@ public class SmellDetectionClustering {
 	private Instances twoUniqueInstancesHandling(Instances originalDataset) throws Exception {
 		Instances outliers;
 
-		Map<DecisionTableHashKey, Integer> twoInst = new HashMap<DecisionTableHashKey, Integer>();
+		Map<DecisionTableHashKey, Integer> twoInst = new HashMap<>();
 		for (Instance inst : originalDataset) {
 			DecisionTableHashKey key = new DecisionTableHashKey(inst,
 					originalDataset.numAttributes(), true);
@@ -717,8 +692,8 @@ public class SmellDetectionClustering {
 
 	private Instances createInstances(RealMatrix subFeatureCellMatrix) {
 		double data[][] = subFeatureCellMatrix.getData();
-		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-		List<Instance> instances = new ArrayList<Instance>();
+		ArrayList<Attribute> attributes = new ArrayList<>();
+		List<Instance> instances = new ArrayList<>();
 
 		for (int obj = 0; obj < subFeatureCellMatrix.getColumnDimension(); obj++) {
 			instances.add(new SparseInstance(subFeatureCellMatrix
@@ -741,15 +716,14 @@ public class SmellDetectionClustering {
 
 		Instances dataset = new Instances("Dataset", attributes, instances.size());
 
-		for (Instance inst : instances)
-			dataset.add(inst);
+        dataset.addAll(instances);
 
 		return new Instances(dataset);
 	}
 
 	private void detectionFeatureExtraction(Workbook wb, List<Cell> cells) {
-		subFtList = new ArrayList<CellFeature>();
-		featureVector = new ArrayList<String>();
+		subFtList = new ArrayList<>();
+		featureVector = new ArrayList<>();
 		for (Cell cell : cells) {
 			CellReference cr = new CellReference(cell);
 			CellFeature ft = new CellFeature(cr);
@@ -765,9 +739,9 @@ public class SmellDetectionClustering {
 
 				if (opTokens != null) {
 					ftInList.setOpTokens(opTokens);
-					String ops = "";
+					StringBuilder ops = new StringBuilder();
 					for (String opToken : opTokens) {
-						ops = ops + opToken + ",";
+						ops.append(opToken).append(",");
 					}
 					if (!featureVector.contains("Operation=" + ops)) {
 						featureVector.add("Operation=" + ops);
@@ -777,9 +751,9 @@ public class SmellDetectionClustering {
 				List<String> refTokens = tokens.get(1);
 				if (refTokens != null && !refTokens.isEmpty()) {
 					ftInList.setRefTokens(refTokens);
-					String ref = "";
+					StringBuilder ref = new StringBuilder();
 					for (String refToken : refTokens) {
-						ref = ref + refToken + ",";
+						ref.append(refToken).append(",");
 					}
 					if (!featureVector.contains("RefToken" + ref)) {
 						featureVector.add("RefToken" + ref);
