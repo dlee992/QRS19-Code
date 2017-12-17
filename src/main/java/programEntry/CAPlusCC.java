@@ -52,7 +52,7 @@ public class CAPlusCC {
     private static String programState;
 
     private static double threshold = 0.5;
-    private static String testDate = "2017-12-15 Prototype";
+    private static String testDate = "2017-12-17 Prototype idea B";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -134,7 +134,7 @@ public class CAPlusCC {
             for (File eachFile : files) {
                 //TODO: test specific spreadsheet files
                 if (eachFile.getName().startsWith("0000")) continue;
-                if (!eachFile.getName().startsWith("VRS")) continue;
+//                if (!eachFile.getName().startsWith("chart")) continue;
                 System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
 //                if (index.get() != 1) continue;

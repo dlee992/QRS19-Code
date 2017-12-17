@@ -9,6 +9,7 @@ import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.RefPtg;
 import org.apache.poi.ss.usermodel.*;
+import sun.security.ssl.Debug;
 import utility.BasicUtility;
 import entity.CellFeature;
 import entity.Cluster;
@@ -38,6 +39,7 @@ public class SmellDetectionClustering {
 	private List<String> featureVector = null;
 	private List<CellFeature> subFtList = null;
 	private int indexOfDomaint = -1;
+    private Debug out = new Debug();
 	
 	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts) {
 		this.sheet = sheet;
@@ -59,7 +61,7 @@ public class SmellDetectionClustering {
 				CellReference cr = entry.getKey();
 				Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
 
-				if (cell.getCellType() == 2) {
+				if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
 					formulaInCluster.add(cell);
 					formulaRefInCluster.add(cr);
 				}
@@ -78,8 +80,9 @@ public class SmellDetectionClustering {
 			List<Cell> correctFormulaList = new ArrayList<>();
 
 			if (originalDataset.size() == 3) {
-				outliers = twoUniqueInstancesHandling(originalDataset);
-
+				//这里似乎有点问题，对于仅有3个formula cells的类型 似乎没有做任何处理
+			    twoUniqueInstancesHandling(originalDataset);
+				/*
                 for (Cell cell1: formulaInCluster) {
                     for (Cell cell2: formulaInCluster) {
                         if (!cell1.equals(cell2)) {
@@ -95,6 +98,7 @@ public class SmellDetectionClustering {
                         }
                     }
                 }
+                */
 			}
 			else if (originalDataset.size() > 3) {
 				outliers = LofAnalysis(originalDataset);
@@ -137,9 +141,9 @@ public class SmellDetectionClustering {
      */
 	private void filterDataCellsByOverlap(Cluster cluster, List<Cell> correctFormulaList) {
 	    // step 1
-        System.out.println("begin Filter On overlap");
+        //out.println("begin Filter On overlap");
 
-	    int RRCountInSeed = 0;
+	    int flagInSeed = 0;
 
 	    List<Cell> seedCells = cluster.getSeedCells();
         for (int i = 0; i < seedCells.size(); i++) {
@@ -150,21 +154,34 @@ public class SmellDetectionClustering {
                 Cell cell_j = seedCells.get(j);
                 List<FakeCell> fakeCellList_j = getFakeCellList(cell_j.getCellFormula());
 
+                boolean plusFlag = false;
                 for (FakeCell fc: fakeCellList_i) {
-                    if (fakeCellList_j.contains(fc))
-                        RRCountInSeed++;
+                    if (fakeCellList_j.contains(fc)) {
+                        flagInSeed++;
+                        plusFlag = true;
+                        break;
+                    }
                 }
+
+                //(ref 和 ref 的重叠) 或 (ref 和 cell 是否重叠)
+                if (plusFlag) continue;
+
+                FakeCell fakeCellI = new FakeCell(cell_i);
+                FakeCell fakeCellJ = new FakeCell(cell_j);
+
+                if (fakeCellList_i.contains(fakeCellJ)) flagInSeed++;
+                else if (fakeCellList_j.contains(fakeCellI)) flagInSeed++;
             }
         }
 
 
         // step 2
-        // @args RRCountInSeed=0: cannot overlap
-        // @args RRCountInSeed=1: must overlap
-        // @args RRCountInSeed=others: invalid
+        // @args flagInSeed=0: cannot overlap
+        // @args flagInSeed=1: must overlap
+        // @args flagInSeed=others: invalid
         int maximum = seedCells.size()*(seedCells.size()-1)/2;
-        if (RRCountInSeed == 0) RRCountInSeed = 0;
-        else if (RRCountInSeed == maximum) RRCountInSeed = 1;
+        if (flagInSeed == 0) flagInSeed = 0;
+        else if (flagInSeed == maximum) flagInSeed = 1;
         else return;
 
 
@@ -180,6 +197,7 @@ public class SmellDetectionClustering {
             Cell cell_i = cells.get(i);
             if (cell_i.getCellType() != Cell.CELL_TYPE_NUMERIC) continue;
 
+            //out.println("cellI = " + new CellReference(cell_i).formatAsString());
             //枚举每个seed cell的公式来替换之,注意加入删去重复的R1C1的公式格
             Set<String> visitedFormulaSet = new HashSet<>();
             boolean existOne = false;
@@ -193,59 +211,90 @@ public class SmellDetectionClustering {
                 visitedFormulaSet.add(r1c1F);
                 List<FakeCell> fakeCellList_i = getDataFakeCellList(cell_i, refCell);
 
-                boolean flagForAll = true;
-                for (int j = 0; j < cells.size(); j++) {
-                    Cell cell_j = cells.get(j);
-                    if (cell_i.equals(cell_j)) {
-                        flagForAll = false;
-                        continue;
-                    }
 
-                    List<FakeCell> fakeCellList_j = null;
+                //下面的逻辑写错了,对给定的d(i)和f(k)
+                boolean flagForAll = true;
+                for (Cell cell_j : cells) {
+                    int indexI = cells.indexOf(cell_i);
+                    int indexJ = cells.indexOf(cell_j);
+                    if (indexI == indexJ) continue;
+
+                    List<FakeCell> fakeCellList_j;
                     if (cell_j.getCellType() == Cell.CELL_TYPE_FORMULA) {
                         fakeCellList_j = getFakeCellList(cell_j.getCellFormula());
 
                         //标志位
-                        boolean ret = satisfy(fakeCellList_i, fakeCellList_j, RRCountInSeed);
+                        boolean ret = satisfyRR(fakeCellList_i, fakeCellList_j, flagInSeed);
+
+                        //out.println("ret = " + ret);
                         if (!ret) flagForAll = false;
-                    }
-                    else {
+                    } else {
                         boolean innerExistOne = false;
-                        for (int l = 0; l < seedCells.size(); l++) {
-                            Cell innerRefCell = seedCells.get(l);
+                        Set<String> innerVisitedFormulaSet = new HashSet<>();
+
+                        for (Cell innerRefCell : seedCells) {
+                            String innerR1C1F = bu.convertA1ToR1C1(innerRefCell.getRowIndex(),
+                                    innerRefCell.getColumnIndex(), innerRefCell.getCellFormula());
+                            if (innerVisitedFormulaSet.contains(innerR1C1F)) continue;
+
+                            innerVisitedFormulaSet.add(innerR1C1F);
                             fakeCellList_j = getDataFakeCellList(cell_j, innerRefCell);
 
-                            boolean flag = satisfy(fakeCellList_i, fakeCellList_j, RRCountInSeed);
-                            if (flag) {
+                            boolean flag1 = satisfyRR(fakeCellList_i, fakeCellList_j, flagInSeed);
+                            boolean flag2 = satisfyRC(fakeCellList_i, fakeCellList_j, cell_i, cell_j, flagInSeed);
+
+                            if (flag1 && flag2) {
                                 innerExistOne = true;
                                 break;
                             }
                         }
 
+                        //out.println("innerExistOne = " + innerExistOne);
                         if (!innerExistOne) flagForAll = false;
                     }
                 }
 
+                //out.println("flagForAll = " + flagForAll);
                 if (flagForAll) existOne = true;
             }
 
+            //out.println("existOne = " + existOne);
             if (!existOne) deleteList.set(i, true);
         }
 
-        System.out.println("begin to delete cells");
+        //out.println("begin to delete cells");
         for (int i = deleteList.size()-1; i > 0; i--) {
-            if (deleteList.get(i))
+            if (deleteList.get(i)) {
+                //out.println("delete the cell " + new CellReference(cells.get(i)).formatAsString());
                 cluster.removeChild(cells.get(i));
+            }
         }
 
+
+        //out.println("------");
     }
 
-    private boolean satisfy(List<FakeCell> fakeCellList_i, List<FakeCell> fakeCellList_j, int rrCountInSeed) {
+    private boolean satisfyRC(List<FakeCell> fakeCellList_i, List<FakeCell> fakeCellList_j,
+                              Cell cell_i, Cell cell_j, int flagInSeed) {
+	    boolean ret = true;
+
+	    FakeCell fakeCellI = new FakeCell(cell_i);
+	    FakeCell fakeCellJ = new FakeCell(cell_j);
+	    boolean inFlag = false;
+	    if (fakeCellList_i.contains(fakeCellJ) || fakeCellList_j.contains(fakeCellI)) inFlag = true;
+
+	    if ((flagInSeed == 0 && inFlag) || (flagInSeed == 1 && !inFlag))
+	        ret = false;
+
+	    return ret;
+    }
+
+    private boolean satisfyRR(List<FakeCell> fakeCellList_i, List<FakeCell> fakeCellList_j, int flagInSeed) {
 	    boolean ret = true;
 
         for (FakeCell fakeCell: fakeCellList_i) {
             boolean containFlag = fakeCellList_j.contains(fakeCell);
-            if ((rrCountInSeed == 0 && containFlag) || (rrCountInSeed == 1 && !containFlag))
+            if ((flagInSeed == 0 && containFlag) || (flagInSeed == 1 && !containFlag))
                 ret = false;
         }
 
@@ -452,7 +501,7 @@ public class SmellDetectionClustering {
 
 			Cell cLeft = cellList.get(i);
 			String rcLeft = bu.convertA1ToR1C1(cLeft.getRowIndex(), cLeft.getColumnIndex(), cLeft.getCellFormula());
-			System.out.println("detect cell:" + new CellReference(cLeft).formatAsString() + ", R1C1 formula = " + rcLeft);
+			//System.out.println("detect cell:" + new CellReference(cLeft).formatAsString() + ", R1C1 formula = " + rcLeft);
 
 			for (int j=0; j<cellList.size(); j++) {
 				Cell cRight = cellList.get(j);
@@ -471,8 +520,8 @@ public class SmellDetectionClustering {
                     int relativeRow = cRight.getRowIndex() - cLeft.getRowIndex();
                     int relativeColumn = cRight.getColumnIndex() - cLeft.getColumnIndex();
                     String newFormulaS = basicUtil.convertA1ToA1(relativeRow, relativeColumn, cLeft.getCellFormula());
-                    System.out.println("OriginalS = " + originalS +
-                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
+//                    System.out.println("OriginalS = " + originalS +
+//                            ", generated A1 formula = " + newFormulaS + ", thisCov = " + thisCov);
 
                     if (newFormulaS == null || newFormulaS.contains("!")) continue;
 
@@ -523,7 +572,7 @@ public class SmellDetectionClustering {
                     if (errors) continue;
 
                     if (originalValue == generatedValue) thisCov++;
-                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
+//                    System.out.println("originalValue = " + originalValue + ", generatedValue = " + generatedValue);
                 }
 			}
 
@@ -532,7 +581,7 @@ public class SmellDetectionClustering {
 			    indexOfDomaint = i;
             }
 
-            System.out.println();
+//            System.out.println();
 		}
 		
 		return 1.0*ret/cellList.size();

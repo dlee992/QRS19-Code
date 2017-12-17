@@ -1,5 +1,7 @@
 package clustering.smellDetectionClustering;
 
+import org.apache.poi.ss.usermodel.Cell;
+
 import java.util.Objects;
 
 public class FakeCell {
@@ -17,6 +19,11 @@ public class FakeCell {
     public FakeCell(int row, int column) {
         this.row = row;
         this.column = column;
+    }
+
+    public FakeCell(Cell cell) {
+        this.row = cell.getRowIndex();
+        this.column = cell.getColumnIndex();
     }
 
     @Override
