@@ -31,7 +31,17 @@ public class FormulaParsing {
         else if (wb.getSpreadsheetVersion().name().equals("EXCEL2007"))
             fpWorkbook = XSSFEvaluationWorkbook.create((XSSFWorkbook) wb);
 
-        return FormulaParser.parse(formula, fpWorkbook, type, sheetIndex);
+        Ptg[] ptgList = new Ptg[0];
+
+        try {
+			ptgList = FormulaParser.parse(formula, fpWorkbook, type, sheetIndex);
+		}
+		catch (NullPointerException npe) {
+        	System.out.println("NullPointerException");
+		}
+
+
+        return ptgList;
     }
 
 	public List<CellLocation> getFormulaDependencies(Sheet sheet, int col, int row) {

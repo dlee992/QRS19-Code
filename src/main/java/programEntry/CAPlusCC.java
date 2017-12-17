@@ -26,6 +26,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import utility.BasicUtility;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -161,6 +162,19 @@ public class CAPlusCC {
         //FIXME:
         System.out.println(statisticsResult);
         System.out.println("formula numbers : " + numberOfFormula);
+
+        createAndShowGUI();
+    }
+
+    private static void createAndShowGUI() {
+        JFrame frame = new JFrame("程序结束");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel label = new JLabel("程序结束");
+        frame.getContentPane().add(label);
+
+        frame.pack();
+        frame.setVisible(true);
     }
 
     private static void testSpreadsheet(File file, StatisticsForAll staAll)
