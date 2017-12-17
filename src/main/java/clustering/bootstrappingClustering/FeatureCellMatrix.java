@@ -130,7 +130,7 @@ public class FeatureCellMatrix {
 
 
 	public RealMatrix matrixCreationForDetection(List<CellFeature> featureList) {
-		RealMatrix rm = new Array2DRowRealMatrix(featureVector.size(),cellRefsVector.size());
+		RealMatrix rm = new Array2DRowRealMatrix(featureVector.size(), cellRefsVector.size());
 		
 		for (CellFeature ft: featureList){
 			
