@@ -28,7 +28,7 @@ public class FormulaParsing {
         else if (wb.getSpreadsheetVersion().name().equals("EXCEL2007"))
             fpWorkbook = XSSFEvaluationWorkbook.create((XSSFWorkbook) wb);
 
-        Ptg[] ptgList = new Ptg[0];
+        Ptg[] ptgList = null;
 
         try {
 			ptgList = FormulaParser.parse(formula, fpWorkbook, type, sheetIndex);

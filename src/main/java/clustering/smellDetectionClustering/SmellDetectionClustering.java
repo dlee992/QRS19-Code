@@ -209,7 +209,7 @@ public class SmellDetectionClustering {
 
                 visitedFormulaSet.add(r1c1F);
                 List<FakeCell> fakeCellList_i = getDataFakeCellList(cell_i, refCell);
-
+                if (fakeCellList_i == null) continue;
 
                 //下面的逻辑写错了,对给定的d(i)和f(k)
                 boolean flagForAll = true;
@@ -238,6 +238,7 @@ public class SmellDetectionClustering {
 
                             innerVisitedFormulaSet.add(innerR1C1F);
                             fakeCellList_j = getDataFakeCellList(cell_j, innerRefCell);
+                            if (fakeCellList_j == null) continue;
 
                             boolean flag1 = satisfyRR(fakeCellList_i, fakeCellList_j, flagInSeed);
                             boolean flag2 = satisfyRC(fakeCellList_i, fakeCellList_j, cell_i, cell_j, flagInSeed);
@@ -315,6 +316,8 @@ public class SmellDetectionClustering {
         Workbook workbook = sheet.getWorkbook();
         int sheetIndex = workbook.getSheetIndex(sheet);
         Ptg[] ptgList = new FormulaParsing().getPtg(cellFormula, workbook, FormulaType.forInt(2), sheetIndex);
+
+        if (ptgList == null) return null;
 
         List<FakeCell> fakeCellList = new ArrayList<>();
 
@@ -397,6 +400,8 @@ public class SmellDetectionClustering {
         Workbook workbook = sheet.getWorkbook();
         int sheetIndex = workbook.getSheetIndex(sheet);
         Ptg[] ptgList = new FormulaParsing().getPtg(newFormulaS, workbook, FormulaType.forInt(2), sheetIndex);
+
+        if (ptgList == null) return false;
 
         boolean ret = true;
         for (Ptg ptg: ptgList) {
