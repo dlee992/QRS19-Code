@@ -5,10 +5,7 @@ import entity.R1C1Cell;
 import featureExtraction.weakFeatureExtraction.CellArray;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.EvaluationWorkbook;
-import org.apache.poi.ss.formula.FormulaParser;
-import org.apache.poi.ss.formula.FormulaParsingWorkbook;
-import org.apache.poi.ss.formula.FormulaType;
+import org.apache.poi.ss.formula.*;
 import org.apache.poi.ss.formula.ptg.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -38,6 +35,9 @@ public class FormulaParsing {
 		}
 		catch (NullPointerException npe) {
         	System.out.println("NullPointerException");
+		}
+		catch (FormulaParseException fpe) {
+        	System.out.println("FormulaParseException");
 		}
 
 
