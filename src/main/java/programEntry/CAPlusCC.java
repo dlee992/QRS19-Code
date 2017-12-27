@@ -134,8 +134,8 @@ public class CAPlusCC {
             assert files != null;
             for (File eachFile : files) {
                 //TODO: test specific spreadsheet files
-                if (eachFile.getName().startsWith("0000")) continue;
-//                if (!eachFile.getName().startsWith("inter")) continue;
+//                if (eachFile.getName().startsWith("0000")) continue;
+//                if (!eachFile.getName().startsWith("VRS")) continue;
                 System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
 //                if (index.get() != 1) continue;
