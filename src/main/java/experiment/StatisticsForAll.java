@@ -10,6 +10,7 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import utility.BasicUtility;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -201,12 +202,14 @@ public class StatisticsForAll {
         this.endTime = endTime;
     }
 
-    public synchronized void add(StatisticsForSheet staSheet) {
+    public synchronized void add(StatisticsForSheet staSheet, BufferedWriter logBuffer) throws IOException {
         if (staSheet.getGt_clusterList().size()==0 &&
                 staSheet.getGt_smellList().size() == 0 &&
                 staSheet.getStageIIClusters().size() == 0 &&
                 staSheet.getSmellyCells().size() == 0) return;
         sheetList.add(staSheet);
         logger.debug("index=" + (++index) + ": "+ staSheet.getWorksheet()+" --OF-- " +staSheet.getSpreadsheet());
+        logBuffer.write("index=" + (++index) + ": "+ staSheet.getWorksheet()+" --OF-- " +staSheet.getSpreadsheet());
+        logBuffer.newLine();
     }
 }

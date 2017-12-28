@@ -53,7 +53,7 @@ public class CAPlusCC {
     private static String programState;
 
     private static double threshold = 0.5;
-    private static String testDate = "2017-12-17 Prototype idea C";
+    private static String testDate = "2017-12-17 Prototype idea A";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -126,6 +126,11 @@ public class CAPlusCC {
 
         ExecutorService executorService = Executors.newFixedThreadPool(8);
 
+        File logFile = new File(outDirPath + fileSeparator +
+                "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
+        if (!logFile.exists()) logFile.createNewFile();
+        BufferedWriter logBuffer = new BufferedWriter(new FileWriter(logFile));
+
         for (int i = 0; categories != null && i < categories.length; i++) {
             File perCategory = new File(categories[i].getAbsolutePath());
             File[] files = perCategory.listFiles(filter1);
@@ -136,16 +141,22 @@ public class CAPlusCC {
                 //TODO: test specific spreadsheet files
 //                if (eachFile.getName().startsWith("0000")) continue;
 //                if (!eachFile.getName().startsWith("VRS")) continue;
+//                if (index.get() >= 2) break;
                 System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
+                logBuffer.write("index = " +(index.incrementAndGet())+ " ########Process '" +
+                        categories[i].getName() + "/" + eachFile.getName() + "'########");
+                logBuffer.newLine();
 //                if (index.get() != 1) continue;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
 
                 executorService.execute(() -> {
                     try {
-                        testSpreadsheet(finalEachFile, staAll);
+                        testSpreadsheet(finalEachFile, staAll, logBuffer);
                         System.out.println("index = "+ index +" ######## End in: '" + eachFile.getName() + "'########");
+                        logBuffer.write("index = "+ index +" ######## End in: '" + eachFile.getName() + "'########");
+                        logBuffer.newLine();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -162,6 +173,8 @@ public class CAPlusCC {
         //FIXME:
         System.out.println(statisticsResult);
         System.out.println("formula numbers : " + numberOfFormula);
+        logBuffer.flush();
+        logBuffer.close();
 
         createAndShowGUI();
     }
@@ -177,7 +190,7 @@ public class CAPlusCC {
         frame.setVisible(true);
     }
 
-    private static void testSpreadsheet(File file, StatisticsForAll staAll)
+    private static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer)
             throws Exception {
         String fileName = file.getName();
         Workbook workbook       = WorkbookFactory.create(new FileInputStream(file));
@@ -186,8 +199,8 @@ public class CAPlusCC {
             //TODO: test the specific worksheet
 //            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
 
-            StatisticsForSheet staSheet = testWorksheet(fileName, workbook.getSheetAt(j));
-            staAll.add(staSheet);
+            StatisticsForSheet staSheet = testWorksheet(fileName, workbook.getSheetAt(j), logBuffer);
+            staAll.add(staSheet, logBuffer);
         }
 
         String eachDirStr = outDirPath + fileSeparator + "Marked subjects " + testDate;
@@ -210,7 +223,7 @@ public class CAPlusCC {
         outFile.close();
     }
 
-    private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet)
+    private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer)
             throws Exception {
         StatisticsForSheet staSheet = new StatisticsForSheet(sheet);
         staSheet.setBeginTime  (System.currentTimeMillis());
@@ -223,7 +236,8 @@ public class CAPlusCC {
         staSheet.setGt_smellList(groundTruthStatistics.smellList);
 
         System.out.println("----Sheet '" + sheet.getSheetName() + "'----");
-
+        logBuffer.write("----Sheet '" + sheet.getSheetName() + "'----");
+        logBuffer.newLine();
         BasicUtility bu = new BasicUtility();
 
         InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet);
@@ -301,6 +315,10 @@ public class CAPlusCC {
         }
 
         //TODO: 2 from Cell Array to clusters in the HAC algorithm to generate seed clusters
+        System.out.println("---- Stage I begun ----");
+        logBuffer.write("---- Stage I begun ----");
+        logBuffer.newLine();
+
         hacCluster.computeDistance(ted);
         List<Cluster> stageIClusters;
         if (GP.plusCellArray)
@@ -309,6 +327,8 @@ public class CAPlusCC {
             stageIClusters = hacCluster.clustering(ted);
 
         System.out.println("---- Stage I finished ----");
+        logBuffer.write("---- Stage I finished ----");
+        logBuffer.newLine();
 
         for (Cluster cluster : stageIClusters) {
             cluster.extractCellRefs(cluster, 1);
@@ -336,10 +356,11 @@ public class CAPlusCC {
                     fe.getFeatureVectorForClustering(),
                     fe.getCellRefsVector());
 
-            RealMatrix featureCellM = fcc.matrixCreationForClustering(
-                    fe.getCellFeatureList());
+            RealMatrix featureCellM = fcc.matrixCreationForClustering(fe.getCellFeatureList());
 
             System.out.println("---- Stage II begin ----");
+            logBuffer.write("---- Stage II begin ----");
+            logBuffer.newLine();
 
             // If there is isolated cells
             List<CellReference> nonSeedCellRefs = fe.getNonSeedCellRefs();
@@ -366,13 +387,14 @@ public class CAPlusCC {
 
                 System.out.printf("Stage Two Clusters = [");
                 for (CellReference leaf: cluster.getClusterCellRefs()) {
-
                     System.out.printf("%s, ", leaf.formatAsString());
                 }
                 System.out.println("]");
             }
 
             System.out.println("---- Stage II finished ----");
+            logBuffer.write("---- Stage II finished ----");
+            logBuffer.newLine();
 
             //TODO: add an additional step, try to extend the cluster composed of 2~3 formula cells using the
             //TODO: "cell array" information, see whether the recall ratio can be improved.
@@ -443,20 +465,30 @@ public class CAPlusCC {
             }
 
             //TODO: 5 local outlier detection
+            System.out.println("---- Smell detection begun ----");
+            logBuffer.write("---- Smell detection begun ----");
+            logBuffer.newLine();
+
             SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList());
             sdc.outlierDetection();
-
-            System.out.println("---- Smell detection finished ----");
 
             for (Cluster cluster : stageIClusters) {
 
                 System.out.printf("(%.3f) Smell Detection Clusters = [", cluster.coverage);
+                logBuffer.write("(" + cluster.coverage + ") Smell Detection Clusters = [");
                 for (CellReference leaf: cluster.getClusterCellRefs()) {
 
                     System.out.printf("%s, ", leaf.formatAsString());
+                    logBuffer.write(leaf.formatAsString() + ", ");
                 }
                 System.out.println("]");
+                logBuffer.write("]");
+                logBuffer.newLine();
             }
+
+            System.out.println("---- Smell detection finished ----");
+            logBuffer.write("---- Smell detection finished ----");
+            logBuffer.newLine();
 
             //TODO: 6 mark the worksheet
             bu.clusterPrintMark(stageIIClusters, sheet);
@@ -466,12 +498,20 @@ public class CAPlusCC {
             staSheet.setStageIIClusters(stageIIClusters);
             staSheet.setSmellyCells(sdc.getDetectedSmellyCells());
         }
+        else {
+            System.out.println("Seed cluster is null.");
+            logBuffer.write("Seed cluster is null.");
+            logBuffer.newLine();
+        }
 
         staSheet.calculateForDetection();
         staSheet.calculateForSmell();
         staSheet.setEndTime(System.currentTimeMillis());
 
         System.out.println("---Finished Analysis---");
+        logBuffer.write("----Finished Analysis---");
+        logBuffer.newLine();
+        logBuffer.newLine();
         return staSheet;
     }
 }

@@ -8,6 +8,9 @@ public class GP {
     public static boolean filterString = true; // filter string-type formula cells.
     public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
 
+	public static boolean addA = true;
+	public static boolean addB = false;
+	public static boolean addC = false;
 
     public static boolean plusCellArray = false; // Extract cell array first, before the 1st stage clustering.
     public static boolean plusFirstSecond = false; //First formula and their dependence, 2nd data during the 2nd stage.
@@ -16,14 +19,6 @@ public class GP {
 
 
 	public static String usedOptimizations() {
-		StringBuilder sb = new StringBuilder();
-		if (filterString) sb.append("_filterS");
-		if (plusFrozen) sb.append("_Frozen");
-		if (plusCellArray) sb.append("_ca");
-		if (plusFirstSecond) sb.append("_fs");
-		if (plusTuning) sb.append("_tuning");
-		if (plusExtendSmallClu) sb.append("_esc");
-
-		return sb.toString();
+		return "";
 	}
 }

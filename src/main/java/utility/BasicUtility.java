@@ -705,7 +705,7 @@ public class BasicUtility {
     }
 
     public String getCurrentTime() {
-        return new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime());
+        return new SimpleDateFormat("MM-dd HH-mm").format(Calendar.getInstance().getTime());
     }
 }
 

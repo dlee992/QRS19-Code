@@ -28,6 +28,10 @@ import weka.filters.Filter;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static programEntry.GP.addA;
+import static programEntry.GP.addB;
+import static programEntry.GP.addC;
+
 public class SmellDetectionClustering {
 
 	private Sheet sheet;
@@ -105,19 +109,23 @@ public class SmellDetectionClustering {
 			}
 
             //TODO: 先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
-//            double coverageRate = coverageInFormulas(formulaInCluster);
-//			cl.coverage = coverageRate;
-//			if (coverageRate <= 0.5) {
-//			    continue;
-//            }
+            if (addA) {
+                double coverageRate = coverageInFormulas(formulaInCluster);
+                cl.coverage = coverageRate;
+                if (coverageRate <= 0.5) {
+                    continue;
+                }
+            }
 
             tackleDataCells(cl, correctFormulaList);
 		}
 	}
 
 	private void tackleDataCells(Cluster cl, List<Cell> correctFormulaList) {
-//	    filterDataCellsByOverlap(cl, correctFormulaList);
-	    filterDataCellsByReplace(cl);
+	    if (addB)
+	        filterDataCellsByOverlap(cl, correctFormulaList);
+	    if (addC)
+	        filterDataCellsByReplace(cl);
 
 	    //把剩余的data cells标记为smell
         for (Cell cell:
