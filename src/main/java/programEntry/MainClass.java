@@ -34,10 +34,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static programEntry.GP.addA;
+import static programEntry.GP.addB;
+import static programEntry.GP.addC;
+
 /**
  * Created by lida on 2017/6/27.
  */
-public class CAPlusCC {
+public class MainClass {
     //TODO: get the file directory
     //TODO: get the specific spreadsheet file
     //TODO: get the specific worksheet
@@ -53,7 +57,7 @@ public class CAPlusCC {
     private static String programState;
 
     private static double threshold = 0.5;
-    private static String testDate = "2017-12-17 Prototype idea A";
+    private static String testDate = "2017-12-17 Prototype idea ";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -111,6 +115,9 @@ public class CAPlusCC {
         programState = "Debugging";
         commandHandling(args);
 
+        if (addA) testDate += "A";
+        if (addB) testDate += "B";
+        if (addC) testDate += "C";
 
         File inDir = new File(inDirPath);
         FilenameFilter filter1 = (directory, fileName) -> fileName.toLowerCase().endsWith(".xls") ||
@@ -144,7 +151,7 @@ public class CAPlusCC {
 //                if (index.get() >= 2) break;
                 System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
-                logBuffer.write("index = " +(index.incrementAndGet())+ " ########Process '" +
+                logBuffer.write("index = " +(index.get())+ " ########Process '" +
                         categories[i].getName() + "/" + eachFile.getName() + "'########");
                 logBuffer.newLine();
 //                if (index.get() != 1) continue;

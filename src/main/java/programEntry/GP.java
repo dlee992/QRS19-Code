@@ -8,9 +8,9 @@ public class GP {
     public static boolean filterString = true; // filter string-type formula cells.
     public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
 
-	public static boolean addA = true;
+	public static boolean addA = false;
 	public static boolean addB = false;
-	public static boolean addC = false;
+	public static boolean addC = true;
 
     public static boolean plusCellArray = false; // Extract cell array first, before the 1st stage clustering.
     public static boolean plusFirstSecond = false; //First formula and their dependence, 2nd data during the 2nd stage.
