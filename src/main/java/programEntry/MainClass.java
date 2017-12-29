@@ -196,6 +196,8 @@ public class MainClass {
             System.out.println("Invalid Format Exception happened.");
         }
 
+        if (workbook == null) return;
+
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
 //            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;

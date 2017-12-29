@@ -15,10 +15,6 @@ public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
 
-    private static String inDirPath;
-    private static ExecutorService executorService = Executors.newFixedThreadPool(8);
-
-
     public static void main(String[] args) {
         try {
             testEUESE();
@@ -34,15 +30,14 @@ public class TestDataSet {
      3-just run it
     */
     public static void testEUESE() throws IOException, InterruptedException {
-        inDirPath  = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES-Corpus";
+        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES-Corpus";
         File inputDir = new File(inDirPath);
 
         int i = 0;
         for (File subDir:
              inputDir.listFiles()) {
             if (subDir.isFile()) continue;
-            if (i > 3) break;
-            i++;
+            if (i++ != 1) continue;
 
             File processedDir = new File(subDir.getAbsolutePath() + fileSeparator + "processed");
             for (File excelFile:
