@@ -14,7 +14,6 @@ import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.hacClustering.HacClustering;
 import clustering.hacClustering.TreeEditDistance;
 import clustering.smellDetectionClustering.SmellDetectionClustering;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 import entity.Cluster;
 import entity.InfoOfSheet;
 import experiment.GroundTruthStatistics;
@@ -22,6 +21,8 @@ import experiment.StatisticsForAll;
 import experiment.StatisticsForSheet;
 import featureExtraction.FeatureExtraction;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.poi.hssf.OldExcelFormatException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import utility.BasicUtility;
@@ -34,9 +35,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static programEntry.GP.addA;
-import static programEntry.GP.addB;
-import static programEntry.GP.addC;
+import static programEntry.GP.*;
+import static programEntry.GP.index;
 
 /**
  * Created by lida on 2017/6/27.
@@ -49,15 +49,11 @@ public class MainClass {
     //TODO: from Cell Array to clusters in the HAC algorithm to generate seed clusters
     //TODO: the remainder is the same as CC
 
-    private static String fileSeparator = System.getProperty("file.separator");
+
     private static String groundTruthPath;
-    private static String outDirPath;
     private static String mode;
     private static String inDirPath;
     private static String programState;
-
-    private static double threshold = 0.5;
-    private static String testDate = "2017-12-17 Prototype idea ";
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -100,12 +96,7 @@ public class MainClass {
     }
 
     public static void main(String[] args) throws Exception {
-
-        String parent_dir = System.getProperty("user.dir");
-
         inDirPath  = parent_dir + fileSeparator + "Inputs";
-        outDirPath = parent_dir + fileSeparator + "Outputs";
-        String statisticsResult = outDirPath + fileSeparator;
 
         if (args.length==0) {
             args = new String[1];
@@ -115,73 +106,57 @@ public class MainClass {
         programState = "Debugging";
         commandHandling(args);
 
-        if (addA) testDate += "A";
-        if (addB) testDate += "B";
-        if (addC) testDate += "C";
-
         File inDir = new File(inDirPath);
         FilenameFilter filter1 = (directory, fileName) -> fileName.toLowerCase().endsWith(".xls") ||
                 fileName.toLowerCase().endsWith(".xlsx");
         FileFilter filter2 = file -> (!file.isHidden() && file.isDirectory() && file.getName().equals(mode));
         File[] categories = inDir.listFiles(filter2);
 
-        final StatisticsForAll staAll = new StatisticsForAll();
-        staAll.setBeginTime(System.currentTimeMillis());
-
         //TODO: for ThirdParty.CACheck
         analysisPattern.setType(3);
-
-        ExecutorService executorService = Executors.newFixedThreadPool(8);
-
-        File logFile = new File(outDirPath + fileSeparator +
-                "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
-        if (!logFile.exists()) logFile.createNewFile();
-        BufferedWriter logBuffer = new BufferedWriter(new FileWriter(logFile));
 
         for (int i = 0; categories != null && i < categories.length; i++) {
             File perCategory = new File(categories[i].getAbsolutePath());
             File[] files = perCategory.listFiles(filter1);
 
-            AtomicInteger index = new AtomicInteger();
             assert files != null;
             for (File eachFile : files) {
-                //TODO: test specific spreadsheet files
-//                if (eachFile.getName().startsWith("0000")) continue;
+                if (eachFile.getName().startsWith("0000")) continue;
 //                if (!eachFile.getName().startsWith("VRS")) continue;
-//                if (index.get() >= 2) break;
-                System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
-                        categories[i].getName() + "/" + eachFile.getName() + "'########");
-                logBuffer.write("index = " +(index.get())+ " ########Process '" +
-                        categories[i].getName() + "/" + eachFile.getName() + "'########");
-                logBuffer.newLine();
-//                if (index.get() != 1) continue;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
 
-                executorService.execute(() -> {
+                exeService.execute(() -> {
                     try {
-                        testSpreadsheet(finalEachFile, staAll, logBuffer);
-                        System.out.println("index = "+ index +" ######## End in: '" + eachFile.getName() + "'########");
-                        logBuffer.write("index = "+ index +" ######## End in: '" + eachFile.getName() + "'########");
-                        logBuffer.newLine();
-                    } catch (Exception e) {
+                        testSpreadsheet(finalEachFile, staAll, logBuffer, index);
+                    }
+                    catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
             }
         }
 
+        executorDone(exeService, staAll, staResult, logBuffer);
+    }
+
+
+
+    public static void executorDone(ExecutorService executorService, StatisticsForAll staAll,
+                                    String staResult, BufferedWriter logBuffer)
+            throws InterruptedException, IOException {
+
         executorService.shutdown();
         executorService.awaitTermination(1, TimeUnit.DAYS);
 
         staAll.setEndTime(System.currentTimeMillis());
-        staAll.log(statisticsResult);
+        staAll.log(staResult);
 
-        //FIXME:
-        System.out.println(statisticsResult);
-        System.out.println("formula numbers : " + numberOfFormula);
+//        System.out.println(staResult);
+//        System.out.println("formula numbers : " + numberOfFormula);
         logBuffer.flush();
         logBuffer.close();
+        System.out.println("logBuffer is closed.");
 
         createAndShowGUI();
     }
@@ -197,10 +172,29 @@ public class MainClass {
         frame.setVisible(true);
     }
 
-    private static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer)
+    public static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer, AtomicInteger index)
             throws Exception {
-        String fileName = file.getName();
-        Workbook workbook       = WorkbookFactory.create(new FileInputStream(file));
+//        if (index.get() >= 2) return;
+
+        System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
+                 "/" + file.getName() + "'########");
+        logBuffer.write("index = " +(index.get())+ " ########Process '" +
+                 "/" + file.getName() + "'########");
+        logBuffer.newLine();
+
+
+        String fileName = null;
+        Workbook workbook = null;
+        try {
+            fileName = file.getName();
+            workbook = WorkbookFactory.create(new FileInputStream(file));
+        }
+        catch (OldExcelFormatException oefe) {
+            System.out.println("Old Excel Format Exception happened.");
+        }
+        catch (InvalidFormatException ife) {
+            System.out.println("Invalid Format Exception happened.");
+        }
 
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
@@ -223,11 +217,15 @@ public class MainClass {
         else if (workbook .getSpreadsheetVersion().name().equals("EXCEL2007"))
             suffix = "xlsx";
         String outFileStr = eachDirStr + fileSeparator + fileName.substring(0, fileName.lastIndexOf('.'))
-                + "_marked" + GP.usedOptimizations() + "." + suffix;
+                + "_marked" + GP.addSuffix() + "." + suffix;
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
         workbook.write(outFile);
         outFile.close();
+
+        System.out.println("index = "+ index +" ######## End in: '" + file.getName() + "'########");
+        logBuffer.write("index = "+ index +" ######## End in: '" + file.getName() + "'########");
+        logBuffer.newLine();
     }
 
     private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer)
@@ -379,6 +377,7 @@ public class MainClass {
             List<Cluster> stageIIClusters;
 
             if (nonSeedCells != null && !nonSeedCells.isEmpty()) {
+                double threshold = 0.5;
                 stageIIClusters = bc.addCellToCluster(
                         cellClusterM,
                         nonSeedCellRefs,
