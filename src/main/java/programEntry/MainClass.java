@@ -26,12 +26,12 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import utility.BasicUtility;
+import weka.core.stopwords.Null;
 
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -128,7 +128,7 @@ public class MainClass {
 
                 exeService.execute(() -> {
                     try {
-                        testSpreadsheet(finalEachFile, staAll, logBuffer, index);
+                        testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
                     }
                     catch (Exception e) {
                         e.printStackTrace();
@@ -154,9 +154,14 @@ public class MainClass {
 
 //        System.out.println(staResult);
 //        System.out.println("formula numbers : " + numberOfFormula);
-        logBuffer.flush();
-        logBuffer.close();
-        System.out.println("logBuffer is closed.");
+        try {
+            logBuffer.flush();
+            logBuffer.close();
+            System.out.println("logBuffer is closed.");
+        }
+        catch (NullPointerException npe) {
+            npe.printStackTrace();
+        }
 
         createAndShowGUI();
     }
@@ -172,13 +177,16 @@ public class MainClass {
         frame.setVisible(true);
     }
 
-    public static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer, AtomicInteger index)
+    public static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer,
+                                       AtomicInteger index, boolean test, String category)
             throws Exception {
-//        if (index.get() >= 2) return;
 
-        System.out.println("index = " +(index.incrementAndGet())+ " ########Process '" +
+//        if (index.get() >= 1) return;
+
+        int identicalIndex = index.incrementAndGet();
+        System.out.println("index = " + identicalIndex + " ######## begin: " +
                  "/" + file.getName() + "'########");
-        logBuffer.write("index = " +(index.get())+ " ########Process '" +
+        logBuffer.write("index = " + identicalIndex + " ######## begin: " +
                  "/" + file.getName() + "'########");
         logBuffer.newLine();
 
@@ -196,13 +204,17 @@ public class MainClass {
             System.out.println("Invalid Format Exception happened.");
         }
 
-        if (workbook == null) return;
+        if (workbook == null) {
+            System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
+            logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
+            return;
+        }
 
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
 //            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
 
-            StatisticsForSheet staSheet = testWorksheet(fileName, workbook.getSheetAt(j), logBuffer);
+            StatisticsForSheet staSheet = testWorksheet(fileName, workbook.getSheetAt(j), logBuffer, test, category);
             staAll.add(staSheet, logBuffer);
         }
 
@@ -225,22 +237,25 @@ public class MainClass {
         workbook.write(outFile);
         outFile.close();
 
-        System.out.println("index = "+ index +" ######## End in: '" + file.getName() + "'########");
-        logBuffer.write("index = "+ index +" ######## End in: '" + file.getName() + "'########");
+        System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
+        logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
         logBuffer.newLine();
     }
 
-    private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer)
+    private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
+                                                    boolean test, String category)
             throws Exception {
-        StatisticsForSheet staSheet = new StatisticsForSheet(sheet);
+        StatisticsForSheet staSheet = new StatisticsForSheet(sheet, category);
         staSheet.setBeginTime  (System.currentTimeMillis());
         staSheet.setSpreadsheet(fileName);
         staSheet.setWorksheet  (sheet.getSheetName());
 
         GroundTruthStatistics groundTruthStatistics = new GroundTruthStatistics();
-        groundTruthStatistics.read(groundTruthPath + fileSeparator + fileName, sheet.getSheetName());
-        staSheet.setGt_clusterList(groundTruthStatistics.clusterList);
-        staSheet.setGt_smellList(groundTruthStatistics.smellList);
+        if (!test) {
+            groundTruthStatistics.read(groundTruthPath + fileSeparator + fileName, sheet.getSheetName());
+            staSheet.setGt_clusterList(groundTruthStatistics.clusterList);
+            staSheet.setGt_smellList(groundTruthStatistics.smellList);
+        }
 
         System.out.println("----Sheet '" + sheet.getSheetName() + "'----");
         logBuffer.write("----Sheet '" + sheet.getSheetName() + "'----");

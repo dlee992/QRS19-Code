@@ -18,8 +18,10 @@ public class StatisticsForSheet {
     private long beginTime;
     private long endTime;
 
-    private List<Cluster> gt_clusterList;
-    private List<CellReference> gt_smellList;
+    String category;
+
+    private List<Cluster> gt_clusterList = new ArrayList<>();
+    private List<CellReference> gt_smellList = new ArrayList<>();
 
     private List<Cluster> stageIIClusters = new ArrayList<Cluster>();
     private List<Smell> smellyCells = new ArrayList<Smell>();
@@ -42,14 +44,16 @@ public class StatisticsForSheet {
     int[] clusterSizeGT = {0,0,0,0};
     int[] clusterSize = {0,0,0,0};
 
-    public StatisticsForSheet(Sheet sheet) {
+    public StatisticsForSheet(Sheet sheet, String category) {
         this.sheet = sheet;
+        this.category =category;
     }
 
 
     public void calculateForDetection() {
 
         //construct the pair from the identical cluster from gt;
+
         for (Cluster gt_cluster : gt_clusterList) {
             gt_cluster.extractCellRefs(gt_cluster, 2);
             List<CellReference> gt_cellRefs = gt_cluster.getClusterCellRefs();

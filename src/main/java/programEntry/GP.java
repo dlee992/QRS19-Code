@@ -31,7 +31,7 @@ public class GP {
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "2017-12-29 Prototype idea ";
+    public static String testDate = "2018-01-01 Prototype idea ";
 
     public static ExecutorService exeService;
     public static StatisticsForAll staAll;

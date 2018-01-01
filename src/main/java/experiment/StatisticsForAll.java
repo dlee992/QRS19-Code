@@ -66,25 +66,26 @@ public class StatisticsForAll {
 
         Row rowHeader = sheet.createRow(0);
         rowHeader.createCell(0).setCellValue("Index");
-        rowHeader.createCell(1).setCellValue("SpreadSheet");
-        rowHeader.createCell(2).setCellValue("Sheet");
+        rowHeader.createCell(1).setCellValue("Category");
+        rowHeader.createCell(2).setCellValue("SpreadSheet");
+        rowHeader.createCell(3).setCellValue("Sheet");
 
-        rowHeader.createCell(3).setCellValue("GTSmells");
-        rowHeader.createCell(4).setCellValue("ToolSmells");
+        rowHeader.createCell(4).setCellValue("GTSmells");
+        rowHeader.createCell(5).setCellValue("ToolSmells");
 
-        rowHeader.createCell(5).setCellValue("TP");
-        rowHeader.createCell(6).setCellValue("FP");
-        rowHeader.createCell(7).setCellValue("FN");
+        rowHeader.createCell(6).setCellValue("TP");
+        rowHeader.createCell(7).setCellValue("FP");
+        rowHeader.createCell(8).setCellValue("FN");
 
-        rowHeader.createCell(8).setCellValue("Precision");
-        rowHeader.createCell(9).setCellValue("Recall");
-        rowHeader.createCell(10).setCellValue("F-measure");
+        rowHeader.createCell(9).setCellValue("Precision");
+        rowHeader.createCell(10).setCellValue("Recall");
+        rowHeader.createCell(11).setCellValue("F-measure");
 
-        rowHeader.createCell(12).setCellValue("GTClu, ToolClu");
-        rowHeader.createCell(13).setCellValue("TP, FP, FN");
-        rowHeader.createCell(14).setCellValue("P, R, F");
+        rowHeader.createCell(13).setCellValue("GTClu, ToolClu");
+        rowHeader.createCell(14).setCellValue("TP, FP, FN");
+        rowHeader.createCell(15).setCellValue("P, R, F");
 
-        rowHeader.createCell(15).setCellValue("Run Time (min)");
+        rowHeader.createCell(16).setCellValue("Run Time (min)");
 
         sheetList.sort(new Comparator<StatisticsForSheet>() {
             @Override
@@ -113,30 +114,31 @@ public class StatisticsForAll {
 
             if (prevSheet == null || !prevSheet.getSpreadsheet().equals(staSheet.getSpreadsheet())) {
                 row.createCell(0).setCellValue(++ssCount);
-                row.createCell(1).setCellValue(staSheet.getSpreadsheet());
+                row.createCell(1).setCellValue(staSheet.category);
+                row.createCell(2).setCellValue(staSheet.getSpreadsheet());
             }
 
-            row.createCell(2).setCellValue(staSheet.getWorksheet());
+            row.createCell(3).setCellValue(staSheet.getWorksheet());
 
-            row.createCell(3).setCellValue(staSheet.getGt_smellList().size());
-            row.createCell(4).setCellValue(staSheet.getSmellyCells().size());
+            row.createCell(4).setCellValue(staSheet.getGt_smellList().size());
+            row.createCell(5).setCellValue(staSheet.getSmellyCells().size());
 
-            row.createCell(5).setCellValue(staSheet.TP[1]);
-            row.createCell(6).setCellValue(staSheet.FP[1]);
-            row.createCell(7).setCellValue(staSheet.FN[1]);
+            row.createCell(6).setCellValue(staSheet.TP[1]);
+            row.createCell(7).setCellValue(staSheet.FP[1]);
+            row.createCell(8).setCellValue(staSheet.FN[1]);
 
-            row.createCell(8).setCellValue(roundDouble(staSheet.precision[1]));
-            row.createCell(9).setCellValue(roundDouble(staSheet.recall[1]));
-            row.createCell(10).setCellValue(roundDouble(staSheet.fMeasure[1]));
+            row.createCell(9).setCellValue(roundDouble(staSheet.precision[1]));
+            row.createCell(10).setCellValue(roundDouble(staSheet.recall[1]));
+            row.createCell(11).setCellValue(roundDouble(staSheet.fMeasure[1]));
 
 //            printCellRefsForSmell(staSheet.getGt_smellList(), row.createCell(10));
 //            printCellRefsForSmell(staSheet.getStageCRs(), row.createCell(11));
 
-            row.createCell(12).setCellValue("("+ staSheet.getGt_clusterList().size() +",  "+ staSheet.getStageIIClusters().size() +")");
-            row.createCell(13).setCellValue("("+ staSheet.TP[0] +",  "+ staSheet.FP[0] +",  "+ staSheet.FN[0] +")");
-            row.createCell(14).setCellValue("("+ roundDouble(staSheet.precision[0]) +", "+
+            row.createCell(13).setCellValue("("+ staSheet.getGt_clusterList().size() +",  "+ staSheet.getStageIIClusters().size() +")");
+            row.createCell(14).setCellValue("("+ staSheet.TP[0] +",  "+ staSheet.FP[0] +",  "+ staSheet.FN[0] +")");
+            row.createCell(15).setCellValue("("+ roundDouble(staSheet.precision[0]) +", "+
                     roundDouble(staSheet.recall[0]) +", "+ roundDouble(staSheet.fMeasure[0]) +")");
-            row.createCell(15).setCellValue((staSheet.getEndTime() - staSheet.getBeginTime())/60000.0);
+            row.createCell(16).setCellValue((staSheet.getEndTime() - staSheet.getBeginTime())/60000.0);
 
             gt_clustersSize += staSheet.getGt_clusterList().size();
             gt_smellSize += staSheet.getGt_smellList().size();
@@ -158,23 +160,23 @@ public class StatisticsForAll {
         Row rowTailor = sheet.createRow(sheetList.size()+1);
         rowTailor.createCell(0).setCellValue("TOTAL");
 
-        rowTailor.createCell(3).setCellValue(gt_smellSize);
-        rowTailor.createCell(4).setCellValue(stageSmellSize);
-        rowTailor.createCell(5).setCellValue(TP[1]);
-        rowTailor.createCell(6).setCellValue(FP[1]);
-        rowTailor.createCell(7).setCellValue(FN[1]);
+        rowTailor.createCell(4).setCellValue(gt_smellSize);
+        rowTailor.createCell(5).setCellValue(stageSmellSize);
+        rowTailor.createCell(6).setCellValue(TP[1]);
+        rowTailor.createCell(7).setCellValue(FP[1]);
+        rowTailor.createCell(8).setCellValue(FN[1]);
 
         System.out.println("TP = " + TP[1] + ", FP = " + FP[1] + ", FN = " + FN[1]);
-        rowTailor.createCell(8).setCellValue(roundDouble(precision[1]));
-        rowTailor.createCell(9).setCellValue(roundDouble(recall[1]));
-        rowTailor.createCell(10).setCellValue(roundDouble(fMeasure[1]));
+        rowTailor.createCell(9).setCellValue(roundDouble(precision[1]));
+        rowTailor.createCell(10).setCellValue(roundDouble(recall[1]));
+        rowTailor.createCell(11).setCellValue(roundDouble(fMeasure[1]));
 
-        rowTailor.createCell(12).setCellValue("("+ gt_clustersSize +", "+ stageClusterSize +")");
-        rowTailor.createCell(13).setCellValue("("+ TP[0] +", "+ FP[0] +", "+ FN[0] +")");
-        rowTailor.createCell(14).setCellValue("("+ roundDouble(precision[0]) +", "+ roundDouble(recall[0])
+        rowTailor.createCell(13).setCellValue("("+ gt_clustersSize +", "+ stageClusterSize +")");
+        rowTailor.createCell(14).setCellValue("("+ TP[0] +", "+ FP[0] +", "+ FN[0] +")");
+        rowTailor.createCell(15).setCellValue("("+ roundDouble(precision[0]) +", "+ roundDouble(recall[0])
                 +", "+ roundDouble(fMeasure[0]) +")");
 
-        rowTailor.createCell(15).setCellValue((endTime-beginTime)/60000.0);
+        rowTailor.createCell(16).setCellValue((endTime-beginTime)/60000.0);
 
 
         String fileName =new BasicUtility().getCurrentTime()+".xlsx";

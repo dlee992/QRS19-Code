@@ -14,6 +14,7 @@ import static programEntry.GP.*;
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
+    private static int indexOfTesting = 1;
 
     public static void main(String[] args) {
         try {
@@ -36,18 +37,21 @@ public class TestDataSet {
         int i = 0;
         for (File subDir:
              inputDir.listFiles()) {
+
             if (subDir.isFile()) continue;
-            if (i++ != 1) continue;
+            if (i++ != indexOfTesting) continue;
+            System.out.println(subDir.getName());
 
             File processedDir = new File(subDir.getAbsolutePath() + fileSeparator + "processed");
             for (File excelFile:
                  processedDir.listFiles()) {
-                if (!excelFile.getName().endsWith("xls")) continue;
+                if (!excelFile.getName().toLowerCase().endsWith("xls")) continue;
 
+                System.out.println(excelFile.getName());
                 //直接处理这个Excel文件
                 exeService.execute(() -> {
                     try {
-                        MainClass.testSpreadsheet(excelFile, staAll, logBuffer, index);
+                        MainClass.testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
                     }
                     catch (Exception e) {
                         e.printStackTrace();
