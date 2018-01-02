@@ -102,8 +102,8 @@ public class HacClustering {
 
 //                out.printf("%s = %s, %s = %s\n", left[0], dpTreeStrLeft, right[0], dpTreeStrRight);
 
-				//TODO: 本质上有很多重复的计算本不需要浪费大量时间 这里是必须fix的地方
-				distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist+ 0.001);
+				//TODO: 似乎这些计算是不可避免的
+				distances[n][m] = distances[m][n] = astDist + dpDist - astDist*dpDist;
 
 				n++;
 			}
@@ -153,6 +153,14 @@ public class HacClustering {
 
 	public void clusteringCoreProcess(List<Cluster> clusters)
 	{
+	    /*
+	    TODO:
+	    显然可以加一个优化：预先把完全一样的格放在同一个类中
+	     */
+
+
+
+
 		double minDist = 0;
 		int clusterIndex = 0;
 		double eps = 0.02;
