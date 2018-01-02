@@ -1,17 +1,21 @@
 package clustering.hacClustering;
 
 import clustering.hacClustering.hierarchicalClustering.ClusterPair;
+import convenience.RTED;
 import entity.Cluster;
 import entity.R1C1Cell;
+import featureExtraction.strongFeatureExtraction.AST;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
+import util.LblTree;
 import utility.BasicUtility;
 import utility.FormulaParsing;
 
 import java.util.*;
 
+import static java.lang.System.out;
 import static programEntry.GP.*;
 
 public class HacClustering {
@@ -21,11 +25,9 @@ public class HacClustering {
 	private double[][] distances;
 	private List<String> formulaCellAdd;
 	private BasicUtility bu = new BasicUtility();
-	private Set<CellReference> dataCellSet;
 
-	public HacClustering(Map<String, List<String>> formulaInfoList) {
+    public HacClustering(Map<String, List<String>> formulaInfoList) {
 		this.formulaInfoList = formulaInfoList;
-		dataCellSet = new HashSet<>();
 	}
 
 	public void computeDistance(TreeEditDistance ted) {
@@ -35,8 +37,9 @@ public class HacClustering {
 		formulaCellAdd = new ArrayList<>();
 
 //		System.out.println("formulaInfoList size = " + formulaInfoList.size());
-		for (Map.Entry<String, List<String>> itemOut : formulaInfoList.entrySet()) {
-
+		int index = 0;
+		for (Map.Entry<String, List<String>> itemOut : formulaInfoList.entrySet())
+		{
 			formulaCellAdd.add(itemOut.getKey());
 
 			String[] left = new String [4];
@@ -44,14 +47,64 @@ public class HacClustering {
 			left[1] = itemOut.getValue().get(0);
 			left[2] = itemOut.getValue().get(1);
 
+			AST astLeft = new AST(left[1], left[0], ted.sheet);
+            String treeStr = "";
+            Cluster clLeft = astLeft.createTree();
+            if (clLeft != null) {
+				treeStr = ted.childrenSearch(clLeft);
+            }
+//            out.println(left[0] + "'s AST Tree = " + treeStr);
+            String asTreeStrLeft = treeStr.replace(":", " to ");
+            LblTree asTreeLeft = LblTree.fromString(asTreeStrLeft);
+
 			int n = 0;
-			for (Map.Entry<String, List<String>> itemIn : formulaInfoList.entrySet()){
+			for (Map.Entry<String, List<String>> itemIn : formulaInfoList.entrySet())
+			{
+			    if (m >= n) {
+			        n++;
+			        continue;
+                }
+
+                System.out.println("tree distance comparision's index = " + ++index);
+
 				String[] right = new String [4];
 				right[0] = itemIn.getKey();
 				right[1] = itemIn.getValue().get(0);
 				right[2] = itemIn.getValue().get(1);
 
-				distances[m][n] = ted.compute(left,right);
+                AST astRight = new AST(right[1], right[0], ted.sheet);
+                Cluster clRight = astRight.createTree();
+
+                if (clRight != null)
+                    treeStr = ted.childrenSearch(clRight);
+
+                String asTreeStrRight = treeStr.replace(":", " to ");
+                LblTree asTreeRight = LblTree.fromString(asTreeStrRight);
+
+                int leftNodeNum2 = asTreeLeft.getNodeCount();
+                int rightNodeNum2 = asTreeRight.getNodeCount();
+                double nodeSum2 = leftNodeNum2 + rightNodeNum2;
+                double astDist = (RTED.computeDistance(asTreeStrLeft,asTreeStrRight)) / nodeSum2;
+
+//                out.printf("%s = %s, %s = %s\n", left[0], asTreeStrLeft, right[0], asTreeStrRight);
+
+                //compute CDT.
+                String dpTreeStrLeft = BasicUtility.cellDependencies(ted.sheet, left[0], 0);
+                LblTree dpTreeLeft = LblTree.fromString(dpTreeStrLeft);
+                int leftNodeNum = dpTreeLeft.getNodeCount();
+
+                String dpTreeStrRight = BasicUtility.cellDependencies(ted.sheet, right[0], 0);
+                LblTree dpTreeRight = LblTree.fromString(dpTreeStrRight);
+                int rightNodeNum = dpTreeRight.getNodeCount();
+
+                double nodeSum = leftNodeNum + rightNodeNum;
+                double dpDist = (RTED.computeDistance(dpTreeStrLeft, dpTreeStrRight)) / nodeSum;
+
+//                out.printf("%s = %s, %s = %s\n", left[0], dpTreeStrLeft, right[0], dpTreeStrRight);
+
+				//TODO: 本质上有很多重复的计算本不需要浪费大量时间 这里是必须fix的地方
+				distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist+ 0.001);
+
 				n++;
 			}
 			m++;
@@ -68,8 +121,7 @@ public class HacClustering {
 		//TODO: cluster initialization
 		List<Cluster> clusters = new ArrayList<>();
 
-		for (Cluster cluster: caCheckCluster
-			 ) {
+		for (Cluster cluster: caCheckCluster) {
 			clusters.add(cluster);
 		}
 

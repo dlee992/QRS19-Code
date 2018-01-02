@@ -54,7 +54,7 @@ public class TestDataSet {
             }
         }
 
-        MainClass.executorDone(exeService, staAll, staResult, logBuffer);
+        MainClass.executorDone(exeService, staAll, prefixOutDir, logBuffer);
     }
 
 

@@ -26,7 +26,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import utility.BasicUtility;
-import weka.core.stopwords.Null;
 
 import javax.swing.*;
 import java.io.*;
@@ -121,7 +120,7 @@ public class MainClass {
 
             assert files != null;
             for (File eachFile : files) {
-                if (eachFile.getName().startsWith("0000")) continue;
+                if (!eachFile.getName().startsWith("0000_Lalit")) continue;
 //                if (!eachFile.getName().startsWith("VRS")) continue;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
@@ -137,7 +136,7 @@ public class MainClass {
             }
         }
 
-        executorDone(exeService, staAll, staResult, logBuffer);
+        executorDone(exeService, staAll, prefixOutDir, logBuffer);
     }
 
 
@@ -149,11 +148,8 @@ public class MainClass {
         executorService.shutdown();
         executorService.awaitTermination(1, TimeUnit.DAYS);
 
-        staAll.setEndTime(System.currentTimeMillis());
-        staAll.log(staResult);
+        staAll.log(staResult, false);
 
-//        System.out.println(staResult);
-//        System.out.println("formula numbers : " + numberOfFormula);
         try {
             logBuffer.flush();
             logBuffer.close();
@@ -181,7 +177,7 @@ public class MainClass {
                                        AtomicInteger index, boolean test, String category)
             throws Exception {
 
-//        if (index.get() >= 1) return;
+        if (index.get() >= 1) return;
 
         int identicalIndex = index.incrementAndGet();
         System.out.println("index = " + identicalIndex + " ######## begin: " +
@@ -240,6 +236,9 @@ public class MainClass {
         System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
         logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
         logBuffer.newLine();
+
+        //在每个SS执行完之后立刻输出当前所有执行完的SS的综合信息
+        staAll.log(prefixOutDir, true);
     }
 
     private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
@@ -270,74 +269,9 @@ public class MainClass {
         TreeEditDistance ted       = new TreeEditDistance(sheet);
         List<Cluster> caCheckCluster = new ArrayList<>();
         Set<String> caCheckFormula = new HashSet<>();
-        List<CAResult> allCARs = new ArrayList<>();
-
-        if (GP.plusCellArray) {
-            //TODO: 1 from ThirdParty.CACheck get "Cell Array", actually which is contained in "CAResult"
-            AMSheet amSheet = Utils.extractSheet(sheet, fileName);
-            ExtractSnippet extractSnippet = new ExtractSnippet(amSheet);
-            List<Snippet> snippets = extractSnippet.extractSnippet();
-            for (Snippet snippet : snippets) {
-                List<CAResult> CAResults = ExcelAnalysis.processSnippet(fileName, amSheet,
-                    snippet, snippets, Log.writer, analysisPattern);
-                allCARs.addAll(CAResults);
-            }
-
-            int clusterCount = 0;
-            for (CAResult car : allCARs) {
-                //TODO: transform cell array to cluster
-                CellArray ca = car.cellArray;
-                Cluster root = new Cluster("caCheck " + ++clusterCount);
-                if (ca.isRowCA) {
-                    for (int i = ca.start; i <= ca.end; i++) {
-                        Cell cell = sheet.getRow(ca.rowOrColumn).getCell(i);
-                        if (cell == null) continue;
-
-                        //TODO: the cell is a formula cell, instead of a data cell
-                        if (cell.getCellType() == 2) //CellType = FORMULA
-                        {
-                            Cluster cluster = new Cluster(new CellReference(cell).formatAsString());
-                            root.addChild(cluster);
-                            String cellAddress = new CellReference(cell).formatAsString();
-                            caCheckFormula.add(cellAddress);
-                            //System.out.printf("%s ", cellAddress);
-                        }
-                    }
-                } else {
-                    for (int i = ca.start; i <= ca.end; i++) {
-                        Cell cell = sheet.getRow(i).getCell(ca.rowOrColumn);
-                        if (cell == null) continue;
-
-                        //TODO: the cell is a formula cell, instead of a data cell
-                        if (cell.getCellType() == 2) //CellType = FORMULA
-                        {
-                            Cluster cluster = new Cluster(new CellReference(cell).formatAsString());
-                            root.addChild(cluster);
-                            String cellAddress = new CellReference(cell).formatAsString();
-                            caCheckFormula.add(cellAddress);
-                            // System.out.printf("%s ", cellAddress);
-                        }
-                    }
-                }
-
-                clusterCount--;
-                if (!root.isLeaf()) {
-                    caCheckCluster.add(root);
-                    //System.out.println();
-                    clusterCount++;
-
-                    System.out.printf("Cell Array = [");
-                    for (Cluster cluster : root.getChildren()) {
-                        System.out.printf("%s, ", cluster.getName());
-                    }
-                    System.out.println("]");
-
-                }
-            }
-        }
 
         //TODO: 2 from Cell Array to clusters in the HAC algorithm to generate seed clusters
-        System.out.println("---- Stage I begun ----");
+        System.out.println("---- Stage I begun "+ new BasicUtility().getCurrentTime() +"----");
         logBuffer.write("---- Stage I begun ----");
         logBuffer.newLine();
 
@@ -348,7 +282,7 @@ public class MainClass {
         else
             stageIClusters = hacCluster.clustering(ted);
 
-        System.out.println("---- Stage I finished ----");
+        System.out.println("---- Stage I finished "+ new BasicUtility().getCurrentTime() + "----");
         logBuffer.write("---- Stage I finished ----");
         logBuffer.newLine();
 
@@ -357,7 +291,7 @@ public class MainClass {
             cluster.extractCells(sheet,cluster, 1);
             cluster.computeBorders();
 
-            System.out.printf("Stage One Clusters = [");
+            System.out.print("Stage One Clusters = [");
             for (CellReference leaf: cluster.getClusterCellRefs()) {
 
                 System.out.printf("%s, ", leaf.formatAsString());
@@ -380,7 +314,7 @@ public class MainClass {
 
             RealMatrix featureCellM = fcc.matrixCreationForClustering(fe.getCellFeatureList());
 
-            System.out.println("---- Stage II begin ----");
+            System.out.println("---- Stage II begin "+ new BasicUtility().getCurrentTime() + "----");
             logBuffer.write("---- Stage II begin ----");
             logBuffer.newLine();
 
@@ -415,7 +349,7 @@ public class MainClass {
                 System.out.println("]");
             }
 
-            System.out.println("---- Stage II finished ----");
+            System.out.println("---- Stage II finished "+ new BasicUtility().getCurrentTime() + "----");
             logBuffer.write("---- Stage II finished ----");
             logBuffer.newLine();
 
@@ -423,72 +357,8 @@ public class MainClass {
             //TODO: "cell array" information, see whether the recall ratio can be improved.
             //Result: not nice precision% = 81, recall% = 82, Tag v1.3.1
 
-            if (GP.plusExtendSmallClu) {
-                for (Cluster cluster : stageIIClusters) {
-                    if (cluster.getClusterCellRefs().size() > 3) continue;
-
-                    //FIXME: whether need this following constraint?
-                    boolean allFormula = true;
-                    for (Cell cell : cluster.getClusterCells()) {
-                        if (cell.getCellType() == 0) // data cell
-                            allFormula = false;
-                    }
-                    if (!allFormula) continue;
-
-                    //
-                    for (CAResult car : allCARs) {
-                        CellArray ca = car.cellArray;
-
-                        //TODO: whether this ca contains at least one formula cell in this cluster
-                        boolean containCluster = false;
-                        for (CellReference cellR : cluster.getClusterCellRefs()) {
-                            if (ca.isRowCA) {
-                                if (ca.rowOrColumn == cellR.getRow() &&
-                                        ca.start <= cellR.getCol() && cellR.getCol() <= ca.end)
-                                    containCluster = true;
-                            } else {
-                                if (ca.rowOrColumn == cellR.getCol() &&
-                                        ca.start <= cellR.getRow() && cellR.getRow() <= ca.end)
-                                    containCluster = true;
-                            }
-                        }
-                        if (!containCluster) continue;
-
-                        //
-                        if (ca.isRowCA) {
-                            for (int i = ca.start; i <= ca.end; i++) {
-                                Cell cell = sheet.getRow(ca.rowOrColumn).getCell(i);
-                                if (cell == null) continue;
-
-                                //TODO: need data cells
-                                if (cell.getCellType() == 0) {
-                                    cluster.extractCells(sheet, cluster, 2);
-                                    if (!cluster.getClusterCells().contains(cell))
-                                        cluster.addChild(new Cluster(new CellReference(cell).formatAsString()));
-                                }
-                            }
-                        } else {
-                            for (int i = ca.start; i <= ca.end; i++) {
-                                Cell cell = sheet.getRow(i).getCell(ca.rowOrColumn);
-                                if (cell == null) continue;
-
-                                //TODO: the cell is a formula cell, instead of a data cell
-                                if (cell.getCellType() == 0) {
-                                    cluster.extractCells(sheet, cluster, 2);
-                                    if (!cluster.getClusterCells().contains(cell))
-                                        cluster.addChild(new Cluster(new CellReference(cell).formatAsString()));
-                                }
-                            }
-                        }
-
-                        cluster.extractCellRefs(cluster, 2);
-                        cluster.extractCells(sheet, cluster, 2);
-                    }
-                }
-            }
-
             //TODO: 5 local outlier detection
-            System.out.println("---- Smell detection begun ----");
+            System.out.println("---- Smell detection begun "+ new BasicUtility().getCurrentTime() + "----");
             logBuffer.write("---- Smell detection begun ----");
             logBuffer.newLine();
 
@@ -509,7 +379,7 @@ public class MainClass {
                 logBuffer.newLine();
             }
 
-            System.out.println("---- Smell detection finished ----");
+            System.out.println("---- Smell detection finished "+ new BasicUtility().getCurrentTime() + "----");
             logBuffer.write("---- Smell detection finished ----");
             logBuffer.newLine();
 
@@ -531,7 +401,7 @@ public class MainClass {
         staSheet.calculateForSmell();
         staSheet.setEndTime(System.currentTimeMillis());
 
-        System.out.println("---Finished Analysis---");
+        System.out.println("---Finished Analysis"+ new BasicUtility().getCurrentTime() + "---");
         logBuffer.write("----Finished Analysis---");
         logBuffer.newLine();
         logBuffer.newLine();

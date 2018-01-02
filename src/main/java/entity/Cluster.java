@@ -17,7 +17,7 @@ import java.util.Map;
 public class Cluster {
 	
 	private String name;
-	private List<Cluster> children;
+	private List<Cluster> children = null;
 
 	private List<CellReference> clusterCellRefs;
 	private List<CellReference> seedReference;
@@ -51,6 +51,7 @@ public class Cluster {
 
 	public Cluster(String name) {
 		this.name = name;
+//		System.out.println("cluster name = " + name);
 	}
 
 
@@ -72,7 +73,7 @@ public class Cluster {
 
 	public List<Cluster> getChildren() {
 		if (children == null) {
-			children = new ArrayList<Cluster>();
+			children = new ArrayList<>();
 		}
 		return children;
 	}
@@ -89,7 +90,7 @@ public class Cluster {
 	}
 	
 	public List<Cluster> getChildrenCluster(Cluster node) {
-		List<Cluster> childrenCluster = new ArrayList<Cluster>();
+		List<Cluster> childrenCluster = new ArrayList<>();
 		clusterChildrenSearch(childrenCluster, node);
 		return childrenCluster;
 	}
@@ -105,7 +106,7 @@ public class Cluster {
 	}
 
 	public List<CellReference> extractCellRefs(Cluster cluster, int stage) {
-		List<CellReference> cellRefsList = new ArrayList<CellReference>();
+		List<CellReference> cellRefsList = new ArrayList<>();
 		for (String name : cluster.getChildrenName(cluster)) {
 			CellReference cr = new CellReference(name);
 			if (!cellRefsList.contains(cr))
@@ -121,7 +122,7 @@ public class Cluster {
 	}
 
 	public List<String> getChildrenName(Cluster node) {
-		List<String> childrenName = new ArrayList<String>();
+		List<String> childrenName = new ArrayList<>();
 		childrenNameSearch(childrenName, node);
 		return childrenName;
 	}
@@ -146,7 +147,7 @@ public class Cluster {
 	}
 
 	public List<Cell> extractCells(Sheet sheet, Cluster cluster, int stage) {
-		List<Cell> cellList = new ArrayList<Cell>();
+		List<Cell> cellList = new ArrayList<>();
 		for (String name : cluster.getChildrenName(cluster)) {
 			Cell cell = convertAddToCell(sheet, name);
 			cellList.add(cell);

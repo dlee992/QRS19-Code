@@ -8,14 +8,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import programEntry.GP;
 import utility.BasicUtility;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -57,7 +56,9 @@ public class StatisticsForAll {
         sheetList = new CopyOnWriteArrayList<StatisticsForSheet>();
     }
 
-    public void log(String fileNam) throws IOException {
+    public synchronized void log(String prefixDir, boolean middleFlag) throws IOException {
+        setEndTime(System.currentTimeMillis());
+
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("result");
 
@@ -102,6 +103,16 @@ public class StatisticsForAll {
 
         StatisticsForSheet prevSheet = null;
         int ssCount = 0;
+        for (int i=0; i<=3; i++) {
+            TP[i] = 0;
+            FP[i] = 0;
+            FN[i] = 0;
+        }
+        gt_clustersSize = 0;
+        gt_smellSize = 0;
+        stageClusterSize = 0;
+        stageSmellSize = 0;
+
         for (StatisticsForSheet staSheet : sheetList) {
             //TODO:
             for (int i=0;i<4;i++) {
@@ -154,6 +165,10 @@ public class StatisticsForAll {
             prevSheet = staSheet;
         }
 
+        if (middleFlag && ssCount % 5 != 0) {
+            return;
+        }
+
         for (int i=0; i<=3; i++)
             calculateForPercentage(i);
 
@@ -178,10 +193,9 @@ public class StatisticsForAll {
 
         rowTailor.createCell(16).setCellValue((endTime-beginTime)/60000.0);
 
-
-        String fileName =new BasicUtility().getCurrentTime()+".xlsx";
+        String fileName = ssCount + ".xlsx";
         out.println(fileName);
-        FileOutputStream resultStream = new FileOutputStream(new File(fileNam + fileName));
+        FileOutputStream resultStream = new FileOutputStream(new File(prefixDir + GP.fileSeparator + fileName));
         workbook.write(resultStream);
         resultStream.close();
 

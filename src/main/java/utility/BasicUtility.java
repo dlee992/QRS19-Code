@@ -396,7 +396,7 @@ public class BasicUtility {
                                         .toString();
 
                                 //FIXME: if the referenced cell is empty, program doesn't execute here
-                                dependencyTree += "{" + cl.getSheet_name() + "!" + r1c1;
+                                dependencyTree += "{" + r1c1;
                                 try {
                                     dependencyTree += cellDependencies(currentSheet, cr.formatAsString(), 1);
                                 } catch (Exception e) {

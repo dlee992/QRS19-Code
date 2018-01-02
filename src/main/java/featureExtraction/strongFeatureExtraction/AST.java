@@ -13,15 +13,13 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFEvaluationWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.util.List;
 import java.util.Stack;
 
 public class AST {
     private Sheet  sheet;
 	private String formula;
 	private String address;
-	private BasicUtility bu = new BasicUtility();
-	
+
 	public AST(String formula, String address, Sheet sheet){
 		this.sheet   = sheet;
 		this.address = address;
@@ -30,7 +28,7 @@ public class AST {
 		
 	public Cluster createTree(){
 		
-		Cluster result = null;
+		Cluster root = null;
 	    Stack<Cluster> stack = new Stack<Cluster>();
 
         Workbook wb = sheet.getWorkbook();
@@ -46,22 +44,22 @@ public class AST {
 		}
 
 		try{
-			Ptg[] ptgs = FormulaParser.parse(formula, fpWorkbook, FormulaType.forInt(2), wb.getSheetIndex(sheet));
+			Ptg[] ptgList = FormulaParser.parse(formula, fpWorkbook, FormulaType.forInt(2), wb.getSheetIndex(sheet));
 			
 			R1C1Cell preR1C1Cell;
-			R1C1Cell curr1c1Cell;
+			R1C1Cell curR1C1Cell;
 			
 			CellReference cr = new CellReference(address);
 			
-			int col = (int) cr.getCol();
+			int col = cr.getCol();
 			int row = cr.getRow();
 			
-	        if (ptgs == null || ptgs.length == 0) {
-	            throw new IllegalArgumentException("ptgs must not be null");
+	        if (ptgList == null || ptgList.length == 0) {
+	            throw new IllegalArgumentException("ptgList must not be null");
 	        }
 	        
 
-	        for (Ptg ptg : ptgs) {
+	        for (Ptg ptg : ptgList) {
 	        	
 	            // what about MemNoMemPtg?
 	            if(ptg instanceof MemAreaPtg || ptg instanceof MemFuncPtg || ptg instanceof MemErrPtg) {
@@ -95,7 +93,6 @@ public class AST {
 	                    continue;
 	                }
 	                if (attrPtg.isSum()) {
-	                    
 	                    Cluster node = new Cluster(attrPtg.toFormulaString());
 	                    node = getOperands(node, stack, attrPtg.getNumberOfOperands());
 	                    stack.push(node);
@@ -106,57 +103,56 @@ public class AST {
 
 	            if (ptg instanceof WorkbookDependentFormula) {
 	                WorkbookDependentFormula optg = (WorkbookDependentFormula) ptg;
-	                Cluster node = new Cluster (optg.toFormulaString(frWorkbook));
+	                Cluster node = new Cluster(optg.toFormulaString(frWorkbook));
 	                stack.push(node);
 	                continue;
 	            }
+
 	            if (! (ptg instanceof OperationPtg)) {
 	            	String content;
+
 	            	if (ptg instanceof AreaPtg){
 		            	String[] cell = ptg.toFormulaString().split(":");
-		    			preR1C1Cell = bu.extractCell(row, col, cell[0]);
-		    			curr1c1Cell = bu.extractCell(row, col, cell[1]);
-//		    			List<R1C1Cell> individualCells= bu.getAreaCells(preR1C1Cell, curr1c1Cell);
+		    			preR1C1Cell = BasicUtility.extractCell(row, col, cell[0]);
+		    			curR1C1Cell = BasicUtility.extractCell(row, col, cell[1]);
+//		    			List<R1C1Cell> individualCells= bu.getAreaCells(preR1C1Cell, curR1C1Cell);
 //		    			String cl = "";
 //		    			for (R1C1Cell one: individualCells){
 //		    				cl = "{" + one.toString() + "}" + cl;
 //		    			}
-		    			//TODO: do not unfold the cell range
-                        String cl = preR1C1Cell.toString() + ":" + curr1c1Cell.toString();
+		    			//do not unfold the cell range
+                        String cl = preR1C1Cell.toString() + ":" + curR1C1Cell.toString();
 		    			stack.push(new Cluster(cl));
-
-
 	            	}
-	           
-		            else if (ptg instanceof RefPtg){
-		            	content = bu.extractCell(row, col, ptg.toFormulaString()).toString();
+		            else if (ptg instanceof RefPtg) {
+		            	content = BasicUtility.extractCell(row, col, ptg.toFormulaString()).toString();
 		            	Cluster node = new Cluster (content);
 			            stack.push(node);
 		            }
-		            else if (ptg instanceof ScalarConstantPtg){
-		            	Cluster node = new Cluster ("Scalar");
+		            else if (ptg instanceof ScalarConstantPtg) {
+		            	Cluster node = new Cluster("Scalar");
 		                stack.push(node);
 		            }
 		            else{
 		            	content = ptg.toFormulaString();
-		            	Cluster node = new Cluster (content);
+		            	Cluster node = new Cluster(content);
 			            stack.push(node);
 		            }
 	            	
 	            	continue;
 	            }
-	       
-	            
+
 	            OperationPtg o = (OperationPtg) ptg;
 	            Cluster node;
 	            if (o instanceof ValueOperatorPtg){
 	            	String str = o.toString();
-	            	node = new Cluster (str.substring(str.lastIndexOf(".")+1, str.length()-3));
+	            	node = new Cluster(str.substring(str.lastIndexOf(".")+1, str.length()-3));
 	            }
 	            else {
-	                node = new Cluster (o.toFormulaString());
+	                node = new Cluster(o.toFormulaString());
 	            }
-	            node = getOperands (node, stack, o.getNumberOfOperands());
+
+	            node = getOperands(node, stack, o.getNumberOfOperands());
 	            stack.push(node);
 	        }
 	        
@@ -165,29 +161,35 @@ public class AST {
 	            // stack.push(). So this is either an internal error or impossible.
 	            throw new IllegalStateException("Stack underflow");
 	        }
-	        result = stack.pop();
+
+	        //首先，parse之后的Ptg顺序应该是按照逆波兰顺序排列的
+            //其次，这里依次压栈之后，
+	        root = stack.pop();
+
 	        if(!stack.isEmpty()) {
 	            // Might be caused by some tokens like AttrPtg and Mem*Ptg, which really shouldn't
 	            // put anything on the stack
 	            throw new IllegalStateException("too much stuff left on the stack");
 	        }
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		
-	        return result;
-	    }
+		return root;
+	}
 
-	    private Cluster getOperands(Cluster node, Stack<Cluster> stack, int nOperands) {
-	         
-	        for (int j = nOperands-1; j >= 0; j--) { // reverse iteration because args were pushed in-order
-	            if(stack.isEmpty()) {
-	               String msg = "Too few arguments supplied to operation. Expected (" + nOperands
+	private Cluster getOperands(Cluster node, Stack<Cluster> stack, int nOperands)
+	{
+//		System.out.println("number of operands" + nOperands);
+		for (int j = nOperands-1; j >= 0; j--) { // reverse iteration because args were pushed in-order
+			if(stack.isEmpty()) {
+				String msg = "Too few arguments supplied to operation. Expected (" + nOperands
 	                    + ") operands but got (" + (nOperands - j - 1) + ")";
-	                throw new IllegalStateException(msg);
-	            }
-	            node.addChild(stack.pop());
-	        }
-	        return node;
-	    }
+				throw new IllegalStateException(msg);
+			}
+			node.addChild(stack.pop());
+		}
+		return node;
+	}
 }

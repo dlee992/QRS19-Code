@@ -35,7 +35,7 @@ public class GP {
 
     public static ExecutorService exeService;
     public static StatisticsForAll staAll;
-    public static String staResult;
+    public static String prefixOutDir;
     public static File logFile;
     public static BufferedWriter logBuffer = null;
     public static AtomicInteger index;
@@ -50,7 +50,11 @@ public class GP {
          staAll = new StatisticsForAll();
          staAll.setBeginTime(System.currentTimeMillis());
 
-         staResult = outDirPath + fileSeparator;
+         prefixOutDir = outDirPath + fileSeparator + "MiddleTemp " + new BasicUtility().getCurrentTime() + fileSeparator;
+         File middleDir = new File(prefixOutDir);
+         if (!middleDir.exists()) {
+             middleDir.mkdir();
+         }
 
          logFile = new File(outDirPath + fileSeparator +
                  "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
