@@ -1,6 +1,5 @@
 package clustering.hacClustering;
 
-import clustering.hacClustering.hierarchicalClustering.ClusterPair;
 import convenience.RTED;
 import entity.Cluster;
 import entity.R1C1Cell;
@@ -14,9 +13,6 @@ import utility.BasicUtility;
 import utility.FormulaParsing;
 
 import java.util.*;
-
-import static java.lang.System.out;
-import static programEntry.GP.*;
 
 public class HacClustering {
 	private static Logger logger = LogManager.getLogger(HacClustering.class.getName());
@@ -157,12 +153,50 @@ public class HacClustering {
 	    TODO:
 	    显然可以加一个优化：预先把完全一样的格放在同一个类中
 	     */
-
-
-
-
-		double minDist = 0;
 		int clusterIndex = 0;
+		ArrayList<Integer> joinList = new ArrayList<>();
+
+		int size = clusters.size();
+		for (int j = 0; j < size; j++) {
+			joinList.add(-1);
+		}
+		for (int round = 0; round < clusters.size(); round++) {
+			if (joinList.get(round) >= 0) continue;
+
+			int toAddCount = 1;
+			joinList.set(round, round);
+
+			for (int j = round +1; j < size; j++) {
+				if (distances[round][j] == 0) {
+					joinList.set(j, round);
+					++toAddCount;
+				}
+			}
+
+			if (toAddCount > 1) {
+				Cluster parent = new Cluster("#" + ++clusterIndex);
+				for (int j = size-1; j >=0; j--) {
+					if (joinList.get(j) == round) {
+						Cluster child = clusters.get(j);
+						parent.addChild(child);
+					}
+				}
+
+				clusters.add(parent);
+			}
+			else {
+				joinList.set(round, -1);
+			}
+		}
+		for (int round = size; round >= 0; round--) {
+			if (joinList.get(round) >= 0) {
+				clusters.remove(round);
+			}
+		}
+
+
+		//开始进行正常地复杂度极高的层次聚类
+		double minDist = 0;
 		double eps = 0.02;
 		while (minDist <= eps) {
 			minDist = 0.5;
@@ -181,11 +215,7 @@ public class HacClustering {
 			}
 
 			if (minDist <= eps) {
-				//System.out.println("Here to merge");
-
 				Cluster pCluster = new Cluster("#"+(++clusterIndex));
-				//System.out.printf("Cluster name: %s && %s = %s\n", clusterLeft.getName(), clusterRight.getName(),
-				//		pCluster.getName());
 				pCluster.addChild(clusterLeft);
 				pCluster.addChild(clusterRight);
 				assert clusterLeft != null;
