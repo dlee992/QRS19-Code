@@ -70,6 +70,7 @@ public class TreeEditDistance {
 		
 		double nodeSum = leftNodeNum + rightNodeNum;
 
+		//TODO: 本质上有很多重复的计算本不需要计算 浪费了大量的时间 这里是必须fix的地方
 		double dpDist = (RTED.computeDistance(dpTreeStrLeft,
 				dpTreeStrRight)) / nodeSum;
 

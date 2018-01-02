@@ -1,20 +1,14 @@
 package programEntry;
 
-import experiment.StatisticsForAll;
-
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
 
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int indexOfTesting = 1;
+    private static int indexOfTesting = 5;
 
     public static void main(String[] args) {
         try {
