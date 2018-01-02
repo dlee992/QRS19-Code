@@ -120,7 +120,7 @@ public class MainClass {
 
             assert files != null;
             for (File eachFile : files) {
-                if (!eachFile.getName().startsWith("0000_Lalit")) continue;
+                //if (!eachFile.getName().startsWith("0000")) continue;
 //                if (!eachFile.getName().startsWith("VRS")) continue;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
@@ -177,7 +177,7 @@ public class MainClass {
                                        AtomicInteger index, boolean test, String category)
             throws Exception {
 
-        if (index.get() >= 1) return;
+        //if (index.get() >= 1) return;
 
         int identicalIndex = index.incrementAndGet();
         System.out.println("index = " + identicalIndex + " ######## begin: " +
@@ -275,12 +275,7 @@ public class MainClass {
         logBuffer.write("---- Stage I begun ----");
         logBuffer.newLine();
 
-        hacCluster.computeDistance(ted);
-        List<Cluster> stageIClusters;
-        if (GP.plusCellArray)
-            stageIClusters = hacCluster.clusteringWrapper(caCheckCluster, caCheckFormula);
-        else
-            stageIClusters = hacCluster.clustering(ted);
+        List<Cluster> stageIClusters = hacCluster.clustering(ted);
 
         System.out.println("---- Stage I finished "+ new BasicUtility().getCurrentTime() + "----");
         logBuffer.write("---- Stage I finished ----");

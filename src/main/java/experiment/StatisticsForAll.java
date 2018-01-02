@@ -193,7 +193,7 @@ public class StatisticsForAll {
 
         rowTailor.createCell(16).setCellValue((endTime-beginTime)/60000.0);
 
-        String fileName = ssCount + ".xlsx";
+        String fileName = ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
         out.println(fileName);
         FileOutputStream resultStream = new FileOutputStream(new File(prefixDir + GP.fileSeparator + fileName));
         workbook.write(resultStream);

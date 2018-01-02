@@ -61,7 +61,7 @@ public class HacClustering {
 			        continue;
                 }
 
-                System.out.println("tree distance comparision's index = " + ++index);
+                //System.out.println("tree distance comparision's index = " + ++index);
 
 				String[] right = new String [4];
 				right[0] = itemIn.getKey();
@@ -98,13 +98,16 @@ public class HacClustering {
 
 //                out.printf("%s = %s, %s = %s\n", left[0], dpTreeStrLeft, right[0], dpTreeStrRight);
 
-				//TODO: 似乎这些计算是不可避免的
-				distances[n][m] = distances[m][n] = astDist + dpDist - astDist*dpDist;
-
+				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
+				//distances[n][m] = distances[m][n] = (astDist + dpDist - astDist*dpDist);
+				distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist + 0.001);
+				//System.out.printf("distance[%d][%d] = %f\n", n, m, (astDist + 0.001) * (dpDist + 0.001));
 				n++;
 			}
 			m++;
 		}
+
+		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
 	}
 
 	public List<Cluster> clustering(TreeEditDistance ted) {
@@ -137,7 +140,7 @@ public class HacClustering {
 
 	private List<Cluster> performClustering() {
 		//TODO: cluster initialization
-		List<Cluster> clusters = new ArrayList<Cluster>();
+		List<Cluster> clusters = new ArrayList<>();
 		for (String aFormulaCellAdd : formulaCellAdd)
 			clusters.add(new Cluster(aFormulaCellAdd));
 
@@ -160,25 +163,27 @@ public class HacClustering {
 		for (int j = 0; j < size; j++) {
 			joinList.add(-1);
 		}
-		for (int round = 0; round < clusters.size(); round++) {
+		for (int round = 0; round < size; round++) {
 			if (joinList.get(round) >= 0) continue;
 
 			int toAddCount = 1;
 			joinList.set(round, round);
 
 			for (int j = round +1; j < size; j++) {
-				if (distances[round][j] == 0) {
+				if (distances[round][j] == 0.000001) {
 					joinList.set(j, round);
 					++toAddCount;
 				}
 			}
 
 			if (toAddCount > 1) {
+				System.out.println("Merge some same clusters.");
 				Cluster parent = new Cluster("#" + ++clusterIndex);
 				for (int j = size-1; j >=0; j--) {
 					if (joinList.get(j) == round) {
 						Cluster child = clusters.get(j);
 						parent.addChild(child);
+						//child.setParent(parent);
 					}
 				}
 
@@ -188,13 +193,13 @@ public class HacClustering {
 				joinList.set(round, -1);
 			}
 		}
-		for (int round = size; round >= 0; round--) {
+		for (int round = size-1; round >= 0; round--) {
 			if (joinList.get(round) >= 0) {
 				clusters.remove(round);
 			}
 		}
 
-
+		System.out.println("Pre-processing is finished " + new BasicUtility().getCurrentTime());
 		//开始进行正常地复杂度极高的层次聚类
 		double minDist = 0;
 		double eps = 0.02;
@@ -215,6 +220,7 @@ public class HacClustering {
 			}
 
 			if (minDist <= eps) {
+				//System.out.println("Merge two different clusters.");
 				Cluster pCluster = new Cluster("#"+(++clusterIndex));
 				pCluster.addChild(clusterLeft);
 				pCluster.addChild(clusterRight);
