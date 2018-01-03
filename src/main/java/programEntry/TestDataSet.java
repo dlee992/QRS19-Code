@@ -17,7 +17,7 @@ public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
     private static int indexOfTesting = 1;
-    public static int upperLimit = 50;
+    public static int upperLimit = 1000;
     public static int fileSizeLimit = 500;
     public static int timeout = 2; //单位是 TimeUnit.MINUTES.
 
@@ -65,7 +65,7 @@ public class TestDataSet {
                     continue;
                 }
 
-                if (!excelFile.getName().startsWith("2004_PUBLIC_BUGS_INVENTORY")) continue;
+//                if (!excelFile.getName().startsWith("2004_PUBLIC_BUGS_INVENTORY")) continue;
 //                double size = excelFile.length()/1024.0;
 //                if (size >= fileSizeLimit) continue;
                 //System.out.println(excelFile.getName());
@@ -92,7 +92,7 @@ public class TestDataSet {
                 String errorExcelName = errorExcelMap.get(task);
 
                 try {
-                    task.get(10, TimeUnit.SECONDS);
+                    task.get(1, TimeUnit.MINUTES);
                 }
                 catch (ExecutionException e) {
                     System.out.println("TestDataSet @71 line: Execution Exception.");
