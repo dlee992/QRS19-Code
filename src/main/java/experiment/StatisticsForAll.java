@@ -2,11 +2,9 @@ package experiment;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import programEntry.GP;
 import utility.BasicUtility;
@@ -56,14 +54,15 @@ public class StatisticsForAll {
         sheetList = new CopyOnWriteArrayList<StatisticsForSheet>();
     }
 
-    public synchronized void log(String prefixDir, boolean middleFlag) throws IOException {
+    public synchronized void log(String prefixDir, boolean middleFlag, List<String> errorExcelList)
+            throws IOException {
         setEndTime(System.currentTimeMillis());
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("result");
 
         // set the column width, in case manually modifying the width when I check the datum.
-        sheet.setDefaultColumnWidth(15);
+        sheet.setDefaultColumnWidth(12);
 
         Row rowHeader = sheet.createRow(0);
         rowHeader.createCell(0).setCellValue("Index");
@@ -126,10 +125,23 @@ public class StatisticsForAll {
             if (prevSheet == null || !prevSheet.getSpreadsheet().equals(staSheet.getSpreadsheet())) {
                 row.createCell(0).setCellValue(++ssCount);
                 row.createCell(1).setCellValue(staSheet.category);
-                row.createCell(2).setCellValue(staSheet.getSpreadsheet());
+                Cell ssCell = row.createCell(2);
+                ssCell.setCellValue(staSheet.getSpreadsheet());
+
+                if (errorExcelList != null && errorExcelList.contains(staSheet.getSpreadsheet())) {
+                    CellStyle errorStyle = sheet.getWorkbook().createCellStyle();
+                    Font font = sheet.getWorkbook().createFont();
+                    font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
+                    font.setFontHeightInPoints((short)15);
+                    font.setColor(IndexedColors.DARK_RED.getIndex());
+                    errorStyle.setFont(font);
+                    ssCell.setCellStyle(errorStyle);
+                }
             }
 
             row.createCell(3).setCellValue(staSheet.getWorksheet());
+
+            if (staSheet.virtual) continue;
 
             row.createCell(4).setCellValue(staSheet.getGt_smellList().size());
             row.createCell(5).setCellValue(staSheet.getSmellyCells().size());
@@ -199,6 +211,7 @@ public class StatisticsForAll {
         FileOutputStream resultStream = new FileOutputStream(new File(prefixDir + GP.fileSeparator + fileName));
         workbook.write(resultStream);
         resultStream.close();
+        out.println("log finishes and middle = " + middleFlag + ".");
 
 //        out.printf("clusterSize <=3: %d, <=10: %d, <=100: %d, >100: %d\n",
 //                clusterSize[0], clusterSize[1], clusterSize[2], clusterSize[3]);
@@ -241,14 +254,15 @@ public class StatisticsForAll {
         this.endTime = endTime;
     }
 
-    public synchronized void add(StatisticsForSheet staSheet, BufferedWriter logBuffer) throws IOException {
-        if (staSheet.getGt_clusterList().size()==0 &&
+    public synchronized boolean add(StatisticsForSheet staSheet, BufferedWriter logBuffer) {
+        if (!staSheet.virtual &&
+                staSheet.getGt_clusterList().size()==0 &&
                 staSheet.getGt_smellList().size() == 0 &&
                 staSheet.getStageIIClusters().size() == 0 &&
-                staSheet.getSmellyCells().size() == 0) return;
+                staSheet.getSmellyCells().size() == 0)
+            return false;
+
         sheetList.add(staSheet);
-        logger.debug("index=" + (++index) + ": "+ staSheet.getWorksheet()+" --OF-- " +staSheet.getSpreadsheet());
-        logBuffer.write("index=" + (++index) + ": "+ staSheet.getWorksheet()+" --OF-- " +staSheet.getSpreadsheet());
-        logBuffer.newLine();
+        return true;
     }
 }

@@ -46,48 +46,50 @@ public class BasicUtility {
                 String cellFormulaA1;
                 String cellFormulaR1C1;
 
-                if (c.getCellType() == 0) {
-                    if (GP.plusFrozen) {
-                        if (c.getColumnIndex() >= freezeColumn)
+                try {
+                    if (c.getCellType() == 0) {
+                        if (GP.plusFrozen) {
+                            if (c.getColumnIndex() >= freezeColumn)
+                                dataCells.add(c);
+                        } else {
                             dataCells.add(c);
-                    }
-                    else {
-                        dataCells.add(c);
-                    }
-                }
-                else if (c.getCellType() == 2 && !c.toString().contains("#") && !c.toString().contains("!"))
-                {
-                    if (filterString) {
-						boolean ValueType = false;
-						try {
-							c.getStringCellValue();
-						} catch (Exception e) {
-							ValueType = true;
-						}
-						if (!ValueType) continue;
-					}
-					
-                    int row = c.getRowIndex();
-                    int column = c.getColumnIndex();
+                        }
+                    } else if (c.getCellType() == 2 && !c.toString().contains("#") && !c.toString().contains("!")) {
+                        if (filterString) {
+                            boolean ValueType = false;
+                            try {
+                                c.getStringCellValue();
+                            } catch (Exception e) {
+                                ValueType = true;
+                            }
+                            if (!ValueType) continue;
+                        }
 
-                    CellReference cr2 = new CellReference(c);
-                    cellAddA1 = cr2.formatAsString();
+                        int row = c.getRowIndex();
+                        int column = c.getColumnIndex();
 
-                    cellFormulaA1 = c.getCellFormula();
-                    cellFormulaR1C1 = convertA1ToR1C1(row , column , cellFormulaA1);
+                        CellReference cr2 = new CellReference(c);
+                        cellAddA1 = cr2.formatAsString();
 
-                    List<String> info = new ArrayList<String>();
-                    info.add(cellFormulaA1);
-                    info.add(cellFormulaR1C1);
+                        cellFormulaA1 = c.getCellFormula();
+                        cellFormulaR1C1 = convertA1ToR1C1(row, column, cellFormulaA1);
 
-                    String dp = cellDependencies(sheet, cellAddA1, 0);
+                        List<String> info = new ArrayList<String>();
+                        info.add(cellFormulaA1);
+                        info.add(cellFormulaR1C1);
+
+                        String dp = cellDependencies(sheet, cellAddA1, 0);
 
 //                    System.out.println("Before checking the tree : "+ cellAddA1 + " R1C1 = " +cellFormulaR1C1
 //                            + " dp = " + dp);
-                    if (!dp.equals("{RR}")) {
+                        if (!dp.equals("{RR}")) {
 //                        System.out.println("add cell = " + cellAddA1);
-                        formulaMap.put(cellAddA1, info);
+                            formulaMap.put(cellAddA1, info);
+                        }
                     }
+                }
+                catch (NullPointerException NPE) {
+                    System.out.println("BasicUtility line 57: NullPointerE-xception");
                 }
             }
         }
@@ -553,18 +555,23 @@ public class BasicUtility {
                         // When the comment box is visible, have it show in a 7*5 space
                         ClientAnchor anchor = factory.createClientAnchor();
                         anchor.setCol1(cr.getCol());
-                        anchor.setCol2(cr.getCol() + 5);
+                        anchor.setCol2(cr.getCol() + 3);
                         anchor.setRow1(cr.getRow());
-                        anchor.setRow2(cr.getRow() + 7);
+                        anchor.setRow2(cr.getRow() + 2);
 
                         // Create the comment and set the text+author
-                        comment = drawing.createCellComment(anchor);
-                        RichTextString str = factory.createRichTextString(description);
-                        comment.setString(str);
-                        comment.setAuthor("Li");
+                        try {
+                            comment = drawing.createCellComment(anchor);
+                            RichTextString str = factory.createRichTextString(description);
+                            comment.setString(str);
+                            comment.setAuthor("Li");
 
-                        // Assign the comment to the cell
-                        cell.setCellComment(comment);
+                            // Assign the comment to the cell
+                            cell.setCellComment(comment);
+                        }
+                        catch (IllegalArgumentException IAE) {
+                            System.out.println("BasicUtility @564 line: Illegal Argument E-xception.");
+                        }
                     }
                 }
             }

@@ -31,7 +31,7 @@ public class GP {
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "2018-01-01 Prototype idea ";
+    public static String testDate = "2018-01-03 Prototype idea ";
 
     public static ExecutorService exeService;
     public static StatisticsForAll staAll;
@@ -56,16 +56,15 @@ public class GP {
              middleDir.mkdir();
          }
 
-         logFile = new File(outDirPath + fileSeparator +
-                 "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
-         if (!logFile.exists()) {
-             try {
-                 logFile.createNewFile();
-                 logBuffer = new BufferedWriter(new FileWriter(logFile));
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
-         }
+//         logFile = new File(prefixOutDir + "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
+//         if (!logFile.exists()) {
+//             try {
+//                 logFile.createNewFile();
+//                 logBuffer = new BufferedWriter(new FileWriter(logFile));
+//             } catch (IOException e) {
+//                 e.printStackTrace();
+//             }
+//         }
 
          index = new AtomicInteger();
     }

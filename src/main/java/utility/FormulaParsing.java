@@ -34,10 +34,10 @@ public class FormulaParsing {
 			ptgList = FormulaParser.parse(formula, fpWorkbook, type, sheetIndex);
 		}
 		catch (NullPointerException npe) {
-        	System.out.println("NullPointerException");
+        	System.out.println("FormulaParsing @34: NullPointer E-xception");
 		}
 		catch (FormulaParseException fpe) {
-        	System.out.println("FormulaParseException");
+        	System.out.println("FormulaParsing @34: FormulaParse E-xception");
 		}
 
 

@@ -38,15 +38,26 @@ public class StatisticsForSheet {
 
     private String spreadsheet;
     private String worksheet;
+    public boolean virtual = false;
 
     private Sheet sheet;
 
     int[] clusterSizeGT = {0,0,0,0};
     int[] clusterSize = {0,0,0,0};
 
-    public StatisticsForSheet(Sheet sheet, String category) {
-        this.sheet = sheet;
+    public StatisticsForSheet(Sheet sheet, String category, int situation) {
         this.category =category;
+
+        if (situation > 0) {
+            if (situation == 1)
+                this.worksheet = "cannotBeHandled";
+            else if (situation == 2)
+                this.worksheet = "nothingToReport";
+            this.virtual = true;
+            return;
+        }
+
+        this.sheet = sheet;
     }
 
 

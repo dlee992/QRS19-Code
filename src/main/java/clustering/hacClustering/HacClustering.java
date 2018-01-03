@@ -26,7 +26,7 @@ public class HacClustering {
 		this.formulaInfoList = formulaInfoList;
 	}
 
-	public void computeDistance(TreeEditDistance ted) {
+	public void computeDistance(TreeEditDistance ted) throws OutOfMemoryError {
 		distances = new double[formulaInfoList.size()]
 				[formulaInfoList.size()];
 		int m =0;
@@ -94,8 +94,10 @@ public class HacClustering {
                 int rightNodeNum = dpTreeRight.getNodeCount();
 
                 double nodeSum = leftNodeNum + rightNodeNum;
-                double dpDist = (RTED.computeDistance(dpTreeStrLeft, dpTreeStrRight)) / nodeSum;
 
+                //TODO: 下面这个语句会产生 java.lang.OutOfMemoryError: Java heap space,
+				// 暂时不知道怎么修复,也不知道出现在哪个表里
+				double dpDist = (RTED.computeDistance(dpTreeStrLeft, dpTreeStrRight)) / nodeSum;
 //                out.printf("%s = %s, %s = %s\n", left[0], dpTreeStrLeft, right[0], dpTreeStrRight);
 
 				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
@@ -110,9 +112,9 @@ public class HacClustering {
 		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
 	}
 
-	public List<Cluster> clustering(TreeEditDistance ted) {
-		computeDistance(ted);
-		return performClustering();
+	public List<Cluster> clustering(TreeEditDistance ted) throws OutOfMemoryError {
+    	computeDistance(ted);
+    	return performClustering();
 	}
 
 	public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) {
@@ -177,7 +179,7 @@ public class HacClustering {
 			}
 
 			if (toAddCount > 1) {
-				System.out.println("Merge some same clusters.");
+				//System.out.println("Merge some same clusters.");
 				Cluster parent = new Cluster("#" + ++clusterIndex);
 				for (int j = size-1; j >=0; j--) {
 					if (joinList.get(j) == round) {

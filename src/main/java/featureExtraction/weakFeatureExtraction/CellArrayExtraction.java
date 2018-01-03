@@ -98,6 +98,7 @@ public class CellArrayExtraction {
 			for (int col = snippet.left; col <= snippet.right; col++) {
 				Cell cell = sheet.getRow(row).getCell(col);
 				if (cell != null && cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+					//
 					List<R1C1Cell> paras = bu.extractParameters(row, col, cell.getCellFormula());
 					if (possibleMember(paras, true)) {
 						possibleCA = true;

@@ -1,14 +1,6 @@
 package programEntry;
 
-import ThirdParty.CACheck.AMSheet;
-import ThirdParty.CACheck.CellArray;
 import ThirdParty.CACheck.amcheck.AnalysisPattern;
-import ThirdParty.CACheck.amcheck.ExcelAnalysis;
-import ThirdParty.CACheck.cellarray.extract.CAResult;
-import ThirdParty.CACheck.snippet.ExtractSnippet;
-import ThirdParty.CACheck.snippet.Snippet;
-import ThirdParty.CACheck.util.Log;
-import ThirdParty.CACheck.util.Utils;
 import clustering.bootstrappingClustering.BootstrappingClustering;
 import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.hacClustering.HacClustering;
@@ -21,7 +13,9 @@ import experiment.StatisticsForAll;
 import experiment.StatisticsForSheet;
 import featureExtraction.FeatureExtraction;
 import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.hssf.OldExcelFormatException;
+import org.apache.poi.hssf.record.RecordInputStream;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
@@ -31,11 +25,11 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
 import static programEntry.GP.index;
+import static programEntry.TestDataSet.upperLimit;
 
 /**
  * Created by lida on 2017/6/27.
@@ -55,6 +49,8 @@ public class MainClass {
     private static String programState;
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
+
+    private static ArrayList<String> ssNameList = new ArrayList<>();
 
     private static AnalysisPattern analysisPattern = new AnalysisPattern();
 
@@ -129,37 +125,48 @@ public class MainClass {
                     try {
                         testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
                     }
-                    catch (Exception e) {
+                    catch (Exception | OutOfMemoryError e) {
                         e.printStackTrace();
                     }
                 });
             }
         }
 
-        executorDone(exeService, staAll, prefixOutDir, logBuffer);
+        executorDone(exeService, staAll, prefixOutDir, logBuffer, null);
     }
 
 
 
     public static void executorDone(ExecutorService executorService, StatisticsForAll staAll,
-                                    String staResult, BufferedWriter logBuffer)
+                                    String staResult, BufferedWriter logBuffer, List<String> errorExcelList)
             throws InterruptedException, IOException {
 
-        executorService.shutdown();
-        executorService.awaitTermination(1, TimeUnit.DAYS);
+        System.out.println("Post-processing begins.");
+//        executorService.shutdown();
+//        executorService.awaitTermination(1, TimeUnit.DAYS);
 
-        staAll.log(staResult, false);
+        staAll.log(staResult, false, errorExcelList);
+
+        System.out.println("Post-processing is running.");
 
         try {
-            logBuffer.flush();
-            logBuffer.close();
-            System.out.println("logBuffer is closed.");
+            //logBuffer.flush();
+            //logBuffer.close();
+            //System.out.println("logBuffer is closed.\n");
+
+            int i = 0;
+            for (String fileName:
+                 ssNameList) {
+                System.out.println(++i +": "+ fileName);
+            }
         }
         catch (NullPointerException npe) {
             npe.printStackTrace();
         }
 
         createAndShowGUI();
+
+        System.out.println("Post-processing finishes.");
     }
 
     private static void createAndShowGUI() {
@@ -175,50 +182,73 @@ public class MainClass {
 
     public static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer,
                                        AtomicInteger index, boolean test, String category)
-            throws Exception {
-
-        //if (index.get() >= 1) return;
+            throws Exception, OutOfMemoryError {
 
         int identicalIndex = index.incrementAndGet();
         System.out.println("index = " + identicalIndex + " ######## begin: " +
                  "/" + file.getName() + "'########");
-        logBuffer.write("index = " + identicalIndex + " ######## begin: " +
-                 "/" + file.getName() + "'########");
-        logBuffer.newLine();
+        //logBuffer.write("index = " + identicalIndex + " ######## begin: " +
+                 //"/" + file.getName() + "'########");
+        //logBuffer.newLine();
 
+        if (identicalIndex > upperLimit) return;
 
         String fileName = null;
-        Workbook workbook = null;
+        Workbook workbook;
         try {
             fileName = file.getName();
             workbook = WorkbookFactory.create(new FileInputStream(file));
         }
         catch (OldExcelFormatException oefe) {
-            System.out.println("Old Excel Format Exception happened.");
+            System.out.println("Old Excel Format E-xception happened.");
+            workbook = null;
         }
         catch (InvalidFormatException ife) {
-            System.out.println("Invalid Format Exception happened.");
+            System.out.println("Invalid Format E-xception happened.");
+            workbook = null;
+        }
+        catch (EmptyFileException EFE) {
+            System.out.println("MainClass @200 line: Empty File E-xception.");
+            workbook = null;
+        }
+        catch (RecordInputStream.LeftoverDataException LDE) {
+            System.out.println("MainClass @200 line: Left Over Data E-xception.");
+            workbook = null;
         }
 
         if (workbook == null) {
-            System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
-            logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
+            System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: " + fileName + "'########");
+//            logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: " + fileName + "'########");
+            ssNameList.add(fileName);
+            addVirtualSS(category, fileName, 1);
             return;
         }
 
+        boolean flagAdd = false;
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
 //            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
 
             StatisticsForSheet staSheet = testWorksheet(fileName, workbook.getSheetAt(j), logBuffer, test, category);
-            staAll.add(staSheet, logBuffer);
+            if (staAll.add(staSheet, logBuffer))
+                flagAdd = true;
+        }
+
+        if (!flagAdd) {
+            addVirtualSS(category, fileName, 2);
         }
 
         String eachDirStr = outDirPath + fileSeparator + "Marked subjects " + testDate;
 
         File eachDir = new File(eachDirStr);
         if (!eachDir.exists()) {
-            eachDir.mkdirs();
+            eachDir.mkdir();
+        }
+
+        String categoryDirStr = eachDirStr + fileSeparator + category;
+        File categoryDir = new File(categoryDirStr);
+        if (!categoryDir.exists()) {
+            categoryDir.mkdir();
         }
 
         String suffix = null;
@@ -226,25 +256,34 @@ public class MainClass {
             suffix = "xls";
         else if (workbook .getSpreadsheetVersion().name().equals("EXCEL2007"))
             suffix = "xlsx";
-        String outFileStr = eachDirStr + fileSeparator + fileName.substring(0, fileName.lastIndexOf('.'))
-                + "_marked" + GP.addSuffix() + "." + suffix;
+        String outFileStr = categoryDirStr + fileSeparator + fileName.substring(0, fileName.lastIndexOf('.'))
+                + "_" + GP.addSuffix() + "." + suffix;
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
         workbook.write(outFile);
         outFile.close();
 
-        System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
-        logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + file.getName() + "'########");
-        logBuffer.newLine();
+        System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
+        //logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
+        //logBuffer.newLine();
+        ssNameList.add(fileName);
 
         //在每个SS执行完之后立刻输出当前所有执行完的SS的综合信息
-        staAll.log(prefixOutDir, true);
+        staAll.log(prefixOutDir, true, null);
     }
+
+    private static void addVirtualSS(String category, String fileName, int situation) throws IOException {
+        StatisticsForSheet staSheet = new StatisticsForSheet(null, category, situation);
+        staSheet.setSpreadsheet(fileName);
+        staAll.add(staSheet, logBuffer);
+        staAll.log(prefixOutDir, true, null);
+    }
+
 
     private static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
                                                     boolean test, String category)
-            throws Exception {
-        StatisticsForSheet staSheet = new StatisticsForSheet(sheet, category);
+            throws Exception, OutOfMemoryError {
+        StatisticsForSheet staSheet = new StatisticsForSheet(sheet, category, 0);
         staSheet.setBeginTime  (System.currentTimeMillis());
         staSheet.setSpreadsheet(fileName);
         staSheet.setWorksheet  (sheet.getSheetName());
@@ -257,8 +296,8 @@ public class MainClass {
         }
 
         System.out.println("----Sheet '" + sheet.getSheetName() + "'----");
-        logBuffer.write("----Sheet '" + sheet.getSheetName() + "'----");
-        logBuffer.newLine();
+        //logBuffer.write("----Sheet '" + sheet.getSheetName() + "'----");
+        //logBuffer.newLine();
         BasicUtility bu = new BasicUtility();
 
         InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet);
@@ -272,14 +311,14 @@ public class MainClass {
 
         //TODO: 2 from Cell Array to clusters in the HAC algorithm to generate seed clusters
         System.out.println("---- Stage I begun "+ new BasicUtility().getCurrentTime() +"----");
-        logBuffer.write("---- Stage I begun ----");
-        logBuffer.newLine();
+        //logBuffer.write("---- Stage I begun ----");
+        //logBuffer.newLine();
 
         List<Cluster> stageIClusters = hacCluster.clustering(ted);
 
         System.out.println("---- Stage I finished "+ new BasicUtility().getCurrentTime() + "----");
-        logBuffer.write("---- Stage I finished ----");
-        logBuffer.newLine();
+        //logBuffer.write("---- Stage I finished ----");
+        //logBuffer.newLine();
 
         for (Cluster cluster : stageIClusters) {
             cluster.extractCellRefs(cluster, 1);
@@ -310,8 +349,8 @@ public class MainClass {
             RealMatrix featureCellM = fcc.matrixCreationForClustering(fe.getCellFeatureList());
 
             System.out.println("---- Stage II begin "+ new BasicUtility().getCurrentTime() + "----");
-            logBuffer.write("---- Stage II begin ----");
-            logBuffer.newLine();
+            //logBuffer.write("---- Stage II begin ----");
+            //logBuffer.newLine();
 
             // If there is isolated cells
             List<CellReference> nonSeedCellRefs = fe.getNonSeedCellRefs();
@@ -345,8 +384,8 @@ public class MainClass {
             }
 
             System.out.println("---- Stage II finished "+ new BasicUtility().getCurrentTime() + "----");
-            logBuffer.write("---- Stage II finished ----");
-            logBuffer.newLine();
+            //logBuffer.write("---- Stage II finished ----");
+            //logBuffer.newLine();
 
             //TODO: add an additional step, try to extend the cluster composed of 2~3 formula cells using the
             //TODO: "cell array" information, see whether the recall ratio can be improved.
@@ -354,8 +393,8 @@ public class MainClass {
 
             //TODO: 5 local outlier detection
             System.out.println("---- Smell detection begun "+ new BasicUtility().getCurrentTime() + "----");
-            logBuffer.write("---- Smell detection begun ----");
-            logBuffer.newLine();
+            //logBuffer.write("---- Smell detection begun ----");
+            //logBuffer.newLine();
 
             SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList());
             sdc.outlierDetection();
@@ -363,20 +402,20 @@ public class MainClass {
             for (Cluster cluster : stageIClusters) {
 
                 System.out.printf("(%.3f) Smell Detection Clusters = [", cluster.coverage);
-                logBuffer.write("(" + cluster.coverage + ") Smell Detection Clusters = [");
+                //logBuffer.write("(" + cluster.coverage + ") Smell Detection Clusters = [");
                 for (CellReference leaf: cluster.getClusterCellRefs()) {
 
                     System.out.printf("%s, ", leaf.formatAsString());
-                    logBuffer.write(leaf.formatAsString() + ", ");
+                    //logBuffer.write(leaf.formatAsString() + ", ");
                 }
                 System.out.println("]");
-                logBuffer.write("]");
-                logBuffer.newLine();
+                //logBuffer.write("]");
+                //logBuffer.newLine();
             }
 
             System.out.println("---- Smell detection finished "+ new BasicUtility().getCurrentTime() + "----");
-            logBuffer.write("---- Smell detection finished ----");
-            logBuffer.newLine();
+            //logBuffer.write("---- Smell detection finished ----");
+            //logBuffer.newLine();
 
             //TODO: 6 mark the worksheet
             bu.clusterPrintMark(stageIIClusters, sheet);
@@ -388,8 +427,8 @@ public class MainClass {
         }
         else {
             System.out.println("Seed cluster is null.");
-            logBuffer.write("Seed cluster is null.");
-            logBuffer.newLine();
+            //logBuffer.write("Seed cluster is null.");
+            //logBuffer.newLine();
         }
 
         staSheet.calculateForDetection();
@@ -397,9 +436,9 @@ public class MainClass {
         staSheet.setEndTime(System.currentTimeMillis());
 
         System.out.println("---Finished Analysis"+ new BasicUtility().getCurrentTime() + "---");
-        logBuffer.write("----Finished Analysis---");
-        logBuffer.newLine();
-        logBuffer.newLine();
+        //logBuffer.write("----Finished Analysis---");
+        //logBuffer.newLine();
+        //logBuffer.newLine();
         return staSheet;
     }
 }
