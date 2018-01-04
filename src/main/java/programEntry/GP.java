@@ -47,8 +47,7 @@ public class GP {
 
          exeService = Executors.newFixedThreadPool(8);
 
-         staAll = new StatisticsForAll();
-         staAll.setBeginTime(System.currentTimeMillis());
+
 
          prefixOutDir = outDirPath + fileSeparator + "MiddleTemp " + new BasicUtility().getCurrentTime() + fileSeparator;
          File middleDir = new File(prefixOutDir);

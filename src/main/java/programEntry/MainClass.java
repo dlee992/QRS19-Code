@@ -164,12 +164,12 @@ public class MainClass {
             npe.printStackTrace();
         }
 
-        createAndShowGUI();
+        //createAndShowGUI();
 
         System.out.println("Post-processing finishes.");
     }
 
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
         JFrame frame = new JFrame("程序结束");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -325,15 +325,15 @@ public class MainClass {
             cluster.extractCells(sheet,cluster, 1);
             cluster.computeBorders();
 
-            System.out.print("Stage One Clusters = [");
+            //System.out.print("Stage One Clusters = [");
             for (CellReference leaf: cluster.getClusterCellRefs()) {
 
-                System.out.printf("%s, ", leaf.formatAsString());
+                //System.out.printf("%s, ", leaf.formatAsString());
             }
-            System.out.println("]");
+            //System.out.println("]");
         }
 
-        System.out.printf("Cluster size = %d\n", stageIClusters.size());
+        //System.out.printf("Cluster size = %d\n", stageIClusters.size());
 
 
         //TODO: 3 weak feature extraction
@@ -376,11 +376,11 @@ public class MainClass {
                 cluster.extractCellRefs(cluster, 2);
                 cluster.extractCells(sheet, cluster, 2);
 
-                System.out.printf("Stage Two Clusters = [");
+                //System.out.printf("Stage Two Clusters = [");
                 for (CellReference leaf: cluster.getClusterCellRefs()) {
-                    System.out.printf("%s, ", leaf.formatAsString());
+                    //System.out.printf("%s, ", leaf.formatAsString());
                 }
-                System.out.println("]");
+                //System.out.println("]");
             }
 
             System.out.println("---- Stage II finished "+ new BasicUtility().getCurrentTime() + "----");
@@ -401,14 +401,14 @@ public class MainClass {
 
             for (Cluster cluster : stageIClusters) {
 
-                System.out.printf("(%.3f) Smell Detection Clusters = [", cluster.coverage);
+                //System.out.printf("(%.3f) Smell Detection Clusters = [", cluster.coverage);
                 //logBuffer.write("(" + cluster.coverage + ") Smell Detection Clusters = [");
                 for (CellReference leaf: cluster.getClusterCellRefs()) {
 
-                    System.out.printf("%s, ", leaf.formatAsString());
+                    //System.out.printf("%s, ", leaf.formatAsString());
                     //logBuffer.write(leaf.formatAsString() + ", ");
                 }
-                System.out.println("]");
+                //System.out.println("]");
                 //logBuffer.write("]");
                 //logBuffer.newLine();
             }

@@ -1,5 +1,7 @@
 package programEntry;
 
+import experiment.StatisticsForAll;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,12 +14,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static programEntry.GP.*;
+import static programEntry.MainClass.createAndShowGUI;
 
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int indexOfTesting = 1;
-    public static int upperLimit = 1000;
+    private static int indexOfTesting = 10;
+    public static int upperLimit = Integer.MAX_VALUE;
     public static int fileSizeLimit = 500;
     public static int timeout = 2; //单位是 TimeUnit.MINUTES.
 
@@ -49,8 +52,14 @@ public class TestDataSet {
              inputDir.listFiles()) {
 
             if (subDir.isFile()) continue;
-            if (i++ != indexOfTesting) continue;
+            if (!(i == 10 || i == 9)) {
+                i++;
+                continue;
+            }
+            i++;
 
+            staAll = new StatisticsForAll();
+            staAll.setBeginTime(System.currentTimeMillis());
             futureList.clear();
             errorExcelMap.clear();
             errorExcelList.clear();
@@ -92,7 +101,7 @@ public class TestDataSet {
                 String errorExcelName = errorExcelMap.get(task);
 
                 try {
-                    task.get(1, TimeUnit.MINUTES);
+                    task.get(5, TimeUnit.MINUTES);
                 }
                 catch (ExecutionException e) {
                     System.out.println("TestDataSet @71 line: Execution Exception.");
@@ -107,14 +116,11 @@ public class TestDataSet {
                 }
             }
 
-
+            MainClass.executorDone(exeService, staAll, prefixOutDir, logBuffer, errorExcelList);
         }
 
-
-
         System.out.println("everything is done.");
-
-        MainClass.executorDone(exeService, staAll, prefixOutDir, logBuffer, errorExcelList);
+        createAndShowGUI();
     }
 
 

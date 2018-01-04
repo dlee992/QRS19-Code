@@ -45,6 +45,8 @@ public class StatisticsForAll {
     private int gt_smellSize = 0;
     private int stageSmellSize = 0;
 
+    private String category = null;
+
     int[] clusterSizeGT = {0,0,0,0};
     int[] clusterSize = {0,0,0,0};
 
@@ -125,6 +127,7 @@ public class StatisticsForAll {
             if (prevSheet == null || !prevSheet.getSpreadsheet().equals(staSheet.getSpreadsheet())) {
                 row.createCell(0).setCellValue(++ssCount);
                 row.createCell(1).setCellValue(staSheet.category);
+                this.category = staSheet.category;
                 Cell ssCell = row.createCell(2);
                 ssCell.setCellValue(staSheet.getSpreadsheet());
 
@@ -177,7 +180,7 @@ public class StatisticsForAll {
             prevSheet = staSheet;
         }
 
-        if (middleFlag && ssCount % 5 != 0) {
+        if (middleFlag && ssCount % 50 != 0) {
             return;
         }
 
@@ -205,8 +208,7 @@ public class StatisticsForAll {
 
         rowTailor.createCell(16).setCellValue((endTime-beginTime)/60000.0);
 
-        int temp = 0;
-        String fileName = ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
+        String fileName = category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
         out.println(fileName);
         FileOutputStream resultStream = new FileOutputStream(new File(prefixDir + GP.fileSeparator + fileName));
         workbook.write(resultStream);
