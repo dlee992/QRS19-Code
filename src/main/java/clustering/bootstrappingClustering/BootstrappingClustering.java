@@ -223,7 +223,7 @@ public class BootstrappingClustering {
                                         //TODO: then filter it out immediately.
                                         //TODO: check if childCell is in the sinppet of parentCluster.
                                         if (atLeastThree(parentCluster, childCell)) {
-                                            out.println("atLeastThree");
+                                            //out.println("atLeastThree");
                                             continue;
                                         }
 

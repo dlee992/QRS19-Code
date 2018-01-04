@@ -52,7 +52,7 @@ public class TestDataSet {
              inputDir.listFiles()) {
 
             if (subDir.isFile()) continue;
-            if (!(i == 10 || i == 9)) {
+            if (!(i==7)) {
                 i++;
                 continue;
             }
