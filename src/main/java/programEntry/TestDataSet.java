@@ -21,8 +21,7 @@ public class TestDataSet {
     private static String fileSeparator = System.getProperty("file.separator");
     private static int indexOfTesting = 10;
     public static int upperLimit = Integer.MAX_VALUE;
-    public static int fileSizeLimit = 500;
-    public static int timeout = 2; //单位是 TimeUnit.MINUTES.
+    public static int timeout = 5; //单位是 TimeUnit.MINUTES.
 
     public static void main(String[] args) {
         try {
@@ -101,7 +100,7 @@ public class TestDataSet {
                 String errorExcelName = errorExcelMap.get(task);
 
                 try {
-                    task.get(5, TimeUnit.MINUTES);
+                    task.get(timeout, TimeUnit.MINUTES);
                 }
                 catch (ExecutionException e) {
                     System.out.println("TestDataSet @71 line: Execution Exception.");
