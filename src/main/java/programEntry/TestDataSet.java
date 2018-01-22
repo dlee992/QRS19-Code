@@ -20,24 +20,30 @@ public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
     private static int indexOfTesting = 10;
-    public static int upperLimit = Integer.MAX_VALUE;
-    public static int timeout = 5; //单位是 TimeUnit.MINUTES.
+    static int upperLimit = Integer.MAX_VALUE;
+    protected static int timeout = 5; //单位是 TimeUnit.MINUTES.
 
     public static void main(String[] args) {
         try {
             testEUESE();
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
     /*TODO:
-     1-针对目录结构筛选出需要进行运算的Excel表格
-     2-因为没有ground truths,在ground truths部分是否需要额外的处理
-     3-just run it
+     1:timeout要针对每张worksheet来设定,对象不能是spreadsheet.
+     2:统计更多的输出信息,包括每张表有 #cells, #formula cells, #data cells,
+        #clusters, #cells in clusters, #defective cells,及其相关百分比,具体哪些需要计算还是要参考CACheck,毕竟是已有蓝本.
+     3:与程序本身无关,对Enron数据集取其版本化过滤之后的子集来运行,甚至可以考虑是否使用FUSE-Corpus.
+     4:需要确定哪些worksheet需要被列入到最终的统计栏中,
+        出于保守考虑,应该全记录下来,也方便后续统计每张SS包含#worksheet,含有公式的#worksheet.
+     5:暂时还没有想到第四点.
     */
-    private static void testEUESE() throws IOException, InterruptedException {
+    private static void testEUESE() throws InterruptedException, IOException {
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES-Corpus";
         File inputDir = new File(inDirPath);
 

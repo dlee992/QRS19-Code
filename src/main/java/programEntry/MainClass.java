@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
@@ -47,6 +48,11 @@ public class MainClass {
     private static String mode;
     private static String inDirPath;
     private static String programState;
+
+    private static AtomicInteger
+            finishedSS = new AtomicInteger(0),
+            finishedWS = new AtomicInteger(0);
+
 
     private static AtomicInteger numberOfFormula = new AtomicInteger(0);
 
@@ -107,8 +113,7 @@ public class MainClass {
         FileFilter filter2 = file -> (!file.isHidden() && file.isDirectory() && file.getName().equals(mode));
         File[] categories = inDir.listFiles(filter2);
 
-        //TODO: for ThirdParty.CACheck
-        analysisPattern.setType(3);
+        staAll = new StatisticsForAll();
 
         for (int i = 0; categories != null && i < categories.length; i++) {
             File perCategory = new File(categories[i].getAbsolutePath());
@@ -132,7 +137,10 @@ public class MainClass {
             }
         }
 
-        executorDone(exeService, staAll, prefixOutDir, logBuffer, null);
+        //executorDone(exeService, staAll, prefixOutDir, logBuffer, null);
+        exeService.shutdown();
+        exeService.awaitTermination(1, TimeUnit.DAYS);
+        staAll.log(prefixOutDir, false, null);
     }
 
 
@@ -142,12 +150,7 @@ public class MainClass {
             throws InterruptedException, IOException {
 
         System.out.println("Post-processing begins.");
-//        executorService.shutdown();
-//        executorService.awaitTermination(1, TimeUnit.DAYS);
-
         staAll.log(staResult, false, errorExcelList);
-
-        System.out.println("Post-processing is running.");
 
         try {
             //logBuffer.flush();
@@ -165,7 +168,6 @@ public class MainClass {
         }
 
         //createAndShowGUI();
-
         System.out.println("Post-processing finishes.");
     }
 
@@ -217,7 +219,9 @@ public class MainClass {
         }
 
         if (workbook == null) {
-            System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: " + fileName + "'########");
+            System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
+            System.out.println("FinishedSS = " + finishedSS.incrementAndGet());
+            System.out.println();
 //            logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: " + fileName + "'########");
             ssNameList.add(fileName);
             addVirtualSS(category, fileName, 1);
@@ -264,6 +268,8 @@ public class MainClass {
         outFile.close();
 
         System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
+        System.out.println("FinishedSS = " + finishedSS.incrementAndGet());
+        System.out.println();
         //logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
         //logBuffer.newLine();
         ssNameList.add(fileName);
@@ -413,7 +419,6 @@ public class MainClass {
                 //logBuffer.newLine();
             }
 
-            System.out.println("---- Smell detection finished "+ new BasicUtility().getCurrentTime() + "----");
             //logBuffer.write("---- Smell detection finished ----");
             //logBuffer.newLine();
 
@@ -436,6 +441,8 @@ public class MainClass {
         staSheet.setEndTime(System.currentTimeMillis());
 
         System.out.println("---Finished Analysis"+ new BasicUtility().getCurrentTime() + "---");
+        System.out.println("---FinishedWS = " + finishedWS.incrementAndGet());
+        System.out.println();
         //logBuffer.write("----Finished Analysis---");
         //logBuffer.newLine();
         //logBuffer.newLine();
