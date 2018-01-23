@@ -6,6 +6,7 @@ import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.hacClustering.HacClustering;
 import clustering.hacClustering.TreeEditDistance;
 import clustering.smellDetectionClustering.SmellDetectionClustering;
+import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 import entity.Cluster;
 import entity.InfoOfSheet;
 import experiment.GroundTruthStatistics;
@@ -26,6 +27,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
@@ -120,24 +122,27 @@ public class MainClass {
             File[] files = perCategory.listFiles(filter1);
 
             assert files != null;
+
+            int cnt = 0;
             for (File eachFile : files) {
                 //if (!eachFile.getName().startsWith("0000")) continue;
 //                if (!eachFile.getName().startsWith("VRS")) continue;
+                if (cnt > 0) break;
+                cnt++;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
 
-                exeService.execute(() -> {
-                    try {
-                        testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
-                    }
-                    catch (Exception | OutOfMemoryError e) {
-                        e.printStackTrace();
-                    }
-                });
+                try {
+                    testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
+                }
+                catch (Exception | OutOfMemoryError e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         //executorDone(exeService, staAll, prefixOutDir, logBuffer, null);
+        TimeUnit.MINUTES.sleep(1);
         exeService.shutdown();
         exeService.awaitTermination(1, TimeUnit.DAYS);
         staAll.log(prefixOutDir, false, null);
@@ -228,17 +233,29 @@ public class MainClass {
             return;
         }
 
-        boolean flagAdd = false;
+        AtomicBoolean flagAdd = new AtomicBoolean(false);
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
 //            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
 
-            StatisticsForSheet staSheet = testWorksheet(fileName, workbook.getSheetAt(j), logBuffer, test, category);
-            if (staAll.add(staSheet, logBuffer))
-                flagAdd = true;
+            String finalFileName = fileName;
+            Sheet curSheet = workbook.getSheetAt(j);
+
+            exeService.execute(() -> {
+                try {
+                    StatisticsForSheet staSheet = testWorksheet(finalFileName, curSheet, logBuffer, test, category);
+                    if (staAll.add(staSheet, logBuffer))
+                        flagAdd.set(true);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+
         }
 
-        if (!flagAdd) {
+        if (!flagAdd.get()) {
             addVirtualSS(category, fileName, 2);
         }
 

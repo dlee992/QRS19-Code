@@ -31,7 +31,7 @@ public class GP {
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "2018-01-04 Prototype idea";
+    public static String testDate = "2018-01-23 Prototype idea";
 
     public static ExecutorService exeService;
     public static StatisticsForAll staAll;
@@ -46,11 +46,6 @@ public class GP {
          if (addC) testDate += "C";
 
          exeService = Executors.newFixedThreadPool(8);
-
-         File file = new File(outDirPath + fileSeparator + testDate + addSuffix());
-         if (!file.exists()) {
-             file.mkdir();
-         }
 
          prefixOutDir = outDirPath + fileSeparator + "MiddleTemp " + new BasicUtility().getCurrentTime() + fileSeparator;
          File middleDir = new File(prefixOutDir);
