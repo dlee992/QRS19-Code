@@ -23,6 +23,10 @@ public class GP {
 	public static boolean addB = true;
 	public static boolean addC = true;
 
+     static AtomicInteger
+             finishedSS = new AtomicInteger(0);
+     static AtomicInteger finishedWS = new AtomicInteger(0);
+
     public static boolean plusCellArray = false; // Extract cell array first, before the 1st stage clustering.
     public static boolean plusFirstSecond = false; //First formula and their dependence, 2nd data during the 2nd stage.
     public static boolean plusTuning = false; // wisely tune the threshold used in 2nd stage clustering.
