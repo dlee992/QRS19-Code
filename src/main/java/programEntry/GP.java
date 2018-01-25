@@ -23,8 +23,7 @@ public class GP {
 	public static boolean addB = true;
 	public static boolean addC = true;
 
-     static AtomicInteger
-             finishedSS = new AtomicInteger(0);
+     static AtomicInteger finishedSS = new AtomicInteger(0);
      static AtomicInteger finishedWS = new AtomicInteger(0);
 
     public static boolean plusCellArray = false; // Extract cell array first, before the 1st stage clustering.

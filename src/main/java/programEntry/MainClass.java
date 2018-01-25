@@ -39,24 +39,14 @@ import static programEntry.TestSpreadsheet.testSpreadsheet;
  * Created by lida on 2017/6/27.
  */
 public class MainClass {
-    //TODO: get the file directory
-    //TODO: get the specific spreadsheet file
-    //TODO: get the specific worksheet
-    //TODO: from ThirdParty.CACheck get "Cell Array", actually which is contained in "CAResult"
-    //TODO: from Cell Array to clusters in the HAC algorithm to generate seed clusters
-    //TODO: the remainder is the same as CC
-
 
     static String groundTruthPath;
     private static String mode;
     private static String inDirPath;
     private static String programState;
 
-
     static AtomicInteger numberOfFormula = new AtomicInteger(0);
-
     static ArrayList<String> ssNameList = new ArrayList<>();
-
     private static AnalysisPattern analysisPattern = new AnalysisPattern();
 
 
@@ -111,7 +101,7 @@ public class MainClass {
     }
 
 
-
+    //TODO: executorDone已经起不到预期的作用，因为Thread的粒度降低到了Worksheet层级。
     public static void executorDone(ExecutorService executorService, StatisticsForAll staAll,
                                     String staResult, BufferedWriter logBuffer, List<String> errorExcelList)
             throws InterruptedException, IOException {
@@ -137,6 +127,7 @@ public class MainClass {
         //createAndShowGUI();
         System.out.println("Post-processing finishes.");
     }
+
 
     public static void createAndShowGUI() {
         JFrame frame = new JFrame("程序结束");
