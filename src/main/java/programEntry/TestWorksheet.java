@@ -24,9 +24,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 
-import static programEntry.GP.fileSeparator;
-import static programEntry.GP.finishedWS;
-import static programEntry.GP.printFlag;
+import static programEntry.GP.*;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
 
@@ -59,6 +57,18 @@ public class TestWorksheet implements Runnable {
 //    public StatisticsForSheet call() throws Exception {
 //        return testWorksheet();
 //    }
+
+
+    @Override
+    public void run() {
+        try {
+            testWorksheet();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            semaphore.release();
+        }
+    }
 
 
     private StatisticsForSheet testWorksheet()
@@ -265,14 +275,5 @@ public class TestWorksheet implements Runnable {
         workbook.write(outFile);
         outFile.close();
         workbook.close();
-    }
-
-    @Override
-    public void run() {
-        try {
-            testWorksheet();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

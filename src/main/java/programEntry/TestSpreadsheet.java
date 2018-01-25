@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.*;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -95,7 +96,14 @@ public class TestSpreadsheet {
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr);
             tasks.add(testWorksheetTask);
-            futures.add(exeService.submit(testWorksheetTask));
+
+            semaphore.acquire();
+            try {
+                futures.add(exeService.submit(testWorksheetTask));
+            }
+            catch (RejectedExecutionException neverHappen) {
+                semaphore.release();
+            }
         }
 
         //TODO:这里注释掉了 可能在最终的输出上不完整 丢失了那些没有任何信息的spreadsheet

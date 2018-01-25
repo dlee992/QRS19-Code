@@ -46,7 +46,8 @@ public class GP {
     public static BufferedWriter logBuffer = null;
     public static AtomicInteger index;
 
-     private static final int CAPACITY = 50;
+    private static final int CAPACITY = 50;
+    public static Semaphore semaphore = new Semaphore(CAPACITY-2);
 
      static {
          if (addA) testDate += "A";
@@ -54,9 +55,9 @@ public class GP {
          if (addC) testDate += "C";
 
          //TODO: 当队列长度饱和时，采用CallerRuns策略，让主线程阻塞，并开始执行当前准备发布的子线程任务。
-         RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
+         //RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
          exeService = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
-                 new ArrayBlockingQueue<Runnable>(CAPACITY), rejectedExecutionHandler);
+                 new ArrayBlockingQueue<Runnable>(CAPACITY));
 
 
          prefixOutDir = outDirPath + fileSeparator + "MiddleTemp " + new BasicUtility().getCurrentTime() + fileSeparator;

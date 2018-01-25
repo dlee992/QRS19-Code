@@ -13,7 +13,7 @@ import static programEntry.TestSpreadsheet.testSpreadsheet;
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int MAXFILES = 200;//Integer.MAX_VALUE;
+    private static int MAXFILES = 50;//Integer.MAX_VALUE;
     private static long TIMEOUT = 60*5;
     private static Set<String> testTarget = new HashSet<>();
 
