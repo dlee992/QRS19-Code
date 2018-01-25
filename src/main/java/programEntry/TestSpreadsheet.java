@@ -15,11 +15,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
-import static programEntry.GP.fileSeparator;
-import static programEntry.GP.prefixOutDir;
 import static programEntry.MainClass.ssNameList;
 import static programEntry.TestDataSet.upperLimit;
-import static programEntry.TestWorksheet.testWorksheet;
 
 public class TestSpreadsheet {
 
@@ -69,33 +66,7 @@ public class TestSpreadsheet {
             return;
         }
 
-        AtomicBoolean flagAdd = new AtomicBoolean(false);
-        for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
-            //TODO: test the specific worksheet
-//            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
-
-            String finalFileName = fileName;
-            Sheet curSheet = workbook.getSheetAt(j);
-
-            exeService.execute(() -> {
-                try {
-                    StatisticsForSheet staSheet = testWorksheet(finalFileName, curSheet, logBuffer, test, category);
-                    if (staAll.add(staSheet, logBuffer))
-                        flagAdd.set(true);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            });
-
-        }
-
-        if (!flagAdd.get()) {
-            addVirtualSS(category, fileName, 2);
-        }
-
-        String eachDirStr = outDirPath + fileSeparator + "Marked subjects " + testDate;
+        String eachDirStr = outDirPath + fileSeparator + testDate;
 
         File eachDir = new File(eachDirStr);
         if (!eachDir.exists()) {
@@ -108,19 +79,31 @@ public class TestSpreadsheet {
             categoryDir.mkdir();
         }
 
-        String suffix = null;
-        if (workbook .getSpreadsheetVersion().name().equals("EXCEL97"))
-            suffix = "xls";
-        else if (workbook .getSpreadsheetVersion().name().equals("EXCEL2007"))
-            suffix = "xlsx";
-        String outFileStr = categoryDirStr + fileSeparator + fileName.substring(0, fileName.lastIndexOf('.'))
-                + "_" + GP.addSuffix() + "." + suffix;
+        AtomicBoolean flagAdd = new AtomicBoolean(false);
 
-        FileOutputStream outFile = new FileOutputStream(outFileStr);
-        workbook.write(outFile);
-        outFile.close();
+        printFlag.put(fileName, new AtomicInteger(workbook.getNumberOfSheets()));
 
-        System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
+        System.out.println("sheet NO = " + workbook.getNumberOfSheets());
+        for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
+            //TODO: test the specific worksheet
+//            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
+
+            Sheet curSheet = workbook.getSheetAt(j);
+
+            TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
+                    category, categoryDirStr);
+            tasks.add(testWorksheetTask);
+        }
+
+        //TODO:这里注释掉了 可能在最终的输出上不完整 丢失了那些没有任何信息的spreadsheet
+//        if (!flagAdd.get()) {
+//            addVirtualSS(category, fileName, 2);
+//        }
+
+
+
+        //并发，导致下面的代码优先于其他线程先执行结束
+        System.out.println("Spreadsheet index = "+ identicalIndex +" ######## (Fake) End in: '" + fileName + "'########");
         System.out.println("FinishedSS = " + finishedSS.incrementAndGet());
         System.out.println();
         //logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");

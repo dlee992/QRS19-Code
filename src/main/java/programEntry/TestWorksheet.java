@@ -13,26 +13,58 @@ import featureExtraction.FeatureExtraction;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import utility.BasicUtility;
 
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 import static programEntry.GP.fileSeparator;
 import static programEntry.GP.finishedWS;
+import static programEntry.GP.printFlag;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
 
-public class TestWorksheet {
+public class TestWorksheet implements Callable<StatisticsForSheet> {
 
-    static StatisticsForSheet testWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
-                                            boolean test, String category)
+    private String fileName;
+    private Sheet sheet;
+    private BufferedWriter logBuffer;
+    private boolean test;
+    private String category;
+    private String categoryDirStr;
+
+
+    public TestWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
+                         boolean test, String category, String categoryDirStr) {
+        this.fileName = fileName;
+        this.sheet = sheet;
+        this.logBuffer = logBuffer;
+        this.test = test;
+        this.category = category;
+        this.categoryDirStr = categoryDirStr;
+    }
+
+
+    @Override
+    public StatisticsForSheet call() throws Exception {
+        return testWorksheet();
+    }
+
+
+    private StatisticsForSheet testWorksheet()
             throws Exception, OutOfMemoryError {
         StatisticsForSheet staSheet = new StatisticsForSheet(sheet, category, 0);
         staSheet.setBeginTime  (System.currentTimeMillis());
         staSheet.setSpreadsheet(fileName);
         staSheet.setWorksheet  (sheet.getSheetName());
+        staSheet.categoryDirStr = categoryDirStr;
+        staSheet.fileName = fileName;
 
         GroundTruthStatistics groundTruthStatistics = new GroundTruthStatistics();
         if (!test) {
@@ -49,6 +81,12 @@ public class TestWorksheet {
         InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet);
         Map<String, List<String>> formulaInfoList = infoOfSheet.getFormulaMap();
         numberOfFormula.addAndGet(formulaInfoList.size());
+
+        if (formulaInfoList.size() == 0) {
+            System.out.println("This worksheet does not contain formula cells, so skip it.");
+            //虽然没有公式，但是也要在完成的worksheet数量上减一
+            return printLastSheet(staSheet);
+        }
 
         HacClustering hacCluster = new HacClustering(formulaInfoList);
         TreeEditDistance ted       = new TreeEditDistance(sheet);
@@ -163,7 +201,7 @@ public class TestWorksheet {
             //logBuffer.newLine();
 
             //TODO: 6 mark the worksheet
-            bu.clusterPrintMark(stageIIClusters, sheet);
+            bu.clusterMark(stageIIClusters, sheet);
             bu.smellyCellMark(sheet.getWorkbook(), sheet, sdc.getDetectedSmellyCells());
 
             //Evaluation
@@ -171,7 +209,7 @@ public class TestWorksheet {
             staSheet.setSmellyCells(sdc.getDetectedSmellyCells());
         }
         else {
-            System.out.println("Seed cluster is null.");
+            System.out.println("Seed cluster does not exist.");
             //logBuffer.write("Seed cluster is null.");
             //logBuffer.newLine();
         }
@@ -180,12 +218,41 @@ public class TestWorksheet {
         staSheet.calculateForSmell();
         staSheet.setEndTime(System.currentTimeMillis());
 
-        System.out.println("---Finished Analysis"+ new BasicUtility().getCurrentTime() + "---");
+        System.out.println("---Finished Analysis: " + sheet.getSheetName() + " " + new BasicUtility().getCurrentTime() + "---");
         System.out.println("---FinishedWS = " + finishedWS.incrementAndGet());
         System.out.println();
         //logBuffer.write("----Finished Analysis---");
         //logBuffer.newLine();
         //logBuffer.newLine();
+
+        //在这里单独输出每个有意义的被标记的worksheet
+        //似乎workbook在多个线程共享的时候，进行并发的写操作，出现了问题，修改没有反应到最后的输出结果中
+
+        return printLastSheet(staSheet);
+    }
+
+    private StatisticsForSheet printLastSheet(StatisticsForSheet staSheet) throws IOException {
+        Workbook workbook = sheet.getWorkbook();
+        int currentFlag = printFlag.get(fileName).decrementAndGet();
+
+        if (currentFlag > 0) return staSheet;
+
+        String suffix = null;
+        if (workbook.getSpreadsheetVersion().name().equals("EXCEL97")) {
+            suffix = "xls";
+        }
+        else if (workbook.getSpreadsheetVersion().name().equals("EXCEL2007")) {
+            suffix = "xlsx";
+        }
+
+        String prefix = staSheet.fileName.substring(0, staSheet.fileName.lastIndexOf('.'));
+        String outFileStr = staSheet.categoryDirStr + fileSeparator + prefix
+                + "_aha_" + GP.addSuffix() + "." + suffix;
+
+        FileOutputStream outFile = new FileOutputStream(outFileStr);
+        workbook.write(outFile);
+        outFile.close();
+
         return staSheet;
     }
 }

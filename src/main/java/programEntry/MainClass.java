@@ -25,7 +25,9 @@ import utility.BasicUtility;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -68,19 +70,21 @@ public class MainClass {
         File[] categories = inDir.listFiles(filter2);
 
         staAll = new StatisticsForAll();
+        staAll.setBeginTime(System.currentTimeMillis());
 
+        //把任务添加到thread pool中,最后invokeAll执行
         for (int i = 0; categories != null && i < categories.length; i++) {
             File perCategory = new File(categories[i].getAbsolutePath());
             File[] files = perCategory.listFiles(filter1);
 
             assert files != null;
 
-            int cnt = 0;
+            int count = 0;
             for (File eachFile : files) {
-                //if (!eachFile.getName().startsWith("0000")) continue;
-//                if (!eachFile.getName().startsWith("VRS")) continue;
-                if (cnt > 0) break;
-                cnt++;
+//                if (eachFile.getName().startsWith("0000")) continue;
+//                if (!eachFile.getName().startsWith("act")) continue;
+                count ++;
+//                if (count > 10) break;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
 
@@ -93,10 +97,27 @@ public class MainClass {
             }
         }
 
+        //执行所有任务
+        List<Future<StatisticsForSheet>> futures = exeService.invokeAll(tasks, 10, TimeUnit.MINUTES);
+        Set<String> printedList = new HashSet<>();
+        //对所有Callable的return value做相应处理
+        for (Future<StatisticsForSheet> future:
+             futures) {
+            try {
+                StatisticsForSheet staSheet = future.get();
+                staAll.add(staSheet, logBuffer);
+
+            } catch (ExecutionException | InterruptedException | IllegalStateException ignored) {
+                ignored.printStackTrace();
+            } finally {
+                //System.out.println("Oh-ho.");
+            }
+        }
+
+        //等待所有任务结束
         //executorDone(exeService, staAll, prefixOutDir, logBuffer, null);
-        TimeUnit.MINUTES.sleep(1);
         exeService.shutdown();
-        exeService.awaitTermination(1, TimeUnit.DAYS);
+        exeService.awaitTermination(Integer.MAX_VALUE, TimeUnit.MINUTES);
         staAll.log(prefixOutDir, false, null);
     }
 

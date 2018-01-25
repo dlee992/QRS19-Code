@@ -533,154 +533,162 @@ public class BasicUtility {
 
     public void smellyCellMark(Workbook wb, Sheet sheet,
                                       List<Smell> smells) {
-        CreationHelper factory = wb.getCreationHelper();
+        System.out.println("smellyCellMark begin");
 
-        for (Smell sl : smells) {
-            CellReference cr = sl.getCr();
-            String description = sl.toString();
-            Drawing drawing = sheet.createDrawingPatriarch();
+        Workbook workbook = sheet.getWorkbook();
 
-            if (cr != null) {
-                Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
+//        synchronized (workbook) {
+            CreationHelper factory = wb.getCreationHelper();
 
-                if (cell != null) {
-                    Comment comment = cell.getCellComment();
-                    if (comment != null) {
-                        RichTextString rts = comment.getString();
+            for (Smell sl : smells) {
+                CellReference cr = sl.getCr();
+                String description = sl.toString();
+                Drawing drawing = sheet.createDrawingPatriarch();
 
-                        RichTextString newStr = factory.createRichTextString(rts.toString() + "\n" + description);
-                        comment.setString(newStr);
-                        comment.setAuthor("Da Li");
-                    } else {
-                        // When the comment box is visible, have it show in a 7*5 space
-                        ClientAnchor anchor = factory.createClientAnchor();
-                        anchor.setCol1(cr.getCol());
-                        anchor.setCol2(cr.getCol() + 3);
-                        anchor.setRow1(cr.getRow());
-                        anchor.setRow2(cr.getRow() + 2);
+                if (cr != null) {
+                    Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
 
-                        // Create the comment and set the text+author
-                        try {
-                            comment = drawing.createCellComment(anchor);
-                            RichTextString str = factory.createRichTextString(description);
-                            comment.setString(str);
-                            comment.setAuthor("Li");
+                    if (cell != null) {
+                        Comment comment = cell.getCellComment();
+                        if (comment != null) {
+                            RichTextString rts = comment.getString();
 
-                            // Assign the comment to the cell
-                            cell.setCellComment(comment);
-                        }
-                        catch (IllegalArgumentException IAE) {
-                            System.out.println("BasicUtility @564 line: Illegal Argument E-xception.");
+                            RichTextString newStr = factory.createRichTextString(rts.toString() + "\n" + description);
+                            comment.setString(newStr);
+                            comment.setAuthor("Da Li");
+                        } else {
+                            // When the comment box is visible, have it show in a 7*5 space
+                            ClientAnchor anchor = factory.createClientAnchor();
+                            anchor.setCol1(cr.getCol());
+                            anchor.setCol2(cr.getCol() + 3);
+                            anchor.setRow1(cr.getRow());
+                            anchor.setRow2(cr.getRow() + 2);
+
+                            // Create the comment and set the text+author
+                            try {
+                                comment = drawing.createCellComment(anchor);
+                                RichTextString str = factory.createRichTextString(description);
+                                comment.setString(str);
+                                comment.setAuthor("Li");
+
+                                // Assign the comment to the cell
+                                cell.setCellComment(comment);
+                            } catch (IllegalArgumentException IAE) {
+                                System.out.println("BasicUtility @564 line: Illegal Argument E-xception.");
+                            }
                         }
                     }
                 }
             }
-        }
+//        }
     }
 
-    public void clusterPrintMark(List<Cluster> clusters, Sheet sheet) {
-        CellStyle style = sheet
-                .getWorkbook().createCellStyle();
+    public void clusterMark(List<Cluster> clusters, Sheet sheet) {
+        System.out.println("clusterMark begin");
 
-        for (Row r : sheet) {
-            for (Cell cell : r) {
-                style.setFillPattern(CellStyle.NO_FILL);
-                cell.setCellStyle(style);
-            }
-        }
+        Workbook workbook = sheet.getWorkbook();
 
-        //ColorSet color = new ColorSet();
-        short i = 0;
+//        synchronized (workbook) {
+            CellStyle style = sheet
+                    .getWorkbook().createCellStyle();
 
-        IndexedColors[] color = IndexedColors.values();
-
-        //FillPatternType[] pattern = FillPatternType.values();
-        List<IndexedColors> pickedColor = new ArrayList<IndexedColors>(Arrays.asList(color));
-        pickedColor.remove(IndexedColors.AUTOMATIC);
-        pickedColor.remove(IndexedColors.BLACK);
-        pickedColor.remove(IndexedColors.DARK_BLUE);
-        pickedColor.remove(IndexedColors.DARK_GREEN);
-        pickedColor.remove(IndexedColors.DARK_TEAL);
-        pickedColor.remove(IndexedColors.DARK_RED);
-        pickedColor.remove(IndexedColors.DARK_YELLOW);
-        pickedColor.remove(IndexedColors.GREY_80_PERCENT);
-        pickedColor.remove(IndexedColors.WHITE);
-        pickedColor.remove(IndexedColors.BLUE);
-        pickedColor.remove(IndexedColors.BLUE_GREY);
-        pickedColor.remove(IndexedColors.RED);
-
-        for (Cluster cluster : clusters) {
-            if (cluster != null) {
-
-                // first, color the seed cells
-                CellStyle clusterStyle = sheet
-                        .getWorkbook().createCellStyle();
-                Font font = sheet.getWorkbook().createFont();
-                font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
-                //font.setFontHeightInPoints((short)15);
-                //font.setColor(IndexedColors.DARK_RED.getIndex());
-                clusterStyle.setFont(font);
-
-                List<Cell> seedCellList = cluster.getSeedCells();
-
-                for (Cell cell : seedCellList) {
-                    // if cell is contained in seed cluster, then its font color is set as dark_red.
-
-
-                    if (i < pickedColor.size()) {
-                        clusterStyle.setFillForegroundColor(pickedColor.get(i).getIndex());
-                        clusterStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-                    } else if (i < 2 * pickedColor.size()) {
-                        clusterStyle.setFillForegroundColor(pickedColor.get(i - pickedColor.size()).getIndex());
-                        clusterStyle.setFillPattern(CellStyle.FINE_DOTS);
-                    } else {
-                        clusterStyle.setFillForegroundColor(pickedColor.get(i - 2 * pickedColor.size()).getIndex());
-                        clusterStyle.setFillPattern(CellStyle.LEAST_DOTS);
-                    }
-
-                    cell.setCellStyle(clusterStyle);
+            for (Row r : sheet) {
+                for (Cell cell : r) {
+                    style.setFillPattern(CellStyle.NO_FILL);
+                    cell.setCellStyle(style);
                 }
+            }
 
-                // second, color the non-seed cells
-                clusterStyle = sheet.getWorkbook().createCellStyle();
-                font = sheet.getWorkbook().createFont();
-                font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
-                font.setFontHeightInPoints((short)15);
-                font.setColor(IndexedColors.DARK_RED.getIndex());
-                clusterStyle.setFont(font);
-                List<Cell> cellList = cluster.getClusterCells();
-                for (Cell cell: cellList)
-                    if (!seedCellList.contains(cell)) {
-                        if (i < pickedColor.size()) {
-                            clusterStyle.setFillForegroundColor(pickedColor.get(i).getIndex());
-                            clusterStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-                        } else if (i < 2 * pickedColor.size()) {
-                            clusterStyle.setFillForegroundColor(pickedColor.get(i - pickedColor.size()).getIndex());
-                            clusterStyle.setFillPattern(CellStyle.FINE_DOTS);
-                        } else {
-                            clusterStyle.setFillForegroundColor(pickedColor.get(i - 2 * pickedColor.size()).getIndex());
-                            clusterStyle.setFillPattern(CellStyle.LEAST_DOTS);
-                        }
+            //ColorSet color = new ColorSet();
+            short i = 0;
 
+            IndexedColors[] color = IndexedColors.values();
+
+            //FillPatternType[] pattern = FillPatternType.values();
+            List<IndexedColors> pickedColor = new ArrayList<IndexedColors>(Arrays.asList(color));
+            pickedColor.remove(IndexedColors.AUTOMATIC);
+            pickedColor.remove(IndexedColors.BLACK);
+            pickedColor.remove(IndexedColors.DARK_BLUE);
+            pickedColor.remove(IndexedColors.DARK_GREEN);
+            pickedColor.remove(IndexedColors.DARK_TEAL);
+            pickedColor.remove(IndexedColors.DARK_RED);
+            pickedColor.remove(IndexedColors.DARK_YELLOW);
+            pickedColor.remove(IndexedColors.GREY_80_PERCENT);
+            pickedColor.remove(IndexedColors.WHITE);
+            pickedColor.remove(IndexedColors.BLUE);
+            pickedColor.remove(IndexedColors.BLUE_GREY);
+            pickedColor.remove(IndexedColors.RED);
+
+            for (Cluster cluster : clusters) {
+                if (cluster != null) {
+
+                    // first, color the seed cells
+                    CellStyle clusterStyle = sheet
+                            .getWorkbook().createCellStyle();
+                    Font font = sheet.getWorkbook().createFont();
+                    font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
+                    //font.setFontHeightInPoints((short)15);
+                    //font.setColor(IndexedColors.DARK_RED.getIndex());
+                    clusterStyle.setFont(font);
+
+                    List<Cell> seedCellList = cluster.getSeedCells();
+
+                    for (Cell cell : seedCellList) {
+                        // if cell is contained in seed cluster, then its font color is set as dark_red.
+                        clusterMarkChoice(i, pickedColor, clusterStyle);
                         cell.setCellStyle(clusterStyle);
                     }
 
-                // iterating
-                i++;
+                    // second, color the non-seed cells
+                    clusterStyle = sheet.getWorkbook().createCellStyle();
+                    font = sheet.getWorkbook().createFont();
+                    font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
+                    font.setFontHeightInPoints((short) 15);
+                    font.setColor(IndexedColors.DARK_RED.getIndex());
+                    clusterStyle.setFont(font);
+                    List<Cell> cellList = cluster.getClusterCells();
+                    for (Cell cell : cellList)
+                        if (!seedCellList.contains(cell)) {
+                            clusterMarkChoice(i, pickedColor, clusterStyle);
+                            cell.setCellStyle(clusterStyle);
+                        }
+
+                    // iterating
+                    i++;
+                }
             }
+//        }
+    }
+
+    private void clusterMarkChoice(short i, List<IndexedColors> pickedColor, CellStyle clusterStyle) {
+        if (i < pickedColor.size()) {
+            clusterStyle.setFillForegroundColor(pickedColor.get(i).getIndex());
+            clusterStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        } else if (i < 2 * pickedColor.size()) {
+            clusterStyle.setFillForegroundColor(pickedColor.get(i - pickedColor.size()).getIndex());
+            clusterStyle.setFillPattern(CellStyle.FINE_DOTS);
+        } else {
+            clusterStyle.setFillForegroundColor(pickedColor.get(i - 2 * pickedColor.size()).getIndex());
+            clusterStyle.setFillPattern(CellStyle.LEAST_DOTS);
         }
     }
 
     public void cellMark(List<CellReference> crList, Sheet sheet) {
-        CellStyle clusterStyle = sheet.getWorkbook().createCellStyle();
+        System.out.println("cellMark begin");
 
-        for (CellReference cr : crList) {
-            Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
-            if (cell == null) continue;
+        Workbook workbook = sheet.getWorkbook();
 
-            clusterStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-            clusterStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-            cell.setCellStyle(clusterStyle);
+        synchronized (workbook) {
+            CellStyle clusterStyle = sheet.getWorkbook().createCellStyle();
+
+            for (CellReference cr : crList) {
+                Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
+                if (cell == null) continue;
+
+                clusterStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+                clusterStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+                cell.setCellStyle(clusterStyle);
+            }
         }
     }
 

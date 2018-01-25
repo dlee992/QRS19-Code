@@ -15,6 +15,7 @@ import java.util.concurrent.TimeoutException;
 
 import static programEntry.GP.*;
 import static programEntry.MainClass.createAndShowGUI;
+import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 public class TestDataSet {
 
@@ -88,7 +89,7 @@ public class TestDataSet {
                 Runnable runnable = () -> {
                     String excelName = excelFile.getName();
                     try {
-                        MainClass.testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
+                        testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
                     } catch (Exception|OutOfMemoryError e) {
                         e.printStackTrace();
                         //TODO:这里的异常SS怎么获取

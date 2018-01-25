@@ -7,6 +7,11 @@
  import java.io.File;
  import java.io.FileWriter;
  import java.io.IOException;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.concurrent.ConcurrentHashMap;
  import java.util.concurrent.ExecutorService;
  import java.util.concurrent.Executors;
  import java.util.concurrent.atomic.AtomicInteger;
@@ -37,6 +42,9 @@ public class GP {
     public static String testDate = "2018-01-23 Prototype idea";
 
     public static ExecutorService exeService;
+    public static List<TestWorksheet> tasks = new ArrayList<>();
+    public static ConcurrentHashMap<String, AtomicInteger> printFlag = new ConcurrentHashMap<>();
+
     public static StatisticsForAll staAll;
     public static String prefixOutDir;
     public static File logFile;

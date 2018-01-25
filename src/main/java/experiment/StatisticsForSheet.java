@@ -40,7 +40,9 @@ public class StatisticsForSheet {
     private String worksheet;
     public boolean virtual = false;
 
-    private Sheet sheet;
+    public Sheet sheet;
+    public String fileName;
+    public String categoryDirStr;
 
     int[] clusterSizeGT = {0,0,0,0};
     int[] clusterSize = {0,0,0,0};
