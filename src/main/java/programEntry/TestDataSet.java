@@ -72,6 +72,11 @@ public class TestDataSet {
     }
 
     static void timeoutMonitor(long TIMEOUT) throws IOException {
+        for (TestWorksheet task:
+             tasks) {
+            futures.add(exeService.submit(task));
+        }
+
         Iterator<TestWorksheet> taskIter = tasks.iterator();
 
         for (Future<StatisticsForSheet> future:

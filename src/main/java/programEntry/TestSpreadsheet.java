@@ -9,6 +9,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.util.RecordFormatException;
 
 import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -52,6 +53,11 @@ public class TestSpreadsheet {
             System.out.println("MainClass @200 line: Left Over Data E-xception.");
             workbook = null;
         }
+        catch (RuntimeException ignored) {
+            System.out.println("MainClass @200 line: Index Out Of Bound E-xception.");
+            workbook = null;
+        }
+
 
         if (workbook == null) {
             System.out.println("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
@@ -90,7 +96,6 @@ public class TestSpreadsheet {
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr);
             tasks.add(testWorksheetTask);
-            futures.add(exeService.submit(testWorksheetTask));
         }
 
         //TODO:这里注释掉了 可能在最终的输出上不完整 丢失了那些没有任何信息的spreadsheet
