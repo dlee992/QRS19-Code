@@ -1,17 +1,14 @@
 package programEntry;
 
 import experiment.StatisticsForAll;
+import experiment.StatisticsForSheet;
+import utility.GoogleMail;
 
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.*;
+import java.util.concurrent.*;
 
 import static programEntry.GP.*;
 import static programEntry.MainClass.createAndShowGUI;
@@ -20,18 +17,12 @@ import static programEntry.TestSpreadsheet.testSpreadsheet;
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int indexOfTesting = 10;
-    static int upperLimit = Integer.MAX_VALUE;
-    protected static int timeout = 5; //单位是 TimeUnit.MINUTES.
+    private static int MAXFILES = Integer.MAX_VALUE;
+    private static long TIMEOUT = 60*5;
 
-    public static void main(String[] args) {
-        try {
-            testEUESE();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    public static void main(String[] args) throws IOException {
+        testEUESE();
     }
 
 
@@ -44,89 +35,95 @@ public class TestDataSet {
         出于保守考虑,应该全记录下来,也方便后续统计每张SS包含#worksheet,含有公式的#worksheet.
      5:暂时还没有想到第四点.
     */
-    private static void testEUESE() throws InterruptedException, IOException {
+    private static void testEUESE() throws IOException {
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES-Corpus";
         File inputDir = new File(inDirPath);
 
+        staAll = new StatisticsForAll();
+        staAll.setBeginTime(System.nanoTime());
 
-        List<Future<?>> futureList = new ArrayList<>();
-        Map<Future<?>, String> errorExcelMap = new HashMap<>();
-        List<String> errorExcelList = new ArrayList<>();
-
-        int i = 0;
+        int count = 0;
         for (File subDir:
              inputDir.listFiles()) {
-
             if (subDir.isFile()) continue;
-            if (!(i==7)) {
-                i++;
-                continue;
-            }
-            i++;
-
-            staAll = new StatisticsForAll();
-            staAll.setBeginTime(System.currentTimeMillis());
-            futureList.clear();
-            errorExcelMap.clear();
-            errorExcelList.clear();
-
+            if (count > MAXFILES) continue;
             System.out.println(subDir.getName());
 
             File processedDir = new File(subDir.getAbsolutePath() + fileSeparator + "processed");
             for (File excelFile:
                  processedDir.listFiles()) {
-                if (!excelFile.getName().toLowerCase().endsWith("xls")) {
-                    excelFile.delete();
-                    continue;
-                }
-
-//                if (!excelFile.getName().startsWith("2004_PUBLIC_BUGS_INVENTORY")) continue;
-//                double size = excelFile.length()/1024.0;
-//                if (size >= fileSizeLimit) continue;
-                //System.out.println(excelFile.getName());
-
                 //直接处理这个Excel文件
-                Runnable runnable = () -> {
-                    String excelName = excelFile.getName();
-                    try {
-                        testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
-                    } catch (Exception|OutOfMemoryError e) {
-                        e.printStackTrace();
-                        //TODO:这里的异常SS怎么获取
-                        errorExcelList.add(excelName);
-                    }
-                };
-
-                Future<?> task = exeService.submit(runnable);
-                futureList.add(task);
-                errorExcelMap.put(task, excelFile.getName());
-            }
-
-            for (Future<?> task:
-                    futureList) {
-                String errorExcelName = errorExcelMap.get(task);
-
+//                if (!excelFile.getName().startsWith("Aggregate")) continue;
                 try {
-                    task.get(timeout, TimeUnit.MINUTES);
-                }
-                catch (ExecutionException e) {
-                    System.out.println("TestDataSet @71 line: Execution Exception.");
-                }
-                catch (TimeoutException e) {
-                    System.out.println("TestDataSet @71 line: Timeout E-xception, and excel name = " + errorExcelName);
-                    errorExcelList.add(errorExcelName);
-                }
-                finally {
-                    task.cancel(true);
-                    System.out.println("Try to cancel the timeout task.");
+                    count++;
+                    if (count > MAXFILES) break;
+                    testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
+                } catch (Exception  | OutOfMemoryError e) {
+                    e.printStackTrace();
                 }
             }
-
-            MainClass.executorDone(exeService, staAll, prefixOutDir, logBuffer, errorExcelList);
         }
 
-        System.out.println("everything is done.");
-        createAndShowGUI();
+        //执行所有任务
+        //对所有Callable的return value做相应处理
+
+        //对所有Callable的return value做相应处理
+        timeoutMonitor(TIMEOUT);
+    }
+
+    static void timeoutMonitor(long TIMEOUT) throws IOException {
+        Iterator<TestWorksheet> taskIter = tasks.iterator();
+
+        for (Future<StatisticsForSheet> future:
+                futures) {
+            TestWorksheet testWorksheet = taskIter.next();
+
+            try {
+//                System.out.println("[" + Thread.currentThread().getName() + "]: MainThread 2");
+                long timeout = (long) (TIMEOUT * 1_000_000_000.0); //5 seconds
+                if (testWorksheet.beginTime != -1)
+                    timeout -= (System.nanoTime() - testWorksheet.beginTime);
+                if (timeout < 0)
+                    timeout = 0;
+
+                //TODO: 这里又有一个bug，如果timeout为负数，那么表示该任务已经超时 或者 早已经执行结束，这里需要额外判断和处理
+                future.get(timeout, TimeUnit.NANOSECONDS);
+
+                staAll.add(testWorksheet.staSheet, logBuffer);
+//                System.out.println("staAll size = " + staAll.sheetList.size());
+
+            } catch (ExecutionException | InterruptedException | TimeoutException | IllegalStateException ignored) {
+
+                System.out.println("Timeout in : " + (System.nanoTime() - testWorksheet.beginTime)/ 1_000_000_000.0
+                        + " Seconds --- SS: " +  testWorksheet.staSheet.fileName +
+                        ", WS: " + testWorksheet.staSheet.sheet.getSheetName());
+
+                testWorksheet.staSheet.timeout = true;
+                testWorksheet.staSheet.setEndTime(System.nanoTime());
+                testWorksheet.printLastSheet();
+
+                staAll.add(testWorksheet.staSheet, logBuffer);
+//                System.out.println("staAll size = " + staAll.sheetList.size());
+
+                future.cancel(true);
+
+            } finally {
+
+            }
+        }
+
+        System.out.println("staAll size = " + staAll.sheetList.size());
+        staAll.log(prefixOutDir, null);
+
+//        try {
+//            GoogleMail.Send("njulida", "lida2016", "354052374@qq.com",
+//                    "实验结束", "oh-ha.");
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+
+        exeService.shutdownNow();
+        System.exit(0);
     }
 
 

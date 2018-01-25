@@ -32,12 +32,15 @@ import static programEntry.MainClass.numberOfFormula;
 
 public class TestWorksheet implements Callable<StatisticsForSheet> {
 
+    public StatisticsForSheet staSheet;
+
     private String fileName;
     private Sheet sheet;
     private BufferedWriter logBuffer;
     private boolean test;
     private String category;
     private String categoryDirStr;
+    public long beginTime = -1;
 
 
     public TestWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
@@ -48,6 +51,7 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
         this.test = test;
         this.category = category;
         this.categoryDirStr = categoryDirStr;
+        staSheet = new StatisticsForSheet(sheet, category, 0);
     }
 
 
@@ -59,8 +63,10 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
 
     private StatisticsForSheet testWorksheet()
             throws Exception, OutOfMemoryError {
-        StatisticsForSheet staSheet = new StatisticsForSheet(sheet, category, 0);
-        staSheet.setBeginTime  (System.currentTimeMillis());
+
+        this.beginTime = System.nanoTime();
+
+        staSheet.setBeginTime  (System.nanoTime());
         staSheet.setSpreadsheet(fileName);
         staSheet.setWorksheet  (sheet.getSheetName());
         staSheet.categoryDirStr = categoryDirStr;
@@ -73,7 +79,7 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
             staSheet.setGt_smellList(groundTruthStatistics.smellList);
         }
 
-        System.out.println("----Sheet '" + sheet.getSheetName() + "'----");
+        System.out.println("[" + Thread.currentThread().getName() + "]: ----Sheet '" + sheet.getSheetName() + "'----");
         //logBuffer.write("----Sheet '" + sheet.getSheetName() + "'----");
         //logBuffer.newLine();
         BasicUtility bu = new BasicUtility();
@@ -83,9 +89,11 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
         numberOfFormula.addAndGet(formulaInfoList.size());
 
         if (formulaInfoList.size() == 0) {
-            System.out.println("This worksheet does not contain formula cells, so skip it.");
+            System.out.println("[" + Thread.currentThread().getName() +
+                    "]: Worksheet does not contain formula cells, so skip it.");
             //虽然没有公式，但是也要在完成的worksheet数量上减一
-            return printLastSheet(staSheet);
+            printLastSheet();
+            return staSheet;
         }
 
         HacClustering hacCluster = new HacClustering(formulaInfoList);
@@ -216,10 +224,10 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
 
         staSheet.calculateForDetection();
         staSheet.calculateForSmell();
-        staSheet.setEndTime(System.currentTimeMillis());
+        staSheet.setEndTime(System.nanoTime());
 
         System.out.println("---Finished Analysis: " + sheet.getSheetName() + " " + new BasicUtility().getCurrentTime() + "---");
-        System.out.println("---FinishedWS = " + finishedWS.incrementAndGet());
+        System.out.println("[" + Thread.currentThread().getName() + "]: ---FinishedWS = " + finishedWS.incrementAndGet());
         System.out.println();
         //logBuffer.write("----Finished Analysis---");
         //logBuffer.newLine();
@@ -228,14 +236,16 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
         //在这里单独输出每个有意义的被标记的worksheet
         //似乎workbook在多个线程共享的时候，进行并发的写操作，出现了问题，修改没有反应到最后的输出结果中
 
-        return printLastSheet(staSheet);
+        printLastSheet();
+        return staSheet;
     }
 
-    private StatisticsForSheet printLastSheet(StatisticsForSheet staSheet) throws IOException {
+    public void printLastSheet() throws IOException {
+
         Workbook workbook = sheet.getWorkbook();
         int currentFlag = printFlag.get(fileName).decrementAndGet();
 
-        if (currentFlag > 0) return staSheet;
+        if (currentFlag > 0) return;
 
         String suffix = null;
         if (workbook.getSpreadsheetVersion().name().equals("EXCEL97")) {
@@ -245,14 +255,13 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
             suffix = "xlsx";
         }
 
-        String prefix = staSheet.fileName.substring(0, staSheet.fileName.lastIndexOf('.'));
-        String outFileStr = staSheet.categoryDirStr + fileSeparator + prefix
+        String prefix = fileName.substring(0, fileName.lastIndexOf('.'));
+        String outFileStr = categoryDirStr + fileSeparator + prefix
                 + "_aha_" + GP.addSuffix() + "." + suffix;
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
         workbook.write(outFile);
         outFile.close();
-
-        return staSheet;
+        workbook.close();
     }
 }

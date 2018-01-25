@@ -1,6 +1,7 @@
  package programEntry;
 
  import experiment.StatisticsForAll;
+ import experiment.StatisticsForSheet;
  import utility.BasicUtility;
 
  import java.io.BufferedWriter;
@@ -14,6 +15,7 @@
  import java.util.concurrent.ConcurrentHashMap;
  import java.util.concurrent.ExecutorService;
  import java.util.concurrent.Executors;
+ import java.util.concurrent.Future;
  import java.util.concurrent.atomic.AtomicInteger;
 
  /**
@@ -43,6 +45,7 @@ public class GP {
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();
+    public static List<Future<StatisticsForSheet>> futures = new ArrayList<>();
     public static ConcurrentHashMap<String, AtomicInteger> printFlag = new ConcurrentHashMap<>();
 
     public static StatisticsForAll staAll;

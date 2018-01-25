@@ -1,40 +1,16 @@
 package programEntry;
 
 import ThirdParty.CACheck.amcheck.AnalysisPattern;
-import clustering.bootstrappingClustering.BootstrappingClustering;
-import clustering.bootstrappingClustering.FeatureCellMatrix;
-import clustering.hacClustering.HacClustering;
-import clustering.hacClustering.TreeEditDistance;
-import clustering.smellDetectionClustering.SmellDetectionClustering;
-import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
-import entity.Cluster;
-import entity.InfoOfSheet;
-import experiment.GroundTruthStatistics;
 import experiment.StatisticsForAll;
 import experiment.StatisticsForSheet;
-import featureExtraction.FeatureExtraction;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.poi.EmptyFileException;
-import org.apache.poi.hssf.OldExcelFormatException;
-import org.apache.poi.hssf.record.RecordInputStream;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellReference;
-import utility.BasicUtility;
 
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
-import static programEntry.GP.index;
-import static programEntry.TestDataSet.upperLimit;
 import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 /**
@@ -46,6 +22,8 @@ public class MainClass {
     private static String mode;
     private static String inDirPath;
     private static String programState;
+
+    private static long TIMEOUT = 60; //seconds
 
     static AtomicInteger numberOfFormula = new AtomicInteger(0);
     static ArrayList<String> ssNameList = new ArrayList<>();
@@ -70,7 +48,7 @@ public class MainClass {
         File[] categories = inDir.listFiles(filter2);
 
         staAll = new StatisticsForAll();
-        staAll.setBeginTime(System.currentTimeMillis());
+        staAll.setBeginTime(System.nanoTime());
 
         //把任务添加到thread pool中,最后invokeAll执行
         for (int i = 0; categories != null && i < categories.length; i++) {
@@ -81,9 +59,9 @@ public class MainClass {
 
             int count = 0;
             for (File eachFile : files) {
-//                if (eachFile.getName().startsWith("0000")) continue;
+//                if (!eachFile.getName().startsWith("0000")) continue;
 //                if (!eachFile.getName().startsWith("act")) continue;
-                count ++;
+//                count ++;
 //                if (count > 10) break;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
@@ -98,55 +76,8 @@ public class MainClass {
         }
 
         //执行所有任务
-        List<Future<StatisticsForSheet>> futures = exeService.invokeAll(tasks, 10, TimeUnit.MINUTES);
-        Set<String> printedList = new HashSet<>();
         //对所有Callable的return value做相应处理
-        for (Future<StatisticsForSheet> future:
-             futures) {
-            try {
-                StatisticsForSheet staSheet = future.get();
-                staAll.add(staSheet, logBuffer);
-
-            } catch (ExecutionException | InterruptedException | IllegalStateException ignored) {
-                ignored.printStackTrace();
-            } finally {
-                //System.out.println("Oh-ho.");
-            }
-        }
-
-        //等待所有任务结束
-        //executorDone(exeService, staAll, prefixOutDir, logBuffer, null);
-        exeService.shutdown();
-        exeService.awaitTermination(Integer.MAX_VALUE, TimeUnit.MINUTES);
-        staAll.log(prefixOutDir, false, null);
-    }
-
-
-    //TODO: executorDone已经起不到预期的作用，因为Thread的粒度降低到了Worksheet层级。
-    public static void executorDone(ExecutorService executorService, StatisticsForAll staAll,
-                                    String staResult, BufferedWriter logBuffer, List<String> errorExcelList)
-            throws InterruptedException, IOException {
-
-        System.out.println("Post-processing begins.");
-        staAll.log(staResult, false, errorExcelList);
-
-        try {
-            //logBuffer.flush();
-            //logBuffer.close();
-            //System.out.println("logBuffer is closed.\n");
-
-            int i = 0;
-            for (String fileName:
-                 ssNameList) {
-                System.out.println(++i +": "+ fileName);
-            }
-        }
-        catch (NullPointerException npe) {
-            npe.printStackTrace();
-        }
-
-        //createAndShowGUI();
-        System.out.println("Post-processing finishes.");
+        TestDataSet.timeoutMonitor(TIMEOUT);
     }
 
 

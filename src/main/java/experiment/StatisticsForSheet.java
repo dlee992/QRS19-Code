@@ -19,6 +19,7 @@ public class StatisticsForSheet {
     private long endTime;
 
     String category;
+    public boolean timeout = false;
 
     private List<Cluster> gt_clusterList = new ArrayList<>();
     private List<CellReference> gt_smellList = new ArrayList<>();

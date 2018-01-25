@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
 import static programEntry.MainClass.ssNameList;
-import static programEntry.TestDataSet.upperLimit;
 
 public class TestSpreadsheet {
 
@@ -30,8 +29,6 @@ public class TestSpreadsheet {
         //logBuffer.write("index = " + identicalIndex + " ######## begin: " +
         //"/" + file.getName() + "'########");
         //logBuffer.newLine();
-
-        if (identicalIndex > upperLimit) return;
 
         String fileName = null;
         Workbook workbook;
@@ -86,13 +83,14 @@ public class TestSpreadsheet {
         System.out.println("sheet NO = " + workbook.getNumberOfSheets());
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
-//            if (!workbook.getSheetAt(j).getSheetName().contains("Table II.4")) continue;
+//            if (!workbook.getSheetAt(j).getSheetName().contains("Individual")) continue;
 
             Sheet curSheet = workbook.getSheetAt(j);
 
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr);
             tasks.add(testWorksheetTask);
+            futures.add(exeService.submit(testWorksheetTask));
         }
 
         //TODO:这里注释掉了 可能在最终的输出上不完整 丢失了那些没有任何信息的spreadsheet
@@ -111,7 +109,7 @@ public class TestSpreadsheet {
         ssNameList.add(fileName);
 
         //在每个SS执行完之后立刻输出当前所有执行完的SS的综合信息
-        staAll.log(prefixOutDir, true, null);
+//        staAll.log(prefixOutDir, true, null);
     }
 
 
@@ -119,6 +117,7 @@ public class TestSpreadsheet {
         StatisticsForSheet staSheet = new StatisticsForSheet(null, category, situation);
         staSheet.setSpreadsheet(fileName);
         staAll.add(staSheet, logBuffer);
-        staAll.log(prefixOutDir, true, null);
+//        staAll.log(prefixOutDir, true, null);
     }
 }
+

@@ -27,7 +27,7 @@ public class StatisticsForAll {
     // it is critical that all access to the backing list is accomplished through the returned list.
     private static Logger logger = LogManager.getLogger(StatisticsForAll.class.getName());
 
-    private CopyOnWriteArrayList<StatisticsForSheet> sheetList;
+    public CopyOnWriteArrayList<StatisticsForSheet> sheetList;
 
     private long beginTime;
     private long endTime;
@@ -56,9 +56,9 @@ public class StatisticsForAll {
         sheetList = new CopyOnWriteArrayList<StatisticsForSheet>();
     }
 
-    public synchronized void log(String prefixDir, boolean middleFlag, List<String> errorExcelList)
+    public synchronized void log(String prefixDir, List<String> errorExcelList)
             throws IOException {
-        setEndTime(System.currentTimeMillis());
+        setEndTime(System.nanoTime());
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("result");
@@ -87,7 +87,7 @@ public class StatisticsForAll {
         rowHeader.createCell(14).setCellValue("TP, FP, FN");
         rowHeader.createCell(15).setCellValue("P, R, F");
 
-        rowHeader.createCell(16).setCellValue("Run Time (min)");
+        rowHeader.createCell(16).setCellValue("Seconds");
 
         sheetList.sort(new Comparator<StatisticsForSheet>() {
             @Override
@@ -128,23 +128,23 @@ public class StatisticsForAll {
                 row.createCell(0).setCellValue(++ssCount);
                 row.createCell(1).setCellValue(staSheet.category);
                 this.category = staSheet.category;
-                Cell ssCell = row.createCell(2);
-                ssCell.setCellValue(staSheet.getSpreadsheet());
-
-                if (errorExcelList != null && errorExcelList.contains(staSheet.getSpreadsheet())) {
-                    CellStyle errorStyle = sheet.getWorkbook().createCellStyle();
-                    Font font = sheet.getWorkbook().createFont();
-                    font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
-                    font.setFontHeightInPoints((short)15);
-                    font.setColor(IndexedColors.DARK_RED.getIndex());
-                    errorStyle.setFont(font);
-                    ssCell.setCellStyle(errorStyle);
-                }
+                row.createCell(2).setCellValue(staSheet.getSpreadsheet());
             }
 
-            row.createCell(3).setCellValue(staSheet.getWorksheet());
+            Cell timeoutCellFlag = row.createCell(3);
+            timeoutCellFlag.setCellValue(staSheet.getWorksheet());
 
-            if (staSheet.virtual) continue;
+            if (staSheet.timeout) {
+                CellStyle errorStyle = sheet.getWorkbook().createCellStyle();
+                Font font = sheet.getWorkbook().createFont();
+                font.setFontName(XSSFFont.DEFAULT_FONT_NAME);
+                font.setFontHeightInPoints((short)15);
+                font.setColor(IndexedColors.DARK_RED.getIndex());
+                errorStyle.setFont(font);
+                timeoutCellFlag.setCellStyle(errorStyle);
+            }
+
+            //if (staSheet.virtual) continue;
 
             row.createCell(4).setCellValue(staSheet.getGt_smellList().size());
             row.createCell(5).setCellValue(staSheet.getSmellyCells().size());
@@ -160,11 +160,12 @@ public class StatisticsForAll {
 //            printCellRefsForSmell(staSheet.getGt_smellList(), row.createCell(10));
 //            printCellRefsForSmell(staSheet.getStageCRs(), row.createCell(11));
 
-            row.createCell(13).setCellValue("("+ staSheet.getGt_clusterList().size() +",  "+ staSheet.getStageIIClusters().size() +")");
+            row.createCell(13).setCellValue("("+ staSheet.getGt_clusterList().size() +",  "+
+                    staSheet.getStageIIClusters().size() +")");
             row.createCell(14).setCellValue("("+ staSheet.TP[0] +",  "+ staSheet.FP[0] +",  "+ staSheet.FN[0] +")");
             row.createCell(15).setCellValue("("+ roundDouble(staSheet.precision[0]) +", "+
                     roundDouble(staSheet.recall[0]) +", "+ roundDouble(staSheet.fMeasure[0]) +")");
-            row.createCell(16).setCellValue((staSheet.getEndTime() - staSheet.getBeginTime())/60000.0);
+            row.createCell(16).setCellValue(roundDouble((staSheet.getEndTime() - staSheet.getBeginTime())/1000_000_000));
 
             gt_clustersSize += staSheet.getGt_clusterList().size();
             gt_smellSize += staSheet.getGt_smellList().size();
@@ -178,10 +179,6 @@ public class StatisticsForAll {
             }
 
             prevSheet = staSheet;
-        }
-
-        if (middleFlag && ssCount % 50 != 0) {
-            return;
         }
 
         for (int i=0; i<=3; i++)
@@ -206,14 +203,14 @@ public class StatisticsForAll {
         rowTailor.createCell(15).setCellValue("("+ roundDouble(precision[0]) +", "+ roundDouble(recall[0])
                 +", "+ roundDouble(fMeasure[0]) +")");
 
-        rowTailor.createCell(16).setCellValue((endTime-beginTime)/60000.0);
+        rowTailor.createCell(16).setCellValue(roundDouble((endTime-beginTime)/1000_000_000.0));
 
         String fileName = category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
         out.println(fileName);
         FileOutputStream resultStream = new FileOutputStream(new File(prefixDir + GP.fileSeparator + fileName));
         workbook.write(resultStream);
         resultStream.close();
-        out.println("log finishes and middle = " + middleFlag + ".");
+//        out.println("log finishes and middle = " + middleFlag + ".");
 
 //        out.printf("clusterSize <=3: %d, <=10: %d, <=100: %d, >100: %d\n",
 //                clusterSize[0], clusterSize[1], clusterSize[2], clusterSize[3]);
@@ -261,8 +258,11 @@ public class StatisticsForAll {
                 staSheet.getGt_clusterList().size()==0 &&
                 staSheet.getGt_smellList().size() == 0 &&
                 staSheet.getStageIIClusters().size() == 0 &&
-                staSheet.getSmellyCells().size() == 0)
-            return false;
+                staSheet.getSmellyCells().size() == 0){
+            if (!staSheet.timeout) {
+                return false;
+            }
+        }
 
         sheetList.add(staSheet);
         return true;
