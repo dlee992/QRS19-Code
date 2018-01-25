@@ -31,7 +31,7 @@ public class TestDataSet {
 
         testTarget.add("database");
         testTarget.add("financial");
-//        testTarget.add("grades");
+        testTarget.add("grades");
 //        testTarget.add("homework");
 //        testTarget.add("inventory");
 //        testTarget.add("modeling");
@@ -88,13 +88,8 @@ public class TestDataSet {
     }
 
     static void timeoutMonitor(long TIMEOUT) throws IOException {
-        for (TestWorksheet task:
-             tasks) {
-            futures.add(exeService.submit(task));
-        }
 
         Iterator<TestWorksheet> taskIter = tasks.iterator();
-
         for (Future<StatisticsForSheet> future:
                 futures) {
             TestWorksheet testWorksheet = taskIter.next();

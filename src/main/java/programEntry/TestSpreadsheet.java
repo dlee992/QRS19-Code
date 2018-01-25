@@ -96,6 +96,7 @@ public class TestSpreadsheet {
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr);
             tasks.add(testWorksheetTask);
+            futures.add(exeService.submit(testWorksheetTask));
         }
 
         //TODO:这里注释掉了 可能在最终的输出上不完整 丢失了那些没有任何信息的spreadsheet

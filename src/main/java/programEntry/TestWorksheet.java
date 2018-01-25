@@ -260,6 +260,8 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
                 + "_aha_" + GP.addSuffix() + "." + suffix;
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
+        //TODO: 不清楚为什么workbook会空指针
+        if (workbook == null || outFile == null) return;
         workbook.write(outFile);
         outFile.close();
         workbook.close();
