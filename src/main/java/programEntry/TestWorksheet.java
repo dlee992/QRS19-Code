@@ -30,7 +30,7 @@ import static programEntry.GP.printFlag;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
 
-public class TestWorksheet implements Callable<StatisticsForSheet> {
+public class TestWorksheet implements Runnable {
 
     public StatisticsForSheet staSheet;
 
@@ -55,10 +55,10 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
     }
 
 
-    @Override
-    public StatisticsForSheet call() throws Exception {
-        return testWorksheet();
-    }
+//    @Override
+//    public StatisticsForSheet call() throws Exception {
+//        return testWorksheet();
+//    }
 
 
     private StatisticsForSheet testWorksheet()
@@ -265,5 +265,14 @@ public class TestWorksheet implements Callable<StatisticsForSheet> {
         workbook.write(outFile);
         outFile.close();
         workbook.close();
+    }
+
+    @Override
+    public void run() {
+        try {
+            testWorksheet();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

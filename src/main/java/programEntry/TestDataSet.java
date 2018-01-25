@@ -1,23 +1,19 @@
 package programEntry;
 
 import experiment.StatisticsForAll;
-import experiment.StatisticsForSheet;
-import utility.GoogleMail;
 
-import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.*;
 
 import static programEntry.GP.*;
-import static programEntry.MainClass.createAndShowGUI;
 import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int MAXFILES = Integer.MAX_VALUE;
+    private static int MAXFILES = 200;//Integer.MAX_VALUE;
     private static long TIMEOUT = 60*5;
     private static Set<String> testTarget = new HashSet<>();
 
@@ -90,7 +86,7 @@ public class TestDataSet {
     static void timeoutMonitor(long TIMEOUT) throws IOException {
 
         Iterator<TestWorksheet> taskIter = tasks.iterator();
-        for (Future<StatisticsForSheet> future:
+        for (Future<?> future:
                 futures) {
             TestWorksheet testWorksheet = taskIter.next();
 

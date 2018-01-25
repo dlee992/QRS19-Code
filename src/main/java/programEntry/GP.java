@@ -1,21 +1,13 @@
  package programEntry;
 
  import experiment.StatisticsForAll;
- import experiment.StatisticsForSheet;
  import utility.BasicUtility;
 
  import java.io.BufferedWriter;
  import java.io.File;
- import java.io.FileWriter;
- import java.io.IOException;
  import java.util.ArrayList;
- import java.util.HashMap;
  import java.util.List;
- import java.util.Map;
- import java.util.concurrent.ConcurrentHashMap;
- import java.util.concurrent.ExecutorService;
- import java.util.concurrent.Executors;
- import java.util.concurrent.Future;
+ import java.util.concurrent.*;
  import java.util.concurrent.atomic.AtomicInteger;
 
  /**
@@ -45,7 +37,7 @@ public class GP {
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();
-    public static List<Future<StatisticsForSheet>> futures = new ArrayList<>();
+    public static List<Future<?>> futures = new ArrayList<Future<?>>();
     public static ConcurrentHashMap<String, AtomicInteger> printFlag = new ConcurrentHashMap<>();
 
     public static StatisticsForAll staAll;
@@ -54,14 +46,21 @@ public class GP {
     public static BufferedWriter logBuffer = null;
     public static AtomicInteger index;
 
-    static {
+     private static final int CAPACITY = 50;
+
+     static {
          if (addA) testDate += "A";
          if (addB) testDate += "B";
          if (addC) testDate += "C";
 
-         exeService = Executors.newFixedThreadPool(8);
+         //TODO: 当队列长度饱和时，采用CallerRuns策略，让主线程阻塞，并开始执行当前准备发布的子线程任务。
+         RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
+         exeService = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
+                 new ArrayBlockingQueue<Runnable>(CAPACITY), rejectedExecutionHandler);
+
 
          prefixOutDir = outDirPath + fileSeparator + "MiddleTemp " + new BasicUtility().getCurrentTime() + fileSeparator;
+
          File middleDir = new File(prefixOutDir);
          if (!middleDir.exists()) {
              middleDir.mkdir();
