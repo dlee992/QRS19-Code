@@ -275,5 +275,6 @@ public class TestWorksheet implements Runnable {
         workbook.write(outFile);
         outFile.close();
         workbook.close();
+        printFlag.remove(fileName);
     }
 }
