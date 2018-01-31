@@ -202,7 +202,15 @@ public class HacClustering {
 		}
 
 		System.out.println("Pre-processing is finished " + new BasicUtility().getCurrentTime());
-		//开始进行正常地复杂度极高的层次聚类
+
+		//TODO:采用 nearest-neighbor chain algorithm, 时间/空间复杂度都是O(n^2).
+		//算法链接: https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm.
+
+
+
+
+
+		/*
 		double minDist = 0;
 		double eps = 0.02;
 		while (minDist <= eps) {
@@ -236,6 +244,7 @@ public class HacClustering {
 
 			}
 		}
+		*/
 	}
 
 	private double computeDist(Cluster clusterLeft, Cluster clusterRight) {
