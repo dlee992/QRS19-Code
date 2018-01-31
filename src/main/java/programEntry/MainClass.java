@@ -23,7 +23,7 @@ public class MainClass {
     private static String inDirPath;
     private static String programState;
 
-    private static long TIMEOUT = 60; //seconds
+    private static long TIMEOUT = 60 * 15; //seconds
 
     static AtomicInteger numberOfFormula = new AtomicInteger(0);
     static ArrayList<String> ssNameList = new ArrayList<>();
@@ -59,9 +59,9 @@ public class MainClass {
 
             int count = 0;
             for (File eachFile : files) {
-//                if (!eachFile.getName().startsWith("0000")) continue;
+//                if (eachFile.getName().startsWith("0000")) continue;
 //                if (!eachFile.getName().startsWith("act")) continue;
-//                count ++;
+                count ++;
 //                if (count > 10) break;
 
                 final File finalEachFile = new File(eachFile.getAbsolutePath());

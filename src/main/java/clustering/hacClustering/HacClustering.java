@@ -2,33 +2,30 @@ package clustering.hacClustering;
 
 import convenience.RTED;
 import entity.Cluster;
-import entity.R1C1Cell;
 import featureExtraction.strongFeatureExtraction.AST;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellReference;
+
 import util.LblTree;
 import utility.BasicUtility;
-import utility.FormulaParsing;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class HacClustering {
-	private static Logger logger = LogManager.getLogger(HacClustering.class.getName());
+	private Logger logger = Logger.getLogger("HAC");
 
-	private Map<String, List<String>> formulaInfoList = null;
+	private Map<String, List<String>> formulaInfoList;
 	private double[][] distances;
 	private List<String> formulaCellAdd;
-	private BasicUtility bu = new BasicUtility();
+	private int N = 0;
 
     public HacClustering(Map<String, List<String>> formulaInfoList) {
 		this.formulaInfoList = formulaInfoList;
+		N = formulaInfoList.size();
+		distances = new double[2*N][2*N];
+
 	}
 
 	public void computeDistance(TreeEditDistance ted) throws OutOfMemoryError {
-		distances = new double[formulaInfoList.size()]
-				[formulaInfoList.size()];
 		int m =0;
 		formulaCellAdd = new ArrayList<>();
 
@@ -143,26 +140,30 @@ public class HacClustering {
 	private List<Cluster> performClustering() {
 		//TODO: cluster initialization
 		List<Cluster> clusters = new ArrayList<>();
-		for (String aFormulaCellAdd : formulaCellAdd)
-			clusters.add(new Cluster(aFormulaCellAdd));
+		for (String formulaCell : formulaCellAdd)
+			clusters.add(new Cluster(formulaCell));
 
 		//TODO: clustering process
-		clusteringCoreProcess(clusters);
-		
-		return clusters;
+		return clusteringCoreProcess(clusters);
 	}
 
-	public void clusteringCoreProcess(List<Cluster> clusters)
+	private List<Cluster> clusteringCoreProcess(List<Cluster> clusters)
 	{
 	    /*
-	    TODO:
-	    显然可以加一个优化：预先把完全一样的格放在同一个类中
+	    * TODO: 显然可以加一个优化：预先把完全一样的格放在同一个类中
 	     */
-		int clusterIndex = 0;
 		ArrayList<Integer> joinList = new ArrayList<>();
+		/*
+		* 0: 这个类从未被加入过stack
+		* 1: 这个类正在stack中
+		* 2: 这个类已经从stack中remove
+		 */
+		List<Integer> visitedStack = new ArrayList<>(2*N);
 
+		int clusterIndex = 0;
 		int size = clusters.size();
-		for (int j = 0; j < size; j++) {
+		for (int j = 0; j < 2*N; j++) {
+			visitedStack.add(0);
 			joinList.add(-1);
 		}
 		for (int round = 0; round < size; round++) {
@@ -180,24 +181,43 @@ public class HacClustering {
 
 			if (toAddCount > 1) {
 				//System.out.println("Merge some same clusters.");
-				Cluster parent = new Cluster("#" + ++clusterIndex);
+				String name = "#" + ++clusterIndex;
+				Cluster parent = new Cluster(name);
 				for (int j = size-1; j >=0; j--) {
 					if (joinList.get(j) == round) {
 						Cluster child = clusters.get(j);
+						child.merged = true;
 						parent.addChild(child);
 						//child.setParent(parent);
 					}
 				}
 
 				clusters.add(parent);
+				formulaCellAdd.add(name);
 			}
 			else {
 				joinList.set(round, -1);
 			}
 		}
+
+
+		int upperBound = clusters.size(); //所有叶子类和新生成的中间类的总个数
 		for (int round = size-1; round >= 0; round--) {
 			if (joinList.get(round) >= 0) {
-				clusters.remove(round);
+				//TODO:下面的注释是一个隐患
+				//clusters.remove(round);
+				visitedStack.set(round, 2);
+			}
+		}
+
+		//重新计算distances数组
+		for (int i = size; i < clusters.size(); i++) {
+			for (int j = 0; j < size; j++) {
+				if (visitedStack.get(j) == 2) continue;
+				duplicateCode(clusters, i, j);
+			}
+			for (int j = i+1; j < clusters.size(); j++) {
+				duplicateCode(clusters, i, j);
 			}
 		}
 
@@ -206,9 +226,95 @@ public class HacClustering {
 		//TODO:采用 nearest-neighbor chain algorithm, 时间/空间复杂度都是O(n^2).
 		//算法链接: https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm.
 
+		//初始化队列
+		Deque<Cluster> stack = new ArrayDeque<>();
+		int point = 0;
+		double threshold = 0.02;
+
+		while (point < upperBound) {
+			//如果队列为空 加入一个未被访问过的类
+			if (stack.isEmpty()) {
+				while (point < upperBound && visitedStack.get(point) == 2)
+					++point;
+
+				if (point >= upperBound) break;
+				stack.add(clusters.get(point));
+				visitedStack.set(point, 1);
+			}
+
+			//对队列头元素，寻找它的最近邻
+			Cluster sourceCluster = stack.getLast();
+
+			int source = clusters.indexOf(sourceCluster), minimumTarget = -1;
+			double minimumDist = 1;
+
+			for (int target = 0; target < clusters.size(); ++target) {
+				if (target == source || visitedStack.get(target) == 2) continue;
+
+				if (distances[source][target] <= threshold && distances[source][target] < minimumDist) {
+					minimumDist = distances[source][target];
+					minimumTarget = target;
+				}
+			}
+
+			//如果不存在满足约束的目标类，直接移除并继续迭代
+			if (minimumDist == 1) {
+				Cluster removeCluster = stack.removeLast();
+				int remove = clusters.indexOf(removeCluster);
+				visitedStack.set(remove, 2);
+				continue;
+			}
+
+			assert minimumTarget != -1;
+
+			Cluster targetCluster = clusters.get(minimumTarget);
+			//处理这个最近邻：加入到stack中，或者一起remove
+			if (visitedStack.get(minimumTarget) == 0) {
+				//把这个目标加入stack中
+				stack.add(targetCluster);
+				visitedStack.set(minimumTarget, 1);
+			}
+			else if (visitedStack.get(minimumTarget) == 1) {
+				//生成新的类
+				Cluster mergedCluster = new Cluster("#"+(++clusterIndex));
+
+				mergedCluster.addChild(sourceCluster);
+				mergedCluster.addChild(targetCluster);
+				sourceCluster.merged = targetCluster.merged = true;
+
+				assert sourceCluster != null;
 
 
 
+				//修改stack状态
+				stack.removeLast();
+				stack.removeLast();
+				visitedStack.set(source, 2);
+				visitedStack.set(minimumTarget, 2);
+
+				//更新distances数组
+				for (int i = 0; i < clusters.size(); i++) {
+					Cluster cluster = clusters.get(i);
+					if (cluster.merged) continue;
+					double dist = computeDist(cluster, mergedCluster);
+					distances[i][clusters.size()] = distances[clusters.size()][i] = dist;
+				}
+
+				//更新clusters列表和最大值
+				clusters.add(mergedCluster);
+				++upperBound;
+
+			}
+			//继续迭代
+		}
+
+		//remove已经被合并但仍然存在于clusters中的类
+		for (int i = clusters.size() -1; i >= 0; --i) {
+			Cluster cluster = clusters.get(i);
+			if (cluster.merged) clusters.remove(cluster);
+		}
+
+		return clusters;
 
 		/*
 		double minDist = 0;
@@ -247,6 +353,17 @@ public class HacClustering {
 		*/
 	}
 
+	private void duplicateCode(List<Cluster> clusters, int i, int j) {
+		Cluster cluster_i = clusters.get(i);
+		Cluster cluster_j = clusters.get(j);
+
+		int index_i = formulaCellAdd.indexOf(cluster_i.getName());
+		int index_j = formulaCellAdd.indexOf(cluster_j.getName());
+
+		double dist = computeDist(cluster_i, cluster_j);
+		distances[index_i][index_j] = distances[index_j][index_i] = dist;
+	}
+
 	private double computeDist(Cluster clusterLeft, Cluster clusterRight) {
 		double sum = 0;
 		List<Cluster> leafLefts = clusterLeft.getChildrenCluster(clusterLeft);
@@ -280,197 +397,5 @@ public class HacClustering {
 		
 		return sum;
 	}
-
-	/*
-	public List<Cluster> extend_seed_cluster_one(Sheet sheet, List<Cluster> clusters) {
-		List<Cluster> stageIClusters = new ArrayList<Cluster>();
-		for (Cluster cluster : clusters)
-			if (cluster.getChildren().size() == 0) {
-				R1C1Cell r1C1Cell = bu.extractCell(0, 0, cluster.getName());
-				Cluster root_cluster = extend_seed_cluster(sheet, r1C1Cell, cluster, clusters, stageIClusters);
-				stageIClusters.add(root_cluster);
-			}
-			else if (O2_2) {
-				List<CellReference> crLists = cluster.extractCellRefs(cluster, 1);
-				Cluster root_cluster = cluster;
-				for (CellReference cr : crLists) {
-					R1C1Cell r1C1Cell = bu.extractCell(0, 0, cr.formatAsString());
-					root_cluster = extend_seed_cluster(sheet, r1C1Cell, root_cluster, clusters, stageIClusters);
-				}
-				stageIClusters.add(root_cluster);
-			}
-			else {
-				stageIClusters.add(cluster);
-			}
-		return stageIClusters;
-	}
-*/
-	private Cluster extend_seed_cluster(Sheet sheet, R1C1Cell r1C1Cell, Cluster root_cluster, List<Cluster> clusters, List<Cluster> stageIClusters) {
-		List<R1C1Cell> referenced_cells = new FormulaParsing().getOperator(sheet, r1C1Cell.column, r1C1Cell.row);
-		Cluster new_cluster;
-
-		if (isOrNotSameDirection("Row", r1C1Cell, referenced_cells)) {
-			int offset=-1;
-			while (r1C1Cell.row + offset >= 0) {
-				Row upper_row = sheet.getRow(r1C1Cell.row + offset);
-				if (upper_row != null) {
-					Cell cur_cell = upper_row.getCell(r1C1Cell.column);
-					if (cur_cell != null) {
-						new_cluster = isOrNotAdd(sheet, r1C1Cell, cur_cell, root_cluster, clusters, stageIClusters);
-						if (new_cluster == null) break;
-						root_cluster = new_cluster;
-					}
-				}
-				offset--;
-			}
-
-                offset = 1;
-                while (r1C1Cell.row + offset <= sheet.getLastRowNum()) {
-                    Row below_row = sheet.getRow(r1C1Cell.row + offset);
-                    if (below_row != null) {
-                        Cell cur_cell = below_row.getCell(r1C1Cell.column);
-                        if (cur_cell != null) {
-                            new_cluster = isOrNotAdd(sheet, r1C1Cell, cur_cell, root_cluster, clusters, stageIClusters);
-                            if (new_cluster == null) break;
-                            root_cluster = new_cluster;
-                        }
-                    }
-                    offset++;
-                }
-
-            } else if (isOrNotSameDirection("Col", r1C1Cell, referenced_cells)) {
-                int offset = -1;
-                while (r1C1Cell.column + offset >= 0) {
-                    Row row = sheet.getRow(r1C1Cell.row);
-                    if (row != null) {
-                        Cell cur_cell = row.getCell(r1C1Cell.column + offset);
-                        if (cur_cell != null) {
-                            new_cluster = isOrNotAdd(sheet, r1C1Cell, cur_cell, root_cluster, clusters, stageIClusters);
-                            if (new_cluster == null) break;
-                            root_cluster = new_cluster;
-                        }
-                    }
-                    offset --;
-                }
-
-                offset = +1;
-                while (r1C1Cell.column + offset <= 255) {
-                    Row row = sheet.getRow(r1C1Cell.row);
-                    if (row != null) {
-                        Cell cur_cell = row.getCell(r1C1Cell.column + offset);
-                        if (cur_cell != null) {
-                            new_cluster = isOrNotAdd(sheet, r1C1Cell, cur_cell, root_cluster, clusters, stageIClusters);
-                            if (new_cluster == null) break;
-                            root_cluster = new_cluster;
-                        }
-                    }
-                    offset ++;
-                }
-            }
-
-        return root_cluster;
-	}
-
-	private Cluster isOrNotAdd(Sheet sheet, R1C1Cell r1C1Cell, Cell cur_cell, Cluster root_cluster,
-							   List<Cluster> clusters, List<Cluster> stageIClusters){
-        if (cur_cell.getCellTypeEnum() == CellType.NUMERIC && cur_cell.getNumericCellValue() != (double) 0) {
-            Cell baseCell = sheet.getRow(r1C1Cell.row).getCell(r1C1Cell.column);
-            FormulaEvaluator evaluator = sheet.getWorkbook().getCreationHelper().createFormulaEvaluator();
-            Cluster new_cluster = null;
-
-            boolean isContain = false;
-            CellReference cr = new CellReference(cur_cell);
-
-            for (Cluster cluster: stageIClusters) {
-                cluster.extractCellRefs(cluster, 1);
-                if (cluster.getClusterCellRefs().contains(cr)) {
-                    isContain = true;
-                    break;
-                }
-            }
-
-            for (Cluster cluster: clusters) {
-                cluster.extractCellRefs(cluster, 1);
-                if (cluster.getClusterCellRefs().contains(cr)) {
-                    isContain = true;
-                    break;
-                }
-            }
-            if (isContain) return null;
-
-			//logger.debug("baseCell: row=%d, column=%d, formula=%s", baseCell.getRowIndex(),
-			//		baseCell.getColumnIndex(), baseCell.getCellFormula());
-            double old_value = cur_cell.getNumericCellValue();
-            String new_cellFormulaA1 = bu.convertA1ToA1(cr.getRow() - r1C1Cell.row, cr.getCol() - r1C1Cell.column,
-					baseCell.getCellFormula());
-
-            if (new_cellFormulaA1 != null) {
-                cur_cell.setCellType(CellType.FORMULA);
-                cur_cell.setCellFormula(new_cellFormulaA1);
-				//logger.debug("curCell: row=%d, column=%d, formula=%s", cur_cell.getRowIndex(),
-				//		cur_cell.getColumnIndex(), cur_cell.getCellFormula());
-                int result_type = evaluator.evaluateFormulaCell(cur_cell);
-                if (result_type != Cell.CELL_TYPE_NUMERIC) {
-                    cur_cell.setCellValue(old_value);
-                    cur_cell.setCellType(CellType.NUMERIC);
-                    return null;
-                }
-                double new_value = cur_cell.getNumericCellValue();
-                cur_cell.setCellValue(old_value);
-                cur_cell.setCellType(CellType.NUMERIC);
-
-                /*
-                strong coverage condition.
-                 */
-//                if (logicalOperator) {
-//					if (Math.abs(old_value - new_value) <= parameter_1 &&
-//							Math.abs((old_value - new_value) / old_value) <= parameter_2
-//							) {
-//						if (dataCellSet.contains(cr) == false) { // avoid a data cell is added into two clusters.
-//							ClusterPair cp = new ClusterPair(root_cluster, new Cluster(cr.formatAsString()), null);
-//							new_cluster = cp.agglomerate(null);
-//						}
-//					}
-//					else return null;
-//				}
-//				else {
-//					if (Math.abs(old_value - new_value) <= parameter_1 ||
-//							Math.abs((old_value - new_value) / old_value) <= parameter_2
-//							) {
-//						if (dataCellSet.contains(cr) == false) { // avoid a data cell is added into two clusters.
-//							ClusterPair cp = new ClusterPair(root_cluster, new Cluster(cr.formatAsString()), null);
-//							new_cluster = cp.agglomerate(null);
-//						}
-//					}
-//					else return null;
-//				}
-
-                return new_cluster;
-            }
-            else return null;
-
-        }
-
-        return null;
-	}
-
-	private boolean isOrNotSameDirection(String dir, R1C1Cell r1C1Cell, List<R1C1Cell> referenced_cells) {
-		if (dir.equals("Row")) {
-			int row_base = r1C1Cell.row;
-			for (R1C1Cell cell : referenced_cells)
-				if (row_base != cell.row)
-					return false;
-			return true;
-		}
-		else {
-			int col_base = r1C1Cell.column;
-			for (R1C1Cell cell : referenced_cells)
-				if (col_base != cell.column)
-					return false;
-			return true;
-		}
-	}
-
-
 
 }

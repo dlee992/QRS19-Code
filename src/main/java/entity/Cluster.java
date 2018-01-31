@@ -1,6 +1,5 @@
 package entity;
 
-import clustering.hacClustering.hierarchicalClustering.Distance;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
@@ -15,8 +14,10 @@ import java.util.Map;
 //import static programEntry.GP.parameter_3;
 
 public class Cluster {
-	
+
+	//todo: name等于某个单元格位置 表示树的叶子节点；那么等于#d 表示树的内部节点。
 	private String name;
+	public boolean merged = false;
 	private List<Cluster> children = null;
 
 	private List<CellReference> clusterCellRefs;
@@ -31,8 +32,6 @@ public class Cluster {
 	private int upperBorder, belowBorder, leftBorder, rightBorder;
 
 	public double coverage = -1;
-
-	private Distance distance = new Distance();
 
 	@Override
 	public String toString () {
@@ -53,19 +52,6 @@ public class Cluster {
 		this.name = name;
 //		System.out.println("cluster name = " + name);
 	}
-
-
-    public Distance getDistance() {
-        return distance;
-    }
-
-    public Double getWeightValue() {
-        return distance.getWeight();
-    }
-
-    public void setDistance(Distance distance) {
-        this.distance = distance;
-    }
 
 	public void addChild(Cluster cluster) {
 		getChildren().add(cluster);
