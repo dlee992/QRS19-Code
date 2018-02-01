@@ -48,7 +48,6 @@
             <version>v1.1</version>
             <scope>system</scope>
             <systemPath>${basedir}/src/main/resources/RTED_v1.1.jar</systemPath>
-            <!--<systemPath>/src/main/resources/RTED_v1.1.jar</systemPath>-->
         </dependency>
 
         <dependency>
@@ -57,7 +56,14 @@
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${basedir}/src/main/resources/com.microsoft.z3.jar</systemPath>
-            <!--<systemPath>A:/CC1s-concurrent/src/main/resources/com.microsoft.z3.jar</systemPath>-->
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft</groupId>
+            <artifactId>z3</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/apted.jar</systemPath>
         </dependency>
 
         <dependency>
