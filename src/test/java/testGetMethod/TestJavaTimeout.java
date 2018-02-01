@@ -1,4 +1,4 @@
-package programEntry;
+package testGetMethod;
 
 import java.util.List;
 import java.util.concurrent.*;
@@ -9,7 +9,7 @@ public class TestJavaTimeout {
 
     private static Logger logger = Logger.getLogger("TestJavaTimeout");
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void mainx(String[] args) throws InterruptedException {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

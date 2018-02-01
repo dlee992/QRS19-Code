@@ -26,7 +26,7 @@ public class TestCACheck {
     private static String outDirPath = parent_dir + fileSeparator + "Outputs" + fileSeparator + "CACheck_" + currentTime;
     private static int upperBound = 5;
 
-    public static void main(String args[]) throws IOException, InvalidFormatException {
+    public static void mainx(String args[]) throws IOException, InvalidFormatException {
 
         File inDir = new File(inDirPath);
         File outDir = new File(outDirPath);

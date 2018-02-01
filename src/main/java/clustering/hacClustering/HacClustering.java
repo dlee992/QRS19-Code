@@ -4,7 +4,7 @@ import convenience.RTED;
 import entity.Cluster;
 import featureExtraction.strongFeatureExtraction.AST;
 
-import util.LblTree;
+import apted.util.LblTree;
 import utility.BasicUtility;
 
 import java.util.*;
@@ -22,11 +22,16 @@ public class HacClustering {
 		this.formulaInfoList = formulaInfoList;
 		N = formulaInfoList.size();
 		distances = new double[2*N][2*N];
-
 	}
 
 	public void computeDistance(TreeEditDistance ted) throws OutOfMemoryError {
-		int m =0;
+    	/*
+    	* TODO: 如果要修改TED过程，本质上只要修改rename操作时能够同时比较一个单元格的四种表示形式，
+    	* TODO: 并且返回其中remove的最小代价(minimum cost)
+    	 */
+
+
+		int m = 0;
 		formulaCellAdd = new ArrayList<>();
 
 //		System.out.println("formulaInfoList size = " + formulaInfoList.size());

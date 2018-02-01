@@ -1,4 +1,4 @@
-package clustering.smellDetectionClustering;
+package entity;
 
 import org.apache.poi.ss.usermodel.Cell;
 

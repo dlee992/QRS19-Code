@@ -1,6 +1,6 @@
 package experiment;
 
-import clustering.smellDetectionClustering.Smell;
+import entity.Smell;
 import entity.Cluster;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;

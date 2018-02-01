@@ -1,6 +1,6 @@
 package clustering.bootstrappingClustering;
 
-import clustering.smellDetectionClustering.FakeCell;
+import entity.FakeCell;
 import entity.CellFeature;
 import entity.CellLocation;
 import entity.Cluster;
@@ -25,8 +25,6 @@ import utility.FormulaParsing;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.System.out;
 //import static programEntry.GP.O3;
 
 public class BootstrappingClustering {

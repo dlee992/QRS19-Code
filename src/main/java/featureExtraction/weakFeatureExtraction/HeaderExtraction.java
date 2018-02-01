@@ -1,6 +1,6 @@
 package featureExtraction.weakFeatureExtraction;
 
-import clustering.smellDetectionClustering.FakeCell;
+import entity.FakeCell;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;

@@ -3,6 +3,8 @@ package clustering.smellDetectionClustering;
 import clustering.bootstrappingClustering.CellClusterMatrix;
 import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.bootstrappingClustering.FeatureClusterMatrix;
+import entity.FakeCell;
+import entity.Smell;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;

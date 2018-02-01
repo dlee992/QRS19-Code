@@ -1,15 +1,15 @@
-package clustering.smellDetectionClustering;
+package entity;
 
 import org.apache.poi.ss.util.CellReference;
 
 public class Smell {
 	private CellReference cr = null;
 	
-	boolean isMissingFormulaSmell = false;
-	boolean isDissimilarFormulaSmell = false;
-	boolean isDissimilarOperationSmell = false;
-	boolean isDissimilarCellReferenceSmell = false;
-	boolean isHardCodedConstantSmell = false;
+	public boolean isMissingFormulaSmell = false;
+	public boolean isDissimilarFormulaSmell = false;
+	public boolean isDissimilarOperationSmell = false;
+	public boolean isDissimilarCellReferenceSmell = false;
+	public boolean isHardCodedConstantSmell = false;
 	
 	public Smell(CellReference cr){
 		this.cr = cr;
