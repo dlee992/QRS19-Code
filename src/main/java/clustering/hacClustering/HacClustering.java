@@ -3,8 +3,7 @@ package clustering.hacClustering;
 import convenience.RTED;
 import entity.Cluster;
 import featureExtraction.strongFeatureExtraction.AST;
-
-import apted.util.LblTree;
+import util.LblTree;
 import utility.BasicUtility;
 
 import java.util.*;
@@ -28,6 +27,8 @@ public class HacClustering {
     	/*
     	* TODO: 如果要修改TED过程，本质上只要修改rename操作时能够同时比较一个单元格的四种表示形式，
     	* TODO: 并且返回其中remove的最小代价(minimum cost)
+    	*
+    	* TODO: 先判断node类型；如果都是单元格，那么比较四种形式(4*4)；计算一个最小值(应该就是看字符串是否完全相同吧!)
     	 */
 
 
