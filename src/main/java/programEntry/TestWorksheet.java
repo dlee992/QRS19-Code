@@ -3,7 +3,6 @@ package programEntry;
 import clustering.bootstrappingClustering.BootstrappingClustering;
 import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.hacClustering.HacClustering;
-import clustering.hacClustering.TreeEditDistance;
 import clustering.smellDetectionClustering.SmellDetectionClustering;
 import entity.Cluster;
 import entity.InfoOfSheet;
@@ -18,11 +17,9 @@ import org.apache.poi.ss.util.CellReference;
 import utility.BasicUtility;
 
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.Callable;
 
 import static programEntry.GP.*;
 import static programEntry.MainClass.groundTruthPath;
@@ -106,8 +103,8 @@ public class TestWorksheet implements Runnable {
             return staSheet;
         }
 
-        HacClustering hacCluster = new HacClustering(formulaInfoList);
-        TreeEditDistance ted       = new TreeEditDistance(sheet);
+        HacClustering hacCluster = new HacClustering(sheet, formulaInfoList);
+
         List<Cluster> caCheckCluster = new ArrayList<>();
         Set<String> caCheckFormula = new HashSet<>();
 
@@ -116,7 +113,7 @@ public class TestWorksheet implements Runnable {
         //logBuffer.write("---- Stage I begun ----");
         //logBuffer.newLine();
 
-        List<Cluster> stageIClusters = hacCluster.clustering(ted);
+        List<Cluster> stageIClusters = hacCluster.clustering();
 
         System.out.println("---- Stage I finished "+ new BasicUtility().getCurrentTime() + "----");
         //logBuffer.write("---- Stage I finished ----");

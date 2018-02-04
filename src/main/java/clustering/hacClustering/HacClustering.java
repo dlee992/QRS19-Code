@@ -1,8 +1,12 @@
 package clustering.hacClustering;
 
+import clustering.hacClustering.customTED.MyInputParser;
+import clustering.hacClustering.customTED.MyNodeData;
 import convenience.RTED;
 import entity.Cluster;
 import featureExtraction.strongFeatureExtraction.AST;
+import node.Node;
+import org.apache.poi.ss.usermodel.Sheet;
 import util.LblTree;
 import utility.BasicUtility;
 
@@ -16,14 +20,32 @@ public class HacClustering {
 	private double[][] distances;
 	private List<String> formulaCellAdd;
 	private int N = 0;
+	private Sheet sheet;
 
-    public HacClustering(Map<String, List<String>> formulaInfoList) {
+
+    public HacClustering(Sheet sheet, Map<String, List<String>> formulaInfoList) {
+    	this.sheet = sheet;
 		this.formulaInfoList = formulaInfoList;
 		N = formulaInfoList.size();
 		distances = new double[2*N][2*N];
 	}
 
-	public void computeDistance(TreeEditDistance ted) throws OutOfMemoryError {
+
+	public String childrenSearch(Cluster cl) {
+		StringBuilder ret = new StringBuilder();
+		ret.append("{").append(cl.getName());
+		if (!cl.isLeaf()) {
+			for (Cluster child : cl.getChildren()) {
+				ret.append(childrenSearch(child));
+			}
+		}
+		ret.append("}");
+
+		return ret.toString();
+	}
+
+
+	public void computeDistance() throws OutOfMemoryError {
     	/*
     	* TODO: 如果要修改TED过程，本质上只要修改rename操作时能够同时比较一个单元格的四种表示形式，
     	* TODO: 并且返回其中remove的最小代价(minimum cost)
@@ -46,11 +68,11 @@ public class HacClustering {
 			left[1] = itemOut.getValue().get(0);
 			left[2] = itemOut.getValue().get(1);
 
-			AST astLeft = new AST(left[1], left[0], ted.sheet);
+			AST astLeft = new AST(left[1], left[0], sheet);
             String treeStr = "";
             Cluster clLeft = astLeft.createTree();
             if (clLeft != null) {
-				treeStr = ted.childrenSearch(clLeft);
+				treeStr = childrenSearch(clLeft);
             }
 //            out.println(left[0] + "'s AST Tree = " + treeStr);
             String asTreeStrLeft = treeStr.replace(":", " to ");
@@ -71,11 +93,11 @@ public class HacClustering {
 				right[1] = itemIn.getValue().get(0);
 				right[2] = itemIn.getValue().get(1);
 
-                AST astRight = new AST(right[1], right[0], ted.sheet);
+                AST astRight = new AST(right[1], right[0], sheet);
                 Cluster clRight = astRight.createTree();
 
                 if (clRight != null)
-                    treeStr = ted.childrenSearch(clRight);
+                    treeStr = childrenSearch(clRight);
 
                 String asTreeStrRight = treeStr.replace(":", " to ");
                 LblTree asTreeRight = LblTree.fromString(asTreeStrRight);
@@ -88,11 +110,11 @@ public class HacClustering {
 //                out.printf("%s = %s, %s = %s\n", left[0], asTreeStrLeft, right[0], asTreeStrRight);
 
                 //compute CDT.
-                String dpTreeStrLeft = BasicUtility.cellDependencies(ted.sheet, left[0], 0);
+                String dpTreeStrLeft = BasicUtility.cellDependencies(sheet, left[0], 0);
                 LblTree dpTreeLeft = LblTree.fromString(dpTreeStrLeft);
                 int leftNodeNum = dpTreeLeft.getNodeCount();
 
-                String dpTreeStrRight = BasicUtility.cellDependencies(ted.sheet, right[0], 0);
+                String dpTreeStrRight = BasicUtility.cellDependencies(sheet, right[0], 0);
                 LblTree dpTreeRight = LblTree.fromString(dpTreeStrRight);
                 int rightNodeNum = dpTreeRight.getNodeCount();
 
@@ -115,9 +137,101 @@ public class HacClustering {
 		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
 	}
 
-	public List<Cluster> clustering(TreeEditDistance ted) throws OutOfMemoryError {
-    	computeDistance(ted);
-    	return performClustering();
+	public List<Cluster> clustering() throws OutOfMemoryError {
+//    	computeDistance();
+    	newComputeDistance();
+		return performClustering();
+	}
+
+	private void newComputeDistance() {
+		int m = 0;
+		formulaCellAdd = new ArrayList<>();
+
+		MyInputParser<MyNodeData> inputParser = new MyInputParser<>();
+
+//		System.out.println("formulaInfoList size = " + formulaInfoList.size());
+		int index = 0;
+		for (Map.Entry<String, List<String>> itemOut : formulaInfoList.entrySet())
+		{
+			formulaCellAdd.add(itemOut.getKey());
+
+			String[] cellOne = new String [4];
+			cellOne[0]= itemOut.getKey();
+			cellOne[1] = itemOut.getValue().get(0);
+			cellOne[2] = itemOut.getValue().get(1);
+
+			//TODO: 辅助进行AST树计算的准备工作
+			Cluster astOne  = new AST(cellOne[1], cellOne[0], sheet).createTree();
+			String treeString = "";
+			if (astOne != null) {
+				treeString = childrenSearch(astOne);
+			}
+//            out.println(cellOne[0] + "'s AST Tree = " + treeString);
+			String astStringOne = treeString.replace(":", " to ");
+
+			//TODO: new API
+			Node<MyNodeData> astInstanceOne = inputParser.fromString(astStringOne, cellOne[0]);
+
+			//TODO: 辅助进行dependency树计算的准备工作
+			String cdtStringOne = BasicUtility.cellDependencies(sheet, cellOne[0], 0);
+			Node<MyNodeData> cdtInstanceOne = inputParser.fromString(cdtStringOne, cellOne[0]);
+			int cdtNodeCount = cdtInstanceOne.getNodeCount();
+
+			int n = 0;
+			for (Map.Entry<String, List<String>> itemIn : formulaInfoList.entrySet())
+			{
+				if (m >= n) {
+					n++;
+					continue;
+				}
+
+				//System.out.println("tree distance comparision's index = " + ++index);
+
+				//TODO: 计算AST树的相似度
+				String[] cellTwo = new String [4];
+				cellTwo[0] = itemIn.getKey();
+				cellTwo[1] = itemIn.getValue().get(0);
+				cellTwo[2] = itemIn.getValue().get(1);
+
+				AST astRight = new AST(cellTwo[1], cellTwo[0], sheet);
+				Cluster clRight = astRight.createTree();
+
+				if (clRight != null)
+					treeString = childrenSearch(clRight);
+
+				String astStringTwo = treeString.replace(":", " to ");
+				Node<MyNodeData> astInstanceTwo = inputParser.fromString(astStringTwo, cellTwo[0]);
+
+				double nodeSum = astInstanceOne.getNodeCount() + astInstanceTwo.getNodeCount();
+
+				double astDist = (RTED.computeDistance(astStringOne, astStringTwo)) / nodeSum;
+
+//                out.printf("%s = %s, %s = %s\n", cellOne[0], asTreeStrLeft, cellTwo[0], astStringTwo);
+
+				//TODO: 计算Dependency树的相似度
+				String cdtStringTwo = BasicUtility.cellDependencies(sheet, cellTwo[0], 0);
+				//TODO: new API
+				Node<MyNodeData> cdtInstanceTwo = inputParser.fromString(cdtStringTwo, cellTwo[0]);
+
+				nodeSum = cdtNodeCount + cdtInstanceTwo.getNodeCount();
+
+				//TODO: 下面这个语句会产生 java.lang.OutOfMemoryError: Java heap space,
+				// 暂时不知道怎么修复,也不知道出现在哪个表里
+				double dpDist = (RTED.computeDistance(cdtStringOne, cdtStringTwo)) / nodeSum;
+//                out.printf("%s = %s, %s = %s\n", cellOne[0], cdtStringOne, cellTwo[0], cdtStringTwo);
+
+				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
+				//distances[n][m] = distances[m][n] = (astDist + dpDist - astDist*dpDist);
+				distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist + 0.001);
+				//System.out.printf("distance[%d][%d] = %f\n", n, m, (astDist + 0.001) * (dpDist + 0.001));
+				n++;
+			}
+			m++;
+		}
+
+		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
+
+
 	}
 
 	public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) {
