@@ -4,10 +4,13 @@ import node.Node;
 import util.FormatUtilities;
 
 import java.util.Vector;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MyInputParser<D> {
+
+    private Logger logger = Logger.getLogger("MyInputParser");
 
     public MyInputParser() { }
 
@@ -15,6 +18,8 @@ public class MyInputParser<D> {
      * TODO: parentCell必须是绝对引用形式，不然后面的计算条件无法满足。
      */
     public Node<MyNodeData> fromString(String s, String parentCell) {
+        logger.info("parentCell = " + parentCell);
+
         //这一步只是去掉s字符串两端的多余字符。
         s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
 
@@ -49,26 +54,68 @@ public class MyInputParser<D> {
     }
 
     private void generateForms(MyNodeData nodeData, String parentCell) {
-        String regex = "^(\\d+)";
+
+
+        String regex = "(\\d+)";
         Matcher matcher = Pattern.compile(regex).matcher(parentCell);
 
         matcher.find();
-        int parentRow = Integer.getInteger(matcher.group());
+        int parentRow = Integer.parseInt(matcher.group());
         matcher.find();
-        int parentColumn = Integer.getInteger(matcher.group());
+        int parentColumn = Integer.parseInt(matcher.group());
+
+        //TODO: 有一种可能是，如果RC[1]或者R[1]C，那么就缺少一个数字。
+        String regex2 = "(-?\\d+)";
+        matcher = Pattern.compile(regex2).matcher(nodeData.label);
+
+        int currentRow, currentColumn;
+        char c = nodeData.label.charAt(1);
+        if (c == 'C') {
+            currentRow = 0;
+        }
+        else {
+            matcher.find();
+            currentRow = Integer.parseInt(matcher.group());
+        }
+
+        int indexC = nodeData.label.indexOf('C');
+        if (indexC == nodeData.label.length()-1) {
+            currentColumn = 0;
+        }
+        else {
+            matcher.find();
+            currentColumn = Integer.parseInt(matcher.group());
+        }
 
         //计算Row的相对和绝对
         int absoluteRow, relativeRow;
-
+        c = nodeData.label.charAt(1);
+        if (c >= '0' && c <= '9') {
+            absoluteRow = currentRow;
+            relativeRow = absoluteRow - parentRow;
+        }
+        else {
+            relativeRow = currentRow;
+            absoluteRow = parentRow + relativeRow;
+        }
 
         //计算Column的相对和绝对
         int absoluteColumn, relativeColumn;
 
+        if (indexC == nodeData.label.length()-1 || nodeData.label.charAt(indexC+1) == '[') {
+            relativeColumn = currentColumn;
+            absoluteColumn = parentColumn + relativeColumn;
+        }
+        else {
+            absoluteColumn = currentColumn;
+            relativeColumn = absoluteColumn - parentColumn;
+        }
 
         nodeData.forms.add("R" + absoluteRow +"C" + absoluteColumn);
         nodeData.forms.add("R" + absoluteRow +"C[" + relativeColumn + "]");
         nodeData.forms.add("R[" + relativeRow +"]C" + absoluteColumn);
         nodeData.forms.add("R[" + relativeRow +"]C[" + relativeColumn + "]");
+
     }
 
     public static void main(String args[]) {

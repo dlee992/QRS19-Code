@@ -170,11 +170,11 @@ public class HacClustering {
 			String astStringOne = treeString.replace(":", " to ");
 
 			//TODO: new API
-			Node<MyNodeData> astInstanceOne = inputParser.fromString(astStringOne, cellOne[0]);
+			Node<MyNodeData> astInstanceOne = inputParser.fromString(astStringOne, r1c1(cellOne[0]));
 
 			//TODO: 辅助进行dependency树计算的准备工作
 			String cdtStringOne = BasicUtility.cellDependencies(sheet, cellOne[0], 0);
-			Node<MyNodeData> cdtInstanceOne = inputParser.fromString(cdtStringOne, cellOne[0]);
+			Node<MyNodeData> cdtInstanceOne = inputParser.fromString(cdtStringOne, r1c1(cellOne[0]));
 			int cdtNodeCount = cdtInstanceOne.getNodeCount();
 
 			int n = 0;
@@ -200,7 +200,7 @@ public class HacClustering {
 					treeString = childrenSearch(clRight);
 
 				String astStringTwo = treeString.replace(":", " to ");
-				Node<MyNodeData> astInstanceTwo = inputParser.fromString(astStringTwo, cellTwo[0]);
+				Node<MyNodeData> astInstanceTwo = inputParser.fromString(astStringTwo, r1c1(cellTwo[0]));
 
 				double nodeSum = astInstanceOne.getNodeCount() + astInstanceTwo.getNodeCount();
 
@@ -211,7 +211,7 @@ public class HacClustering {
 				//TODO: 计算Dependency树的相似度
 				String cdtStringTwo = BasicUtility.cellDependencies(sheet, cellTwo[0], 0);
 				//TODO: new API
-				Node<MyNodeData> cdtInstanceTwo = inputParser.fromString(cdtStringTwo, cellTwo[0]);
+				Node<MyNodeData> cdtInstanceTwo = inputParser.fromString(cdtStringTwo, r1c1(cellTwo[0]));
 
 				nodeSum = cdtNodeCount + cdtInstanceTwo.getNodeCount();
 
@@ -234,7 +234,30 @@ public class HacClustering {
 
 	}
 
-	public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) {
+	/*
+	 * TODO: 貌似在什么地方有类似功能的代码 但是我不记得那个method call了。
+	 */
+    private String r1c1(String s) {
+//    	logger.info("A1 style = " + s);
+        int row = 0;
+        int column = 0;
+        int i = 0;
+        while (s.charAt(i) >= 'A' && s.charAt(i) <= 'Z') {
+            column = column * 26 + (s.charAt(i)-'A'+1);
+            ++i;
+        }
+        --column;
+
+        while (i < s.length()) {
+        	row = row * 10 + (s.charAt(i) - '0');
+        	++i;
+		}
+        --row;
+
+        return "R" + row + "C" + column;
+    }
+
+    public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) {
 
 		//TODO: cluster initialization
 		List<Cluster> clusters = new ArrayList<>();

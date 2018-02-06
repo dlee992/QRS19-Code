@@ -60,9 +60,15 @@ public class GP {
                  new ArrayBlockingQueue<Runnable>(CAPACITY));
 
 
-         prefixOutDir = outDirPath + fileSeparator + "MiddleTemp " + new BasicUtility().getCurrentTime() + fileSeparator;
-
+         prefixOutDir = outDirPath + fileSeparator + "statistics" + fileSeparator;
          File middleDir = new File(prefixOutDir);
+         if (!middleDir.exists()) {
+             middleDir.mkdir();
+         }
+
+         prefixOutDir += fileSeparator + new BasicUtility().getCurrentTime() + fileSeparator;
+
+         middleDir = new File(prefixOutDir);
          if (!middleDir.exists()) {
              middleDir.mkdir();
          }
