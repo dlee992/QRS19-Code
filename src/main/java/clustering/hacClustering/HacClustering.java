@@ -137,6 +137,7 @@ public class HacClustering {
 		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
 	}
 
+
 	public List<Cluster> clustering() throws OutOfMemoryError {
 //    	computeDistance();
     	newComputeDistance();

@@ -18,7 +18,7 @@ public class MyInputParser<D> {
      * TODO: parentCell必须是绝对引用形式，不然后面的计算条件无法满足。
      */
     public Node<MyNodeData> fromString(String s, String parentCell) {
-        logger.info("parentCell = " + parentCell);
+//        logger.info("parentCell = " + parentCell);
 
         //这一步只是去掉s字符串两端的多余字符。
         s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
