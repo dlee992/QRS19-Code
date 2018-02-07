@@ -138,13 +138,13 @@ public class HacClustering {
 	}
 
 
-	public List<Cluster> clustering() throws OutOfMemoryError {
+	public List<Cluster> clustering() throws OutOfMemoryError, InterruptedException {
 //    	computeDistance();
     	newComputeDistance();
 		return performClustering();
 	}
 
-	private void newComputeDistance() {
+	private void newComputeDistance() throws InterruptedException {
 		int m = 0;
 		formulaCellAdd = new ArrayList<>();
 
@@ -181,6 +181,10 @@ public class HacClustering {
 			int n = 0;
 			for (Map.Entry<String, List<String>> itemIn : formulaInfoList.entrySet())
 			{
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				if (m >= n) {
 					n++;
 					continue;
@@ -258,7 +262,7 @@ public class HacClustering {
         return "R" + row + "C" + column;
     }
 
-    public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) {
+    public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) throws InterruptedException {
 
 		//TODO: cluster initialization
 		List<Cluster> clusters = new ArrayList<>();
@@ -281,7 +285,7 @@ public class HacClustering {
 		return clusters;
 	}
 
-	private List<Cluster> performClustering() {
+	private List<Cluster> performClustering() throws InterruptedException {
 		//TODO: cluster initialization
 		List<Cluster> clusters = new ArrayList<>();
 		for (String formulaCell : formulaCellAdd)
@@ -291,8 +295,7 @@ public class HacClustering {
 		return clusteringCoreProcess(clusters);
 	}
 
-	private List<Cluster> clusteringCoreProcess(List<Cluster> clusters)
-	{
+	private List<Cluster> clusteringCoreProcess(List<Cluster> clusters) throws InterruptedException {
 	    /*
 	    * TODO: 显然可以加一个优化：预先把完全一样的格放在同一个类中
 	     */
@@ -317,6 +320,10 @@ public class HacClustering {
 			joinList.set(round, round);
 
 			for (int j = round +1; j < size; j++) {
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				if (distances[round][j] == 0.000001) {
 					joinList.set(j, round);
 					++toAddCount;
@@ -357,10 +364,18 @@ public class HacClustering {
 		//重新计算distances数组
 		for (int i = size; i < clusters.size(); i++) {
 			for (int j = 0; j < size; j++) {
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				if (visitedStack.get(j) == 2) continue;
 				duplicateCode(clusters, i, j);
 			}
 			for (int j = i+1; j < clusters.size(); j++) {
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				duplicateCode(clusters, i, j);
 			}
 		}
@@ -376,6 +391,10 @@ public class HacClustering {
 		double threshold = 0.02;
 
 		while (point < upperBound) {
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
 			//如果队列为空 加入一个未被访问过的类
 			if (stack.isEmpty()) {
 				while (point < upperBound && visitedStack.get(point) == 2)
@@ -438,6 +457,10 @@ public class HacClustering {
 
 				//更新distances数组
 				for (int i = 0; i < clusters.size(); i++) {
+					if (Thread.interrupted()) {
+						throw new InterruptedException();
+					}
+
 					Cluster cluster = clusters.get(i);
 					if (cluster.merged) continue;
 					double dist = computeDist(cluster, mergedCluster);
@@ -454,6 +477,10 @@ public class HacClustering {
 
 		//remove已经被合并但仍然存在于clusters中的类
 		for (int i = clusters.size() -1; i >= 0; --i) {
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
 			Cluster cluster = clusters.get(i);
 			if (cluster.merged) clusters.remove(cluster);
 		}
@@ -497,7 +524,7 @@ public class HacClustering {
 		*/
 	}
 
-	private void duplicateCode(List<Cluster> clusters, int i, int j) {
+	private void duplicateCode(List<Cluster> clusters, int i, int j) throws InterruptedException {
 		Cluster cluster_i = clusters.get(i);
 		Cluster cluster_j = clusters.get(j);
 
@@ -508,7 +535,7 @@ public class HacClustering {
 		distances[index_i][index_j] = distances[index_j][index_i] = dist;
 	}
 
-	private double computeDist(Cluster clusterLeft, Cluster clusterRight) {
+	private double computeDist(Cluster clusterLeft, Cluster clusterRight) throws InterruptedException {
 		double sum = 0;
 		List<Cluster> leafLefts = clusterLeft.getChildrenCluster(clusterLeft);
 		List<Cluster> leafRights = clusterRight.getChildrenCluster(clusterRight);
@@ -517,6 +544,10 @@ public class HacClustering {
 
 		for (Cluster leafLeft : leafLefts) {
 			for (Cluster leafRight : leafRights) {
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				int leafIndexLeft = formulaCellAdd.indexOf(leafLeft.getName());
 				int leafIndexRight = formulaCellAdd.indexOf(leafRight.getName());
 

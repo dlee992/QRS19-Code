@@ -43,8 +43,12 @@ public class FeatureExtraction {
 		this.stageIClusters = stageIClusters;
 	}
 
-	public void featureExtractionFromSheet(List<Cell> dataCells) {
+	public void featureExtractionFromSheet(List<Cell> dataCells) throws InterruptedException {
 		for (Cluster cluster: stageIClusters){
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
 			if (cluster.getClusterCellRefs().size()>1){
 				cluster.setSeedOrNot(true);
 				seedCluster.add(cluster);
@@ -62,9 +66,14 @@ public class FeatureExtraction {
 		// todo: replace amcheck cell arrays with cacheck cell arrays.
 		List<CellArray> allCAs = null;
 //		if (!O5) {
-			CellArrayExtraction smellyCAExtract = new CellArrayExtraction(sheet, snippets);
-			allCAs = smellyCAExtract.extractCellArray();
-			printCA(allCAs);
+
+		if (Thread.interrupted()) {
+			throw new InterruptedException();
+		}
+
+		CellArrayExtraction smellyCAExtract = new CellArrayExtraction(sheet, snippets);
+		allCAs = smellyCAExtract.extractCellArray();
+		printCA(allCAs);
 //		}
 //		else {
 //			todo: transform CAResult to CellArray structure.
@@ -108,7 +117,7 @@ public class FeatureExtraction {
 
 	}
 
-	private void featureExtractionFromCluster(List<Snippet> snippets, List<CellArray> allCAs) {
+	private void featureExtractionFromCluster(List<Snippet> snippets, List<CellArray> allCAs) throws InterruptedException {
 		GapExtraction ge;
 		Map<Cell, Gap> gaps = null;
 		
@@ -129,8 +138,16 @@ public class FeatureExtraction {
 				nonSeedCellRefs.addAll(cluster.getClusterCellRefs());
 				nonSeedCells.addAll(cluster.getClusterCells());
 			}
-			
+
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
 			for (Cell cell : cluster.getClusterCells()) {
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				CellReference cellRef = new CellReference(cell);
 				cellRefsVector.add (cellRef);
 
@@ -259,11 +276,17 @@ public class FeatureExtraction {
 		}
 	}
 	
-	private void FeatureExtractionFromDataCells(List<Cell> dataCells, List<Snippet> snippets, List<CellArray> allCAs) {
+	private void FeatureExtractionFromDataCells(List<Cell> dataCells, List<Snippet> snippets, List<CellArray> allCAs)
+			throws InterruptedException {
+
 		AllianceExtraction ae = new AllianceExtraction(sheet);
 		List<Alliance> allianceList = ae.allianceExtraction();
 		
 		for (Cell cell: dataCells){
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
 			CellReference cellRef = new CellReference(cell);
 
 			if (dataCellSet.contains(cellRef)) continue;
@@ -315,6 +338,10 @@ public class FeatureExtraction {
 			Set<Gap> gapSet = new HashSet<Gap>();
 			
 			for (Cluster clusterTemp: seedCluster){
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
 				GapExtraction geTmp = new GapExtraction(clusterTemp);
 				geTmp.indexSet();
 				gapSet.addAll(geTmp.cellGetGapFeature(cell));

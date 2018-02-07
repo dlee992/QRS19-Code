@@ -133,7 +133,7 @@ public class BootstrappingClustering {
     }
 
 	public List<Cluster> addCellToCluster(RealMatrix cellClusterMF, List<CellReference> nonSeedCellRefs,
-			List<Cell> nonSeedCells, double parameter) {
+			List<Cell> nonSeedCells, double parameter) throws InterruptedException {
 
 		//对整个worksheet进行分割，划分成若干个table单位，然后对其进行编号
 		//统计某个cluster中的seed cells位于某几个table中
@@ -195,6 +195,10 @@ public class BootstrappingClustering {
         int index = 0;
 
         while (index < 2) {
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
             if (isolatedCellMatrix != null) {
                 Max max = new Max();
                 for (int i1 = 0; i1 < isolatedCellMatrix.getRowDimension(); i1++) {
@@ -205,6 +209,10 @@ public class BootstrappingClustering {
 
                     if (maxValue > 0) {
                         for (int j1 = 0; j1 < isolatedCellMatrix.getColumnDimension(); j1++) {
+							if (Thread.interrupted()) {
+								throw new InterruptedException();
+							}
+
                             if (isolatedCellMatrix.getEntry(i1, j1) == maxValue) {
                                 Cluster parentCluster = clusterVector.get(j1);
                                 CellReference childCR = nonSeedCellRefs.get(i1);

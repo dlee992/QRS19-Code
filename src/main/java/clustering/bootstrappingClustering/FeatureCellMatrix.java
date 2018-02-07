@@ -34,10 +34,14 @@ public class FeatureCellMatrix {
 		this.featureVector = featureVector;
 	}
 
-	public RealMatrix matrixCreationForClustering(List<CellFeature> cellFeatureList) {
+	public RealMatrix matrixCreationForClustering(List<CellFeature> cellFeatureList) throws InterruptedException {
 		RealMatrix rm = new Array2DRowRealMatrix(featureVector.size(),cellRefsVector.size());
 		
 		for (CellFeature ft: cellFeatureList){
+
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
 			
 			if (cellRefsVector.contains(ft.getCellReference())) {
 

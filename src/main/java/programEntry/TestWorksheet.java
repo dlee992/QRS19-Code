@@ -161,6 +161,10 @@ public class TestWorksheet implements Runnable {
             RealMatrix cellClusterM    = bc.clustering(featureCellM);
             List<Cluster> stageIIClusters;
 
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+
             if (nonSeedCells != null && !nonSeedCells.isEmpty()) {
                 double threshold = 0.5;
                 stageIIClusters = bc.addCellToCluster(
@@ -198,6 +202,10 @@ public class TestWorksheet implements Runnable {
 
             SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList());
             sdc.outlierDetection();
+
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
 
             for (Cluster cluster : stageIClusters) {
 

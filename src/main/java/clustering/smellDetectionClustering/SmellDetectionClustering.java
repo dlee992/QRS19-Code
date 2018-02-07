@@ -54,6 +54,10 @@ public class SmellDetectionClustering {
 
 	public void outlierDetection() throws Exception {
 		for (Cluster cl : clusters) {
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+
 			Map<CellReference, Double> cellRefsValue = cl.cellRefsWithValue();
 
 			List<Cell> formulaInCluster = new ArrayList<Cell>();

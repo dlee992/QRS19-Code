@@ -22,7 +22,7 @@ import static programEntry.GP.filterString;
 public class BasicUtility {
     private static Logger logger = LogManager.getLogger(BasicUtility.class.getName());
 
-    public InfoOfSheet infoExtractedPOI(Sheet sheet) {
+    public InfoOfSheet infoExtractedPOI(Sheet sheet) throws InterruptedException {
 
         List<Cell> dataCells                 = new ArrayList<Cell>();
         Map<String, List<String>> formulaMap = new HashMap<String, List<String>>();
@@ -39,6 +39,10 @@ public class BasicUtility {
 
         for (Row r : sheet) {
             for (Cell c : r) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
+
                 uiCells.add(c);
 
                 String cellAddA1;
@@ -538,7 +542,7 @@ public class BasicUtility {
     }
 
     public void smellyCellMark(Workbook wb, Sheet sheet,
-                                      List<Smell> smells) {
+                                      List<Smell> smells) throws InterruptedException {
         System.out.println("smellyCellMark begin");
 
         Workbook workbook = sheet.getWorkbook();
@@ -547,6 +551,10 @@ public class BasicUtility {
             CreationHelper factory = wb.getCreationHelper();
 
             for (Smell sl : smells) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
+
                 CellReference cr = sl.getCr();
                 String description = sl.toString();
                 Drawing drawing = sheet.createDrawingPatriarch();
@@ -589,7 +597,7 @@ public class BasicUtility {
         }
     }
 
-    public void clusterMark(List<Cluster> clusters, Sheet sheet) {
+    public void clusterMark(List<Cluster> clusters, Sheet sheet) throws InterruptedException {
         System.out.println("clusterMark begin");
 
         Workbook workbook = sheet.getWorkbook();
@@ -626,6 +634,10 @@ public class BasicUtility {
             pickedColor.remove(IndexedColors.RED);
 
             for (Cluster cluster : clusters) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
+
                 if (cluster != null) {
 
                     // first, color the seed cells
