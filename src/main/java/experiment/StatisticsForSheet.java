@@ -205,16 +205,12 @@ public class StatisticsForSheet {
         calculateForPercentage(3);
     }
 
-    long getBeginTime() {
+    public long getBeginTime() {
         return beginTime;
     }
 
     public void setBeginTime(long beginTime) {
         this.beginTime = beginTime;
-    }
-
-    long getEndTime() {
-        return endTime;
     }
 
     public void setEndTime(long endTime) {
@@ -284,4 +280,7 @@ public class StatisticsForSheet {
         return stageCRs;
     }
 
+    public long getEndTime() {
+        return endTime;
+    }
 }

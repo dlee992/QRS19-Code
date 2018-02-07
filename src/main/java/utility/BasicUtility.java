@@ -90,6 +90,12 @@ public class BasicUtility {
                 catch (NullPointerException NPE) {
                     System.out.println("BasicUtility line 57: NullPointerE-xception");
                 }
+                catch (IllegalArgumentException ignored) {
+                    System.out.println("BasicUtility line 56: IllegalArgumentE_xception");
+                }
+                catch (RuntimeException ignored) {
+                    System.out.println("Unexpected tAttr: org.apache.poi.ss.formula.ptg.AttrPtg []");
+                }
             }
         }
 
@@ -131,7 +137,7 @@ public class BasicUtility {
 						i++;
 					}
 
-                    if (isNumber(formula.charAt(i)) || formula.charAt(i) == '$') {
+                    if (i < formula.length() && (isNumber(formula.charAt(i)) || formula.charAt(i) == '$')) {
                         // deal with the "column"
                         if (formula.charAt(i) == '$') {
                             i++;
@@ -367,7 +373,7 @@ public class BasicUtility {
         return cells;
     }
 
-    public static String cellDependencies(Sheet sheet, String cellAddA1, int depth) {
+    public static String cellDependencies(Sheet sheet, String cellAddA1, int depth) throws IllegalArgumentException {
 
             String dependencyTree = "";
             if (depth == 0) dependencyTree = "{RR";
@@ -413,9 +419,10 @@ public class BasicUtility {
 
         }
         catch (Exception e) {
-            logger.debug("sheetName=" + sheet.getSheetName() +" row=" + row + " col=" + col);
-            e.printStackTrace();
+            //logger.debug("sheetName=" + sheet.getSheetName() +" row=" + row + " col=" + col);
+            //e.printStackTrace();
         }
+
         return dependencyTree;
     }
 
@@ -536,7 +543,7 @@ public class BasicUtility {
 
         Workbook workbook = sheet.getWorkbook();
 
-//        synchronized (workbook) {
+        synchronized (workbook) {
             CreationHelper factory = wb.getCreationHelper();
 
             for (Smell sl : smells) {
@@ -579,7 +586,7 @@ public class BasicUtility {
                     }
                 }
             }
-//        }
+        }
     }
 
     public void clusterMark(List<Cluster> clusters, Sheet sheet) {

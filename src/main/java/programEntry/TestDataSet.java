@@ -1,11 +1,14 @@
 package programEntry;
 
 import experiment.StatisticsForAll;
+import org.apache.poi.ss.usermodel.Sheet;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static programEntry.GP.*;
 import static programEntry.TestSpreadsheet.testSpreadsheet;
@@ -16,21 +19,22 @@ public class TestDataSet {
     private static int MAXFILES = Integer.MAX_VALUE;
     private static long TIMEOUT = 60*5;
     private static Set<String> testTarget = new HashSet<>();
+    private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
 
     public static void main(String[] args) throws IOException {
-        //testTarget.add("cs101");
-        testTarget.add("filby");
-        testTarget.add("form3");
-        testTarget.add("jackson");
-        testTarget.add("personal");
+//        testTarget.add("cs101"); //no timeout sheet
+//        testTarget.add("filby"); //no timeout sheet
+//        testTarget.add("form3"); //no timeout sheet
+//        testTarget.add("jackson"); //no timeout sheet
+//        testTarget.add("personal"); //no timeout sheet
 
-        //testTarget.add("database");
-        testTarget.add("financial");
-        testTarget.add("grades");
+//        testTarget.add("database");
+//        testTarget.add("financial"); //异常太多 而且主线程50min无法终止
+//        testTarget.add("grades");
         testTarget.add("homework");
-        testTarget.add("inventory");
-        testTarget.add("modeling");
+//        testTarget.add("inventory");
+//        testTarget.add("modeling");
 
 
         testEUESE();
@@ -101,6 +105,13 @@ public class TestDataSet {
                 //TODO: 这里又有一个bug，如果timeout为负数，那么表示该任务已经超时 或者 早已经执行结束，这里需要额外判断和处理
                 future.get(timeout, TimeUnit.NANOSECONDS);
 
+                long consumedTime = (testWorksheet.staSheet.getEndTime() - testWorksheet.staSheet.getBeginTime())
+                        /1000_000_000;
+                Sheet sheet = testWorksheet.staSheet.sheet;
+                if (consumedTime >= 300) {
+                    timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, sheet.getSheetName()));
+                    testWorksheet.staSheet.timeout = true;
+                }
                 staAll.add(testWorksheet.staSheet, logBuffer);
 //                System.out.println("staAll size = " + staAll.sheetList.size());
 
@@ -116,6 +127,9 @@ public class TestDataSet {
 
                 staAll.add(testWorksheet.staSheet, logBuffer);
 //                System.out.println("staAll size = " + staAll.sheetList.size());
+
+                Sheet sheet = testWorksheet.staSheet.sheet;
+                timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, sheet.getSheetName()));
 
                 future.cancel(true);
 
@@ -133,6 +147,16 @@ public class TestDataSet {
 //        } catch (MessagingException e) {
 //            e.printStackTrace();
 //        }
+
+        BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(prefixOutDir + "timeoutList_" + timeoutList.size() + ".txt"));
+        for (TimeoutSheet timeoutSheet:
+             timeoutList) {
+            bufferedWriter.write(timeoutSheet.spreadsheetName + " " + timeoutSheet.sheetName);
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
 
         exeService.shutdownNow();
         System.exit(0);

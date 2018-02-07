@@ -92,6 +92,7 @@ public class TestWorksheet implements Runnable {
         BasicUtility bu = new BasicUtility();
 
         InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet);
+
         Map<String, List<String>> formulaInfoList = infoOfSheet.getFormulaMap();
         numberOfFormula.addAndGet(formulaInfoList.size());
 
@@ -247,11 +248,17 @@ public class TestWorksheet implements Runnable {
         return staSheet;
     }
 
-    public void printLastSheet() throws IOException {
+    public synchronized void printLastSheet() throws IOException {
 
         Workbook workbook = sheet.getWorkbook();
-        int currentFlag = printFlag.get(fileName).decrementAndGet();
-
+        int currentFlag = 0;
+        try {
+            currentFlag = printFlag.get(fileName).decrementAndGet();
+        }
+        catch (NullPointerException ignored) {
+            //TODO：我不清楚这里为什么会报告空指针异常，先忽略吧。
+            System.out.println("TestWorksheet.java line 254: NullPointerE_xception");
+        }
         if (currentFlag > 0) return;
 
         String suffix = null;

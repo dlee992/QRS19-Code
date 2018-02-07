@@ -539,6 +539,11 @@ public class SmellDetectionClustering {
 
                         errors = true;
                     }
+                    catch (IllegalStateException ignored) {
+                        System.out.println("Cell H10 is part of a multi-cell array formula. " +
+                                "You cannot change part of an array.");
+                        errors = true;
+                    }
 
                     if (errors) continue;
 

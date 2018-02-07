@@ -165,7 +165,7 @@ public class StatisticsForAll {
             row.createCell(14).setCellValue("("+ staSheet.TP[0] +",  "+ staSheet.FP[0] +",  "+ staSheet.FN[0] +")");
             row.createCell(15).setCellValue("("+ roundDouble(staSheet.precision[0]) +", "+
                     roundDouble(staSheet.recall[0]) +", "+ roundDouble(staSheet.fMeasure[0]) +")");
-            row.createCell(16).setCellValue(roundDouble((staSheet.getEndTime() - staSheet.getBeginTime())/1000_000_000));
+            row.createCell(16).setCellValue((staSheet.getEndTime() - staSheet.getBeginTime())/1000_000_000);
 
             gt_clustersSize += staSheet.getGt_clusterList().size();
             gt_smellSize += staSheet.getGt_smellList().size();
@@ -203,7 +203,7 @@ public class StatisticsForAll {
         rowTailor.createCell(15).setCellValue("("+ roundDouble(precision[0]) +", "+ roundDouble(recall[0])
                 +", "+ roundDouble(fMeasure[0]) +")");
 
-        rowTailor.createCell(16).setCellValue(roundDouble((endTime-beginTime)/1000_000_000.0));
+        rowTailor.createCell(16).setCellValue((endTime-beginTime)/1000_000_000);
 
         String fileName = category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
         out.println(fileName);
@@ -265,6 +265,14 @@ public class StatisticsForAll {
         }
 
         sheetList.add(staSheet);
+
+        if (sheetList.size() != 0 && sheetList.size() % 100 == 0) {
+            try {
+                log(GP.prefixOutDir, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return true;
     }
 }

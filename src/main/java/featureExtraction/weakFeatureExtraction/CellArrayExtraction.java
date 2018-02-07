@@ -99,7 +99,15 @@ public class CellArrayExtraction {
 				Cell cell = sheet.getRow(row).getCell(col);
 				if (cell != null && cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
 					//
-					List<R1C1Cell> paras = bu.extractParameters(row, col, cell.getCellFormula());
+					List<R1C1Cell> paras = null;
+					try {
+						paras = bu.extractParameters(row, col, cell.getCellFormula());
+					}
+					catch (NullPointerException ignored) {
+						//TODO: 这里也不清楚为什么会有异常。
+						System.out.println("CellArrayExtraction.java line 104: NullPointerE_xception.");
+					}
+
 					if (possibleMember(paras, true)) {
 						possibleCA = true;
 						continue;
@@ -127,7 +135,7 @@ public class CellArrayExtraction {
 
 	private boolean possibleMember(List<R1C1Cell> paras, boolean rowCA) {
 		// no inputs, means just some computation on data.
-		if (paras.size() == 0) {
+		if (paras == null || paras.size() == 0) {
 			return false;
 		}
 
