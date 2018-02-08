@@ -290,5 +290,9 @@ public class StatisticsForSheet {
         this.stageIIClusters = new ArrayList<>();
         this.smellyCells = new ArrayList<>();
         this.timeout = true;
+
+        for (int i= 0; i<4; i++) {
+            TP[i] = FP[i] = FN[i] = 0;
+        }
     }
 }

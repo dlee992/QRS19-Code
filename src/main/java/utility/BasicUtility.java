@@ -46,7 +46,7 @@ public class BasicUtility {
         for (Row r : sheet) {
             for (Cell c : r) {
                 if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
-                    return null;
+                    throw new InterruptedException();
                 }
 
                 uiCells.add(c);
@@ -558,7 +558,7 @@ public class BasicUtility {
 
             for (Smell sl : smells) {
                 if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
-                    return;
+                    throw new InterruptedException();
                 }
 
                 CellReference cr = sl.getCr();
@@ -641,7 +641,7 @@ public class BasicUtility {
 
             for (Cluster cluster : clusters) {
                 if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
-                    return;
+                    throw new InterruptedException();
                 }
 
                 if (cluster != null) {

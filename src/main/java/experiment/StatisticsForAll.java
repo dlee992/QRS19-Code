@@ -165,7 +165,10 @@ public class StatisticsForAll {
             row.createCell(14).setCellValue("("+ staSheet.TP[0] +",  "+ staSheet.FP[0] +",  "+ staSheet.FN[0] +")");
             row.createCell(15).setCellValue("("+ roundDouble(staSheet.precision[0]) +", "+
                     roundDouble(staSheet.recall[0]) +", "+ roundDouble(staSheet.fMeasure[0]) +")");
-            row.createCell(16).setCellValue((staSheet.getEndTime() - staSheet.getBeginTime())/1000_000_000);
+
+            long consumedTime = (staSheet.getEndTime() - staSheet.getBeginTime())/1000_000_000;
+            if (consumedTime < 0) consumedTime = 0;
+            row.createCell(16).setCellValue(consumedTime);
 
             gt_clustersSize += staSheet.getGt_clusterList().size();
             gt_smellSize += staSheet.getGt_smellList().size();

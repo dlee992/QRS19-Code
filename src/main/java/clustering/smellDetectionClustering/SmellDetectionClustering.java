@@ -60,7 +60,7 @@ public class SmellDetectionClustering {
 	public void outlierDetection() throws Exception {
 		for (Cluster cl : clusters) {
             if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
-                return;
+                throw new InterruptedException();
             }
 
 			Map<CellReference, Double> cellRefsValue = cl.cellRefsWithValue();

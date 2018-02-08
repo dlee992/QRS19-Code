@@ -103,8 +103,11 @@ public class TestDataSet {
             try {
 //                System.out.println("[" + Thread.currentThread().getName() + "]: MainThread 2");
                 long timeout = (long) (TIMEOUT * 1_000_000_000.0); //5 seconds
-                if (testWorksheet.beginTime != -1)
-                    timeout -= (System.nanoTime() - testWorksheet.beginTime);
+                while (testWorksheet.beginTime == -1) {
+                    Thread.sleep(5000);
+                }
+
+                timeout = timeout - (System.nanoTime() - testWorksheet.beginTime);
                 if (timeout < 0)
                     timeout = 0;
 

@@ -47,7 +47,7 @@ public class FeatureCellMatrix {
 		for (CellFeature ft: cellFeatureList){
 
 			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
-				return null;
+				throw new InterruptedException();
 			}
 			
 			if (cellRefsVector.contains(ft.getCellReference())) {
