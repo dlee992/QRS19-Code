@@ -1,9 +1,0 @@
-Food Service Page 7
-index = 1, CellArray=[11, 8] ------ [17, 8]
-index = 2, CellArray=[21, 8] ------ [24, 8]
-index = 3, CellArray=[28, 8] ------ [35, 8]
-index = 4, CellArray=[38, 8] ------ [39, 8]
-index = 5, CellArray=[43, 6] ------ [44, 6]
-index = 6, CellArray=[51, 8] ------ [57, 8]
-index = 7, CellArray=[60, 8] ------ [62, 8]
-index = 8, CellArray=[66, 6] ------ [67, 6]

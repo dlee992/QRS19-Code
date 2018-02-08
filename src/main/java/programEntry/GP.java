@@ -48,6 +48,7 @@ public class GP {
 
     private static final int CAPACITY = 50;
     public static Semaphore semaphore = new Semaphore(CAPACITY-2);
+    public static Semaphore futureSemaphore = new Semaphore(0);
 
      static {
          if (addA) testDate += "A";

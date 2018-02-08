@@ -13,6 +13,8 @@ import utility.BasicUtility;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static programEntry.TestDataSet.TIMEOUT;
+
 public class HacClustering {
 	private Logger logger = Logger.getLogger("HAC");
 
@@ -21,13 +23,17 @@ public class HacClustering {
 	private List<String> formulaCellAdd;
 	private int N = 0;
 	private Sheet sheet;
+	private long beginTime;
+
+	long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 
 
-    public HacClustering(Sheet sheet, Map<String, List<String>> formulaInfoList) {
+    public HacClustering(Sheet sheet, Map<String, List<String>> formulaInfoList, long beginTime) {
     	this.sheet = sheet;
 		this.formulaInfoList = formulaInfoList;
 		N = formulaInfoList.size();
 		distances = new double[2*N][2*N];
+		this.beginTime = beginTime;
 	}
 
 
@@ -181,8 +187,8 @@ public class HacClustering {
 			int n = 0;
 			for (Map.Entry<String, List<String>> itemIn : formulaInfoList.entrySet())
 			{
-				if (Thread.interrupted()) {
-					throw new InterruptedException();
+				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+					return;
 				}
 
 				if (m >= n) {
@@ -320,8 +326,8 @@ public class HacClustering {
 			joinList.set(round, round);
 
 			for (int j = round +1; j < size; j++) {
-				if (Thread.interrupted()) {
-					throw new InterruptedException();
+				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+					return null;
 				}
 
 				if (distances[round][j] == 0.000001) {
@@ -364,16 +370,16 @@ public class HacClustering {
 		//重新计算distances数组
 		for (int i = size; i < clusters.size(); i++) {
 			for (int j = 0; j < size; j++) {
-				if (Thread.interrupted()) {
-					throw new InterruptedException();
+				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+					return null;
 				}
 
 				if (visitedStack.get(j) == 2) continue;
 				duplicateCode(clusters, i, j);
 			}
 			for (int j = i+1; j < clusters.size(); j++) {
-				if (Thread.interrupted()) {
-					throw new InterruptedException();
+				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+					return null;
 				}
 
 				duplicateCode(clusters, i, j);
@@ -391,8 +397,8 @@ public class HacClustering {
 		double threshold = 0.02;
 
 		while (point < upperBound) {
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
+			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				return null;
 			}
 
 			//如果队列为空 加入一个未被访问过的类
@@ -457,8 +463,8 @@ public class HacClustering {
 
 				//更新distances数组
 				for (int i = 0; i < clusters.size(); i++) {
-					if (Thread.interrupted()) {
-						throw new InterruptedException();
+					if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+						return null;
 					}
 
 					Cluster cluster = clusters.get(i);
@@ -477,8 +483,8 @@ public class HacClustering {
 
 		//remove已经被合并但仍然存在于clusters中的类
 		for (int i = clusters.size() -1; i >= 0; --i) {
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
+			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				return null;
 			}
 
 			Cluster cluster = clusters.get(i);
@@ -544,8 +550,8 @@ public class HacClustering {
 
 		for (Cluster leafLeft : leafLefts) {
 			for (Cluster leafRight : leafRights) {
-				if (Thread.interrupted()) {
-					throw new InterruptedException();
+				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+					return 0.0;
 				}
 
 				int leafIndexLeft = formulaCellAdd.indexOf(leafLeft.getName());

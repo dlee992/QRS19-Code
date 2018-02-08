@@ -17,12 +17,18 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static programEntry.GP.filterString;
+import static programEntry.TestDataSet.TIMEOUT;
 
 
 public class BasicUtility {
+    private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
+    private long beginTime;
+
     private static Logger logger = LogManager.getLogger(BasicUtility.class.getName());
 
-    public InfoOfSheet infoExtractedPOI(Sheet sheet) throws InterruptedException {
+    public InfoOfSheet infoExtractedPOI(Sheet sheet, long beginTime) throws InterruptedException {
+
+        this.beginTime = beginTime;
 
         List<Cell> dataCells                 = new ArrayList<Cell>();
         Map<String, List<String>> formulaMap = new HashMap<String, List<String>>();
@@ -39,8 +45,8 @@ public class BasicUtility {
 
         for (Row r : sheet) {
             for (Cell c : r) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                    return null;
                 }
 
                 uiCells.add(c);
@@ -465,7 +471,7 @@ public class BasicUtility {
 					while (i < formula.length() && isLetter(formula.charAt(i))) {
 						i++;
 					}
-                    if (isNumber(formula.charAt(i)) || formula.charAt(i) == '$') {
+                    if ( i< formula.length() && (isNumber(formula.charAt(i)) || formula.charAt(i) == '$')) {
                         // deal with the "column"
                         if (formula.charAt(i) == '$') {
                             i++;
@@ -551,8 +557,8 @@ public class BasicUtility {
             CreationHelper factory = wb.getCreationHelper();
 
             for (Smell sl : smells) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                    return;
                 }
 
                 CellReference cr = sl.getCr();
@@ -634,8 +640,8 @@ public class BasicUtility {
             pickedColor.remove(IndexedColors.RED);
 
             for (Cluster cluster : clusters) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                    return;
                 }
 
                 if (cluster != null) {

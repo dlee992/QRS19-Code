@@ -254,15 +254,15 @@ public class StatisticsForAll {
     }
 
     public synchronized boolean add(StatisticsForSheet staSheet, BufferedWriter logBuffer) {
-        if (!staSheet.virtual &&
-                staSheet.getGt_clusterList().size()==0 &&
-                staSheet.getGt_smellList().size() == 0 &&
-                staSheet.getStageIIClusters().size() == 0 &&
-                staSheet.getSmellyCells().size() == 0){
-            if (!staSheet.timeout) {
-                return false;
-            }
-        }
+//        if (!staSheet.virtual &&
+//                staSheet.getGt_clusterList().size()==0 &&
+//                staSheet.getGt_smellList().size() == 0 &&
+//                staSheet.getStageIIClusters().size() == 0 &&
+//                staSheet.getSmellyCells().size() == 0){
+//            if (!staSheet.timeout) {
+//                return false;
+//            }
+//        }
 
         sheetList.add(staSheet);
 

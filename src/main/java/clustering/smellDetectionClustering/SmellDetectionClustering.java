@@ -33,6 +33,7 @@ import java.util.Map.Entry;
 import static programEntry.GP.addA;
 import static programEntry.GP.addB;
 import static programEntry.GP.addC;
+import static programEntry.TestDataSet.TIMEOUT;
 
 public class SmellDetectionClustering {
 
@@ -45,17 +46,21 @@ public class SmellDetectionClustering {
 	private List<String> featureVector = null;
 	private List<CellFeature> subFtList = null;
     private Debug out = new Debug();
+
+    private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
+    private long beginTime;
 	
-	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts) {
+	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts, long beginTime) {
 		this.sheet = sheet;
 		this.clusters = clusters;
 		this.fts = fts;
+		this.beginTime = beginTime;
 	}
 
 	public void outlierDetection() throws Exception {
 		for (Cluster cl : clusters) {
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
+            if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                return;
             }
 
 			Map<CellReference, Double> cellRefsValue = cl.cellRefsWithValue();
@@ -80,7 +85,7 @@ public class SmellDetectionClustering {
             //尚未实现
 			
 			detectionFeatureExtraction(sheet.getWorkbook(), formulaInCluster);
-			FeatureCellMatrix fc = new FeatureCellMatrix(featureVector, formulaRefInCluster);
+			FeatureCellMatrix fc = new FeatureCellMatrix(featureVector, formulaRefInCluster, beginTime);
 			RealMatrix fcM = fc.matrixCreationForDetection(subFtList);
 			
 			Instances originalDataset = createInstances(fcM);

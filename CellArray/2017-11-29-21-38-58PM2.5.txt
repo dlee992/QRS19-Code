@@ -1,3 +1,0 @@
-PM2.5
-index = 1, CellArray=[6, 9] ------ [27, 9]
-index = 2, CellArray=[29, 6] ------ [29, 9]

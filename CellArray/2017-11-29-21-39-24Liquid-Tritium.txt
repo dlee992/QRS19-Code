@@ -1,3 +1,0 @@
-Liquid-Tritium
-index = 1, CellArray=[3, 1] ------ [79, 1]
-index = 2, CellArray=[3, 2] ------ [79, 2]

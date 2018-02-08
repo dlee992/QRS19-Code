@@ -1,10 +1,10 @@
 package featureExtraction.weakFeatureExtraction;
 
-import utility.BasicUtility;
-import utility.FormulaParsing;
 import entity.R1C1Cell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
+import utility.BasicUtility;
+import utility.FormulaParsing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,17 @@ public class CellArrayExtraction {
 			for (int row = snippet.up; row <= snippet.bottom; row++) {
 				Cell cell = sheet.getRow(row).getCell(col);
 				if (cell != null && cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
-					List<R1C1Cell> paras = bu.extractParameters(row, col, cell.getCellFormula());
+				    List<R1C1Cell> paras = new ArrayList<>();
+				    boolean flag = false;
+				    try {
+                        paras = bu.extractParameters(row, col, cell.getCellFormula());
+                    }
+                    catch (NullPointerException ignored) {
+				        flag = true;
+                    }
+
+                    if (flag) continue;
+
 					if (possibleMember(paras, false)) {
 						possibleCA = true;
 						continue;

@@ -4,6 +4,7 @@ import ThirdParty.CACheck.amcheck.AnalysisPattern;
 import experiment.StatisticsForAll;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
@@ -87,6 +88,8 @@ public class MainClass {
 
         JLabel label = new JLabel("程序结束");
         frame.getContentPane().add(label);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
 
         frame.pack();
         frame.setVisible(true);

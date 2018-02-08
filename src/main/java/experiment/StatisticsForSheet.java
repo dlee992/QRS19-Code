@@ -283,4 +283,12 @@ public class StatisticsForSheet {
     public long getEndTime() {
         return endTime;
     }
+
+    public void clear() {
+        this.gt_clusterList = new ArrayList<>();
+        this.gt_smellList = new ArrayList<>();
+        this.stageIIClusters = new ArrayList<>();
+        this.smellyCells = new ArrayList<>();
+        this.timeout = true;
+    }
 }

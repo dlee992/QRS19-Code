@@ -1,8 +1,0 @@
-BALANCE SHEET
-index = 1, CellArray=[7, 2] ------ [7, 3]
-index = 2, CellArray=[13, 2] ------ [13, 3]
-index = 3, CellArray=[17, 2] ------ [17, 3]
-index = 4, CellArray=[23, 2] ------ [23, 3]
-index = 5, CellArray=[25, 2] ------ [25, 3]
-index = 6, CellArray=[27, 2] ------ [27, 3]
-index = 7, CellArray=[31, 2] ------ [31, 3]

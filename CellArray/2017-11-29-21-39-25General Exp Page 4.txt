@@ -1,6 +1,0 @@
-General Exp Page 4
-index = 1, CellArray=[12, 10] ------ [15, 10]
-index = 2, CellArray=[18, 10] ------ [26, 10]
-index = 3, CellArray=[29, 10] ------ [31, 10]
-index = 4, CellArray=[33, 10] ------ [36, 10]
-index = 5, CellArray=[39, 8] ------ [41, 8]

@@ -8,16 +8,17 @@ public class Timeout {
 
 
     public static void main(String[] args) {
-        if (args.length != 2) {
-            logger.info("缺少参数");
-            return;
+        TimeoutForSheet timeoutForSheet = new TimeoutForSheet(Thread.currentThread());
+        Thread thread = new Thread(timeoutForSheet);
+        thread.start();
+
+        try {
+            System.out.println(System.nanoTime() + "Main begin to run");
+            Thread.sleep(5*1000);
+            System.out.println(System.nanoTime() + "Main sleeps for ** seconds");
+        } catch (InterruptedException e) {
+            System.out.println(System.nanoTime() + "Main is stopped by other thread");
         }
-
-        spreadsheetName = args[0];
-        sheetName = args[1];
-
-
-
 
     }
 }

@@ -24,6 +24,7 @@ import java.util.*;
 import static programEntry.GP.*;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
+import static programEntry.TestDataSet.TIMEOUT;
 
 public class TestWorksheet implements Runnable {
 
@@ -36,6 +37,8 @@ public class TestWorksheet implements Runnable {
     private String category;
     private String categoryDirStr;
     public long beginTime = -1;
+
+    public long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 
 
     public TestWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
@@ -71,6 +74,13 @@ public class TestWorksheet implements Runnable {
     private StatisticsForSheet testWorksheet()
             throws Exception, OutOfMemoryError {
 
+        /*
+         * TODO: 专门开启一个线程去限定这个线程的运行时间，当然还是通过软中断的方式。
+         */
+        TimeoutForSheet timeoutForSheet = new TimeoutForSheet(Thread.currentThread());
+        new Thread(timeoutForSheet).start();
+
+
         this.beginTime = System.nanoTime();
 
         staSheet.setBeginTime  (System.nanoTime());
@@ -91,7 +101,7 @@ public class TestWorksheet implements Runnable {
         //logBuffer.newLine();
         BasicUtility bu = new BasicUtility();
 
-        InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet);
+        InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet, beginTime);
 
         Map<String, List<String>> formulaInfoList = infoOfSheet.getFormulaMap();
         numberOfFormula.addAndGet(formulaInfoList.size());
@@ -104,7 +114,7 @@ public class TestWorksheet implements Runnable {
             return staSheet;
         }
 
-        HacClustering hacCluster = new HacClustering(sheet, formulaInfoList);
+        HacClustering hacCluster = new HacClustering(sheet, formulaInfoList, beginTime);
 
         List<Cluster> caCheckCluster = new ArrayList<>();
         Set<String> caCheckFormula = new HashSet<>();
@@ -137,14 +147,14 @@ public class TestWorksheet implements Runnable {
 
 
         //TODO: 3 weak feature extraction
-        FeatureExtraction fe = new FeatureExtraction(sheet, stageIClusters);
+        FeatureExtraction fe = new FeatureExtraction(sheet, stageIClusters, beginTime);
         fe.featureExtractionFromSheet(infoOfSheet.getDataCells());
 
         List<Cluster> seedClusters = fe.getSeedCluster();
         if (seedClusters != null && !seedClusters.isEmpty()) {
             FeatureCellMatrix fcc = new FeatureCellMatrix(
                     fe.getFeatureVectorForClustering(),
-                    fe.getCellRefsVector());
+                    fe.getCellRefsVector(), beginTime);
 
             RealMatrix featureCellM = fcc.matrixCreationForClustering(fe.getCellFeatureList());
 
@@ -157,12 +167,12 @@ public class TestWorksheet implements Runnable {
             List<Cell>          nonSeedCells    = fe.getNonSeedCells();
 
             //TODO: 4 second-stage clustering
-            BootstrappingClustering bc = new BootstrappingClustering(fe, sheet);
+            BootstrappingClustering bc = new BootstrappingClustering(fe, sheet, beginTime);
             RealMatrix cellClusterM    = bc.clustering(featureCellM);
             List<Cluster> stageIIClusters;
 
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
+            if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                return null;
             }
 
             if (nonSeedCells != null && !nonSeedCells.isEmpty()) {
@@ -200,11 +210,11 @@ public class TestWorksheet implements Runnable {
             //logBuffer.write("---- Smell detection begun ----");
             //logBuffer.newLine();
 
-            SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList());
+            SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList(), beginTime);
             sdc.outlierDetection();
 
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
+            if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                return null;
             }
 
             for (Cluster cluster : stageIClusters) {
@@ -284,7 +294,14 @@ public class TestWorksheet implements Runnable {
         FileOutputStream outFile = new FileOutputStream(outFileStr);
         //TODO: 不清楚为什么workbook会空指针
         if (workbook == null || outFile == null) return;
-        workbook.write(outFile);
+        try {
+            workbook.write(outFile);
+        } catch (NullPointerException ignored) {
+            System.out.println("org.apache.poi.poifs.filesystem." +
+                    "FilteringDirectoryNode$FilteringIterator.<init>(FilteringDirectoryNode.java:193)");
+        }
+
+
         outFile.close();
         workbook.close();
         printFlag.remove(fileName);

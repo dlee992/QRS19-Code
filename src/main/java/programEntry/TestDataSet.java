@@ -11,13 +11,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static programEntry.GP.*;
+import static programEntry.MainClass.createAndShowGUI;
 import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 public class TestDataSet {
 
     private static String fileSeparator = System.getProperty("file.separator");
     private static int MAXFILES = Integer.MAX_VALUE;
-    private static long TIMEOUT = 60*5;
+    public static long TIMEOUT = 60*5;
     private static Set<String> testTarget = new HashSet<>();
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
@@ -29,10 +30,10 @@ public class TestDataSet {
 //        testTarget.add("jackson"); //no timeout sheet
 //        testTarget.add("personal"); //no timeout sheet
 
-//        testTarget.add("database");
+        testTarget.add("database");
 //        testTarget.add("financial"); //异常太多 而且主线程50min无法终止
 //        testTarget.add("grades");
-        testTarget.add("homework");
+//        testTarget.add("homework");
 //        testTarget.add("inventory");
 //        testTarget.add("modeling");
 
@@ -69,11 +70,12 @@ public class TestDataSet {
             for (File excelFile:
                  processedDir.listFiles()) {
                 //直接处理这个Excel文件
-//                if (!excelFile.getName().startsWith("Aggregate")) continue;
+//                if (!excelFile.getName().equals("spreadsheets5.xls")) continue;
                 try {
                     count++;
                     if (count > MAXFILES) break;
                     testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
+                    if (count % 100 == 0) staAll.log(prefixOutDir,  null);
                 } catch (Exception  | OutOfMemoryError e) {
                     e.printStackTrace();
                 }
@@ -87,6 +89,10 @@ public class TestDataSet {
         timeoutMonitor(TIMEOUT);
     }
 
+
+    /*
+     * TODO: 发现一个新问题，单独运行一个ss时，某个sheet确实超时了(300s),但是集体运行时的结果显示它只运行了180+s,很奇怪。
+     */
     static void timeoutMonitor(long TIMEOUT) throws IOException {
 
         Iterator<TestWorksheet> taskIter = tasks.iterator();
@@ -110,7 +116,7 @@ public class TestDataSet {
                 Sheet sheet = testWorksheet.staSheet.sheet;
                 if (consumedTime >= 300) {
                     timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, sheet.getSheetName()));
-                    testWorksheet.staSheet.timeout = true;
+                    testWorksheet.staSheet.clear();
                 }
                 staAll.add(testWorksheet.staSheet, logBuffer);
 //                System.out.println("staAll size = " + staAll.sheetList.size());
@@ -121,7 +127,7 @@ public class TestDataSet {
                         + " Seconds --- SS: " +  testWorksheet.staSheet.fileName +
                         ", WS: " + testWorksheet.staSheet.sheet.getSheetName());
 
-                testWorksheet.staSheet.timeout = true;
+                testWorksheet.staSheet.clear();
                 testWorksheet.staSheet.setEndTime(System.nanoTime());
                 testWorksheet.printLastSheet();
 
@@ -159,7 +165,8 @@ public class TestDataSet {
         bufferedWriter.close();
 
         exeService.shutdownNow();
-        System.exit(0);
+        createAndShowGUI();
+//        System.exit(0);
     }
 
 

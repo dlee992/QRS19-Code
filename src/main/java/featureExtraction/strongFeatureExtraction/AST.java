@@ -172,6 +172,10 @@ public class AST {
 	            throw new IllegalStateException("too much stuff left on the stack");
 	        }
 		}
+		catch (FormulaParseException ignored) {
+			System.out.println("org.apache.poi.ss.formula." +
+					"FormulaParseException: Specified named range 'SGJ200' does not exist in the current workbook.");
+		}
 		catch(Exception e){
 			e.printStackTrace();
 		}

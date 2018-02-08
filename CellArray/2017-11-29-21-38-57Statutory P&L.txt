@@ -1,4 +1,0 @@
-Statutory P&L
-index = 1, CellArray=[12, 1] ------ [12, 6]
-index = 2, CellArray=[24, 1] ------ [24, 6]
-index = 3, CellArray=[37, 1] ------ [37, 6]

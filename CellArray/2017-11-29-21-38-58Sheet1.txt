@@ -1,4 +1,0 @@
-Sheet1
-index = 1, CellArray=[1, 8] ------ [49, 8]
-index = 2, CellArray=[1, 9] ------ [49, 9]
-index = 3, CellArray=[1, 10] ------ [49, 10]

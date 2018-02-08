@@ -1,3 +1,0 @@
-UL I-E
-index = 1, CellArray=[13, 1] ------ [13, 2]
-index = 2, CellArray=[19, 1] ------ [19, 2]

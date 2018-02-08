@@ -1,4 +1,0 @@
-ftse-prefix
-index = 1, CellArray=[13, 2] ------ [13, 3]
-index = 2, CellArray=[22, 2] ------ [22, 3]
-index = 3, CellArray=[27, 2] ------ [27, 3]

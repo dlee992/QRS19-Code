@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static programEntry.TestDataSet.TIMEOUT;
+
 //import static programEntry.GP.O4_2;
 //import static programEntry.GP.weightParameter;
 
@@ -20,10 +22,15 @@ public class FeatureCellMatrix {
 
 	private List<CellReference> cellRefsVector = null;
 	private List<String> featureVector = new ArrayList<String>();
+
+	private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
+	private long beginTime;
+
 	
-	public FeatureCellMatrix(List<String> featureVector, List<CellReference> cellRefsVector) {
+	public FeatureCellMatrix(List<String> featureVector, List<CellReference> cellRefsVector, long beginTime) {
 		this.setCellRefsVector(cellRefsVector);
 		this.setFeatureVector(featureVector);
+		this.beginTime = beginTime;
 	}
 
 	private void setCellRefsVector(List<CellReference> cellRefsVector) {
@@ -39,8 +46,8 @@ public class FeatureCellMatrix {
 		
 		for (CellFeature ft: cellFeatureList){
 
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
+			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				return null;
 			}
 			
 			if (cellRefsVector.contains(ft.getCellReference())) {

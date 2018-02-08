@@ -1,9 +1,0 @@
-Federal Projects Page 8
-index = 1, CellArray=[14, 9] ------ [22, 9]
-index = 2, CellArray=[26, 9] ------ [27, 9]
-index = 3, CellArray=[31, 9] ------ [35, 9]
-index = 4, CellArray=[39, 9] ------ [40, 9]
-index = 5, CellArray=[50, 9] ------ [53, 9]
-index = 6, CellArray=[57, 9] ------ [60, 9]
-index = 7, CellArray=[64, 9] ------ [71, 9]
-index = 8, CellArray=[74, 9] ------ [76, 9]

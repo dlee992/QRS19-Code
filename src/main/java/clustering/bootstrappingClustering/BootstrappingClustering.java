@@ -25,6 +25,8 @@ import utility.FormulaParsing;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static programEntry.TestDataSet.TIMEOUT;
 //import static programEntry.GP.O3;
 
 public class BootstrappingClustering {
@@ -37,13 +39,17 @@ public class BootstrappingClustering {
 	private Sheet sheetOrigin;
 
 	private BasicUtility bu = new BasicUtility();
+
+	private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
+	private long beginTime;
 	
-	public BootstrappingClustering(FeatureExtraction fe, Sheet sheetOrigin) {
+	public BootstrappingClustering(FeatureExtraction fe, Sheet sheetOrigin, long beginTime) {
 		this.cellRefsVector  = fe.getCellRefsVector();
 		this.clusterVector   = fe.getClusterVector();
 		this.featureVector   = fe.getFeatureVectorForClustering();
 		this.cellFeatureList = fe.getCellFeatureList();
 		this.sheetOrigin     = sheetOrigin;
+		this.beginTime = beginTime;
 	}
 
 	public RealMatrix clustering(RealMatrix featureCellM) {
@@ -195,8 +201,8 @@ public class BootstrappingClustering {
         int index = 0;
 
         while (index < 2) {
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
+			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				return null;
 			}
 
             if (isolatedCellMatrix != null) {
@@ -209,8 +215,8 @@ public class BootstrappingClustering {
 
                     if (maxValue > 0) {
                         for (int j1 = 0; j1 < isolatedCellMatrix.getColumnDimension(); j1++) {
-							if (Thread.interrupted()) {
-								throw new InterruptedException();
+							if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+								return null;
 							}
 
                             if (isolatedCellMatrix.getEntry(i1, j1) == maxValue) {
