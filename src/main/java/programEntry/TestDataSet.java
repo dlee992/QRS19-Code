@@ -24,13 +24,13 @@ public class TestDataSet {
 
 
     public static void main(String[] args) throws IOException {
-//        testTarget.add("cs101"); //no timeout sheet
-//        testTarget.add("filby"); //no timeout sheet
-//        testTarget.add("form3"); //no timeout sheet
-//        testTarget.add("jackson"); //no timeout sheet
-//        testTarget.add("personal"); //no timeout sheet
+        testTarget.add("cs101"); //no timeout sheet
+        testTarget.add("filby"); //no timeout sheet
+        testTarget.add("form3"); //no timeout sheet
+        testTarget.add("jackson"); //no timeout sheet
+        testTarget.add("personal"); //no timeout sheet
 
-        testTarget.add("database");
+//        testTarget.add("database");
 //        testTarget.add("financial"); //异常太多 而且主线程50min无法终止
 //        testTarget.add("grades");
 //        testTarget.add("homework");
@@ -112,6 +112,10 @@ public class TestDataSet {
                     timeout = 0;
 
                 //TODO: 这里又有一个bug，如果timeout为负数，那么表示该任务已经超时 或者 早已经执行结束，这里需要额外判断和处理
+                System.out.println("Timeout left : " + timeout
+                        + " Seconds --- SS: " +  testWorksheet.staSheet.fileName +
+                        ", WS: " + testWorksheet.staSheet.sheet.getSheetName());
+
                 future.get(timeout, TimeUnit.NANOSECONDS);
 
                 long consumedTime = (testWorksheet.staSheet.getEndTime() - testWorksheet.staSheet.getBeginTime())
@@ -124,8 +128,7 @@ public class TestDataSet {
                 staAll.add(testWorksheet.staSheet, logBuffer);
 //                System.out.println("staAll size = " + staAll.sheetList.size());
 
-            } catch (ExecutionException | InterruptedException | TimeoutException | IllegalStateException ignored) {
-
+            } catch (TimeoutException ignored) {
                 System.out.println("Timeout in : " + (System.nanoTime() - testWorksheet.beginTime)/ 1_000_000_000.0
                         + " Seconds --- SS: " +  testWorksheet.staSheet.fileName +
                         ", WS: " + testWorksheet.staSheet.sheet.getSheetName());
@@ -141,7 +144,9 @@ public class TestDataSet {
                 timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, sheet.getSheetName()));
 
                 future.cancel(true);
-
+            }
+            catch (ExecutionException | InterruptedException | IllegalStateException ignored) {
+                System.out.println("What to do?");
             } finally {
 
             }
