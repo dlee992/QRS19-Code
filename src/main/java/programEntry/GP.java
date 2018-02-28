@@ -18,9 +18,10 @@ public class GP {
     public static boolean filterString = true; // filter string-type formula cells.
     public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
 
-	public static boolean addA = true;
-	public static boolean addB = true;
-	public static boolean addC = true;
+	public static boolean addA = false;
+	public static boolean addB = false;
+	public static boolean addC = false;
+	public static boolean addD = true;
 
      static AtomicInteger finishedSS = new AtomicInteger(0);
      static AtomicInteger finishedWS = new AtomicInteger(0);
@@ -54,6 +55,7 @@ public class GP {
          if (addA) testDate += "A";
          if (addB) testDate += "B";
          if (addC) testDate += "C";
+         if (addD) testDate += "D";
 
          //TODO: 当队列长度饱和时，采用CallerRuns策略，让主线程阻塞，并开始执行当前准备发布的子线程任务。
          //RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
@@ -92,6 +94,7 @@ public class GP {
 		if (addA) builder.append("A");
 		if (addB) builder.append("B");
 		if (addC) builder.append("C");
+        if (addC) builder.append("D");
 
 	    return builder.toString();
 	}

@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static programEntry.GP.filterString;
-import static programEntry.TestDataSet.TIMEOUT;
+import static programEntry.TestEUSES.TIMEOUT;
 
 
 public class BasicUtility {
@@ -744,7 +744,7 @@ public class BasicUtility {
     }
 
     public String getCurrentTime() {
-        return new SimpleDateFormat("MM-dd HH-mm").format(Calendar.getInstance().getTime());
+        return new SimpleDateFormat("MM-dd HH-mm-ss").format(Calendar.getInstance().getTime());
     }
 }
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static programEntry.TestDataSet.TIMEOUT;
+import static programEntry.TestEUSES.TIMEOUT;
 
 //import static programEntry.GP.O4_2;
 //import static programEntry.GP.weightParameter;

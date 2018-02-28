@@ -1,6 +1,7 @@
 package clustering.hacClustering.customTED;
 
 import node.Node;
+import parser.InputParser;
 import util.FormatUtilities;
 
 import java.util.Vector;
@@ -116,10 +117,20 @@ public class MyInputParser<D> {
         nodeData.forms.add("R[" + relativeRow +"]C" + absoluteColumn);
         nodeData.forms.add("R[" + relativeRow +"]C[" + relativeColumn + "]");
 
+//        System.out.println("label = " + nodeData.label);
+//        for (String form:
+//             nodeData.forms) {
+//            System.out.println("form = " + form);
+//        }
+//        System.out.println();
     }
 
     public static void main(String args[]) {
         //TODO：测试regular expression
+        MyInputParser<MyNodeData> inputParser = new MyInputParser<>();
+        Node<MyNodeData> astInstanceOne = inputParser.fromString("{DIV{R[-1]C}{R[-1]C[-1]}}", "C9");
+        Node<MyNodeData> astInstanceTwo = inputParser.fromString("{DIV{R[-1]C}{R[-1]C[-2]}}", "D9");
+
 
     }
 }

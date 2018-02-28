@@ -33,7 +33,7 @@ import java.util.Map.Entry;
 import static programEntry.GP.addA;
 import static programEntry.GP.addB;
 import static programEntry.GP.addC;
-import static programEntry.TestDataSet.TIMEOUT;
+import static programEntry.TestEUSES.TIMEOUT;
 
 public class SmellDetectionClustering {
 

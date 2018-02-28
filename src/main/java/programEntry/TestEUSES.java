@@ -14,7 +14,7 @@ import static programEntry.GP.*;
 import static programEntry.MainClass.createAndShowGUI;
 import static programEntry.TestSpreadsheet.testSpreadsheet;
 
-public class TestDataSet {
+public class TestEUSES {
 
     private static String fileSeparator = System.getProperty("file.separator");
     private static int MAXFILES = Integer.MAX_VALUE;
@@ -24,10 +24,10 @@ public class TestDataSet {
 
 
     public static void main(String[] args) throws IOException {
-        testTarget.add("cs101"); //no timeout sheet
-        testTarget.add("filby"); //no timeout sheet
-        testTarget.add("form3"); //no timeout sheet
-        testTarget.add("jackson"); //no timeout sheet
+//        testTarget.add("cs101"); //no timeout sheet
+//        testTarget.add("filby"); //no timeout sheet
+//        testTarget.add("forms3"); //no timeout sheet
+//        testTarget.add("jackson"); //no timeout sheet
         testTarget.add("personal"); //no timeout sheet
 
 //        testTarget.add("database");
@@ -112,7 +112,7 @@ public class TestDataSet {
                     timeout = 0;
 
                 //TODO: 这里又有一个bug，如果timeout为负数，那么表示该任务已经超时 或者 早已经执行结束，这里需要额外判断和处理
-                System.out.println("Timeout left : " + timeout
+                System.out.println("Timeout left : " + timeout/1000_000_000
                         + " Seconds --- SS: " +  testWorksheet.staSheet.fileName +
                         ", WS: " + testWorksheet.staSheet.sheet.getSheetName());
 
@@ -176,7 +176,6 @@ public class TestDataSet {
         createAndShowGUI();
 //        System.exit(0);
     }
-
 
     public static void testEnron() {
 

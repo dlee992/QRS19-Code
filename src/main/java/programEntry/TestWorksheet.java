@@ -24,7 +24,7 @@ import java.util.*;
 import static programEntry.GP.*;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
-import static programEntry.TestDataSet.TIMEOUT;
+import static programEntry.TestEUSES.TIMEOUT;
 
 public class TestWorksheet implements Runnable {
 

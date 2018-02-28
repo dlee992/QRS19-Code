@@ -1,8 +1,10 @@
 package clustering.hacClustering;
 
+import clustering.hacClustering.customTED.MyCostModel;
 import clustering.hacClustering.customTED.MyInputParser;
 import clustering.hacClustering.customTED.MyNodeData;
 import convenience.RTED;
+import distance.APTED;
 import entity.Cluster;
 import featureExtraction.strongFeatureExtraction.AST;
 import node.Node;
@@ -13,7 +15,8 @@ import utility.BasicUtility;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static programEntry.TestDataSet.TIMEOUT;
+import static programEntry.GP.addD;
+import static programEntry.TestEUSES.TIMEOUT;
 
 public class HacClustering {
 	private Logger logger = Logger.getLogger("HAC");
@@ -145,8 +148,11 @@ public class HacClustering {
 
 
 	public List<Cluster> clustering() throws OutOfMemoryError, InterruptedException {
-//    	computeDistance();
-    	newComputeDistance();
+		if (!addD)
+			computeDistance();
+    	else
+    		newComputeDistance();
+
 		return performClustering();
 	}
 
@@ -155,6 +161,7 @@ public class HacClustering {
 		formulaCellAdd = new ArrayList<>();
 
 		MyInputParser<MyNodeData> inputParser = new MyInputParser<>();
+		APTED<MyCostModel, MyNodeData> apted = new APTED<>(new MyCostModel(1, 1, 1));
 
 //		System.out.println("formulaInfoList size = " + formulaInfoList.size());
 		int index = 0;
@@ -215,7 +222,7 @@ public class HacClustering {
 
 				double nodeSum = astInstanceOne.getNodeCount() + astInstanceTwo.getNodeCount();
 
-				double astDist = (RTED.computeDistance(astStringOne, astStringTwo)) / nodeSum;
+				double astDist = (apted.computeEditDistance(astInstanceOne, astInstanceTwo)) / nodeSum;
 
 //                out.printf("%s = %s, %s = %s\n", cellOne[0], asTreeStrLeft, cellTwo[0], astStringTwo);
 
@@ -228,7 +235,7 @@ public class HacClustering {
 
 				//TODO: 下面这个语句会产生 java.lang.OutOfMemoryError: Java heap space,
 				// 暂时不知道怎么修复,也不知道出现在哪个表里
-				double dpDist = (RTED.computeDistance(cdtStringOne, cdtStringTwo)) / nodeSum;
+				double dpDist = (apted.computeEditDistance(cdtInstanceOne, cdtInstanceTwo)) / nodeSum;
 //                out.printf("%s = %s, %s = %s\n", cellOne[0], cdtStringOne, cellTwo[0], cdtStringTwo);
 
 				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
