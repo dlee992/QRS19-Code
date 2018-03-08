@@ -28,10 +28,12 @@ public class TestEnron {
             new BasicUtility().getCurrentTime();
 
 
-    public static void main(String[] agrs) throws IOException {
-        TestEnron tester = new TestEnron();
-        tester.removeDuplicates();
-        logger.info(String.valueOf(SUM));
+    public static void main(String[] args) throws IOException {
+        readAll();
+
+    }
+
+    private static void readAll() {
     }
 
 
@@ -58,7 +60,6 @@ public class TestEnron {
     }
 
     private void recursive(File versionDir, int depth) throws IOException {
-
 
         for (File subDir:
                 versionDir.listFiles()) {

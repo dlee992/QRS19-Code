@@ -17,28 +17,15 @@ import static programEntry.TestSpreadsheet.testSpreadsheet;
 public class TestEUSES {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int MAXFILES = Integer.MAX_VALUE;
+    private static int MAXFILES = 101;//Integer.MAX_VALUE;
     public static long TIMEOUT = 60*5;
     private static Set<String> testTarget = new HashSet<>();
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
 
     public static void main(String[] args) throws IOException {
-//        testTarget.add("cs101"); //no timeout sheet
-//        testTarget.add("filby"); //no timeout sheet
-//        testTarget.add("forms3"); //no timeout sheet
-//        testTarget.add("jackson"); //no timeout sheet
-        testTarget.add("personal"); //no timeout sheet
-
-//        testTarget.add("database");
-//        testTarget.add("financial"); //异常太多 而且主线程50min无法终止
-//        testTarget.add("grades");
-//        testTarget.add("homework");
-//        testTarget.add("inventory");
-//        testTarget.add("modeling");
-
-
-        testEUESE();
+//        testEUESE();
+        testEnron();
     }
 
 
@@ -52,6 +39,20 @@ public class TestEUSES {
      5:暂时还没有想到第四点.
     */
     private static void testEUESE() throws IOException {
+        //        testTarget.add("cs101"); //no timeout sheet
+//        testTarget.add("filby"); //no timeout sheet
+//        testTarget.add("forms3"); //no timeout sheet
+//        testTarget.add("jackson"); //no timeout sheet
+//        testTarget.add("personal"); //no timeout sheet
+
+//        testTarget.add("database");
+//        testTarget.add("financial"); //异常太多 而且主线程50min无法终止
+//        testTarget.add("grades");
+//        testTarget.add("homework");
+//        testTarget.add("inventory");
+//        testTarget.add("modeling");
+
+
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES-Corpus";
         File inputDir = new File(inDirPath);
 
@@ -89,10 +90,6 @@ public class TestEUSES {
         timeoutMonitor(TIMEOUT);
     }
 
-
-    /*
-     * TODO: 发现一个新问题，单独运行一个ss时，某个sheet确实超时了(300s),但是集体运行时的结果显示它只运行了180+s,很奇怪。
-     */
     static void timeoutMonitor(long TIMEOUT) throws IOException {
 
         Iterator<TestWorksheet> taskIter = tasks.iterator();
@@ -177,8 +174,31 @@ public class TestEUSES {
 //        System.exit(0);
     }
 
-    public static void testEnron() {
+    private static void testEnron() throws IOException {
+        readDuplicates();
 
+        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "Enron-Corpus";
+        File inputDir = new File(inDirPath);
 
+        staAll = new StatisticsForAll();
+        staAll.setBeginTime(System.nanoTime());
+
+        int count = 0;
+        for (File ssfile :
+                inputDir.listFiles()) {
+            try {
+                count++;
+                if (count > MAXFILES) break;
+                testSpreadsheet(ssfile, staAll, logBuffer, index, true, "Enron");
+                if (count % 100 == 0) staAll.log(prefixOutDir,  null);
+            } catch (Exception  | OutOfMemoryError e) {
+                e.printStackTrace();
+            }
+        }
+
+        timeoutMonitor(TIMEOUT);
+    }
+
+    private static void readDuplicates() {
     }
 }
