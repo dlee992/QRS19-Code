@@ -18,13 +18,17 @@ public class GP {
     public static boolean filterString = true; // filter string-type formula cells.
     public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
 
+    //effectiveness
 	public static boolean addA = false;
 	public static boolean addB = false;
 	public static boolean addC = false;
-	public static boolean addD = true;
 
-     static AtomicInteger finishedSS = new AtomicInteger(0);
-     static AtomicInteger finishedWS = new AtomicInteger(0);
+	//efficiency
+    //TODO: bugs happen which result in wrong results
+	public static boolean addD = false; //adjust different R1C1 cell reference (absolute and/or relative)
+
+    static AtomicInteger finishedSS = new AtomicInteger(0);
+    static AtomicInteger finishedWS = new AtomicInteger(0);
 
     public static boolean plusCellArray = false; // Extract cell array first, before the 1st stage clustering.
     public static boolean plusFirstSecond = false; //First formula and their dependence, 2nd data during the 2nd stage.
@@ -34,7 +38,7 @@ public class GP {
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "2018-02-09 Prototype idea";
+    public static String testDate = "2018-06 Prototype idea";
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();

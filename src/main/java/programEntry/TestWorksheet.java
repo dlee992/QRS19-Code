@@ -288,6 +288,8 @@ public class TestWorksheet implements Runnable {
         }
         if (currentFlag > 0) return;
 
+        System.out.println("Begin to flush out.");
+
         String suffix = null;
         if (workbook.getSpreadsheetVersion().name().equals("EXCEL97")) {
             suffix = "xls";
@@ -301,6 +303,7 @@ public class TestWorksheet implements Runnable {
                 + "_aha_" + GP.addSuffix() + "." + suffix;
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
+        System.out.println(outFileStr);
         //TODO: 不清楚为什么workbook会空指针
         if (workbook == null || outFile == null) return;
         try {

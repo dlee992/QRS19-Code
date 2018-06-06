@@ -3,8 +3,6 @@ package programEntry;
 import ThirdParty.CACheck.amcheck.AnalysisPattern;
 import experiment.StatisticsForAll;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
@@ -61,7 +59,7 @@ public class MainClass {
             int count = 0;
             for (File eachFile : files) {
 //                if (eachFile.getName().startsWith("0000")) continue;
-//                if (!eachFile.getName().equals("VRSinventory01.xls")) continue;
+//                if (!eachFile.getName().equals("01-38-PK_tables-figures.xls")) continue;
                 count ++;
 //                if (count > 10) break;
 
@@ -83,6 +81,7 @@ public class MainClass {
 
 
     public static void createAndShowGUI() {
+        /*
         JFrame frame = new JFrame("程序结束");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -93,6 +92,7 @@ public class MainClass {
 
         frame.pack();
         frame.setVisible(true);
+    */
     }
 
 

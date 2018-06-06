@@ -93,6 +93,9 @@ public class TestSpreadsheet {
 
             Sheet curSheet = workbook.getSheetAt(j);
 
+            //测试
+//            if (!curSheet.getSheetName().equals("General Ledger")) continue;
+
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr);
             tasks.add(testWorksheetTask);

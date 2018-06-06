@@ -1,10 +1,10 @@
-
-import utility.BasicUtility;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import utility.BasicUtility;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,20 +18,20 @@ import java.util.List;
  */
 public class Comparison {
 
-    public static void mainx(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
         /*
         File current_dir = new File(System.getProperty("user.dir"));
         System.out.println(current_dir.getParent());
         */
-        String parentFilePath = "D:\\9.28\\";
-        String myFileName = "9_1475071073073.xls";
-        String MelodyFileName = "ruiqing.xls";
+        String parentFilePath = "C:\\Users\\njuli\\Desktop\\";
+        String myFileName = "raw Default original spreadsheets_70(06-04 22-12-23).xlsx";
+        String MelodyFileName = "Opt Default original spreadsheets_70(06-04 22-00-17).xlsx";
 
-        HSSFWorkbook myWorkbook = new HSSFWorkbook(new FileInputStream(new File(parentFilePath + myFileName)));
-        HSSFWorkbook MelodyWorkbook = new HSSFWorkbook(new FileInputStream(new File(parentFilePath + MelodyFileName)));
+        Workbook myWorkbook = new XSSFWorkbook(new FileInputStream(new File(parentFilePath + myFileName)));
+        Workbook MelodyWorkbook = new XSSFWorkbook(new FileInputStream(new File(parentFilePath + MelodyFileName)));
 
-        HSSFSheet mySheet = myWorkbook.getSheetAt(0);
-        HSSFSheet MelodySheet = MelodyWorkbook.getSheetAt(0);
+        Sheet mySheet = myWorkbook.getSheetAt(0);
+        Sheet MelodySheet = MelodyWorkbook.getSheetAt(0);
 
 
         List<CellReference> cells = new ArrayList<CellReference>();
@@ -43,6 +43,7 @@ public class Comparison {
                 System.out.println("    Column--" + cell.getColumnIndex() + "------");
                 Cell MelodyCell = MelodyRow.getCell(cell.getColumnIndex());
                 if (cell != null && MelodyCell != null) {
+
                     if (cell.getCellType() == Cell.CELL_TYPE_STRING && MelodyCell.getCellType() == Cell.CELL_TYPE_STRING) {
                         if (!cell.getStringCellValue().equals(MelodyCell.getStringCellValue())) {
                             System.out.println(cell.getStringCellValue());
@@ -51,6 +52,16 @@ public class Comparison {
                             melodyCells.add(new CellReference(MelodyCell));
                         }
                     }
+
+                    else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC && MelodyCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                        if (cell.getNumericCellValue() != MelodyCell.getNumericCellValue()) {
+                            System.out.println(cell.getNumericCellValue());
+
+                            cells.add(new CellReference(cell));
+                            melodyCells.add(new CellReference(MelodyCell));
+                        }
+                    }
+
                 }
             }
         }
@@ -59,11 +70,11 @@ public class Comparison {
         bu.cellMark(melodyCells, MelodySheet);
 
         long time = System.currentTimeMillis();
-        String myOutFileStr = "My result "+ time +".xls";
+        String myOutFileStr = "My result "+ time +".xlsx";
         FileOutputStream myOutFile = new FileOutputStream(parentFilePath + myOutFileStr);
         myWorkbook.write(myOutFile);
 
-        String melodyOutFileStr = "Other result "+ time +".xls";
+        String melodyOutFileStr = "Other result "+ time +".xlsx";
         FileOutputStream melodyOutFile = new FileOutputStream(parentFilePath + melodyOutFileStr);
         MelodyWorkbook.write(melodyOutFile);
 

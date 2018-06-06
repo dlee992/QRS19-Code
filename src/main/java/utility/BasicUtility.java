@@ -56,6 +56,15 @@ public class BasicUtility {
                 String cellFormulaR1C1;
 
                 try {
+                    //寻找表格名称
+                    /*if (c.getCellType() == Cell.CELL_TYPE_STRING) {
+                        if (c.getStringCellValue().equals("Beginning WIP")) {
+                            System.err.println("Find the motivating example." +
+                            sheet.getSheetName());
+                            System.exit(-1);
+                        }
+                    }
+                    else */
                     if (c.getCellType() == 0) {
                         if (GP.plusFrozen) {
                             if (c.getColumnIndex() >= freezeColumn)
