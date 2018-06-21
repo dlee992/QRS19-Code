@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import static programEntry.GP.addD;
-import static programEntry.TestEUSES.TIMEOUT;
+import static Benchmarks.TestEUSES.TIMEOUT;
 
 public class HacClustering {
 	private Logger logger = Logger.getLogger("HAC");
@@ -137,7 +137,7 @@ public class HacClustering {
 				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
 				//distances[n][m] = distances[m][n] = (astDist + dpDist - astDist*dpDist);
 				distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist + 0.001);
-				//System.out.printf("distance[%d][%d] = %f\n", n, m, (astDist + 0.001) * (dpDist + 0.001));
+				//System.out.printf("distance(%s, %s) = %f\n", left[1], right[1], distances[n][m]);
 				n++;
 			}
 			m++;
@@ -392,6 +392,8 @@ public class HacClustering {
 				duplicateCode(clusters, i, j);
 			}
 		}
+
+
 
 		System.out.println("Pre-processing is finished " + new BasicUtility().getCurrentTime());
 

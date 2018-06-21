@@ -278,4 +278,8 @@ public class StatisticsForAll {
         }
         return true;
     }
+
+    public void getInfo() {
+        System.err.printf("Detected clusters = %d, detected smells = %d\n", stageClusterSize, stageSmellSize);
+    }
 }

@@ -1,4 +1,4 @@
-package programEntry;
+package Benchmarks;
 
 import org.apache.commons.io.FileUtils;
 import utility.BasicUtility;

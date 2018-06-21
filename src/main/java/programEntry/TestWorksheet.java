@@ -24,7 +24,7 @@ import java.util.*;
 import static programEntry.GP.*;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
-import static programEntry.TestEUSES.TIMEOUT;
+import static Benchmarks.TestEUSES.TIMEOUT;
 
 public class TestWorksheet implements Runnable {
 
@@ -251,7 +251,7 @@ public class TestWorksheet implements Runnable {
             staSheet.setEndTime(System.nanoTime());
 
             System.out.println("---Finished Analysis: " + sheet.getSheetName() + " " + new BasicUtility().getCurrentTime() + "---");
-            System.out.println("[" + Thread.currentThread().getName() + "]: ---FinishedWS = " + finishedWS.incrementAndGet());
+            System.err.println("[" + Thread.currentThread().getName() + "]: ---FinishedWS = " + finishedWS.incrementAndGet());
             System.out.println();
             //logBuffer.write("----Finished Analysis---");
             //logBuffer.newLine();
@@ -288,7 +288,7 @@ public class TestWorksheet implements Runnable {
         }
         if (currentFlag > 0) return;
 
-        System.out.println("Begin to flush out.");
+//        System.out.println("Begin to flush out.");
 
         String suffix = null;
         if (workbook.getSpreadsheetVersion().name().equals("EXCEL97")) {

@@ -26,7 +26,7 @@ import utility.FormulaParsing;
 import java.util.ArrayList;
 import java.util.List;
 
-import static programEntry.TestEUSES.TIMEOUT;
+import static Benchmarks.TestEUSES.TIMEOUT;
 //import static programEntry.GP.O3;
 
 public class BootstrappingClustering {

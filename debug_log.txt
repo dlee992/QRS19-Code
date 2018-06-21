@@ -1,0 +1,551 @@
+forms3
+index = 1 ######## begin: /burnett-clockAsPieChart.xls'########
+sheet NO = 3
+Spreadsheet index = 1 ######## (Fake) End in: 'burnett-clockAsPieChart.xls'########
+FinishedSS = 1
+
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+[pool-1-thread-1]: ----Sheet 'Sheet1'----
+[pool-1-thread-3]: ----Sheet 'Sheet3'----
+index = 2 ######## begin: /chen-heapSortTimes.xls'########
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 4
+[pool-1-thread-4]: ----Sheet 'Chart1'----
+[pool-1-thread-5]: ----Sheet 'Sheet1'----
+Spreadsheet index = 2 ######## (Fake) End in: 'chen-heapSortTimes.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+FinishedSS = 2
+
+[pool-1-thread-7]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+index = 3 ######## begin: /chen-insertSortTimes.xls'########
+sheet NO = 4
+[pool-1-thread-2]: ----Sheet 'Sheet1'----
+[pool-1-thread-4]: ----Sheet 'Sheet3'----
+[pool-1-thread-3]: ----Sheet 'Sheet2'----
+Spreadsheet index = 3 ######## (Fake) End in: 'chen-insertSortTimes.xls'########
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+FinishedSS = 3
+
+index = 4 ######## begin: /chen-lcsTimes.xls'########
+[pool-1-thread-8]: ----Sheet 'Chart1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 4
+Spreadsheet index = 4 ######## (Fake) End in: 'chen-lcsTimes.xls'########
+FinishedSS = 4
+
+index = 5 ######## begin: /chen-quickSortTimes.xls'########
+[pool-1-thread-6]: ----Sheet 'LCS graph'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\chen-lcsTimes_aha_ABC.xls
+sheet NO = 4
+Spreadsheet index = 5 ######## (Fake) End in: 'chen-quickSortTimes.xls'########
+FinishedSS = 5
+
+index = 6 ######## begin: /cs515_npeg_chart.reichwja.xl97.xls'########
+[pool-1-thread-8]: ----Sheet 'Chart1'----
+[pool-1-thread-3]: ----Sheet 'Sheet2'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: ----Sheet 'Sheet3'----
+[pool-1-thread-7]: ----Sheet 'Sheet1'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+Invalid Format E-xception happened.
+Spreadsheet index = 6 ######## End in: 'cs515_npeg_chart.reichwja.xl97.xls'########
+FinishedSS = 6
+
+index = 7 ######## begin: /cs515_polynomials.reichwja.xl97.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 7 ######## End in: 'cs515_polynomials.reichwja.xl97.xls'########
+FinishedSS = 7
+
+index = 8 ######## begin: /cs515_runtimeData.reichwja.XL97.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 8 ######## End in: 'cs515_runtimeData.reichwja.XL97.xls'########
+FinishedSS = 8
+
+index = 9 ######## begin: /csDept-blank-PB-form-paula.xls'########
+---- Stage I begun 06-21 16-34-19----
+---- Stage I begun 06-21 16-34-19----
+---- Stage I begun 06-21 16-34-19----
+Tree Distance finished 06-21 16-34-19
+Pre-processing is finished 06-21 16-34-19
+---- Stage I finished 06-21 16-34-19----
+Tree Distance finished 06-21 16-34-19
+Tree Distance finished 06-21 16-34-19
+Pre-processing is finished 06-21 16-34-19
+Pre-processing is finished 06-21 16-34-19
+---- Stage I finished 06-21 16-34-19----
+---- Stage I finished 06-21 16-34-19----
+---- Stage I begun 06-21 16-34-19----
+Seed cluster does not exist.
+Seed cluster does not exist.
+---Finished Analysis: Sheet1 06-21 16-34-19---
+---Finished Analysis: Sheet1 06-21 16-34-19---
+
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\chen-insertSortTimes_aha_ABC.xls
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\chen-quickSortTimes_aha_ABC.xls
+Seed cluster does not exist.
+---Finished Analysis: Sheet1 06-21 16-34-19---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\chen-heapSortTimes_aha_ABC.xls
+sheet NO = 4
+Spreadsheet index = 9 ######## (Fake) End in: 'csDept-blank-PB-form-paula.xls'########
+FinishedSS = 9
+
+[pool-1-thread-4]: ----Sheet 'c'----
+[pool-1-thread-3]: ----Sheet 'fall'----
+index = 10 ######## begin: /csDept-F98S99GradAppOut.xls'########
+[pool-1-thread-6]: ----Sheet 'd (2)'----
+[pool-1-thread-8]: ----Sheet 'd'----
+sheet NO = 1
+Spreadsheet index = 10 ######## (Fake) End in: 'csDept-F98S99GradAppOut.xls'########
+FinishedSS = 10
+
+index = 11 ######## begin: /csDept-PAR-blank-form.xls'########
+sheet NO = 3
+Spreadsheet index = 11 ######## (Fake) End in: 'csDept-PAR-blank-form.xls'########
+FinishedSS = 11
+
+index = 12 ######## begin: /csDept-PayrollBudget1999.xls'########
+[pool-1-thread-5]: ----Sheet 'F98S99GradAppOut'----
+[pool-1-thread-7]: ----Sheet 'Sheet1'----
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet 'Sheet3'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+---- Stage I begun 06-21 16-34-19----
+Tree Distance finished 06-21 16-34-19
+Pre-processing is finished 06-21 16-34-19
+---- Stage I finished 06-21 16-34-19----
+Seed cluster does not exist.
+---Finished Analysis: Sheet1 06-21 16-34-20---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\burnett-clockAsPieChart_aha_ABC.xls
+sheet NO = 1
+Spreadsheet index = 12 ######## (Fake) End in: 'csDept-PayrollBudget1999.xls'########
+FinishedSS = 12
+
+index = 13 ######## begin: /csDept-PayrollTimecardEntry.xls'########
+[pool-1-thread-2]: ----Sheet 'Faculty & Staff'----
+sheet NO = 1
+Spreadsheet index = 13 ######## (Fake) End in: 'csDept-PayrollTimecardEntry.xls'########
+FinishedSS = 13
+
+index = 14 ######## begin: /csDept-techbilling.xls'########
+freeze Column = 3
+---- Stage I begun 06-21 16-34-20----
+sheet NO = 2
+Spreadsheet index = 14 ######## (Fake) End in: 'csDept-techbilling.xls'########
+FinishedSS = 14
+
+index = 15 ######## begin: /csDept-TravelReimbursementRequest98.xls'########
+[pool-1-thread-1]: ----Sheet 'Dec'----
+freeze Column = 4
+---- Stage I begun 06-21 16-34-20----
+---- Stage I begun 06-21 16-34-20----
+---- Stage I begun 06-21 16-34-20----
+---- Stage I begun 06-21 16-34-20----
+Tree Distance finished 06-21 16-34-20
+Pre-processing is finished 06-21 16-34-20
+---- Stage I finished 06-21 16-34-20----
+---- Stage II begin 06-21 16-34-20----
+---- Stage II finished 06-21 16-34-20----
+---- Smell detection begun 06-21 16-34-20----
+---- Stage I begun 06-21 16-34-20----
+---- Stage I begun 06-21 16-34-20----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Sheet1 06-21 16-34-20---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-PAR-blank-form_aha_ABC.xls
+[pool-1-thread-7]: ----Sheet 'Full list'----
+freeze Column = 2
+---- Stage I begun 06-21 16-34-21----
+Tree Distance finished 06-21 16-34-21
+Pre-processing is finished 06-21 16-34-21
+---- Stage I finished 06-21 16-34-21----
+---- Stage II begin 06-21 16-34-22----
+---- Stage II finished 06-21 16-34-22----
+---- Smell detection begun 06-21 16-34-22----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Full list 06-21 16-34-22---
+
+[pool-1-thread-7]: ----Sheet 'SS98'----
+freeze Column = 2
+---- Stage I begun 06-21 16-34-22----
+Tree Distance finished 06-21 16-34-22
+Pre-processing is finished 06-21 16-34-22
+---- Stage I finished 06-21 16-34-22----
+---- Stage II begin 06-21 16-34-22----
+---- Stage II finished 06-21 16-34-22----
+---- Smell detection begun 06-21 16-34-22----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Dec 06-21 16-34-22---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-PayrollTimecardEntry_aha_ABC.xls
+sheet NO = 1
+[pool-1-thread-1]: ----Sheet 'Sheet1'----
+---- Stage I begun 06-21 16-34-23----
+Spreadsheet index = 15 ######## (Fake) End in: 'csDept-TravelReimbursementRequest98.xls'########
+FinishedSS = 15
+
+index = 16 ######## begin: /ELECLAB3.reichwja.xl97.xls'########
+sheet NO = 2
+Spreadsheet index = 16 ######## (Fake) End in: 'ELECLAB3.reichwja.xl97.xls'########
+FinishedSS = 16
+
+index = 17 ######## begin: /hw_1_1.reichwja.xl97.xls'########
+sheet NO = 4
+Spreadsheet index = 17 ######## (Fake) End in: 'hw_1_1.reichwja.xl97.xls'########
+FinishedSS = 17
+
+index = 18 ######## begin: /io_a3.wb1.reichwja.xl97.xls'########
+sheet NO = 1
+Spreadsheet index = 18 ######## (Fake) End in: 'io_a3.wb1.reichwja.xl97.xls'########
+FinishedSS = 18
+
+index = 19 ######## begin: /joan-hasmanyIFs.xls'########
+sheet NO = 4
+Spreadsheet index = 19 ######## (Fake) End in: 'joan-hasmanyIFs.xls'########
+FinishedSS = 19
+
+index = 20 ######## begin: /karen-cs101gradebookSp98.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 20 ######## End in: 'karen-cs101gradebookSp98.xls'########
+FinishedSS = 20
+
+index = 21 ######## begin: /karen-cs101gradebookSu98.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 21 ######## End in: 'karen-cs101gradebookSu98.xls'########
+FinishedSS = 21
+
+index = 22 ######## begin: /karen-cs101gradebookW98.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 22 ######## End in: 'karen-cs101gradebookW98.xls'########
+FinishedSS = 22
+
+index = 23 ######## begin: /treasury.reichwja.xl97.xls'########
+sheet NO = 3
+Spreadsheet index = 23 ######## (Fake) End in: 'treasury.reichwja.xl97.xls'########
+FinishedSS = 23
+
+index = 24 ######## begin: /treasury_summer98.reichwja.xl97.xls'########
+sheet NO = 2
+Spreadsheet index = 24 ######## (Fake) End in: 'treasury_summer98.reichwja.xl97.xls'########
+FinishedSS = 24
+
+index = 25 ######## begin: /web_br1.xls'########
+sheet NO = 4
+Spreadsheet index = 25 ######## (Fake) End in: 'web_br1.xls'########
+FinishedSS = 25
+
+index = 26 ######## begin: /web_santiago.xls'########
+Invalid Format E-xception happened.
+Spreadsheet index = 26 ######## End in: 'web_santiago.xls'########
+FinishedSS = 26
+
+Timeout left : 296 Seconds --- SS: burnett-clockAsPieChart.xls, WS: Sheet1
+Timeout left : 296 Seconds --- SS: burnett-clockAsPieChart.xls, WS: Sheet2
+Timeout left : 296 Seconds --- SS: burnett-clockAsPieChart.xls, WS: Sheet3
+Timeout left : 296 Seconds --- SS: chen-heapSortTimes.xls, WS: Chart1
+Timeout left : 296 Seconds --- SS: chen-heapSortTimes.xls, WS: Sheet1
+Timeout left : 296 Seconds --- SS: chen-heapSortTimes.xls, WS: Sheet2
+Timeout left : 296 Seconds --- SS: chen-heapSortTimes.xls, WS: Sheet3
+Timeout left : 296 Seconds --- SS: chen-insertSortTimes.xls, WS: Chart1
+Timeout left : 296 Seconds --- SS: chen-insertSortTimes.xls, WS: Sheet1
+Timeout left : 296 Seconds --- SS: chen-insertSortTimes.xls, WS: Sheet2
+Timeout left : 296 Seconds --- SS: chen-insertSortTimes.xls, WS: Sheet3
+Timeout left : 296 Seconds --- SS: chen-lcsTimes.xls, WS: LCS graph
+Timeout left : 296 Seconds --- SS: chen-lcsTimes.xls, WS: Sheet1
+Timeout left : 296 Seconds --- SS: chen-lcsTimes.xls, WS: Sheet2
+Timeout left : 296 Seconds --- SS: chen-lcsTimes.xls, WS: Sheet3
+Timeout left : 296 Seconds --- SS: chen-quickSortTimes.xls, WS: Chart1
+Timeout left : 296 Seconds --- SS: chen-quickSortTimes.xls, WS: Sheet1
+Timeout left : 296 Seconds --- SS: chen-quickSortTimes.xls, WS: Sheet2
+Timeout left : 296 Seconds --- SS: chen-quickSortTimes.xls, WS: Sheet3
+Timeout left : 296 Seconds --- SS: csDept-blank-PB-form-paula.xls, WS: fall
+Tree Distance finished 06-21 16-34-23
+Pre-processing is finished 06-21 16-34-23
+---- Stage I finished 06-21 16-34-23----
+Tree Distance finished 06-21 16-34-23
+Pre-processing is finished 06-21 16-34-23
+---- Stage I finished 06-21 16-34-23----
+---- Stage II begin 06-21 16-34-23----
+---- Stage II finished 06-21 16-34-23----
+---- Smell detection begun 06-21 16-34-23----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Sheet1 06-21 16-34-23---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-TravelReimbursementRequest98_aha_ABC.xls
+[pool-1-thread-1]: ----Sheet 'ELECLAB3'----
+---- Stage I begun 06-21 16-34-23----
+Tree Distance finished 06-21 16-34-23
+Pre-processing is finished 06-21 16-34-23
+---- Stage I finished 06-21 16-34-23----
+---- Stage II begin 06-21 16-34-24----
+---- Stage II finished 06-21 16-34-24----
+---- Smell detection begun 06-21 16-34-24----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: ELECLAB3 06-21 16-34-24---
+
+[pool-1-thread-1]: ----Sheet 'Current'----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\ELECLAB3.reichwja.xl97_aha_ABC.xls
+[pool-1-thread-1]: ----Sheet 'A'----
+[pool-1-thread-1]: ----Sheet 'B'----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-1]: ----Sheet 'C'----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-1]: ----Sheet 'D'----
+Tree Distance finished 06-21 16-34-24
+Pre-processing is finished 06-21 16-34-24
+---- Stage I finished 06-21 16-34-24----
+---- Stage II begin 06-21 16-34-24----
+---- Stage II finished 06-21 16-34-24----
+---- Smell detection begun 06-21 16-34-24----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: SS98 06-21 16-34-24---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-techbilling_aha_ABC.xls
+[pool-1-thread-7]: ----Sheet 'A'----
+---- Stage I begun 06-21 16-34-24----
+[pool-1-thread-1]: ----Sheet 'fall'----
+---- Stage I begun 06-21 16-34-24----
+Tree Distance finished 06-21 16-34-24
+Pre-processing is finished 06-21 16-34-24
+---- Stage I finished 06-21 16-34-24----
+---- Stage II begin 06-21 16-34-24----
+---- Stage II finished 06-21 16-34-24----
+---- Smell detection begun 06-21 16-34-24----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: A 06-21 16-34-24---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\io_a3.wb1.reichwja.xl97_aha_ABC.xls
+[pool-1-thread-7]: ----Sheet 'c'----
+---- Stage II begin 06-21 16-34-24----
+---- Stage I begun 06-21 16-34-24----
+Tree Distance finished 06-21 16-34-31
+Pre-processing is finished 06-21 16-34-31
+---- Stage I finished 06-21 16-34-31----
+---- Stage II begin 06-21 16-34-32----
+---- Stage II finished 06-21 16-34-32----
+---- Smell detection begun 06-21 16-34-32----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: fall 06-21 16-34-32---
+
+[pool-1-thread-3]: ----Sheet 'd'----
+Timeout left : 287 Seconds --- SS: csDept-blank-PB-form-paula.xls, WS: c
+---- Stage I begun 06-21 16-34-32----
+Tree Distance finished 06-21 16-34-32
+Pre-processing is finished 06-21 16-34-32
+---- Stage I finished 06-21 16-34-32----
+Tree Distance finished 06-21 16-34-32
+Pre-processing is finished 06-21 16-34-32
+---- Stage I finished 06-21 16-34-32----
+---- Stage II begin 06-21 16-34-32----
+Tree Distance finished 06-21 16-34-32
+Pre-processing is finished 06-21 16-34-32
+---- Stage II begin 06-21 16-34-32----
+---- Stage I finished 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+---- Stage II begin 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: d (2) 06-21 16-34-33---
+
+[pool-1-thread-6]: ----Sheet 'd (2)'----
+---- Stage I begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: c 06-21 16-34-33---
+
+[pool-1-thread-4]: ----Sheet 'A'----
+Timeout left : 286 Seconds --- SS: csDept-blank-PB-form-paula.xls, WS: d
+---- Stage I begun 06-21 16-34-33----
+Tree Distance finished 06-21 16-34-33
+Pre-processing is finished 06-21 16-34-33
+---- Stage I finished 06-21 16-34-33----
+---- Stage II begin 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: A 06-21 16-34-33---
+
+[pool-1-thread-4]: ----Sheet 'Spring'----
+---- Stage I begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: d 06-21 16-34-33---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-blank-PB-form-paula_aha_ABC.xls
+[pool-1-thread-8]: ----Sheet 'C'----
+Timeout left : 286 Seconds --- SS: csDept-blank-PB-form-paula.xls, WS: d (2)
+Timeout left : 286 Seconds --- SS: csDept-F98S99GradAppOut.xls, WS: F98S99GradAppOut
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Summer 1998'----
+---- Stage I begun 06-21 16-34-33----
+Tree Distance finished 06-21 16-34-33
+Pre-processing is finished 06-21 16-34-33
+---- Stage I finished 06-21 16-34-33----
+Tree Distance finished 06-21 16-34-33
+Pre-processing is finished 06-21 16-34-33
+---- Stage I finished 06-21 16-34-33----
+---- Stage II begin 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Summer 1998 06-21 16-34-33---
+
+[pool-1-thread-8]: ----Sheet 'B'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\treasury_summer98.reichwja.xl97_aha_ABC.xls
+---- Stage II begin 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Spring 06-21 16-34-33---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\treasury.reichwja.xl97_aha_ABC.xls
+[pool-1-thread-4]: ----Sheet 'Data'----
+---- Stage I begun 06-21 16-34-33----
+[pool-1-thread-8]: ----Sheet 'Simulation'----
+---- Stage I begun 06-21 16-34-33----
+Tree Distance finished 06-21 16-34-33
+Pre-processing is finished 06-21 16-34-33
+---- Stage I finished 06-21 16-34-33----
+Tree Distance finished 06-21 16-34-33
+Pre-processing is finished 06-21 16-34-33
+---- Stage I finished 06-21 16-34-33----
+---- Stage II begin 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Data 06-21 16-34-33---
+
+[pool-1-thread-4]: ----Sheet 'Computations'----
+---- Stage II begin 06-21 16-34-33----
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Simulation 06-21 16-34-33---
+
+[pool-1-thread-8]: ----Sheet 'Copyright'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+---- Stage II finished 06-21 16-34-33----
+---- Smell detection begun 06-21 16-34-33----
+---- Stage I begun 06-21 16-34-34----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: F98S99GradAppOut 06-21 16-34-34---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-F98S99GradAppOut_aha_ABC.xls
+Timeout left : 285 Seconds --- SS: csDept-PAR-blank-form.xls, WS: Sheet1
+Timeout left : 285 Seconds --- SS: csDept-PAR-blank-form.xls, WS: Sheet2
+Timeout left : 285 Seconds --- SS: csDept-PAR-blank-form.xls, WS: Sheet3
+Timeout left : 285 Seconds --- SS: csDept-PayrollBudget1999.xls, WS: Faculty & Staff
+Tree Distance finished 06-21 16-34-34
+Pre-processing is finished 06-21 16-34-34
+---- Stage I finished 06-21 16-34-34----
+---- Stage II begin 06-21 16-34-34----
+---- Stage II finished 06-21 16-34-34----
+---- Smell detection begun 06-21 16-34-34----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: fall 06-21 16-34-34---
+
+Tree Distance finished 06-21 16-34-35
+Pre-processing is finished 06-21 16-34-35
+---- Stage I finished 06-21 16-34-35----
+---- Stage II begin 06-21 16-34-35----
+---- Stage II finished 06-21 16-34-35----
+---- Smell detection begun 06-21 16-34-35----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: c 06-21 16-34-35---
+
+Tree Distance finished 06-21 16-34-39
+Pre-processing is finished 06-21 16-34-39
+---- Stage I finished 06-21 16-34-39----
+---- Stage II begin 06-21 16-34-39----
+---- Stage II finished 06-21 16-34-39----
+---- Smell detection begun 06-21 16-34-39----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: Faculty & Staff 06-21 16-34-39---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\csDept-PayrollBudget1999_aha_ABC.xls
+Timeout left : 280 Seconds --- SS: csDept-PayrollTimecardEntry.xls, WS: Dec
+Timeout left : 281 Seconds --- SS: csDept-techbilling.xls, WS: Full list
+Timeout left : 282 Seconds --- SS: csDept-techbilling.xls, WS: SS98
+Timeout left : 283 Seconds --- SS: csDept-TravelReimbursementRequest98.xls, WS: Sheet1
+Timeout left : 284 Seconds --- SS: ELECLAB3.reichwja.xl97.xls, WS: ELECLAB3
+Timeout left : 284 Seconds --- SS: ELECLAB3.reichwja.xl97.xls, WS: Current
+Timeout left : 284 Seconds --- SS: hw_1_1.reichwja.xl97.xls, WS: A
+What to do?
+Timeout left : 284 Seconds --- SS: hw_1_1.reichwja.xl97.xls, WS: B
+Timeout left : 284 Seconds --- SS: hw_1_1.reichwja.xl97.xls, WS: C
+Timeout left : 284 Seconds --- SS: hw_1_1.reichwja.xl97.xls, WS: D
+What to do?
+Timeout left : 284 Seconds --- SS: io_a3.wb1.reichwja.xl97.xls, WS: A
+Timeout left : 284 Seconds --- SS: joan-hasmanyIFs.xls, WS: fall
+Timeout left : 285 Seconds --- SS: joan-hasmanyIFs.xls, WS: c
+Timeout left : 292 Seconds --- SS: joan-hasmanyIFs.xls, WS: d
+Tree Distance finished 06-21 16-34-40
+Pre-processing is finished 06-21 16-34-40
+---- Stage I finished 06-21 16-34-40----
+---- Stage II begin 06-21 16-34-40----
+---- Stage II finished 06-21 16-34-40----
+---- Smell detection begun 06-21 16-34-40----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: d 06-21 16-34-40---
+
+Timeout left : 293 Seconds --- SS: joan-hasmanyIFs.xls, WS: d (2)
+Tree Distance finished 06-21 16-34-40
+Pre-processing is finished 06-21 16-34-40
+---- Stage I finished 06-21 16-34-40----
+---- Stage II begin 06-21 16-34-40----
+---- Stage II finished 06-21 16-34-40----
+---- Smell detection begun 06-21 16-34-40----
+clusterMark begin
+smellyCellMark begin
+---Finished Analysis: d (2) 06-21 16-34-40---
+
+A:\CC1s-concurrent\Outputs\2018-06 Prototype ideaABC\forms3\joan-hasmanyIFs_aha_ABC.xls
+Timeout left : 292 Seconds --- SS: treasury.reichwja.xl97.xls, WS: A
+Timeout left : 292 Seconds --- SS: treasury.reichwja.xl97.xls, WS: Spring
+Timeout left : 292 Seconds --- SS: treasury.reichwja.xl97.xls, WS: C
+Timeout left : 292 Seconds --- SS: treasury_summer98.reichwja.xl97.xls, WS: Summer 1998
+Timeout left : 293 Seconds --- SS: treasury_summer98.reichwja.xl97.xls, WS: B
+Timeout left : 293 Seconds --- SS: web_br1.xls, WS: Data
+Timeout left : 293 Seconds --- SS: web_br1.xls, WS: Simulation
+Timeout left : 293 Seconds --- SS: web_br1.xls, WS: Computations

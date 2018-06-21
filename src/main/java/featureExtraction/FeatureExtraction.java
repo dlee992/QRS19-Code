@@ -11,7 +11,7 @@ import utility.BasicUtility;
 import java.io.*;
 import java.util.*;
 
-import static programEntry.TestEUSES.TIMEOUT;
+import static Benchmarks.TestEUSES.TIMEOUT;
 
 //import static programEntry.GP.O4_1;
 //import static programEntry.GP.O5;

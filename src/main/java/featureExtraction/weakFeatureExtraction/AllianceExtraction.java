@@ -29,30 +29,36 @@ public class AllianceExtraction {
 			if (r!=null){
 			for (int j = 0; j< r.getLastCellNum();j++){
 				Cell cell = r.getCell(j);
-				if (cell != null && !cell.toString().contains("#")){
-					if (cell.getCellTypeEnum() == CellType.FORMULA && cell.getCellFormula().contains(":")){
-						try{
-							Workbook wb = sheet.getWorkbook();
-							Ptg[] fp = new FormulaParsing().getPtg(cell.getCellFormula(), wb, FormulaType.forInt(2), wb.getSheetIndex(sheet));
+				try {
+					if (cell != null && !cell.toString().contains("#")) {
+						if (cell.getCellTypeEnum() == CellType.FORMULA && cell.getCellFormula().contains(":")) {
+							try {
+								Workbook wb = sheet.getWorkbook();
+								Ptg[] fp = new FormulaParsing().getPtg(cell.getCellFormula(), wb, FormulaType.forInt(2), wb.getSheetIndex(sheet));
 
-                            dependency = new ArrayList<CellReference>();
+								dependency = new ArrayList<CellReference>();
 
-							for (Ptg aFp : fp) {
-								if (aFp.toString().contains("ptg.AreaPtg")) {
-									alliance = new Alliance(aFp.toFormulaString());
-									if (!allianceList.contains(alliance)) {
-										extractCellsInAreaPtg(aFp, cell);
-										alliance.setPrecedents(dependency);
-										allianceList.add(alliance);
+								for (Ptg aFp : fp) {
+									if (aFp.toString().contains("ptg.AreaPtg")) {
+										alliance = new Alliance(aFp.toFormulaString());
+										if (!allianceList.contains(alliance)) {
+											extractCellsInAreaPtg(aFp, cell);
+											alliance.setPrecedents(dependency);
+											allianceList.add(alliance);
+										}
+
 									}
-
 								}
+							} catch (FormulaParseException e) {
+								e.printStackTrace();
 							}
 						}
-						catch (FormulaParseException e){
-							e.printStackTrace();
-						}
 					}
+				}
+				catch (NullPointerException null_pointer_e) {
+					System.err.println(null_pointer_e.toString() + ": " + null_pointer_e.getMessage() + ": " +
+					sheet.getSheetName() + ": " + cell.getAddress());
+					null_pointer_e.printStackTrace();
 				}
 			}
 		}

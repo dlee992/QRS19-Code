@@ -94,7 +94,7 @@ public class TestSpreadsheet {
             Sheet curSheet = workbook.getSheetAt(j);
 
             //测试
-//            if (!curSheet.getSheetName().equals("General Ledger")) continue;
+//            if (!curSheet.getSheetName().equals("Pergamum Prophecy")) continue;
 
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr);

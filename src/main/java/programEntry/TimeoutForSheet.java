@@ -1,7 +1,7 @@
 package programEntry;
 
 
-import static programEntry.TestEUSES.TIMEOUT;
+import static Benchmarks.TestEUSES.TIMEOUT;
 
 public class TimeoutForSheet implements Runnable {
 

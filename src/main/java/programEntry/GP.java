@@ -19,13 +19,13 @@ public class GP {
     public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
 
     //effectiveness
-	public static boolean addA = false;
-	public static boolean addB = false;
-	public static boolean addC = false;
+	public static boolean addA = true;
+	public static boolean addB = true;
+	public static boolean addC = true;
 
 	//efficiency
     //TODO: bugs happen which result in wrong results
-	public static boolean addD = false; //adjust different R1C1 cell reference (absolute and/or relative)
+	public static boolean addD = false; //adjust different R1C1 cell reference (absolute and/or relative), 已弃用
 
     static AtomicInteger finishedSS = new AtomicInteger(0);
     static AtomicInteger finishedWS = new AtomicInteger(0);
@@ -98,7 +98,7 @@ public class GP {
 		if (addA) builder.append("A");
 		if (addB) builder.append("B");
 		if (addC) builder.append("C");
-        if (addC) builder.append("D");
+        if (addD) builder.append("D");
 
 	    return builder.toString();
 	}

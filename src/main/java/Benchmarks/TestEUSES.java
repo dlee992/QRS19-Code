@@ -1,7 +1,9 @@
-package programEntry;
+package Benchmarks;
 
 import experiment.StatisticsForAll;
 import org.apache.poi.ss.usermodel.Sheet;
+import programEntry.TestWorksheet;
+import programEntry.TimeoutSheet;
 
 import java.io.*;
 import java.util.*;
@@ -11,21 +13,27 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import static programEntry.GP.*;
-import static programEntry.MainClass.createAndShowGUI;
 import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 public class TestEUSES {
 
     private static String fileSeparator = System.getProperty("file.separator");
-    private static int MAXFILES = 101;//Integer.MAX_VALUE;
-    public static long TIMEOUT = 60*5;
+//    private static int MAXFILES = 101;//Integer.MAX_VALUE;
+    private static int MAXFILES = Integer.MAX_VALUE;
+    public static long TIMEOUT = 60*5; //以秒为单位
     private static Set<String> testTarget = new HashSet<>();
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
+    private static String[] categories = {"cs101", "filby", "forms3", "jackson", "personal",
+            "database", "financial", "grades", "homework", "inventory", "modeling"};
 
 
     public static void main(String[] args) throws IOException {
-//        testEUESE();
-        testEnron();
+        PrintStream file_stream = new PrintStream("debug_log.txt");
+        System.setOut(file_stream);
+
+        testEUESE();
+        System.exit(0);
+//        testEnron();
     }
 
 
@@ -39,19 +47,13 @@ public class TestEUSES {
      5:暂时还没有想到第四点.
     */
     private static void testEUESE() throws IOException {
-        //        testTarget.add("cs101"); //no timeout sheet
-//        testTarget.add("filby"); //no timeout sheet
-//        testTarget.add("forms3"); //no timeout sheet
-//        testTarget.add("jackson"); //no timeout sheet
-//        testTarget.add("personal"); //no timeout sheet
 
-//        testTarget.add("database");
-//        testTarget.add("financial"); //异常太多 而且主线程50min无法终止
-//        testTarget.add("grades");
-//        testTarget.add("homework");
-//        testTarget.add("inventory");
-//        testTarget.add("modeling");
-
+        int lower_bound = 2;
+        int upper_bound = 3;
+        for (int i = lower_bound; i < upper_bound; i++) {
+            String category_i = categories[i];
+            testTarget.add(category_i);
+        }
 
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES-Corpus";
         File inputDir = new File(inDirPath);
@@ -90,7 +92,7 @@ public class TestEUSES {
         timeoutMonitor(TIMEOUT);
     }
 
-    static void timeoutMonitor(long TIMEOUT) throws IOException {
+    public static void timeoutMonitor(long TIMEOUT) throws IOException {
 
         Iterator<TestWorksheet> taskIter = tasks.iterator();
         for (Future<?> future:
@@ -169,8 +171,11 @@ public class TestEUSES {
 
         bufferedWriter.close();
 
-        exeService.shutdownNow();
-        createAndShowGUI();
+        staAll.getInfo();
+
+        return;
+//        exeService.shutdownNow();
+//        createAndShowGUI();
 //        System.exit(0);
     }
 

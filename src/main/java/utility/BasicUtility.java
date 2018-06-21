@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static programEntry.GP.filterString;
-import static programEntry.TestEUSES.TIMEOUT;
+import static Benchmarks.TestEUSES.TIMEOUT;
 
 
 public class BasicUtility {
@@ -43,7 +43,9 @@ public class BasicUtility {
             System.out.println("freeze Column = " +freezeColumn);
         }
 
-        for (Row r : sheet) {
+        for (int i = 0; i<= sheet.getLastRowNum(); i++) {
+            Row r = sheet.getRow(i);
+            if (null == r) continue;
             for (Cell c : r) {
                 if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
                     throw new InterruptedException();
@@ -57,14 +59,14 @@ public class BasicUtility {
 
                 try {
                     //寻找表格名称
-                    /*if (c.getCellType() == Cell.CELL_TYPE_STRING) {
-                        if (c.getStringCellValue().equals("Beginning WIP")) {
-                            System.err.println("Find the motivating example." +
-                            sheet.getSheetName());
-                            System.exit(-1);
-                        }
-                    }
-                    else */
+//                    if (c.getCellType() == Cell.CELL_TYPE_STRING) {
+//                        if (c.getStringCellValue().equals("Fixed Expenses")) {
+//                            System.err.println("Find the motivating example." +
+//                            sheet.getSheetName());
+//                            System.exit(-1);
+//                        }
+//                    }
+//                    else
                     if (c.getCellType() == 0) {
                         if (GP.plusFrozen) {
                             if (c.getColumnIndex() >= freezeColumn)
@@ -90,6 +92,12 @@ public class BasicUtility {
                         cellAddA1 = cr2.formatAsString();
 
                         cellFormulaA1 = c.getCellFormula();
+//                        System.err.println(cellFormulaA1);
+//                        if (cellFormulaA1.contains("IF(SUM(C27:D27),D27-C27,\"\")")) {
+//                            System.err.println("Find the motivating example." + sheet.getSheetName());
+//                            System.exit(-1);
+//                        }
+
                         cellFormulaR1C1 = convertA1ToR1C1(row, column, cellFormulaA1);
 
                         List<String> info = new ArrayList<String>();
@@ -98,10 +106,9 @@ public class BasicUtility {
 
                         String dp = cellDependencies(sheet, cellAddA1, 0);
 
-//                    System.out.println("Before checking the tree : "+ cellAddA1 + " R1C1 = " +cellFormulaR1C1
-//                            + " dp = " + dp);
+//                        System.err.println("Before checking the tree : "+ cellAddA1 + ", A1 = " + cellFormulaA1 + " dp = " + dp);
                         if (!dp.equals("{RR}")) {
-//                        System.out.println("add cell = " + cellAddA1);
+//                            System.err.println("add cell " + cellAddA1 + "  = " + cellFormulaA1);
                             formulaMap.put(cellAddA1, info);
                         }
                     }
@@ -392,14 +399,22 @@ public class BasicUtility {
         return cells;
     }
 
+    static int count = 0;
     public static String cellDependencies(Sheet sheet, String cellAddA1, int depth) throws IllegalArgumentException {
+//        if (depth == 0 && cellAddA1.equals("E48")) {
+//            System.err.println("Begin to analyze dependent relation in cell " + cellAddA1);
+//            count++;
+//            if (count == 2)
+//                System.err.println("2");
+//        }
 
-            String dependencyTree = "";
-            if (depth == 0) dependencyTree = "{RR";
+        String dependencyTree = "";
+        if (depth == 0) dependencyTree = "{RR";
+//        if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
 
-            CellReference crTmp = new CellReference(cellAddA1);
-            int row = crTmp.getRow();
-            int col = crTmp.getCol();
+        CellReference crTmp = new CellReference(cellAddA1);
+        int row = crTmp.getRow();
+        int col = crTmp.getCol();
 
         try {
             Cell cell = sheet.getRow(row).getCell(col);
@@ -407,39 +422,61 @@ public class BasicUtility {
             if (cell.getCellType() == 2 && !cell.toString().contains("#") && !cell.toString().contains("!")) {
                 List<CellLocation> cls = new FormulaParsing().getFormulaDependencies(sheet, col, row);
 
+//                if (depth == 0 && cellAddA1.equals("E48")) System.err.println("cls.size = " + cls.size());
                 for (CellLocation cl : cls) {
+//                    if (depth == 0 && cellAddA1.equals("E48")) System.err.println("P : loop.");
+
                     int currentRow = cl.getRow();
                     int currentCol = cl.getColumn();
 
                     Sheet currentSheet = sheet.getWorkbook().getSheet(cl.getSheet_name());
                     if (currentSheet != null) {
+//                        if (depth == 0 && cellAddA1.equals("E48")) System.err.println("P : sheet.");
                         Row r = currentSheet.getRow(currentRow);
-                        if (r != null) {
-                            Cell currentCell = r.getCell(currentCol);
-                            if (currentCell != null) {
-                                CellReference cr = new CellReference(currentCell);
-                                String r1c1 = extractCell(row, col, cr.formatAsString())
-                                        .toString();
 
-                                //FIXME: if the referenced cell is empty, program doesn't execute here
-                                dependencyTree += "{" + r1c1;
-                                try {
-                                    dependencyTree += cellDependencies(currentSheet, cr.formatAsString(), 1);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                        boolean createRowToken = false;
+                        if (r == null) {
+                            r = currentSheet.createRow(currentRow);
+                            createRowToken = true;
+                        }
+//                            if (depth == 0 && cellAddA1.equals("E48")) System.err.println("P : normal row.");
+                        Cell currentCell = r.getCell(currentCol);
+
+                        boolean createCellToken = false;
+                        if (currentCell == null) {
+                            currentCell = r.createCell(currentCol);
+                            currentCell.setCellType(CellType.BLANK);
+                            createCellToken = true;
+                        }
+
+//                            if (depth == 0 && cellAddA1.equals("E48")) System.err.println("P : cell.");
+                        CellReference cr = new CellReference(currentCell);
+                        String r1c1 = extractCell(row, col, cr.formatAsString()).toString();
+//                            if (depth == 0 && cellAddA1.equals("E48")) System.err.println("R1C1 style = " + r1c1);
+                        //FIXME: if the referenced cell is empty, program doesn't execute here
+                        dependencyTree += "{" + r1c1;
+//                            if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
+                        try {
+                            dependencyTree += cellDependencies(currentSheet, cr.formatAsString(), 1);
+//                                if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        finally {
+//                            if (createCellToken) r.removeCell(currentCell);
+//                            if (createRowToken) sheet.removeRow(r);
                         }
                     }
                 }
             }
 
             dependencyTree = dependencyTree + "}";
+//            if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
 
         }
         catch (Exception e) {
             //logger.debug("sheetName=" + sheet.getSheetName() +" row=" + row + " col=" + col);
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
         return dependencyTree;
