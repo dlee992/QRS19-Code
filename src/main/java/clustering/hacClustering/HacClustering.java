@@ -194,7 +194,7 @@ public class HacClustering {
 			int n = 0;
 			for (Map.Entry<String, List<String>> itemIn : formulaInfoList.entrySet())
 			{
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
 					throw new InterruptedException();
 				}
 
@@ -333,7 +333,7 @@ public class HacClustering {
 			joinList.set(round, round);
 
 			for (int j = round +1; j < size; j++) {
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
 					throw new InterruptedException();
 				}
 
@@ -377,7 +377,7 @@ public class HacClustering {
 		//重新计算distances数组
 		for (int i = size; i < clusters.size(); i++) {
 			for (int j = 0; j < size; j++) {
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
 					throw new InterruptedException();
 				}
 
@@ -385,7 +385,7 @@ public class HacClustering {
 				duplicateCode(clusters, i, j);
 			}
 			for (int j = i+1; j < clusters.size(); j++) {
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
 					throw new InterruptedException();
 				}
 
@@ -406,7 +406,7 @@ public class HacClustering {
 		double threshold = 0.02;
 
 		while (point < upperBound) {
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
 				throw new InterruptedException();
 			}
 
@@ -472,7 +472,7 @@ public class HacClustering {
 
 				//更新distances数组
 				for (int i = 0; i < clusters.size(); i++) {
-					if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+					if (Thread.interrupted()) {
 						throw new InterruptedException();
 					}
 
@@ -492,7 +492,7 @@ public class HacClustering {
 
 		//remove已经被合并但仍然存在于clusters中的类
 		for (int i = clusters.size() -1; i >= 0; --i) {
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
 				throw new InterruptedException();
 			}
 
@@ -559,7 +559,7 @@ public class HacClustering {
 
 		for (Cluster leafLeft : leafLefts) {
 			for (Cluster leafRight : leafRights) {
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
 					throw new InterruptedException();
 				}
 

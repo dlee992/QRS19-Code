@@ -20,6 +20,7 @@ public class StatisticsForSheet {
 
     String category;
     public boolean timeout = false;
+    public long executedTime = -1;
 
     private List<Cluster> gt_clusterList = new ArrayList<>();
     private List<CellReference> gt_smellList = new ArrayList<>();
@@ -294,5 +295,9 @@ public class StatisticsForSheet {
         for (int i= 0; i<4; i++) {
             TP[i] = FP[i] = FN[i] = 0;
         }
+    }
+
+    public void setCPUTime(long cpuTime) {
+        executedTime = cpuTime;
     }
 }

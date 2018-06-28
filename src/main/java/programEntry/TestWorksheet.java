@@ -19,6 +19,8 @@ import utility.BasicUtility;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.*;
 
 import static programEntry.GP.*;
@@ -29,6 +31,10 @@ import static Benchmarks.TestEUSES.TIMEOUT;
 public class TestWorksheet implements Runnable {
 
     public StatisticsForSheet staSheet;
+    public long threadID;
+    public boolean alreadyDone = false;
+    public long threadCPUTime = -1;
+    public long threadUserTime = -1;
 
     private String fileName;
     private Sheet sheet;
@@ -52,21 +58,23 @@ public class TestWorksheet implements Runnable {
         staSheet = new StatisticsForSheet(sheet, category, 0);
     }
 
-
-//    @Override
-//    public StatisticsForSheet call() throws Exception {
-//        return testWorksheet();
-//    }
-
-
     @Override
     public void run() {
         try {
+            System.err.println(Thread.currentThread().getName() +
+                    ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
+            threadID = Thread.currentThread().getId();
+            this.beginTime = System.nanoTime();
             testWorksheet();
+            alreadyDone = true;
+            ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
+            threadCPUTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
         } catch (Exception e) {
             e.printStackTrace();
+            alreadyDone = true;
         } finally {
             semaphore.release();
+            alreadyDone = true;
         }
     }
 
@@ -81,7 +89,7 @@ public class TestWorksheet implements Runnable {
 //        new Thread(timeoutForSheet).start();
 
         try {
-            this.beginTime = System.nanoTime();
+
 
             staSheet.setBeginTime(System.nanoTime());
             staSheet.setSpreadsheet(fileName);
@@ -171,7 +179,7 @@ public class TestWorksheet implements Runnable {
                 RealMatrix cellClusterM = bc.clustering(featureCellM);
                 List<Cluster> stageIIClusters;
 
-                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
 
@@ -212,7 +220,7 @@ public class TestWorksheet implements Runnable {
                 SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList(), beginTime);
                 sdc.outlierDetection();
 
-                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
 
@@ -250,9 +258,9 @@ public class TestWorksheet implements Runnable {
             staSheet.calculateForSmell();
             staSheet.setEndTime(System.nanoTime());
 
-            System.out.println("---Finished Analysis: " + sheet.getSheetName() + " " + new BasicUtility().getCurrentTime() + "---");
-            System.err.println("[" + Thread.currentThread().getName() + "]: ---FinishedWS = " + finishedWS.incrementAndGet());
-            System.out.println();
+            System.err.println(Thread.currentThread().getName() +
+                    ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
+                    ", worksheet index = " + finishedWS.incrementAndGet());
             //logBuffer.write("----Finished Analysis---");
             //logBuffer.newLine();
             //logBuffer.newLine();
@@ -300,7 +308,7 @@ public class TestWorksheet implements Runnable {
 
         String prefix = fileName.substring(0, fileName.lastIndexOf('.'));
         String outFileStr = categoryDirStr + fileSeparator + prefix
-                + "_aha_" + GP.addSuffix() + "." + suffix;
+                + " tool " + GP.testDate + "." + suffix;
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
         System.out.println(outFileStr);

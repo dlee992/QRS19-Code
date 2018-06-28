@@ -104,6 +104,7 @@ public class BasicUtility {
                         info.add(cellFormulaA1);
                         info.add(cellFormulaR1C1);
 
+                        //System.err.printf("A1 = %s, formula = %s\n", cellAddA1, cellFormulaA1);
                         String dp = cellDependencies(sheet, cellAddA1, 0);
 
 //                        System.err.println("Before checking the tree : "+ cellAddA1 + ", A1 = " + cellFormulaA1 + " dp = " + dp);
@@ -400,13 +401,17 @@ public class BasicUtility {
     }
 
     static int count = 0;
-    public static String cellDependencies(Sheet sheet, String cellAddA1, int depth) throws IllegalArgumentException {
+    public static String cellDependencies(Sheet sheet, String cellAddA1, int depth)
+            throws IllegalArgumentException, NullPointerException {
 //        if (depth == 0 && cellAddA1.equals("E48")) {
 //            System.err.println("Begin to analyze dependent relation in cell " + cellAddA1);
 //            count++;
 //            if (count == 2)
 //                System.err.println("2");
 //        }
+        if (cellAddA1.equals("V13")) {
+            int k = 0;
+        }
 
         String dependencyTree = "";
         if (depth == 0) dependencyTree = "{RR";
@@ -416,7 +421,7 @@ public class BasicUtility {
         int row = crTmp.getRow();
         int col = crTmp.getCol();
 
-        try {
+//        try {
             Cell cell = sheet.getRow(row).getCell(col);
 
             if (cell.getCellType() == 2 && !cell.toString().contains("#") && !cell.toString().contains("!")) {
@@ -456,16 +461,16 @@ public class BasicUtility {
                         //FIXME: if the referenced cell is empty, program doesn't execute here
                         dependencyTree += "{" + r1c1;
 //                            if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
-                        try {
+//                        try {
                             dependencyTree += cellDependencies(currentSheet, cr.formatAsString(), 1);
 //                                if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        finally {
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                        finally {
 //                            if (createCellToken) r.removeCell(currentCell);
 //                            if (createRowToken) sheet.removeRow(r);
-                        }
+//                        }
                     }
                 }
             }
@@ -473,11 +478,11 @@ public class BasicUtility {
             dependencyTree = dependencyTree + "}";
 //            if (depth == 0 && cellAddA1.equals("E48")) System.err.println(dependencyTree);
 
-        }
-        catch (Exception e) {
-            //logger.debug("sheetName=" + sheet.getSheetName() +" row=" + row + " col=" + col);
-            e.printStackTrace();
-        }
+//        }
+//        catch (Exception e) {
+//            System.err.println("sheetName=" + sheet.getSheetName() +" row=" + row + " col=" + col);
+//            e.printStackTrace();
+//        }
 
         return dependencyTree;
     }

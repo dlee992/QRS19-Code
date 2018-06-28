@@ -38,11 +38,12 @@ public class GP {
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "2018-06 Prototype idea";
+    public static String testDate = "CUSTODES2";
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();
-    public static List<Future<?>> futures = new ArrayList<Future<?>>();
+    public static List<Future<?>> futures = new ArrayList<>();
+    public static Boolean [] finishs;
     public static ConcurrentHashMap<String, AtomicInteger> printFlag = new ConcurrentHashMap<>();
 
     public static StatisticsForAll staAll;
@@ -56,10 +57,10 @@ public class GP {
     public static Semaphore futureSemaphore = new Semaphore(0);
 
      static {
-         if (addA) testDate += "A";
-         if (addB) testDate += "B";
-         if (addC) testDate += "C";
-         if (addD) testDate += "D";
+//         if (addA) testDate += "A";
+//         if (addB) testDate += "B";
+//         if (addC) testDate += "C";
+//         if (addD) testDate += "D";
 
          //TODO: 当队列长度饱和时，采用CallerRuns策略，让主线程阻塞，并开始执行当前准备发布的子线程任务。
          //RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
@@ -67,7 +68,7 @@ public class GP {
                  new ArrayBlockingQueue<Runnable>(CAPACITY));
 
 
-         prefixOutDir = outDirPath + fileSeparator + "statistics" + fileSeparator;
+         prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
          File middleDir = new File(prefixOutDir);
          if (!middleDir.exists()) {
              middleDir.mkdir();
@@ -95,10 +96,10 @@ public class GP {
 
 	public static String addSuffix() {
 		StringBuilder builder = new StringBuilder();
-		if (addA) builder.append("A");
-		if (addB) builder.append("B");
-		if (addC) builder.append("C");
-        if (addD) builder.append("D");
+//		if (addA) builder.append("A");
+//		if (addB) builder.append("B");
+//		if (addC) builder.append("C");
+//        if (addD) builder.append("D");
 
 	    return builder.toString();
 	}

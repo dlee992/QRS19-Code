@@ -201,7 +201,7 @@ public class BootstrappingClustering {
         int index = 0;
 
         while (index < 2) {
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
 				throw new InterruptedException();
 			}
 
@@ -215,7 +215,7 @@ public class BootstrappingClustering {
 
                     if (maxValue > 0) {
                         for (int j1 = 0; j1 < isolatedCellMatrix.getColumnDimension(); j1++) {
-							if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+							if (Thread.interrupted()) {
 								throw new InterruptedException();
 							}
 

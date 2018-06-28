@@ -87,7 +87,8 @@ public class StatisticsForAll {
         rowHeader.createCell(14).setCellValue("TP, FP, FN");
         rowHeader.createCell(15).setCellValue("P, R, F");
 
-        rowHeader.createCell(16).setCellValue("Seconds");
+        rowHeader.createCell(16).setCellValue("绝对时间");
+        rowHeader.createCell(17).setCellValue("CPU时间");
 
         sheetList.sort(new Comparator<StatisticsForSheet>() {
             @Override
@@ -169,6 +170,7 @@ public class StatisticsForAll {
             long consumedTime = (staSheet.getEndTime() - staSheet.getBeginTime())/1000_000_000;
             if (consumedTime < 0) consumedTime = 0;
             row.createCell(16).setCellValue(consumedTime);
+            row.createCell(17).setCellValue(staSheet.executedTime);
 
             gt_clustersSize += staSheet.getGt_clusterList().size();
             gt_smellSize += staSheet.getGt_smellList().size();

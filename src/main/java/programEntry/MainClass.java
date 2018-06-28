@@ -23,8 +23,6 @@ public class MainClass {
     private static String inDirPath;
     private static String programState;
 
-    private static long TIMEOUT = 60 * 15; //seconds
-
     static AtomicInteger numberOfFormula = new AtomicInteger(0);
     static ArrayList<String> ssNameList = new ArrayList<>();
     private static AnalysisPattern analysisPattern = new AnalysisPattern();
@@ -77,7 +75,7 @@ public class MainClass {
 
         //执行所有任务
         //对所有Callable的return value做相应处理
-        TestEUSES.timeoutMonitor(TIMEOUT);
+        TestEUSES.timeoutMonitor();
     }
 
 

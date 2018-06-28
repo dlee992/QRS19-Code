@@ -46,7 +46,7 @@ public class FeatureCellMatrix {
 		
 		for (CellFeature ft: cellFeatureList){
 
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
 				throw new InterruptedException();
 			}
 			
