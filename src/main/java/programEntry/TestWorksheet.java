@@ -46,9 +46,11 @@ public class TestWorksheet implements Runnable {
 
     public long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 
+    private Object lockForSS;
+
 
     public TestWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
-                         boolean test, String category, String categoryDirStr) {
+                         boolean test, String category, String categoryDirStr, Object lockForSS) {
         this.fileName = fileName;
         this.sheet = sheet;
         this.logBuffer = logBuffer;
@@ -56,6 +58,7 @@ public class TestWorksheet implements Runnable {
         this.category = category;
         this.categoryDirStr = categoryDirStr;
         staSheet = new StatisticsForSheet(sheet, category, 0);
+        this.lockForSS = lockForSS;
     }
 
     @Override
@@ -79,7 +82,7 @@ public class TestWorksheet implements Runnable {
     }
 
 
-    private StatisticsForSheet testWorksheet()
+    private void testWorksheet()
             throws Exception, OutOfMemoryError {
 
         /*
@@ -119,7 +122,7 @@ public class TestWorksheet implements Runnable {
                         "]: Worksheet does not contain formula cells, so skip it.");
                 //虽然没有公式，但是也要在完成的worksheet数量上减一
                 printLastSheet();
-                return staSheet;
+                return;
             }
 
             HacClustering hacCluster = new HacClustering(sheet, formulaInfoList, beginTime);
@@ -243,7 +246,7 @@ public class TestWorksheet implements Runnable {
 
                 //TODO: 6 mark the worksheet
                 bu.clusterMark(stageIIClusters, sheet);
-                bu.smellyCellMark(sheet.getWorkbook(), sheet, sdc.getDetectedSmellyCells());
+                bu.smellyCellMark(this.lockForSS, sheet, sdc.getDetectedSmellyCells());
 
                 //Evaluation
                 staSheet.setStageIIClusters(stageIIClusters);
@@ -269,7 +272,6 @@ public class TestWorksheet implements Runnable {
             //似乎workbook在多个线程共享的时候，进行并发的写操作，出现了问题，修改没有反应到最后的输出结果中
 
             printLastSheet();
-            return staSheet;
         }
         catch (InterruptedException ignored) {
             staSheet.setEndTime(System.nanoTime());
@@ -280,7 +282,6 @@ public class TestWorksheet implements Runnable {
                     + ". This thread has exceeded its time.");
         }
 
-        return null;
     }
 
     public synchronized void printLastSheet() throws IOException {

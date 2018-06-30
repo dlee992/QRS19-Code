@@ -598,14 +598,14 @@ public class BasicUtility {
         return cells;
     }
 
-    public void smellyCellMark(Workbook wb, Sheet sheet,
-                                      List<Smell> smells) throws InterruptedException {
+    public void smellyCellMark(Object lockForSS, Sheet sheet,
+                               List<Smell> smells) throws InterruptedException {
         System.out.println("smellyCellMark begin");
 
         Workbook workbook = sheet.getWorkbook();
 
-        synchronized (workbook) {
-            CreationHelper factory = wb.getCreationHelper();
+        synchronized (lockForSS) {
+            CreationHelper factory = workbook.getCreationHelper();
 
             for (Smell sl : smells) {
                 if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {

@@ -2,17 +2,20 @@ package Benchmarks;
 
 import experiment.StatisticsForAll;
 import org.apache.poi.ss.usermodel.Sheet;
+import programEntry.TestSpreadsheet;
 import programEntry.TestWorksheet;
 import programEntry.TimeoutSheet;
 
 import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Future;
 
 import static programEntry.GP.*;
-import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 public class TestEUSES {
 
@@ -83,7 +86,7 @@ public class TestEUSES {
                         continue;
                     }
                     count++;
-                    testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
+                    new TestSpreadsheet().testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
                     if (count % 100 == 0) staAll.log(prefixOutDir,  null);
                 } catch (Exception  | OutOfMemoryError e) {
                     e.printStackTrace();
@@ -185,7 +188,7 @@ public class TestEUSES {
             try {
                 count++;
                 if (count > MAXFILES) break;
-                testSpreadsheet(ssfile, staAll, logBuffer, index, true, "Enron");
+                //testSpreadsheet(ssfile, staAll, logBuffer, index, true, "Enron");
                 if (count % 100 == 0) staAll.log(prefixOutDir,  null);
             } catch (Exception  | OutOfMemoryError e) {
                 e.printStackTrace();

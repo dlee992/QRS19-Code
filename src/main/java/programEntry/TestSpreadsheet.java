@@ -20,7 +20,9 @@ import static programEntry.MainClass.ssNameList;
 
 public class TestSpreadsheet {
 
-    public static void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer,
+    private final Object lockForSS = new Object();
+
+    public void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer,
                                        AtomicInteger index, boolean test, String category)
             throws Exception, OutOfMemoryError {
 
@@ -97,7 +99,7 @@ public class TestSpreadsheet {
 //            if (!curSheet.getSheetName().equals("Pergamum Prophecy")) continue;
 
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
-                    category, categoryDirStr);
+                    category, categoryDirStr, lockForSS);
             tasks.add(testWorksheetTask);
 
             semaphore.acquire();

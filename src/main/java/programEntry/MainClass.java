@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static programEntry.GP.*;
-import static programEntry.TestSpreadsheet.testSpreadsheet;
 
 /**
  * Created by lida on 2017/6/27.
@@ -65,7 +64,7 @@ public class MainClass {
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
 
                 try {
-                    testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
+                    new TestSpreadsheet().testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
                 }
                 catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();
