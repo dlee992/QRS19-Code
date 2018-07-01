@@ -4,9 +4,9 @@ import entity.FakeCell;
 import entity.CellFeature;
 import entity.CellLocation;
 import entity.Cluster;
-import featureExtraction.FeatureExtraction;
-import featureExtraction.weakFeatureExtraction.HeaderExtraction;
-import featureExtraction.weakFeatureExtraction.Snippet;
+import extraction.FeatureExtraction;
+import extraction.weakFeatureExtraction.HeaderExtraction;
+import extraction.weakFeatureExtraction.Snippet;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.stat.descriptive.rank.Max;
@@ -19,15 +19,15 @@ import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
-import programEntry.GP;
+import kernel.GP;
 import utility.BasicUtility;
 import utility.FormulaParsing;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static Benchmarks.TestEUSES.TIMEOUT;
-//import static programEntry.GP.O3;
+import static datasets.TestEUSES.TIMEOUT;
+//import static kernel.GP.O3;
 
 public class BootstrappingClustering {
 	private static Logger logger = LogManager.getLogger(BootstrappingClustering.class.getName());

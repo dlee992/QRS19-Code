@@ -1,6 +1,6 @@
 package entity;
 
-import featureExtraction.weakFeatureExtraction.*;
+import extraction.weakFeatureExtraction.*;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.util.CellReference;
 

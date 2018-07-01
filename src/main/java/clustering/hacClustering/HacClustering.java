@@ -6,7 +6,7 @@ import clustering.hacClustering.customTED.MyNodeData;
 import convenience.RTED;
 import distance.APTED;
 import entity.Cluster;
-import featureExtraction.strongFeatureExtraction.AST;
+import extraction.strongFeatureExtraction.AST;
 import node.Node;
 import org.apache.poi.ss.usermodel.Sheet;
 import util.LblTree;
@@ -15,8 +15,8 @@ import utility.BasicUtility;
 import java.util.*;
 import java.util.logging.Logger;
 
-import static programEntry.GP.addD;
-import static Benchmarks.TestEUSES.TIMEOUT;
+import static kernel.GP.addD;
+import static datasets.TestEUSES.TIMEOUT;
 
 public class HacClustering {
 	private Logger logger = Logger.getLogger("HAC");

@@ -1,9 +1,9 @@
 package clustering.bootstrappingClustering;
 
 import entity.CellFeature;
-import featureExtraction.weakFeatureExtraction.Alliance;
-import featureExtraction.weakFeatureExtraction.Gap;
-import featureExtraction.weakFeatureExtraction.Header;
+import extraction.weakFeatureExtraction.Alliance;
+import extraction.weakFeatureExtraction.Gap;
+import extraction.weakFeatureExtraction.Header;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.poi.ss.util.CellReference;
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static Benchmarks.TestEUSES.TIMEOUT;
+import static datasets.TestEUSES.TIMEOUT;
 
-//import static programEntry.GP.O4_2;
-//import static programEntry.GP.weightParameter;
+//import static kernel.GP.O4_2;
+//import static kernel.GP.weightParameter;
 
 
 public class FeatureCellMatrix {

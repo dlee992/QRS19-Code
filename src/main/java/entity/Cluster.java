@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import static programEntry.GP.parameter_3;
+//import static kernel.GP.parameter_3;
 
 public class Cluster {
 

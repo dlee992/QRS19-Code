@@ -11,13 +11,13 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.PaneInformation;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import programEntry.GP;
+import kernel.GP;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static programEntry.GP.filterString;
-import static Benchmarks.TestEUSES.TIMEOUT;
+import static kernel.GP.filterString;
+import static datasets.TestEUSES.TIMEOUT;
 
 
 public class BasicUtility {
@@ -188,7 +188,7 @@ public class BasicUtility {
     }
 
     public String convertA1ToA1(int pRow, int pColumn, String formula){
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < formula.length(); ) {
             int start = i;
             int end;
@@ -222,6 +222,7 @@ public class BasicUtility {
 						i++;
 					}
 
+					//TODO: java.lang.StringIndexOutOfBoundsException: String index out of range: 9
                     if (isNumber(formula.charAt(i)) || formula.charAt(i) == '$') {
                         // deal with the "column"
                         if (formula.charAt(i) == '$') {

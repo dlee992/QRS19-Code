@@ -15,7 +15,7 @@ import sun.security.ssl.Debug;
 import utility.BasicUtility;
 import entity.CellFeature;
 import entity.Cluster;
-import featureExtraction.semllDetectionFeatureExtraction.TokenFeature;
+import extraction.semllDetectionFeatureExtraction.TokenFeature;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.poi.ss.util.CellReference;
 import utility.FormulaParsing;
@@ -30,10 +30,10 @@ import weka.filters.Filter;
 import java.util.*;
 import java.util.Map.Entry;
 
-import static programEntry.GP.addA;
-import static programEntry.GP.addB;
-import static programEntry.GP.addC;
-import static Benchmarks.TestEUSES.TIMEOUT;
+import static kernel.GP.addA;
+import static kernel.GP.addB;
+import static kernel.GP.addC;
+import static datasets.TestEUSES.TIMEOUT;
 
 public class SmellDetectionClustering {
 

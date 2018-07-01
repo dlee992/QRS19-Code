@@ -2,7 +2,7 @@ package utility;
 
 import entity.CellLocation;
 import entity.R1C1Cell;
-import featureExtraction.weakFeatureExtraction.CellArray;
+import extraction.weakFeatureExtraction.CellArray;
 import org.apache.poi.hssf.usermodel.HSSFEvaluationWorkbook;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.formula.*;
