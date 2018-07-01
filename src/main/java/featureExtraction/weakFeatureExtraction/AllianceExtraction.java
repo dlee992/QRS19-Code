@@ -56,7 +56,8 @@ public class AllianceExtraction {
 					}
 				}
 				catch (NullPointerException null_pointer_e) {
-					System.err.println(null_pointer_e.toString() + ": " + null_pointer_e.getMessage() + ": " +
+					//TODO: here is a potential problem.
+					System.out.println(null_pointer_e.toString() + ": " + null_pointer_e.getMessage() + ": " +
 					sheet.getSheetName() + ": " + cell.getAddress());
 					null_pointer_e.printStackTrace();
 				}

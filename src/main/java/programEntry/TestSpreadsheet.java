@@ -33,6 +33,8 @@ public class TestSpreadsheet {
         //"/" + file.getName() + "'########");
         //logBuffer.newLine();
 
+//        if (!file.getName().equals("2004_PUBLIC_BUGS_INVENTORY.xls")) return;
+
         String fileName = null;
         Workbook workbook;
         try {
@@ -91,7 +93,7 @@ public class TestSpreadsheet {
         System.out.println("sheet NO = " + workbook.getNumberOfSheets());
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
             //TODO: test the specific worksheet
-//            if (!workbook.getSheetAt(j).getSheetName().equals("44")) continue;
+//            if (!workbook.getSheetAt(j).getSheetName().equals("Inventory")) continue;
 
             Sheet curSheet = workbook.getSheetAt(j);
 
