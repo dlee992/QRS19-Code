@@ -1248,3 +1248,1092 @@ smellyCellMark begin
 ---- Stage I begun 07-01 15-43-49----
 ---- Stage I finished 07-01 15-43-49----
 ---- Stage II begin 07-01 15-43-52----
+Tree Distance finished 07-01 15-44-35
+Pre-processing is finished 07-01 15-44-35
+Tree Distance finished 07-01 15-44-36
+Pre-processing is finished 07-01 15-44-36
+---- Stage I finished 07-01 15-44-36----
+---- Stage II begin 07-01 15-44-36----
+---- Stage II finished 07-01 15-44-36----
+---- Smell detection begun 07-01 15-44-36----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'MP3'----
+---- Stage I begun 07-01 15-44-36----
+---- Stage I finished 07-01 15-44-39----
+---- Stage II begin 07-01 15-44-40----
+---- Stage II finished 07-01 15-44-40----
+---- Smell detection begun 07-01 15-44-40----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\235kdroba1 tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'MP4'----
+---- Stage I begun 07-01 15-44-41----
+Tree Distance finished 07-01 15-45-25
+Pre-processing is finished 07-01 15-45-25
+---- Stage I finished 07-01 15-45-25----
+---- Stage II begin 07-01 15-45-25----
+---- Stage II finished 07-01 15-45-25----
+---- Smell detection begun 07-01 15-45-25----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'Final'----
+---- Stage I begun 07-01 15-45-25----
+Tree Distance finished 07-01 15-45-25
+Pre-processing is finished 07-01 15-45-25
+---- Stage I finished 07-01 15-45-25----
+---- Stage II begin 07-01 15-45-25----
+---- Stage II finished 07-01 15-45-25----
+---- Smell detection begun 07-01 15-45-25----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'University Total by Sem.'----
+---- Stage I begun 07-01 15-45-25----
+Tree Distance finished 07-01 15-45-25
+Pre-processing is finished 07-01 15-45-25
+---- Stage I finished 07-01 15-45-25----
+---- Stage II begin 07-01 15-45-25----
+---- Stage II finished 07-01 15-45-25----
+---- Smell detection begun 07-01 15-45-25----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'University Total'----
+---- Stage I begun 07-01 15-45-25----
+Tree Distance finished 07-01 15-45-25
+Pre-processing is finished 07-01 15-45-25
+---- Stage I finished 07-01 15-45-25----
+---- Stage II begin 07-01 15-45-25----
+---- Stage II finished 07-01 15-45-26----
+---- Smell detection begun 07-01 15-45-26----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'Class Grades by div.'----
+---- Stage I begun 07-01 15-45-26----
+Tree Distance finished 07-01 15-45-28
+Pre-processing is finished 07-01 15-45-29
+---- Stage I finished 07-01 15-45-29----
+---- Stage II begin 07-01 15-45-29----
+---- Stage II finished 07-01 15-45-29----
+---- Smell detection begun 07-01 15-45-29----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\7_gradebook_xls tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-45-29----
+Tree Distance finished 07-01 15-45-32
+Pre-processing is finished 07-01 15-45-32
+---- Stage I finished 07-01 15-45-32----
+---- Stage II begin 07-01 15-45-32----
+---- Stage II finished 07-01 15-45-32----
+---- Smell detection begun 07-01 15-45-32----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Average GPA'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-45-32----
+Tree Distance finished 07-01 15-45-32
+Pre-processing is finished 07-01 15-45-32
+---- Stage I finished 07-01 15-45-32----
+---- Stage II begin 07-01 15-45-32----
+---- Stage II finished 07-01 15-45-32----
+---- Smell detection begun 07-01 15-45-32----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet4'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 76 ######## (Fake) End in: 'Access_Line_Form_2002.xls'########
+FinishedSS = 76
+[pool-1-thread-8]: ----Sheet 'Sheet5'----
+
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+index = 77 ######## begin: /Address%20Diagram.xls'########
+[pool-1-thread-8]: ----Sheet 'Sheet6'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet7'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet8'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet9'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet10'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet11'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet12'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet13'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet14'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet15'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet16'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\97 tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Exec Grades'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\99execgrades tool CUSTODES2.xls
+sheet NO = 3
+Spreadsheet index = 77 ######## (Fake) End in: 'Address%20Diagram.xls'########
+FinishedSS = 77
+
+index = 78 ######## begin: /ADHP%20GRADES%202003%#A8902.xls'########
+[pool-1-thread-8]: ----Sheet 'Staff Grades'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\99staff tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 3
+Spreadsheet index = 78 ######## (Fake) End in: 'ADHP%20GRADES%202003%#A8902.xls'########
+FinishedSS = 78
+
+index = 79 ######## begin: /Administrative%20Cale#A8C63.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\A&S_Student_awards_10-17-03 tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+freeze Column = 2
+sheet NO = 3
+Spreadsheet index = 79 ######## (Fake) End in: 'Administrative%20Cale#A8C63.xls'########
+FinishedSS = 79
+
+index = 80 ######## begin: /AdministrativeCalendar0304.xls'########
+---- Stage I begun 07-01 15-45-32----
+sheet NO = 3
+Spreadsheet index = 80 ######## (Fake) End in: 'AdministrativeCalendar0304.xls'########
+FinishedSS = 80
+
+index = 81 ######## begin: /Advertising%20Grades.xls'########
+sheet NO = 3
+Spreadsheet index = 81 ######## (Fake) End in: 'Advertising%20Grades.xls'########
+FinishedSS = 81
+
+index = 82 ######## begin: /AFrameworkK10%2008%20#A8AB9.xls'########
+sheet NO = 2
+Spreadsheet index = 82 ######## (Fake) End in: 'AFrameworkK10%2008%20#A8AB9.xls'########
+FinishedSS = 82
+
+index = 83 ######## begin: /Agenda%20Item%209%20A#A8B4D.xls'########
+sheet NO = 10
+Tree Distance finished 07-01 15-45-38
+Pre-processing is finished 07-01 15-45-38
+---- Stage I finished 07-01 15-45-38----
+---- Stage II begin 07-01 15-45-39----
+Tree Distance finished 07-01 15-45-52
+Pre-processing is finished 07-01 15-45-52
+---- Stage I finished 07-01 15-45-52----
+---- Stage II begin 07-01 15-45-52----
+---- Stage II finished 07-01 15-45-52----
+---- Smell detection begun 07-01 15-45-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\abetSampleGrades tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\academic%20calendar%2#A7FE0 tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'LNKCAL P1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'LNKCAL P2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\academic_calendar_03-04 tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 83 ######## (Fake) End in: 'Agenda%20Item%209%20A#A8B4D.xls'########
+FinishedSS = 83
+
+index = 84 ######## begin: /AGI_StatusSurveyK12Ea#A83C0.xls'########
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet4'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet5'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet6'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet7'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet8'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet9'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet10'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet11'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet12'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet13'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet14'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet15'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet16'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Access_Line_Form_2002 tool CUSTODES2.xls
+sheet NO = 3
+Spreadsheet index = 84 ######## (Fake) End in: 'AGI_StatusSurveyK12Ea#A83C0.xls'########
+FinishedSS = 84
+
+index = 85 ######## begin: /AICEACCequiv.xls'########
+sheet NO = 3
+Spreadsheet index = 85 ######## (Fake) End in: 'AICEACCequiv.xls'########
+FinishedSS = 85
+
+index = 86 ######## begin: /allstudents.xls'########
+sheet NO = 1
+Spreadsheet index = 86 ######## (Fake) End in: 'allstudents.xls'########
+FinishedSS = 86
+
+index = 87 ######## begin: /All_Plans.xls'########
+sheet NO = 18
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Address%20Diagram tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'oveall gpa'----
+---- Stage I begun 07-01 15-45-53----
+---- Stage II finished 07-01 15-46-25----
+---- Smell detection begun 07-01 15-46-25----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\9-Grades tool CUSTODES2.xls
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+---- Stage I begun 07-01 15-46-26----
+Tree Distance finished 07-01 15-46-26
+Pre-processing is finished 07-01 15-46-26
+---- Stage I finished 07-01 15-46-26----
+---- Stage II begin 07-01 15-46-26----
+---- Stage II finished 07-01 15-46-26----
+---- Smell detection begun 07-01 15-46-26----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'distribution'----
+---- Stage I begun 07-01 15-46-26----
+Tree Distance finished 07-01 15-46-26
+Pre-processing is finished 07-01 15-46-26
+---- Stage I finished 07-01 15-46-26----
+---- Stage II begin 07-01 15-46-26----
+---- Stage II finished 07-01 15-46-26----
+---- Smell detection begun 07-01 15-46-26----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'Sheet1'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet 'Sheet3'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Administrative%20Cale#A8C63 tool CUSTODES2.xls
+[pool-1-thread-2]: ----Sheet 'Sheet1'----
+freeze Column = 0
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 87 ######## (Fake) End in: 'All_Plans.xls'########
+FinishedSS = 87
+
+[pool-1-thread-2]: ----Sheet 'Sheet3'----
+index = 88 ######## begin: /AlternativeStatus03.xls'########
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AdministrativeCalendar0304 tool CUSTODES2.xls
+[pool-1-thread-2]: ----Sheet 'Sheet1'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet 'Sheet3'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 3
+Spreadsheet index = 88 ######## (Fake) End in: 'AlternativeStatus03.xls'########
+FinishedSS = 88
+
+index = 89 ######## begin: /anat1f03post.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Advertising%20Grades tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 89 ######## (Fake) End in: 'anat1f03post.xls'########
+FinishedSS = 89
+
+index = 90 ######## begin: /announced_02.xls'########
+[pool-1-thread-2]: ----Sheet 'Summary K-10'----
+---- Stage I begun 07-01 15-46-26----
+sheet NO = 5
+Tree Distance finished 07-01 15-46-28
+Pre-processing is finished 07-01 15-46-28
+---- Stage I finished 07-01 15-46-28----
+---- Stage II begin 07-01 15-46-28----
+---- Stage II finished 07-01 15-46-28----
+---- Smell detection begun 07-01 15-46-28----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'Gr. 2'----
+---- Stage I begun 07-01 15-46-28----
+Tree Distance finished 07-01 15-46-28
+Pre-processing is finished 07-01 15-46-28
+---- Stage I finished 07-01 15-46-28----
+---- Stage II begin 07-01 15-46-28----
+---- Stage II finished 07-01 15-46-28----
+---- Smell detection begun 07-01 15-46-28----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AFrameworkK10%2008%20#A8AB9 tool CUSTODES2.xls
+[pool-1-thread-2]: ----Sheet 'September'----
+---- Stage I begun 07-01 15-46-28----
+Tree Distance finished 07-01 15-46-28
+Pre-processing is finished 07-01 15-46-28
+---- Stage I finished 07-01 15-46-28----
+---- Stage II begin 07-01 15-46-29----
+---- Stage II finished 07-01 15-46-29----
+---- Smell detection begun 07-01 15-46-29----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'October'----
+---- Stage I begun 07-01 15-46-29----
+Tree Distance finished 07-01 15-46-29
+Pre-processing is finished 07-01 15-46-29
+---- Stage I finished 07-01 15-46-29----
+---- Stage II begin 07-01 15-46-29----
+---- Stage II finished 07-01 15-46-29----
+---- Smell detection begun 07-01 15-46-29----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'November'----
+---- Stage I begun 07-01 15-46-29----
+Tree Distance finished 07-01 15-46-29
+Pre-processing is finished 07-01 15-46-29
+---- Stage I finished 07-01 15-46-29----
+---- Stage II begin 07-01 15-46-29----
+---- Stage II finished 07-01 15-46-29----
+---- Smell detection begun 07-01 15-46-29----
+clusterMark begin
+smellyCellMark begin
+Spreadsheet index = 90 ######## (Fake) End in: 'announced_02.xls'########
+[pool-1-thread-2]: ----Sheet 'December'----
+FinishedSS = 90
+
+index = 91 ######## begin: /AP%20Table-Advanced%2#A8BB7.xls'########
+---- Stage I begun 07-01 15-46-29----
+sheet NO = 3
+Tree Distance finished 07-01 15-46-29
+Pre-processing is finished 07-01 15-46-29
+---- Stage I finished 07-01 15-46-29----
+---- Stage II begin 07-01 15-46-29----
+---- Stage II finished 07-01 15-46-29----
+---- Smell detection begun 07-01 15-46-29----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'January'----
+---- Stage I begun 07-01 15-46-29----
+Tree Distance finished 07-01 15-46-30
+Pre-processing is finished 07-01 15-46-30
+---- Stage I finished 07-01 15-46-30----
+---- Stage II begin 07-01 15-46-30----
+---- Stage II finished 07-01 15-46-30----
+---- Smell detection begun 07-01 15-46-30----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'Nov'----
+---- Stage I begun 07-01 15-46-30----
+Tree Distance finished 07-01 15-46-30
+Pre-processing is finished 07-01 15-46-30
+---- Stage I finished 07-01 15-46-30----
+---- Stage II begin 07-01 15-46-30----
+---- Stage II finished 07-01 15-46-30----
+---- Smell detection begun 07-01 15-46-30----
+clusterMark begin
+smellyCellMark begin
+Spreadsheet index = 91 ######## (Fake) End in: 'AP%20Table-Advanced%2#A8BB7.xls'########
+FinishedSS = 91
+
+index = 92 ######## begin: /AP%20Three-Year%20Stu#A8BB8.xls'########
+[pool-1-thread-2]: ----Sheet 'TOTAL (2)'----
+freeze Column = 0
+sheet NO = 1
+---- Stage I begun 07-01 15-46-31----
+Tree Distance finished 07-01 15-46-35
+Pre-processing is finished 07-01 15-46-35
+---- Stage I finished 07-01 15-46-35----
+---- Stage II begin 07-01 15-46-35----
+---- Stage II finished 07-01 15-46-36----
+---- Smell detection begun 07-01 15-46-36----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\531Grades tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+Spreadsheet index = 92 ######## (Fake) End in: 'AP%20Three-Year%20Stu#A8BB8.xls'########
+FinishedSS = 92
+
+index = 93 ######## begin: /Appendix%203AJ.xls'########
+---- Stage I begun 07-01 15-46-36----
+sheet NO = 2
+Tree Distance finished 07-01 15-46-40
+Pre-processing is finished 07-01 15-46-40
+---- Stage I finished 07-01 15-46-40----
+---- Stage II begin 07-01 15-46-40----
+---- Stage II finished 07-01 15-46-40----
+---- Smell detection begun 07-01 15-46-40----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+---- Stage I begun 07-01 15-46-41----
+Tree Distance finished 07-01 15-46-41
+Pre-processing is finished 07-01 15-46-41
+---- Stage I finished 07-01 15-46-41----
+---- Stage II begin 07-01 15-46-41----
+---- Stage II finished 07-01 15-46-41----
+---- Smell detection begun 07-01 15-46-41----
+clusterMark begin
+smellyCellMark begin
+Spreadsheet index = 93 ######## (Fake) End in: 'Appendix%203AJ.xls'########
+FinishedSS = 93
+
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+index = 94 ######## begin: /APS.xls'########
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AGI_StatusSurveyK12Ea#A83C0 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 3
+Spreadsheet index = 94 ######## (Fake) End in: 'APS.xls'########
+FinishedSS = 94
+
+index = 95 ######## begin: /arCostForm.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AICEACCequiv tool CUSTODES2.xls
+sheet NO = 2
+Spreadsheet index = 95 ######## (Fake) End in: 'arCostForm.xls'########
+FinishedSS = 95
+
+index = 96 ######## begin: /ARC_Education.xls'########
+[pool-1-thread-6]: ----Sheet '2001 - 1994'----
+---- Stage I begun 07-01 15-46-41----
+sheet NO = 7
+Tree Distance finished 07-01 15-46-41
+Pre-processing is finished 07-01 15-46-41
+---- Stage I finished 07-01 15-46-41----
+---- Stage II begin 07-01 15-46-41----
+---- Stage II finished 07-01 15-46-41----
+---- Smell detection begun 07-01 15-46-41----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\allstudents tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet '1A'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '1B'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '1C'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '2A'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '2B'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '2C'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3A'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3B'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3C1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3C2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3C3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3D'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '3E'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '4A'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '4B'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '4C1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '4C2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '4D'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\All_Plans tool CUSTODES2.xls
+Spreadsheet index = 96 ######## (Fake) End in: 'ARC_Education.xls'########
+FinishedSS = 96
+
+index = 97 ######## begin: /AS02-Standard_Grade_S#A8BE1.xls'########
+sheet NO = 15
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 97 ######## (Fake) End in: 'AS02-Standard_Grade_S#A8BE1.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+FinishedSS = 97
+
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+index = 98 ######## begin: /as474gradestopost.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AlternativeStatus03 tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 98 ######## (Fake) End in: 'as474gradestopost.xls'########
+FinishedSS = 98
+
+index = 99 ######## begin: /Assignment%20Grades.xls'########
+sheet NO = 4
+[pool-1-thread-6]: ----Sheet 'post1'----
+---- Stage I begun 07-01 15-46-41----
+Tree Distance finished 07-01 15-46-42
+Pre-processing is finished 07-01 15-46-42
+---- Stage I finished 07-01 15-46-42----
+---- Stage II begin 07-01 15-46-42----
+---- Stage II finished 07-01 15-46-42----
+---- Smell detection begun 07-01 15-46-42----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\anat1f03post tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Main'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Cover'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 99 ######## (Fake) End in: 'Assignment%20Grades.xls'########
+[pool-1-thread-6]: ----Sheet 'District'----
+FinishedSS = 99
+
+freeze Column = 3
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Union'----
+freeze Column = 3
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Indep.'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\announced_02 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AP%20Table-Advanced%2#A8BB7 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'AP Grades'----
+freeze Column = 0
+---- Stage I begun 07-01 15-46-43----
+Tree Distance finished 07-01 15-46-43
+Pre-processing is finished 07-01 15-46-43
+---- Stage I finished 07-01 15-46-43----
+TP = 0, FP = 0, FN = 0
+grades_4(07-01 15-46-43).xlsx
+---- Stage II begin 07-01 15-46-43----
+index = 100 ######## begin: /ast_steel_grades.xls'########
+sheet NO = 1
+Spreadsheet index = 100 ######## (Fake) End in: 'ast_steel_grades.xls'########
+FinishedSS = 100
+
+index = 101 ######## begin: /at02-06.xls'########
+sheet NO = 16
+---- Stage II finished 07-01 15-46-47----
+---- Smell detection begun 07-01 15-46-47----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AP%20Three-Year%20Stu#A8BB8 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Admission'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Admission 02'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Appendix%203AJ tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Introduction'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'GCSE Average Points'----
+---- Stage I begun 07-01 15-46-47----
+Tree Distance finished 07-01 15-46-48
+Pre-processing is finished 07-01 15-46-48
+---- Stage I finished 07-01 15-46-48----
+---- Stage II begin 07-01 15-46-48----
+---- Stage II finished 07-01 15-46-48----
+---- Smell detection begun 07-01 15-46-48----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Lookup'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\APS tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-46-48----
+Tree Distance finished 07-01 15-46-48
+Pre-processing is finished 07-01 15-46-48
+---- Stage I finished 07-01 15-46-48----
+---- Stage II begin 07-01 15-46-48----
+---- Stage II finished 07-01 15-46-49----
+---- Smell detection begun 07-01 15-46-49----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\arCostForm tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Student-teacher'----
+---- Stage I begun 07-01 15-46-49----
+Tree Distance finished 07-01 15-46-49
+Pre-processing is finished 07-01 15-46-49
+---- Stage I finished 07-01 15-46-49----
+---- Stage II begin 07-01 15-46-49----
+---- Stage II finished 07-01 15-46-49----
+---- Smell detection begun 07-01 15-46-49----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Public Grads'----
+---- Stage I begun 07-01 15-46-49----
+Tree Distance finished 07-01 15-46-49
+Pre-processing is finished 07-01 15-46-49
+---- Stage I finished 07-01 15-46-49----
+---- Stage II begin 07-01 15-46-49----
+---- Stage II finished 07-01 15-46-49----
+---- Smell detection begun 07-01 15-46-49----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Drop-out'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Teachers adv degrees'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'State test'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'SAT'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'university'----
+---- Stage I begun 07-01 15-46-49----
+Spreadsheet index = 101 ######## (Fake) End in: 'at02-06.xls'########
+FinishedSS = 101
+
+index = 102 ######## begin: /athlete-6.xls'########
+Tree Distance finished 07-01 15-46-49
+Pre-processing is finished 07-01 15-46-49
+---- Stage I finished 07-01 15-46-49----
+sheet NO = 1
+Spreadsheet index = 102 ######## (Fake) End in: 'athlete-6.xls'########
+FinishedSS = 102
+
+index = 103 ######## begin: /AtRiskVersion-Case3.xls'########
+sheet NO = 2
+Spreadsheet index = 103 ######## (Fake) End in: 'AtRiskVersion-Case3.xls'########
+FinishedSS = 103
+
+index = 104 ######## begin: /ATTENDANCESpring04.xls'########
+sheet NO = 7
+---- Stage II begin 07-01 15-46-49----
+---- Stage II finished 07-01 15-46-49----
+---- Smell detection begun 07-01 15-46-49----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\ARC_Education tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'SG1'----
+---- Stage I begun 07-01 15-46-49----
+Tree Distance finished 07-01 15-46-49
+Pre-processing is finished 07-01 15-46-49
+---- Stage I finished 07-01 15-46-49----
+---- Stage II begin 07-01 15-46-49----
+---- Stage II finished 07-01 15-46-49----
+---- Smell detection begun 07-01 15-46-49----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'SG2'----
+---- Stage I begun 07-01 15-46-49----
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'SG3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'SG4a'----
+---- Stage I begun 07-01 15-46-52----
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'SG4b'----
+---- Stage I begun 07-01 15-46-52----
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'SG4c'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 104 ######## (Fake) End in: 'ATTENDANCESpring04.xls'########
+FinishedSS = 104
+
+[pool-1-thread-6]: ----Sheet 'SG5'----
+index = 105 ######## begin: /aug-oct%20aq.xls'########
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'SG6'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'HG1+2+3'----
+---- Stage I begun 07-01 15-46-52----
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+---- Stage II begin 07-01 15-46-52----
+sheet NO = 1
+Spreadsheet index = 105 ######## (Fake) End in: 'aug-oct%20aq.xls'########
+FinishedSS = 105
+
+index = 106 ######## begin: /AveClassSize2002.xls'########
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'HG4abc'----
+---- Stage I begun 07-01 15-46-52----
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+sheet NO = 1
+Spreadsheet index = 106 ######## (Fake) End in: 'AveClassSize2002.xls'########
+FinishedSS = 106
+
+index = 107 ######## begin: /B-Lit%20%20CA%20correlation.xls'########
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'HG5'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'HG6'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'CS1+2'----
+---- Stage I begun 07-01 15-46-52----
+sheet NO = 3
+Spreadsheet index = 107 ######## (Fake) End in: 'B-Lit%20%20CA%20correlation.xls'########
+FinishedSS = 107
+
+index = 108 ######## begin: /b4svalue.xls'########
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+sheet NO = 3
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'CS3abc'----
+---- Stage I begun 07-01 15-46-52----
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-52----
+---- Smell detection begun 07-01 15-46-52----
+clusterMark begin
+smellyCellMark begin
+Spreadsheet index = 108 ######## (Fake) End in: 'b4svalue.xls'########
+FinishedSS = 108
+
+[pool-1-thread-6]: ----Sheet 'CS5'----
+index = 109 ######## begin: /b9827_def.xls'########
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AS02-Standard_Grade_S#A8BE1 tool CUSTODES2.xls
+Old Excel Format E-xception happened.
+Spreadsheet index = 109 ######## End in: 'b9827_def.xls'########
+FinishedSS = 109
+
+index = 110 ######## begin: /Bams%20500%20grades%2#A7D91.xls'########
+[pool-1-thread-6]: ----Sheet 'lab grades'----
+---- Stage I begun 07-01 15-46-52----
+sheet NO = 3
+Tree Distance finished 07-01 15-46-52
+Pre-processing is finished 07-01 15-46-52
+---- Stage I finished 07-01 15-46-52----
+---- Stage II begin 07-01 15-46-52----
+---- Stage II finished 07-01 15-46-53----
+---- Smell detection begun 07-01 15-46-53----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\as474gradestopost tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Assignment 1'----
+---- Stage I begun 07-01 15-46-53----
+Tree Distance finished 07-01 15-46-53
+Pre-processing is finished 07-01 15-46-53
+---- Stage I finished 07-01 15-46-53----
+---- Stage II begin 07-01 15-46-53----
+Tree Distance finished 07-01 15-46-54
+---- Stage II finished 07-01 15-46-54----
+---- Smell detection begun 07-01 15-46-54----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Assignment 2'----
+---- Stage I begun 07-01 15-46-54----
+Spreadsheet index = 110 ######## (Fake) End in: 'Bams%20500%20grades%2#A7D91.xls'########
+FinishedSS = 110
+
+index = 111 ######## begin: /bar.xls'########
+sheet NO = 3
+Tree Distance finished 07-01 15-46-54
+Pre-processing is finished 07-01 15-46-54
+---- Stage I finished 07-01 15-46-54----
+---- Stage II begin 07-01 15-46-54----
+---- Stage II finished 07-01 15-46-55----
+---- Smell detection begun 07-01 15-46-55----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Assignment 3'----
+---- Stage I begun 07-01 15-46-55----
+Tree Distance finished 07-01 15-46-55
+Pre-processing is finished 07-01 15-46-55
+---- Stage I finished 07-01 15-46-55----
+---- Stage II begin 07-01 15-46-55----
+---- Stage II finished 07-01 15-46-56----
+---- Smell detection begun 07-01 15-46-56----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Overall'----
+---- Stage I begun 07-01 15-46-56----
+Tree Distance finished 07-01 15-46-56
+Pre-processing is finished 07-01 15-46-56
+---- Stage I finished 07-01 15-46-56----
+---- Stage II begin 07-01 15-46-56----
+---- Stage II finished 07-01 15-46-57----
+---- Smell detection begun 07-01 15-46-57----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Assignment%20Grades tool CUSTODES2.xls
+Spreadsheet index = 111 ######## (Fake) End in: 'bar.xls'########
+[pool-1-thread-6]: ----Sheet 'AST Standardstål'----
+FinishedSS = 111
+
+index = 112 ######## begin: /basicskills_IER.xls'########
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\ast_steel_grades tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 112 ######## (Fake) End in: 'basicskills_IER.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+FinishedSS = 112
+
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+index = 113 ######## begin: /behavioral_social_enviro.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet4'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet5'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet6'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet7'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet8'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet9'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet10'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet11'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet12'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet13'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet14'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet15'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet16'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\at02-06 tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 113 ######## (Fake) End in: 'behavioral_social_enviro.xls'########
+FinishedSS = 113
+
+index = 114 ######## begin: /bio25w04pst.xls'########
+[pool-1-thread-6]: ----Sheet 'Scores'----
+freeze Column = 1
+sheet NO = 1
+Spreadsheet index = 114 ######## (Fake) End in: 'bio25w04pst.xls'########
+FinishedSS = 114
+
+index = 115 ######## begin: /biol3445finalgrades.xls'########
+---- Stage I begun 07-01 15-46-57----
+sheet NO = 3
+Spreadsheet index = 115 ######## (Fake) End in: 'biol3445finalgrades.xls'########
+FinishedSS = 115
+
+index = 116 ######## begin: /blank104.xls'########
+sheet NO = 1
+Spreadsheet index = 116 ######## (Fake) End in: 'blank104.xls'########
+FinishedSS = 116
+
+index = 117 ######## begin: /blaw272gradesSTUDENT.xls'########
+Tree Distance finished 07-01 15-46-57
+Pre-processing is finished 07-01 15-46-57
+---- Stage I finished 07-01 15-46-57----
+sheet NO = 1
+Spreadsheet index = 117 ######## (Fake) End in: 'blaw272gradesSTUDENT.xls'########
+FinishedSS = 117
+
+index = 118 ######## begin: /Book1%20For%20Labs.xls'########
+sheet NO = 3
+Spreadsheet index = 118 ######## (Fake) End in: 'Book1%20For%20Labs.xls'########
+FinishedSS = 118
+
+index = 119 ######## begin: /BoundariesbySt-Sch.xls'########
+sheet NO = 3
+Spreadsheet index = 119 ######## (Fake) End in: 'BoundariesbySt-Sch.xls'########
+FinishedSS = 119
+
+index = 120 ######## begin: /BoundariesbySt-Schcolor.xls'########
+---- Stage II begin 07-01 15-46-57----
+sheet NO = 3
+Spreadsheet index = 120 ######## (Fake) End in: 'BoundariesbySt-Schcolor.xls'########
+FinishedSS = 120
+
+index = 121 ######## begin: /BSC_St_Customer.xls'########
+sheet NO = 4
+---- Stage II finished 07-01 15-46-57----
+---- Smell detection begun 07-01 15-46-57----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\athlete-6 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Statistics Grades'----
+Pre-processing is finished 07-01 15-46-57
+---- Stage I begun 07-01 15-46-57----
+Tree Distance finished 07-01 15-46-57
+Pre-processing is finished 07-01 15-46-57
+---- Stage I finished 07-01 15-46-57----
+---- Stage II begin 07-01 15-46-57----
+---- Stage II finished 07-01 15-46-57----
+---- Smell detection begun 07-01 15-46-57----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Extra Sheet'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AtRiskVersion-Case3 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Alpha'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Bravo'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Charlie'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Delta'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'POC'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'POC GRADES'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'FTP-GMC GRADES'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\ATTENDANCESpring04 tool CUSTODES2.xls
+Spreadsheet index = 121 ######## (Fake) End in: 'BSC_St_Customer.xls'########
+FinishedSS = 121
+
+index = 122 ######## begin: /bus1950public.xls'########
+[pool-1-thread-6]: ----Sheet 'mti new items oct 2003'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\aug-oct%20aq tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Average Class Size'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\AveClassSize2002 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\B-Lit%20%20CA%20correlation tool CUSTODES2.xls
+sheet NO = 7
+Spreadsheet index = 122 ######## (Fake) End in: 'bus1950public.xls'########
+FinishedSS = 122
+
+index = 123 ######## begin: /bvpinumber2003.xls'########
+sheet NO = 1
+Spreadsheet index = 123 ######## (Fake) End in: 'bvpinumber2003.xls'########
+FinishedSS = 123
+
+index = 124 ######## begin: /cadet%20awards.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+sheet NO = 3
+Spreadsheet index = 124 ######## (Fake) End in: 'cadet%20awards.xls'########
+FinishedSS = 124
+
+index = 125 ######## begin: /CAIR2002.xls'########
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\b4svalue tool CUSTODES2.xls
+sheet NO = 8
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\Bams%20500%20grades%2#A7D91 tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-46-57----
+Tree Distance finished 07-01 15-46-57
+Pre-processing is finished 07-01 15-46-57
+---- Stage I finished 07-01 15-46-57----
+---- Stage II begin 07-01 15-46-58----
+---- Stage II finished 07-01 15-46-58----
+---- Smell detection begun 07-01 15-46-58----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\bar tool CUSTODES2.xls
+Spreadsheet index = 125 ######## (Fake) End in: 'CAIR2002.xls'########
+FinishedSS = 125
+
+index = 126 ######## begin: /CalcGradeCalculator.xls'########
+[pool-1-thread-6]: ----Sheet 'Employment by qualification'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\basicskills_IER tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Behavioral and Social Environme'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\behavioral_social_enviro tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'post'----
+---- Stage I begun 07-01 15-46-58----
+sheet NO = 1
+Spreadsheet index = 126 ######## (Fake) End in: 'CalcGradeCalculator.xls'########
+FinishedSS = 126
+
+index = 127 ######## begin: /calendar2003-08.xls'########
+sheet NO = 6
+---- Stage I finished 07-01 15-46-59----
