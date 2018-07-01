@@ -49,7 +49,7 @@ public class TestEUSES {
     */
     private static void testEUESE() throws IOException {
 
-        int lower_bound = 6;
+        int lower_bound = 5;
         int upper_bound = lower_bound+1;
 
         //range: [file_lower_bound, file_upper_bound - 1]

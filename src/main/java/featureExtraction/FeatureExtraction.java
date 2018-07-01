@@ -52,7 +52,7 @@ public class FeatureExtraction {
 
 	public void featureExtractionFromSheet(List<Cell> dataCells) throws InterruptedException {
 		for (Cluster cluster: stageIClusters){
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
                 throw new InterruptedException();
 			}
 
@@ -74,7 +74,7 @@ public class FeatureExtraction {
 		List<CellArray> allCAs = null;
 //		if (!O5) {
 
-		if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+		if (Thread.interrupted()) {
             throw new InterruptedException();
 		}
 
@@ -146,12 +146,12 @@ public class FeatureExtraction {
 				nonSeedCells.addAll(cluster.getClusterCells());
 			}
 
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
                 throw new InterruptedException();
 			}
 
 			for (Cell cell : cluster.getClusterCells()) {
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
                     throw new InterruptedException();
 				}
 
@@ -290,7 +290,7 @@ public class FeatureExtraction {
 		List<Alliance> allianceList = ae.allianceExtraction();
 		
 		for (Cell cell: dataCells){
-			if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+			if (Thread.interrupted()) {
                 throw new InterruptedException();
 			}
 
@@ -345,7 +345,7 @@ public class FeatureExtraction {
 			Set<Gap> gapSet = new HashSet<Gap>();
 			
 			for (Cluster clusterTemp: seedCluster){
-				if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+				if (Thread.interrupted()) {
                     throw new InterruptedException();
 				}
 

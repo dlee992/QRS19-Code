@@ -47,7 +47,7 @@ public class BasicUtility {
             Row r = sheet.getRow(i);
             if (null == r) continue;
             for (Cell c : r) {
-                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
 
@@ -608,7 +608,7 @@ public class BasicUtility {
             CreationHelper factory = workbook.getCreationHelper();
 
             for (Smell sl : smells) {
-                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
 
@@ -691,7 +691,7 @@ public class BasicUtility {
             pickedColor.remove(IndexedColors.RED);
 
             for (Cluster cluster : clusters) {
-                if (Thread.interrupted() || System.nanoTime() - beginTime > timeout) {
+                if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
 
