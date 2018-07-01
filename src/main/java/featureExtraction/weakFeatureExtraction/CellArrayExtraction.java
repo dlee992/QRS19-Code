@@ -67,7 +67,8 @@ public class CellArrayExtraction {
 				    try {
                         paras = bu.extractParameters(row, col, cell.getCellFormula());
                     }
-                    catch (NullPointerException ignored) {
+                    catch (Exception ignored) {
+				    	//TODO: here is a potential problem.
 				        flag = true;
                     }
 
@@ -116,6 +117,12 @@ public class CellArrayExtraction {
 					catch (NullPointerException ignored) {
 						//TODO: 这里也不清楚为什么会有异常。
 						System.out.println("CellArrayExtraction.java line 104: NullPointerE_xception.");
+					}
+					catch (RuntimeException runtimeExc) {
+						System.out.println("RuntimeException in :" +
+								Thread.currentThread().getStackTrace()[2].getClassName() + " " +
+								Thread.currentThread().getStackTrace()[2].getMethodName() + " " +
+								Thread.currentThread().getStackTrace()[2].getLineNumber());
 					}
 
 					if (possibleMember(paras, true)) {
