@@ -26,7 +26,6 @@ import java.util.*;
 import static programEntry.GP.*;
 import static programEntry.MainClass.groundTruthPath;
 import static programEntry.MainClass.numberOfFormula;
-import static Benchmarks.TestEUSES.TIMEOUT;
 
 public class TestWorksheet implements Runnable {
 
@@ -34,7 +33,6 @@ public class TestWorksheet implements Runnable {
     public long threadID;
     public boolean alreadyDone = false;
     public long threadCPUTime = -1;
-    public long threadUserTime = -1;
 
     private String fileName;
     private Sheet sheet;
@@ -43,8 +41,7 @@ public class TestWorksheet implements Runnable {
     private String category;
     private String categoryDirStr;
     public long beginTime = -1;
-
-    public long timeout = (long) (TIMEOUT * 1_000_000_000.0);
+    public long endTime = -1;
 
     private Object lockForSS;
 
@@ -63,18 +60,21 @@ public class TestWorksheet implements Runnable {
 
     @Override
     public void run() {
+        ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
         try {
             System.err.println(Thread.currentThread().getName() +
                     ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
             threadID = Thread.currentThread().getId();
-            this.beginTime = System.nanoTime();
+            this.beginTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
             testWorksheet();
             alreadyDone = true;
-            ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
-            threadCPUTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
+            this.endTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
+            this.threadCPUTime = this.endTime - this.beginTime;
         } catch (Exception e) {
             e.printStackTrace();
             alreadyDone = true;
+            this.endTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
+            this.threadCPUTime = this.endTime - this.beginTime;
         } finally {
             semaphore.release();
             alreadyDone = true;

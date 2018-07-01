@@ -1,7 +1,6 @@
 package Benchmarks;
 
 import experiment.StatisticsForAll;
-import org.apache.poi.ss.usermodel.Sheet;
 import programEntry.TestSpreadsheet;
 import programEntry.TestWorksheet;
 import programEntry.TimeoutSheet;
@@ -49,7 +48,7 @@ public class TestEUSES {
     */
     private static void testEUESE() throws IOException {
 
-        int lower_bound = 5;
+        int lower_bound = 6;
         int upper_bound = lower_bound+1;
 
         //range: [file_lower_bound, file_upper_bound - 1]
@@ -129,25 +128,25 @@ public class TestEUSES {
 
                 if (testWorksheet.threadID == 0) continue;
 
-                long executedTime;
+                long threadCPUTime;
                 if (testWorksheet.alreadyDone)
-                    executedTime = testWorksheet.threadCPUTime;
+                    threadCPUTime = testWorksheet.threadCPUTime;
                 else
-                    executedTime = monitor.getThreadCpuTime(testWorksheet.threadID) / 1000_000_000;
+                    threadCPUTime = monitor.getThreadCpuTime(testWorksheet.threadID) / 1000_000_000 - testWorksheet.beginTime;
 
-                if (!testWorksheet.alreadyDone && executedTime < TIMEOUT) continue;
+                if (!testWorksheet.alreadyDone && threadCPUTime < TIMEOUT) continue;
 
                 finishs[i] = true;
                 finishedThreadCount++;
 
-                if (executedTime >= TIMEOUT) {
+                if (threadCPUTime >= TIMEOUT) {
                         future.cancel(true);
-                        Sheet sheet = testWorksheet.staSheet.sheet;
-                        timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, sheet.getSheetName()));
                         testWorksheet.staSheet.clear();
+                        testWorksheet.staSheet.timeout = true;
+                        timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));
                 }
 
-                testWorksheet.staSheet.setCPUTime(executedTime);
+                testWorksheet.staSheet.setCpuTime(threadCPUTime);
                 staAll.add(testWorksheet.staSheet, logBuffer);
             }
         }
