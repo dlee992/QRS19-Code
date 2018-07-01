@@ -23,6 +23,7 @@ import static datasets.TestEUSES.TIMEOUT;
 public class BasicUtility {
     private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
     private long beginTime;
+    private int lastRowNum = -1;
 
     private static Logger logger = LogManager.getLogger(BasicUtility.class.getName());
 
@@ -201,7 +202,8 @@ public class BasicUtility {
                 end = i;
 
                 result.append(formula.substring(start, end));
-            } else if (!isLetter(formula.charAt(i)) && formula.charAt(i) != '$') {
+            }
+            else if (!isLetter(formula.charAt(i)) && formula.charAt(i) != '$') {
                 // the basic operations for excel
 				while (i < formula.length()
 						&& (!isLetter(formula.charAt(i))
@@ -212,7 +214,8 @@ public class BasicUtility {
                 end = i;
 
                 result.append(formula.substring(start, end));
-            } else {
+            }
+            else {
                 if (isLetter(formula.charAt(i)) || formula.charAt(i) == '$') {
                     // deal with the "row"
                     if (formula.charAt(i) == '$') {
@@ -223,7 +226,7 @@ public class BasicUtility {
 					}
 
 					//TODO: java.lang.StringIndexOutOfBoundsException: String index out of range: 9
-                    if (isNumber(formula.charAt(i)) || formula.charAt(i) == '$') {
+                    if (i < formula.length() && (isNumber(formula.charAt(i)) || formula.charAt(i) == '$')) {
                         // deal with the "column"
                         if (formula.charAt(i) == '$') {
                             i++;
@@ -608,6 +611,7 @@ public class BasicUtility {
         synchronized (lockForSS) {
             CreationHelper factory = workbook.getCreationHelper();
 
+            lastRowNum+=2;
             for (Smell sl : smells) {
                 if (Thread.interrupted()) {
                     throw new InterruptedException();
@@ -621,6 +625,13 @@ public class BasicUtility {
                     Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
 
                     if (cell != null) {
+                        Row row = sheet.createRow(lastRowNum);
+                        Cell cell1 = row.createCell(0);
+                        cell1.setCellValue("Defect " + smells.indexOf(sl) + 1);
+                        Cell cell2 = row.createCell(1);
+                        cell2.setCellValue(cell.getAddress().toString());
+
+
                         Comment comment = cell.getCellComment();
                         if (comment != null) {
                             RichTextString rts = comment.getString();
@@ -651,6 +662,7 @@ public class BasicUtility {
                         }
                     }
                 }
+                lastRowNum++;
             }
         }
     }
@@ -691,6 +703,7 @@ public class BasicUtility {
             pickedColor.remove(IndexedColors.BLUE_GREY);
             pickedColor.remove(IndexedColors.RED);
 
+            lastRowNum = sheet.getLastRowNum() + 2;
             for (Cluster cluster : clusters) {
                 if (Thread.interrupted()) {
                     throw new InterruptedException();
@@ -723,16 +736,29 @@ public class BasicUtility {
                     font.setColor(IndexedColors.DARK_RED.getIndex());
                     clusterStyle.setFont(font);
                     List<Cell> cellList = cluster.getClusterCells();
-                    for (Cell cell : cellList)
+                    StringBuilder strList = new StringBuilder("(");
+                    for (Cell cell : cellList) {
                         if (!seedCellList.contains(cell)) {
                             clusterMarkChoice(i, pickedColor, clusterStyle);
                             cell.setCellStyle(clusterStyle);
                         }
+                        strList.append(", " + cell.getAddress());
+                    }
+                    strList.append(")");
+
+                    Row row = sheet.createRow(lastRowNum);
+                    Cell cell1 = row.createCell(0);
+                    cell1.setCellValue("Cluster " + clusters.indexOf(cluster)+1);
+                    Cell cell2 = row.createCell(1);
+                    cell2.setCellValue(strList.toString());
 
                     // iterating
                     i++;
+                    lastRowNum++;
                 }
             }
+
+
 //        }
     }
 

@@ -48,7 +48,7 @@ public class TestEUSES {
     */
     private static void testEUESE() throws IOException {
 
-        int lower_bound = 9;
+        int lower_bound = 4;
         int upper_bound = lower_bound+1;
 
         //range: [file_lower_bound, file_upper_bound - 1]
@@ -147,6 +147,7 @@ public class TestEUSES {
                 }
 
                 testWorksheet.staSheet.setCpuTime(threadCPUTime);
+                testWorksheet.printLastSheet();
                 staAll.add(testWorksheet.staSheet, logBuffer);
             }
         }

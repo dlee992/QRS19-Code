@@ -62,14 +62,14 @@ public class TestWorksheet implements Runnable {
     public void run() {
         ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
         try {
-            System.err.println(Thread.currentThread().getName() +
-                    ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
+            System.err.println(Thread.currentThread().getName() + ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
             threadID = Thread.currentThread().getId();
             this.beginTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
             testWorksheet();
             alreadyDone = true;
             this.endTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
             this.threadCPUTime = this.endTime - this.beginTime;
+
         } catch (Exception e) {
             e.printStackTrace();
             alreadyDone = true;
@@ -261,6 +261,7 @@ public class TestWorksheet implements Runnable {
             staSheet.calculateForSmell();
             staSheet.setEndTime(System.nanoTime());
 
+
             System.err.println(Thread.currentThread().getName() +
                     ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
                     ", worksheet index = " + finishedWS.incrementAndGet());
@@ -295,7 +296,7 @@ public class TestWorksheet implements Runnable {
             //TODO：我不清楚这里为什么会报告空指针异常，先忽略吧。
             System.out.println("TestWorksheet.java line 254: NullPointerE_xception");
         }
-        if (currentFlag > 0) return;
+        if (currentFlag != 0) return;
 
 //        System.out.println("Begin to flush out.");
 

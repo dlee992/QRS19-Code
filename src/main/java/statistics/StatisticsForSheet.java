@@ -1,7 +1,7 @@
 package statistics;
 
-import entity.Smell;
 import entity.Cluster;
+import entity.Smell;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -300,4 +300,5 @@ public class StatisticsForSheet {
     public void setCpuTime(long cpuTime) {
         this.cpuTime = cpuTime;
     }
+
 }
