@@ -48,12 +48,12 @@ public class TestEUSES {
     */
     private static void testEUESE() throws IOException {
 
-        int lower_bound = 5;
+        int lower_bound = 7;
         int upper_bound = lower_bound+1;
 
         //range: [file_lower_bound, file_upper_bound - 1]
         int file_lower_bound = 001;
-        int file_upper_bound = file_lower_bound + 720;
+        int file_upper_bound = file_lower_bound + 1000;
 
         for (int i = lower_bound; i < upper_bound; i++) {
             String category_i = categories[i];

@@ -30,8 +30,11 @@ public class AllianceExtraction {
 			for (int j = 0; j< r.getLastCellNum();j++){
 				Cell cell = r.getCell(j);
 				try {
-					if (cell != null && !cell.toString().contains("#")) {
-						if (cell.getCellTypeEnum() == CellType.FORMULA && cell.getCellFormula().contains(":")) {
+					if (null != cell)
+						/*
+						TODO: here is a potential problem. The root cause may be that object Cell cannot invoke its getCellFormula() method in a specific (???) condition.
+						 */
+						if (cell.getCellTypeEnum() == CellType.FORMULA && cell.getCellFormula().contains(":") && !cell.getCellFormula().contains("#")) {
 							try {
 								Workbook wb = sheet.getWorkbook();
 								Ptg[] fp = new FormulaParsing().getPtg(cell.getCellFormula(), wb, FormulaType.forInt(2), wb.getSheetIndex(sheet));
@@ -53,13 +56,12 @@ public class AllianceExtraction {
 								e.printStackTrace();
 							}
 						}
-					}
 				}
 				catch (NullPointerException null_pointer_e) {
 					//TODO: here is a potential problem.
 					System.out.println(null_pointer_e.toString() + ": " + null_pointer_e.getMessage() + ": " +
 					sheet.getSheetName() + ": " + cell.getAddress());
-					null_pointer_e.printStackTrace();
+					//null_pointer_e.printStackTrace();
 				}
 			}
 		}

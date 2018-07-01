@@ -1,693 +1,1250 @@
-database
-index = 1 ######## begin: /00061r0P802-15_TG2-Un#A7F69.xls'########
-index = 2 ######## begin: /00061r5P802-15_TG2-Un#A7F6C.xls'########
-index = 3 ######## begin: /01-38-PK_tables-figures.xls'########
-index = 4 ######## begin: /0104TexasNutrientdb.xls'########
-index = 5 ######## begin: /01BTS_framework.xls'########
-index = 6 ######## begin: /01_20_04.xls'########
-index = 7 ######## begin: /02YEFinSAMPLE.xls'########
-index = 8 ######## begin: /03%20rTMS%20depressio#A84B4.xls'########
-index = 9 ######## begin: /03-1-report-annex-5.xls'########
-index = 10 ######## begin: /03OhioSt.xls'########
-index = 11 ######## begin: /03_Quarterly_Chapter_#A840A.xls'########
-index = 12 ######## begin: /040112-Profits-EN.xls'########
-index = 13 ######## begin: /041C240Grade.xls'########
-index = 14 ######## begin: /0511%20database%20for%20web.xls'########
-index = 15 ######## begin: /08_content_inventory.xls'########
-index = 16 ######## begin: /0XLSBudgetingWGP2.xls'########
-index = 17 ######## begin: /10341003.xls'########
-index = 18 ######## begin: /111G.xls'########
-index = 19 ######## begin: /146_database.xls'########
-index = 20 ######## begin: /14764777.xls'########
-index = 21 ######## begin: /19745536_file_Chart.xls'########
-index = 22 ######## begin: /1990-VHS-list.xls'########
-index = 23 ######## begin: /1999%20PWR%20Effluent-DRAFT.xls'########
-index = 24 ######## begin: /1qecon00.xls'########
-index = 25 ######## begin: /2000%20BWR%20Effluent-DRAFT.xls'########
-index = 26 ######## begin: /2001-VHS-list.xls'########
-index = 27 ######## begin: /2002%20Training%20Database.xls'########
-index = 28 ######## begin: /2002copurlist.xls'########
-index = 29 ######## begin: /2002_NR-135_DATABASE.xls'########
-index = 30 ######## begin: /2003%20Consultants%20#A8362.xls'########
-index = 31 ######## begin: /2003%20State%20Export#A8327.xls'########
-index = 32 ######## begin: /2003%20Training%20Database.xls'########
-index = 33 ######## begin: /2003-10-06%20%20PIC%2#A8421.xls'########
-index = 34 ######## begin: /2003Fall.xls'########
-index = 35 ######## begin: /2003FinalPopAgeStruct#A857A.xls'########
-index = 36 ######## begin: /2003onlinedbTotals.xls'########
-index = 37 ######## begin: /2003_A-16_lead.xls'########
-index = 38 ######## begin: /2004-02-03-jcs-e166li#A8278.xls'########
-index = 39 ######## begin: /2004Curriculum.XLS'########
-index = 40 ######## begin: /2004Spring.xls'########
-index = 41 ######## begin: /2004WkShtTemplate.xls'########
-index = 42 ######## begin: /2004_admin_plan.xls'########
-index = 43 ######## begin: /2004_PUBLIC_BUGS_INVENTORY.XLS'########
-index = 44 ######## begin: /231203.xls'########
-index = 45 ######## begin: /2632.xls'########
-index = 46 ######## begin: /2669056.xls'########
-index = 47 ######## begin: /285_1.xls'########
-index = 48 ######## begin: /2nd_tier_form.xls'########
-index = 49 ######## begin: /3rd%20quarter.xls'########
-index = 50 ######## begin: /3_4.xls'########
-index = 51 ######## begin: /5-05E.xls'########
-index = 52 ######## begin: /6_25_01%20Pub%20Mtg%2#A8416.xls'########
-index = 53 ######## begin: /7_Interview%20Responses.xls'########
-index = 54 ######## begin: /8-09%20all%20times%20excel.xls'########
-index = 55 ######## begin: /9924abm.xls'########
-index = 56 ######## begin: /A%20List%20of%20Usefu#A8326.xls'########
-index = 57 ######## begin: /AAIW.xls'########
-index = 58 ######## begin: /abcpayplan.xls'########
-index = 59 ######## begin: /abtIssueHAVAJurisdict#A827E.xls'########
-index = 60 ######## begin: /Academic%20Plan%20-%2#A841D.xls'########
-index = 61 ######## begin: /Academic%20Plan%20-%2#A841E.xls'########
-index = 62 ######## begin: /Access01.xls'########
-index = 63 ######## begin: /Access03.xls'########
-index = 64 ######## begin: /ACE%20Database%20Forms.xls'########
-index = 65 ######## begin: /acrylamide_db_27.03.03.xls'########
-index = 66 ######## begin: /ACSD_EQUIPMENT_PRICE_#A826A.xls'########
-index = 67 ######## begin: /ADC%20Database.xls'########
-index = 68 ######## begin: /addresses.xls'########
-index = 69 ######## begin: /admin_plan.xls'########
-index = 70 ######## begin: /AECP%20Packages%20Rec#A82BC.xls'########
-index = 71 ######## begin: /AEE_Supplier_Database#A840F.xls'########
-index = 72 ######## begin: /aerosour.xls'########
-index = 73 ######## begin: /AFF-Applications-Surveys.xls'########
-index = 74 ######## begin: /africanstudies.xls'########
-index = 75 ######## begin: /Ag%20Statistics,%20NUE_2003.xls'########
-index = 76 ######## begin: /Aggregate%20Governanc#A8A51.xls'########
-index = 77 ######## begin: /Agriculture.xls'########
-index = 78 ######## begin: /ALAcpi_hepi_comp1_2002June.xls'########
-index = 79 ######## begin: /Alephdbase.xls'########
-index = 80 ######## begin: /AlphaSmart%20Schedule.xls'########
-index = 81 ######## begin: /Alstom%20database.xls'########
-index = 82 ######## begin: /amendment2SectionJ01a.xls'########
-index = 83 ######## begin: /ameritech.xls'########
-index = 84 ######## begin: /Analysis_All1.3.xls'########
-index = 85 ######## begin: /anketa-b-z.XLS'########
-index = 86 ######## begin: /annrep.xls'########
-index = 87 ######## begin: /anrep9899actfin.xls'########
-index = 88 ######## begin: /Appen4-5.xls'########
-index = 89 ######## begin: /Appendix%20A%20-%20De#A839F.xls'########
-index = 90 ######## begin: /AppendixG.xls'########
-index = 91 ######## begin: /AppendixTable2.4.xls'########
-index = 92 ######## begin: /AppendixTable2.6.xls'########
-index = 93 ######## begin: /appendix_6.3.xls'########
-index = 94 ######## begin: /Appendix_D_-_Chart_of#A83F1.xls'########
-index = 95 ######## begin: /AppndxC.xls'########
-index = 96 ######## begin: /Appx%20B%20-%20Reject#A83F4.xls'########
-index = 97 ######## begin: /aquaculturepubs.xls'########
-index = 98 ######## begin: /arn.xls'########
-index = 99 ######## begin: /assign_codes.xls'########
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
-index = 100 ######## begin: /At1.1_e.xls'########
-index = 101 ######## begin: /attribute_table.xls'########
-index = 102 ######## begin: /au03detailsyllabus.xls'########
-index = 103 ######## begin: /auto_database.xls'########
-index = 104 ######## begin: /AVLFulltextPeriodical#A82DB.xls'########
-index = 105 ######## begin: /babysitters.xls'########
-index = 106 ######## begin: /bakkies.xls'########
-index = 107 ######## begin: /bali%20schedule.xls'########
-index = 108 ######## begin: /bali.xls'########
-index = 109 ######## begin: /basicdata.xls'########
-index = 110 ######## begin: /bb5-list-sort.xls'########
-index = 111 ######## begin: /bbDataSheets3.4.1.xls'########
-index = 112 ######## begin: /Bbrank.xls'########
-index = 113 ######## begin: /BCRCCcomputer.xls'########
-index = 114 ######## begin: /BellCalendarMar04-May04Web.xls'########
-index = 115 ######## begin: /best_fra_dec03.xls'########
-index = 116 ######## begin: /best_germ_dec03.xls'########
-index = 117 ######## begin: /BH_CE%20Structure.xls'########
-index = 118 ######## begin: /bigchalkcom.xls'########
-index = 119 ######## begin: /BioAMS_Sample_Submission.xls'########
-index = 120 ######## begin: /botanic.xls'########
-index = 121 ######## begin: /Brocade%20GS4%20Comments.xls'########
-index = 122 ######## begin: /BSinTS2003worksheet.xls'########
-index = 123 ######## begin: /BSI_Alliance_Informat#A8318.xls'########
-index = 124 ######## begin: /bsvc%20summary.xls'########
-index = 125 ######## begin: /BUDGET.XLS'########
-index = 126 ######## begin: /budget2002.xls'########
-index = 127 ######## begin: /burials_arlington.xls'########
-index = 128 ######## begin: /calmstat.xls'########
-index = 129 ######## begin: /Campus%20allocations.xls'########
-index = 130 ######## begin: /camspatt3aform.xls'########
-index = 131 ######## begin: /canada-data.xls'########
-index = 132 ######## begin: /cancel.xls'########
-index = 133 ######## begin: /CAP-IT03.xls'########
-index = 134 ######## begin: /CAP-SE03.xls'########
-index = 135 ######## begin: /CARPE_Salonga_Matrix_#A7E33.xls'########
-index = 136 ######## begin: /case%20study%20data.xls'########
-index = 137 ######## begin: /Cataloging%20Center%20Stats.xls'########
-index = 138 ######## begin: /cattrainchecklist.xls'########
-index = 139 ######## begin: /cause_of_death.xls'########
-index = 140 ######## begin: /CBUS_Success.xls'########
-index = 141 ######## begin: /CC.xls'########
-index = 142 ######## begin: /CCJTReferenceModel.xls'########
-index = 143 ######## begin: /ceirc-database-entry.xls'########
-index = 144 ######## begin: /cemgm.xls'########
-index = 145 ######## begin: /centermaterials.xls'########
-index = 146 ######## begin: /certificate.xls'########
-index = 147 ######## begin: /Cert_Database.xls'########
-index = 148 ######## begin: /chapter2.xls'########
-index = 149 ######## begin: /ChemicalsBC.xls'########
-index = 150 ######## begin: /ChemInvElectSubmit.xls'########
-index = 151 ######## begin: /ciosp2_rates.xls'########
-index = 152 ######## begin: /club.xls'########
-index = 153 ######## begin: /Coll2firstload.xls'########
-index = 154 ######## begin: /CollectionsReports.xls'########
-index = 155 ######## begin: /Comparison.xls'########
-index = 156 ######## begin: /comparison_chart.xls'########
-index = 157 ######## begin: /compiled_rocks.xls'########
-index = 158 ######## begin: /compliancechecklist%2#A8220.xls'########
-index = 159 ######## begin: /compplan-database.xls'########
-index = 160 ######## begin: /comprehensiveschool.xls'########
-index = 161 ######## begin: /computer%20skills%20s#A8136.xls'########
-index = 162 ######## begin: /ConferenceMilestones_#A8277.xls'########
-index = 163 ######## begin: /consultants.xls'########
-index = 164 ######## begin: /Contact%20transcript%#A8A61.xls'########
-index = 165 ######## begin: /contactregform.xls'########
-index = 166 ######## begin: /Cont_vs_Govt_Site_Rat#A83C8.xls'########
-index = 167 ######## begin: /cop8_doc_12_e.xls'########
-index = 168 ######## begin: /Cormorant%20Club%20Ch#A84D7.xls'########
-index = 169 ######## begin: /CostElements.xls'########
-index = 170 ######## begin: /cost_spreadsheet.xls'########
-index = 171 ######## begin: /Courses_Available_13_#A81A9.xls'########
-index = 172 ######## begin: /Creative_Futures_Irk_Oct_03.xls'########
-index = 173 ######## begin: /Crosscuttingdatabase.xls'########
-index = 174 ######## begin: /CT_Q1_2002_NAICS_Cty.xls'########
-index = 175 ######## begin: /CT_Q1_2002_NAICS_Ind.xls'########
-index = 176 ######## begin: /curacao.xls'########
-index = 177 ######## begin: /cust_req_instructions.xls'########
-index = 178 ######## begin: /cw_ITALIA.xls'########
-index = 179 ######## begin: /dab1.xls'########
-index = 180 ######## begin: /Data%20Elements%20Matrix.xls'########
-index = 181 ######## begin: /data-humanMHC.xls'########
-index = 182 ######## begin: /data.xls'########
-index = 183 ######## begin: /DataBase%2012.xls'########
-index = 184 ######## begin: /database-hyou.xls'########
-index = 185 ######## begin: /DataBase-Oct18NWMDData.xls'########
-index = 186 ######## begin: /database.xls'########
-index = 187 ######## begin: /Database1.xls'########
-index = 188 ######## begin: /Database2.xls'########
-index = 189 ######## begin: /database2000.xls'########
-index = 190 ######## begin: /DatabaseFormrev2.xls'########
-index = 191 ######## begin: /databaser.xls'########
-index = 192 ######## begin: /databases.xls'########
-index = 193 ######## begin: /DatabaseSeptember.xls'########
-index = 194 ######## begin: /DatabaseTemplate.xls'########
-index = 195 ######## begin: /Database_Comparison.xls'########
-index = 196 ######## begin: /Database_excel2000.xls'########
-index = 197 ######## begin: /Database_excel95.xls'########
-index = 198 ######## begin: /database_GEV_V_2_3.xls'########
-index = 199 ######## begin: /datadict.xls'########
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
-index = 200 ######## begin: /DataDictionary.xls'########
-index = 201 ######## begin: /DataDictionaryB.xls'########
-index = 202 ######## begin: /dataforum_notes&summary.xls'########
-index = 203 ######## begin: /datareorg2001.xls'########
-index = 204 ######## begin: /datasheet.xls'########
-index = 205 ######## begin: /datatable4all.xls'########
-index = 206 ######## begin: /datatables_explanation.xls'########
-index = 207 ######## begin: /Data_completeness_COI#A8752.xls'########
-index = 208 ######## begin: /Data_completeness_COI_2003.xls'########
-index = 209 ######## begin: /data_submissions.xls'########
-index = 210 ######## begin: /datbase95.xls'########
-index = 211 ######## begin: /DB2001stats.xls'########
-index = 212 ######## begin: /DBA_List.xls'########
-index = 213 ######## begin: /dbca_template_differences.xls'########
-index = 214 ######## begin: /dbfuns.xls'########
-index = 215 ######## begin: /DB_Admin.xls'########
-index = 216 ######## begin: /dec02.xls'########
-index = 217 ######## begin: /Definition_List.xls'########
-index = 218 ######## begin: /deliverabledescriptions.xls'########
-index = 219 ######## begin: /DemoA10.xls'########
-index = 220 ######## begin: /Demographic%20Databas#A8148.xls'########
-index = 221 ######## begin: /DFESv4.xls'########
-index = 222 ######## begin: /DHHS_Price_List_7-31-2003.xls'########
-index = 223 ######## begin: /diagram.xls'########
-index = 224 ######## begin: /Diarrhoea_db_web.xls'########
-index = 225 ######## begin: /dice-projects.xls'########
-index = 226 ######## begin: /DIR_changes.xls'########
-index = 227 ######## begin: /distdev.xls'########
-index = 228 ######## begin: /dist_ed_courses_Jan2000.xls'########
-index = 229 ######## begin: /DiverseMaterials.xls'########
-index = 230 ######## begin: /DLSDatabase.xls'########
-index = 231 ######## begin: /doc2-atta-a.xls'########
-index = 232 ######## begin: /doccd2.xls'########
-index = 233 ######## begin: /document_de_reference#A828A.xls'########
-index = 234 ######## begin: /domande2001.xls'########
-index = 235 ######## begin: /Domestic%20Database.xls'########
-index = 236 ######## begin: /doubles.xls'########
-index = 237 ######## begin: /dr0002_appe.xls'########
-index = 238 ######## begin: /dr0101_appe.xls'########
-index = 239 ######## begin: /ds_in_use.xls'########
-index = 240 ######## begin: /duck94_otherdata.xls'########
-index = 241 ######## begin: /DWAF%20MSP%20SCHEDULE#A83B2.xls'########
-index = 242 ######## begin: /d_database.xls'########
-index = 243 ######## begin: /d_update.xls'########
-index = 244 ######## begin: /E04_AppE_Census_Database_50.xls'########
-index = 245 ######## begin: /EBook%20Costing.xls'########
-index = 246 ######## begin: /EbscohostByDb2002-03.xls'########
-index = 247 ######## begin: /ecc_rev.xls'########
-index = 248 ######## begin: /EDA_2dSoftware_2dGuid#A818C.xls'########
-index = 249 ######## begin: /Education_Social_Science.xls'########
-index = 250 ######## begin: /EEOdatabase.xls'########
-index = 251 ######## begin: /eHRAF.xls'########
-index = 252 ######## begin: /Electricity%20Meters%#A866E.xls'########
-index = 253 ######## begin: /Emissions-background-info.xls'########
-index = 254 ######## begin: /EnABLES%20Cost%20Proposal.xls'########
-index = 255 ######## begin: /EnactzModules1.xls'########
-index = 256 ######## begin: /environmentallinks.xls'########
-index = 257 ######## begin: /EP%20Database%20Final#A83AC.xls'########
-index = 258 ######## begin: /epcdata2002.xls'########
-index = 259 ######## begin: /epd.xls'########
-index = 260 ######## begin: /EPRI-I95-UtilityDB-CNTY.xls'########
-index = 261 ######## begin: /ES.SP04.CS.ALPHA.xls'########
-index = 262 ######## begin: /ESA_May2003.xls'########
-index = 263 ######## begin: /EST-SSR%20Sequences%2#A814D.xls'########
-index = 264 ######## begin: /etste.cbk.xls'########
-index = 265 ######## begin: /exhibiterExcel.xls'########
-index = 266 ######## begin: /Exhibitors.xls'########
-index = 267 ######## begin: /Exhibitor_list_28Nov.xls'########
-index = 268 ######## begin: /Exhibit_6.xls'########
-index = 269 ######## begin: /Exhibit_8.xls'########
-index = 270 ######## begin: /ExportSubsidystatuslist.xls'########
-index = 271 ######## begin: /e_Bubble_Equip.xls'########
-index = 272 ######## begin: /fac96.xls'########
-index = 273 ######## begin: /facilityHistoricEnroll.xls'########
-index = 274 ######## begin: /factiva_rev_sum.xls'########
-index = 275 ######## begin: /FacultyGrantStipendOrder.xls'########
-index = 276 ######## begin: /family%20tree%20-%20a#A83D2.xls'########
-index = 277 ######## begin: /fampol97.xls'########
-index = 278 ######## begin: /FC-SW3%20with%20IBM%2#A87A8.xls'########
-index = 279 ######## begin: /FeatureList.xls'########
-index = 280 ######## begin: /Feature_Guide_with_Ra#A8681.xls'########
-index = 281 ######## begin: /feder03.xls'########
-index = 282 ######## begin: /Final%20Report%20data#A804C.xls'########
-index = 283 ######## begin: /FinalBudget.xls'########
-index = 284 ######## begin: /FIST%204.0%20Year%20P#A7EFE.xls'########
-index = 285 ######## begin: /Flat%20File%20Database.xls'########
-index = 286 ######## begin: /flip_usd5.XLS'########
-index = 287 ######## begin: /fmf_0617_hnc_refh_focus.xls'########
-index = 288 ######## begin: /formspec.xls'########
-index = 289 ######## begin: /FRC_crt.xls'########
-index = 290 ######## begin: /free-excel-tutorial.xls'########
-index = 291 ######## begin: /FSO_Technology_Standa#A8400.xls'########
-index = 292 ######## begin: /FS_Upgrade_Plan_v3_111502.xls'########
-index = 293 ######## begin: /FS_Upgrade_Proj_Mgmt_#A829F.xls'########
-index = 294 ######## begin: /ftp2.xls'########
-index = 295 ######## begin: /functreq.xls'########
-index = 296 ######## begin: /Funded%20-%20February#A835C.xls'########
-index = 297 ######## begin: /fund_structure_temple.xls'########
-index = 298 ######## begin: /FY%2004%20Fall%20ECP%#A82BE.xls'########
-index = 299 ######## begin: /FY00-01ITConsulting%2#A84C5.xls'########
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
-index = 300 ######## begin: /FY02.xls'########
-index = 301 ######## begin: /FY99network.xls'########
-index = 302 ######## begin: /fy99time.xls'########
-index = 303 ######## begin: /gA-1-a.xls'########
-index = 304 ######## begin: /Genlias%20Database%20#A7F7A.xls'########
-index = 305 ######## begin: /GeTGO_Games_Database.xls'########
-index = 306 ######## begin: /ggndata.xls'########
-index = 307 ######## begin: /GICS_Italian.xls'########
-index = 308 ######## begin: /gl2002.xls'########
-index = 309 ######## begin: /Glossary.xls'########
-index = 310 ######## begin: /GoalImplementationPlan.xls'########
-index = 311 ######## begin: /GPS_Golf_Cart_Distrib#A8688.xls'########
-index = 312 ######## begin: /GRADE%208%20UNIT%20AL#A8AB1.xls'########
-index = 313 ######## begin: /grantrecipients.xls'########
-index = 314 ######## begin: /Growth_Accounting_Germany.xls'########
-index = 315 ######## begin: /gsa_onsite_SIN_132_50#A7F68.xls'########
-index = 316 ######## begin: /Hacker&AbersMacro.xls'########
-index = 317 ######## begin: /haymth.xls'########
-index = 318 ######## begin: /haymth_old.xls'########
-index = 319 ######## begin: /HE%20OPPORTUNITIES%20#A8420.xls'########
-index = 320 ######## begin: /Headers_Map2GeneX.xls'########
-index = 321 ######## begin: /high_2003_belg.xls'########
-index = 322 ######## begin: /HIMSS_2000_RAIFORD_FI#A8531.xls'########
-index = 323 ######## begin: /hk-data.xls'########
-index = 324 ######## begin: /HOSPITAL%20DATA%20CAV#A8612.xls'########
-index = 325 ######## begin: /HP_OpenView.xls'########
-index = 326 ######## begin: /HQI%20Additional_Sche#A8426.xls'########
-index = 327 ######## begin: /HRMS_Selection_RFP-Co#A7F94.xls'########
-index = 328 ######## begin: /humancomputation.xls'########
-index = 329 ######## begin: /Human_cDNA_array-2.xls'########
-index = 330 ######## begin: /hurmanfiles.xls'########
-index = 331 ######## begin: /I95-TSE-webversion-18Dec03.xls'########
-index = 332 ######## begin: /ICMC.xls'########
-index = 333 ######## begin: /IE_Compli.xls'########
-index = 334 ######## begin: /IFLA98-1.xls'########
-index = 335 ######## begin: /IMF_BluePrint3.xls'########
-index = 336 ######## begin: /Import%20and%20export#A83CF.xls'########
-index = 337 ######## begin: /IndyGolfCourseList.xls'########
-index = 338 ######## begin: /information_model_v2.xls'########
-index = 339 ######## begin: /innopac.xls'########
-index = 340 ######## begin: /installation_and_cd_o#A8696.xls'########
-index = 341 ######## begin: /inter2.xls'########
-index = 342 ######## begin: /invasive_implementati#A8788.xls'########
-index = 343 ######## begin: /investments_current.xls'########
-index = 344 ######## begin: /investments_planned.xls'########
-index = 345 ######## begin: /IPOsharecalc.xls'########
-index = 346 ######## begin: /IPTC-SRSsubmission.xls'########
-index = 347 ######## begin: /IPTC-TOSsubmission.xls'########
-index = 348 ######## begin: /ireland-data.xls'########
-index = 349 ######## begin: /iscritti_italiani.xls'########
-index = 350 ######## begin: /ISS_Government_Mar_2004.xls'########
-index = 351 ######## begin: /IT%20weekend%20time%20table.xls'########
-index = 352 ######## begin: /ITBusSysPlanAppendixG#A8A60.xls'########
-index = 353 ######## begin: /it_pay_matrix.xls'########
-index = 354 ######## begin: /IT_Schedule_Rates.xls'########
-index = 355 ######## begin: /IT_skill_courses.xls'########
-index = 356 ######## begin: /IUBIUPUIUA_1_YEAR_COMP.xls'########
-index = 357 ######## begin: /IVVassgn.xls'########
-index = 358 ######## begin: /IW2Matrix.xls'########
-index = 359 ######## begin: /ja.xls'########
-index = 360 ######## begin: /jamaica.xls'########
-index = 361 ######## begin: /JIEM_Document_Matrix.xls'########
-index = 362 ######## begin: /journals.xls'########
-index = 363 ######## begin: /jp.xls'########
-index = 364 ######## begin: /jpp.xls'########
-index = 365 ######## begin: /jta40lmesasof17jul02.xls'########
-index = 366 ######## begin: /JWcong-Canada.xls'########
-index = 367 ######## begin: /KERIS%20%EC%9E%90%EB%A3%8C.xls'########
-index = 368 ######## begin: /Knowledge_Finder_Pricing.xls'########
-index = 369 ######## begin: /KPIs03.xls'########
-index = 370 ######## begin: /KPIs03_04.xls'########
-index = 371 ######## begin: /LabImplementList.xls'########
-index = 372 ######## begin: /lacher13.xls'########
-index = 373 ######## begin: /LandmarkData.xls'########
-index = 374 ######## begin: /Latex%20Database.xls'########
-index = 375 ######## begin: /Latin%20American%20St#A8A3B.xls'########
-index = 376 ######## begin: /Launchstats.xls'########
-index = 377 ######## begin: /LBO.xls'########
-index = 378 ######## begin: /lcc-input-proforma.xls'########
-index = 379 ######## begin: /LCD%20Message%20Resol#A8389.xls'########
-index = 380 ######## begin: /lesson%20planner-soli#A840C.xls'########
-index = 381 ######## begin: /lexvar.xls'########
-index = 382 ######## begin: /LGITScheduleMay2004Web.xls'########
-index = 383 ######## begin: /LicenceDatabaseElements.xls'########
-index = 384 ######## begin: /LIC_1k.xls'########
-index = 385 ######## begin: /lldbuserpricing.xls'########
-index = 386 ######## begin: /lmopdataor.xls'########
-index = 387 ######## begin: /lmopdataut.xls'########
-index = 388 ######## begin: /LoadFiles_PKG_I_Final.xls'########
-index = 389 ######## begin: /lobp.xls'########
-index = 390 ######## begin: /LRC%20database%20in%20Excel.xls'########
-index = 391 ######## begin: /LRC%20MU%20database%2#A8300.xls'########
-index = 392 ######## begin: /lrc_ta.xls'########
-index = 393 ######## begin: /M-traveller.xls'########
-index = 394 ######## begin: /MageviewtoGEDPtablemapping.xls'########
-index = 395 ######## begin: /maizemeal1.xls'########
-index = 396 ######## begin: /MAJOR_Requirements.xls'########
-index = 397 ######## begin: /marine_safety_1.xls'########
-index = 398 ######## begin: /masterlist2.xls'########
-index = 399 ######## begin: /Master_Bible.xls'########
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
-index = 400 ######## begin: /Maternity-database-v2.xls'########
-index = 401 ######## begin: /mcldatabase.xls'########
-index = 402 ######## begin: /mechsour.xls'########
-index = 403 ######## begin: /media-plan.xls'########
-index = 404 ######## begin: /MedicalSvcsWebsites.xls'########
-index = 405 ######## begin: /MEDPLANTS%20database%#A7E06.xls'########
-index = 406 ######## begin: /Membership_Expensesfa#A8140.xls'########
-index = 407 ######## begin: /metal%20prices.xls'########
-index = 408 ######## begin: /Metalib_aineistolista#A8500.xls'########
-index = 409 ######## begin: /migration.xls'########
-index = 410 ######## begin: /Mil%20Crisis%20Action#A8231.xls'########
-index = 411 ######## begin: /Miller_.xls'########
-index = 412 ######## begin: /Minimum%20Data%20Set.xls'########
-index = 413 ######## begin: /misdatabasemgmt000570.xls'########
-index = 414 ######## begin: /misdatabasesystems10900.xls'########
-index = 415 ######## begin: /mobisrates.xls'########
-index = 416 ######## begin: /moduleDBdataAttributes.xls'########
-index = 417 ######## begin: /Monthly%20Process.xls'########
-index = 418 ######## begin: /Mosquito%20Arbovirus%#A81A6.xls'########
-index = 419 ######## begin: /motorpool.xls'########
-index = 420 ######## begin: /MouseOligoArray-2.xls'########
-index = 421 ######## begin: /MPOP%20Oversight%20Su#A8172.xls'########
-index = 422 ######## begin: /mpsgoali98.xls'########
-index = 423 ######## begin: /mslist5.xls'########
-index = 424 ######## begin: /MyUA_BudgetFY04-FY08_11-13.xls'########
-index = 425 ######## begin: /namibia.xls'########
-index = 426 ######## begin: /NamingConventionDataS#A855B.xls'########
-index = 427 ######## begin: /net_access_hosting.xls'########
-index = 428 ######## begin: /New%20SA%20Course%20L#A7E8B.xls'########
-index = 429 ######## begin: /newslibstaffsurvey03.xls'########
-index = 430 ######## begin: /ng1291-S10.xls'########
-index = 431 ######## begin: /ng1291-S9.xls'########
-index = 432 ######## begin: /nhtsa_inertia_databas#A8272.xls'########
-index = 433 ######## begin: /nieuweprijzenICTAcade#A8296.xls'########
-index = 434 ######## begin: /NIH6.xls'########
-index = 435 ######## begin: /nj_rc03_data.xls'########
-index = 436 ######## begin: /nj_rc03_layout.xls'########
-index = 437 ######## begin: /NOFIssuesIndex.xls'########
-index = 438 ######## begin: /Noise%20Database.xls'########
-index = 439 ######## begin: /Normalization.xls'########
-index = 440 ######## begin: /NPLDA.xls'########
-index = 441 ######## begin: /NV_Gold_038.xls'########
-index = 442 ######## begin: /OCVRdatabaseListmar2003.xls'########
-index = 443 ######## begin: /ODP_trivia.xls'########
-index = 444 ######## begin: /oecd.xls'########
-index = 445 ######## begin: /Offer2003.xls'########
-index = 446 ######## begin: /OfficeXP_SP2Changes.xls'########
-index = 447 ######## begin: /olinkdbases.xls'########
-index = 448 ######## begin: /OmnisDAMs40.xls'########
-index = 449 ######## begin: /ongoing-issues-2003.xls'########
-index = 450 ######## begin: /OOPCompleteList.xls'########
-index = 451 ######## begin: /OperationalPlan.xls'########
-index = 452 ######## begin: /OpticsDB.xls'########
-index = 453 ######## begin: /optincounts2-04.xls'########
-index = 454 ######## begin: /Oracle.xls'########
-index = 455 ######## begin: /OraclePrice.xls'########
-index = 456 ######## begin: /Oracle_Pricelist-feb2004.xls'########
-index = 457 ######## begin: /oradevtools.xls'########
-index = 458 ######## begin: /osmarapr03.xls'########
-index = 459 ######## begin: /osmayjun03.xls'########
-index = 460 ######## begin: /OSMIS%20Data%20Dictio#A83F3.xls'########
-index = 461 ######## begin: /OST_1k.xls'########
-index = 462 ######## begin: /OS_FlatFile.xls'########
-index = 463 ######## begin: /ov.xls'########
-index = 464 ######## begin: /OWS_inkind_funding_Template.xls'########
-index = 465 ######## begin: /ows_result.xls'########
-index = 466 ######## begin: /oxlipdatabases.xls'########
-index = 467 ######## begin: /palette.xls'########
-index = 468 ######## begin: /PDA-Database-Comparison.xls'########
-index = 469 ######## begin: /Pd_BC%20(VO)%20.xls'########
-index = 470 ######## begin: /pfi-anxa.xls'########
-index = 471 ######## begin: /pfs_0409.xls'########
-index = 472 ######## begin: /pfs_0411.xls'########
-index = 473 ######## begin: /PID0702.xls'########
-index = 474 ######## begin: /plan.xls'########
-index = 475 ######## begin: /plan_wbs.xls'########
-index = 476 ######## begin: /playerdb.xls'########
-index = 477 ######## begin: /pms_example.xls'########
-index = 478 ######## begin: /PoolApplicantDatabase.xls'########
-index = 479 ######## begin: /Population.xls'########
-index = 480 ######## begin: /Portal%20Evaluation.xls'########
-index = 481 ######## begin: /POWER_PLANTS.XLS'########
-index = 482 ######## begin: /prelimcancel2003.xls'########
-index = 483 ######## begin: /preliminary_questionn#A840E.xls'########
-index = 484 ######## begin: /PressMay.xls'########
-index = 485 ######## begin: /pricelst.xls'########
-index = 486 ######## begin: /PriceOutputTable.xls'########
-index = 487 ######## begin: /PricingSchedule.xls'########
-index = 488 ######## begin: /Progress%20Report%20a#A8403.xls'########
-index = 489 ######## begin: /progress_plan.xls'########
-index = 490 ######## begin: /Project%20Schedule.xls'########
-index = 491 ######## begin: /project.xls'########
-index = 492 ######## begin: /Projected%20Cost%20Format.xls'########
-index = 493 ######## begin: /ProjectedSchedule.xls'########
-index = 494 ######## begin: /Project_Assessment1.xls'########
-index = 495 ######## begin: /ProjScope.xls'########
-index = 496 ######## begin: /Property%20Database%202003.xls'########
-index = 497 ######## begin: /ProQuestUsage2002-03.xls'########
-index = 498 ######## begin: /prosessorit.xls'########
-index = 499 ######## begin: /ps-cs-msc-new.xls'########
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
-index = 500 ######## begin: /ps-is-msc-new.xls'########
-index = 501 ######## begin: /psionsites.xls'########
-index = 502 ######## begin: /PTP_Genomic_DB_Gene_A#A81EB.xls'########
-index = 503 ######## begin: /PTP_Structure_DB.xls'########
-index = 504 ######## begin: /pub_2003_belg.xls'########
-index = 505 ######## begin: /Putting%20Green%20Worksheet.xls'########
-index = 506 ######## begin: /pvbvarless.xls'########
-index = 507 ######## begin: /pwpSurveyResults.xls'########
-index = 508 ######## begin: /p_plan.xls'########
-index = 509 ######## begin: /q2restate1999.xls'########
-index = 510 ######## begin: /q403demo.xls'########
-index = 511 ######## begin: /q41999.xls'########
-index = 512 ######## begin: /qf4e.xls'########
-index = 513 ######## begin: /qf7e.xls'########
-index = 514 ######## begin: /rdc022801.xls'########
-index = 515 ######## begin: /Reactive%20Incident%20Data.xls'########
-index = 516 ######## begin: /referencebase.xls'########
-index = 517 ######## begin: /ReferencesDB2.xls'########
-index = 518 ######## begin: /refquestions.xls'########
-index = 519 ######## begin: /RefWorks_Database_Tips.xls'########
-index = 520 ######## begin: /Ref_database.xls'########
-index = 521 ######## begin: /register.xls'########
-index = 522 ######## begin: /reload%20schedule.xls'########
-index = 523 ######## begin: /report.xls'########
-index = 524 ######## begin: /reports_2001_db.xls'########
-index = 525 ######## begin: /repository-governance#A8832.xls'########
-index = 526 ######## begin: /research%20database.xls'########
-index = 527 ######## begin: /ResearchPos_Summer2004.xls'########
-index = 528 ######## begin: /response-spreadsheet-#A83CB.xls'########
-index = 529 ######## begin: /response-spreadsheet.xls'########
-index = 530 ######## begin: /revDatabaseMatrix.xls'########
-index = 531 ######## begin: /revised%20famis%20structure.xls'########
-index = 532 ######## begin: /rfp_demo_score.xls'########
-index = 533 ######## begin: /rhaphiolepis_indica_xlwra.xls'########
-index = 534 ######## begin: /Riksbank%20foreign%20#A83D0.xls'########
-index = 535 ######## begin: /rmomatrix.xls'########
-index = 536 ######## begin: /RNA_probes_template.xls'########
-index = 537 ######## begin: /roster.xls'########
-index = 538 ######## begin: /rt06_ki2001.xls'########
-index = 539 ######## begin: /RUR4.xls'########
-index = 540 ######## begin: /sail%20data.xls'########
-index = 541 ######## begin: /SampleActionPlan.xls'########
-index = 542 ######## begin: /Samplecustomers.xls'########
-index = 543 ######## begin: /sample_career_database.xls'########
-index = 544 ######## begin: /Sample_Schedule.xls'########
-index = 545 ######## begin: /samtliga.xls'########
-index = 546 ######## begin: /SASSIE_101_features.xls'########
-index = 547 ######## begin: /sb5102.xls'########
-index = 548 ######## begin: /sbabuskills.xls'########
-index = 549 ######## begin: /Schedule%20nov-feb1.xls'########
-index = 550 ######## begin: /ScheduleIT.xls'########
-index = 551 ######## begin: /Scripts-HRGL%20Regres#A7E4F.xls'########
-index = 552 ######## begin: /searchable%20database#A835B.xls'########
-index = 553 ######## begin: /Sec%205%20POS%2001-06goals2.xls'########
-index = 554 ######## begin: /Secondary%20Program%2#A86DE.xls'########
-index = 555 ######## begin: /sect3_cap_recovery%20.xls'########
-index = 556 ######## begin: /SectionC-10.xls'########
-index = 557 ######## begin: /SectionJ01b.xls'########
-index = 558 ######## begin: /seihon.xls'########
-index = 559 ######## begin: /SerraU1.xls'########
-index = 560 ######## begin: /SeSDLApp8KW.xls'########
-index = 561 ######## begin: /SFJanWebStats_Report8.xls'########
-index = 562 ######## begin: /sgc-list.xls'########
-index = 563 ######## begin: /sgfo_database.xls'########
-index = 564 ######## begin: /Signal.xls'########
-index = 565 ######## begin: /SIMM20-30C3%20Sample_#A83A3.xls'########
-index = 566 ######## begin: /SIS%20Repl%20Technica#A822E.xls'########
-index = 567 ######## begin: /SlicList.xls'########
-index = 568 ######## begin: /SMCSOF.XLS'########
-index = 569 ######## begin: /SNProjectportfolio.xls'########
-index = 570 ######## begin: /SOA4-YEARPLAN2004-200#A86FC.xls'########
-index = 571 ######## begin: /Social%20Funds%20database04.xls'########
-index = 572 ######## begin: /SourceList.xls'########
-index = 573 ######## begin: /sources.xls'########
-index = 574 ######## begin: /Special%20Land%20Uses#A7F3D.xls'########
-index = 575 ######## begin: /SPIRNG+B.XLS'########
-index = 576 ######## begin: /spreadsheets5.xls'########
-index = 577 ######## begin: /SPRING+A.XLS'########
-index = 578 ######## begin: /spring2001-contracts.xls'########
-index = 579 ######## begin: /sr2macro.xls'########
-index = 580 ######## begin: /SRA.xls'########
-index = 581 ######## begin: /standards.xls'########
-index = 582 ######## begin: /stata.xls'########
-index = 583 ######## begin: /stats.xls'########
-index = 584 ######## begin: /Status_Report_July_2002.xls'########
-index = 585 ######## begin: /stb1105.xls'########
-index = 586 ######## begin: /SteamTool.xls'########
-index = 587 ######## begin: /step4_MDTS-for-Exec-M#A8394.xls'########
-index = 588 ######## begin: /STEPS%20PROJECT%20TEA#A87EF.xls'########
-index = 589 ######## begin: /steps.xls'########
-index = 590 ######## begin: /strategicaccomp.xls'########
-index = 591 ######## begin: /Structure%20-%20Irish#A8462.xls'########
-index = 592 ######## begin: /student_portals.xls'########
-index = 593 ######## begin: /STU_PND_DEG.xls'########
-index = 594 ######## begin: /su-functions-matrixonly.xls'########
-index = 595 ######## begin: /subtotal.xls'########
-index = 596 ######## begin: /SuggestedList.xls'########
-index = 597 ######## begin: /SummaryTitleList.xls'########
-index = 598 ######## begin: /superfundremoval.xls'########
-index = 599 ######## begin: /Surge.xls'########
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
-index = 600 ######## begin: /Surname%20Database.xls'########
-index = 601 ######## begin: /SurveyofOLMemberWebSi#A8616.xls'########
-index = 602 ######## begin: /SurveyTime.xls'########
-index = 603 ######## begin: /systematic4.xls'########
-index = 604 ######## begin: /SystemsMatrix.xls'########
-index = 605 ######## begin: /szerzodeskoteskori_ar#A84F0.xls'########
-index = 606 ######## begin: /Tab1.xls'########
-index = 607 ######## begin: /tab11(a).xls'########
-index = 608 ######## begin: /tab12(a).xls'########
-index = 609 ######## begin: /tab3x2.xls'########
-index = 610 ######## begin: /tab9-1(a).xls'########
-index = 611 ######## begin: /tab9-2(a).xls'########
-index = 612 ######## begin: /tabl-a3.xls'########
-index = 613 ######## begin: /tablea.xls'########
-index = 614 ######## begin: /table_01_27.xls'########
-index = 615 ######## begin: /TariffCountryGroups.xls'########
-index = 616 ######## begin: /tb7.xls'########
-index = 617 ######## begin: /TBed-RI-SEval.xls'########
-index = 618 ######## begin: /TE-45.xls'########
-index = 619 ######## begin: /teamlist.xls'########
-index = 620 ######## begin: /Technical%20Evaluatio#A82D2.xls'########
-index = 621 ######## begin: /temp%20Master%20Datab#A856A.xls'########
-index = 622 ######## begin: /template.xls'########
-index = 623 ######## begin: /Theses.XLS'########
-index = 624 ######## begin: /tidalmarshdb.xls'########
-index = 625 ######## begin: /TIM%20PVSS%20mileston#A8219.xls'########
-index = 626 ######## begin: /TimberlineGSAPriceLis#A8317.xls'########
-index = 627 ######## begin: /time752.xls'########
-index = 628 ######## begin: /timeline2.xls'########
-index = 629 ######## begin: /timetable.xls'########
-index = 630 ######## begin: /TMBaseline_120401.xls'########
-index = 631 ######## begin: /TMC%20-database2.xls'########
-index = 632 ######## begin: /todo.xls'########
-index = 633 ######## begin: /topconschedtemplate.xls'########
-index = 634 ######## begin: /Totals_2003.xls'########
-index = 635 ######## begin: /townlands.xls'########
-index = 636 ######## begin: /training_package.xls'########
-index = 637 ######## begin: /Training_Schedule_Syd#A829C.xls'########
-index = 638 ######## begin: /TRAMP.xls'########
-index = 639 ######## begin: /transitionconditionrules.xls'########
-index = 640 ######## begin: /Transport%20Comm.xls'########
-index = 641 ######## begin: /Tree%20Farm%20Lease%2#A7F44.xls'########
-index = 642 ######## begin: /TTFCG%20database.xls'########
-index = 643 ######## begin: /tupc.caubo15.2.xls'########
-index = 644 ######## begin: /tupc.heads.xls'########
-index = 645 ######## begin: /turn-around.xls'########
-index = 646 ######## begin: /ugrad-grad-ratio.xls'########
-index = 647 ######## begin: /UHS%20-%20PeopleSoft%#A8807.xls'########
-index = 648 ######## begin: /Ukraine%20Stages.xls'########
-index = 649 ######## begin: /UNA_fullrecs.xls'########
-index = 650 ######## begin: /uncat.xls'########
-index = 651 ######## begin: /UpdatingDAD-BudgetN.xls'########
-index = 652 ######## begin: /URTT_0304.xls'########
-index = 653 ######## begin: /usage2002costsvendors.xls'########
-index = 654 ######## begin: /UVIC_S%7E1.XLS'########
-index = 655 ######## begin: /v%C3%A4rldens%20prod%#A8798.xls'########
-index = 656 ######## begin: /Vacancies25February04.XLS'########
-index = 657 ######## begin: /Vacancies27Jan04.XLS'########
-index = 658 ######## begin: /vehicle_emissions_v2.xls'########
-index = 659 ######## begin: /vehicle_emissions_v7.xls'########
-index = 660 ######## begin: /video.xls'########
-index = 661 ######## begin: /Visual_Studies_schedule.xls'########
-index = 662 ######## begin: /Vocabulary.xls'########
-index = 663 ######## begin: /warm.xls'########
-index = 664 ######## begin: /watch_list.xls'########
-index = 665 ######## begin: /Waypoint_Generator.xls'########
-index = 666 ######## begin: /WCA_May2003.xls'########
-index = 667 ######## begin: /wedelia_trilobata_xlwra.xls'########
-index = 668 ######## begin: /WFR-Webfeeds-DigitalR#A7DF9.xls'########
-index = 669 ######## begin: /Who%20Does%20What%20W#A8454.xls'########
-index = 670 ######## begin: /wonderware_Compatibil#A83E9.xls'########
-index = 671 ######## begin: /wpaperslistcirca.xls'########
-index = 672 ######## begin: /WRIA8ChinDist.xls'########
-index = 673 ######## begin: /WSBValuation.xls'########
-index = 674 ######## begin: /WWDL.xls'########
-index = 675 ######## begin: /XWK_Database.xls'########
-index = 676 ######## begin: /young_table.xls'########
-index = 677 ######## begin: /Zimbabwe%20Who%20What#A8691.xls'########
-staAll size = 0
-TP = 0, FP = 0, FN = 0
-null_0(07-01 14-08-18).xlsx
+grades
+index = 1 ######## begin: /01.xls'########
+sheet NO = 1
+Spreadsheet index = 1 ######## (Fake) End in: '01.xls'########
+FinishedSS = 1
+
+[pool-1-thread-1]: ----Sheet '2001年実績Ｅ'----
+index = 2 ######## begin: /01997_Evaluations.xls'########
+sheet NO = 3
+Spreadsheet index = 2 ######## (Fake) End in: '01997_Evaluations.xls'########
+FinishedSS = 2
+
+index = 3 ######## begin: /0304deptcal.xls'########
+[pool-1-thread-2]: ----Sheet 'Sheet1'----
+[pool-1-thread-3]: ----Sheet 'Sheet2'----
+[pool-1-thread-4]: ----Sheet 'Sheet3'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 4
+Spreadsheet index = 3 ######## (Fake) End in: '0304deptcal.xls'########
+FinishedSS = 3
+
+index = 4 ######## begin: /030902.xls'########
+[pool-1-thread-5]: ----Sheet 'Sheet4'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Sheet2'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\0304deptcal tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 4 ######## (Fake) End in: '030902.xls'########
+FinishedSS = 4
+
+index = 5 ######## begin: /031001.xls'########
+[pool-1-thread-4]: ----Sheet '2002'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+---- Stage I begun 07-01 15-42-09----
+---- Stage I begun 07-01 15-42-09----
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\01997_Evaluations tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 5 ######## (Fake) End in: '031001.xls'########
+FinishedSS = 5
+
+index = 6 ######## begin: /031501.xls'########
+[pool-1-thread-3]: ----Sheet '2001'----
+Tree Distance finished 07-01 15-42-09
+Pre-processing is finished 07-01 15-42-09
+---- Stage I finished 07-01 15-42-09----
+sheet NO = 1
+Spreadsheet index = 6 ######## (Fake) End in: '031501.xls'########
+FinishedSS = 6
+
+index = 7 ######## begin: /03_04ballots1.xls'########
+[pool-1-thread-5]: ----Sheet '2001'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\031501 tool CUSTODES2.xls
+---- Stage I begun 07-01 15-42-09----
+---- Stage II begin 07-01 15-42-09----
+Tree Distance finished 07-01 15-42-09
+Pre-processing is finished 07-01 15-42-09
+---- Stage I finished 07-01 15-42-09----
+---- Stage II begin 07-01 15-42-09----
+sheet NO = 3
+Spreadsheet index = 7 ######## (Fake) End in: '03_04ballots1.xls'########
+FinishedSS = 7
+
+index = 8 ######## begin: /03_04cor.xls'########
+[pool-1-thread-8]: ----Sheet 'K-3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet '4-6'----
+[pool-1-thread-8]: ----Sheet 'YA'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\03_04ballots1 tool CUSTODES2.xls
+---- Stage II finished 07-01 15-42-09----
+---- Smell detection begun 07-01 15-42-09----
+---- Stage II finished 07-01 15-42-09----
+---- Smell detection begun 07-01 15-42-09----
+Tree Distance finished 07-01 15-42-09
+sheet NO = 5
+Spreadsheet index = 8 ######## (Fake) End in: '03_04cor.xls'########
+FinishedSS = 8
+
+[pool-1-thread-2]: ----Sheet ' High School Courses'----
+freeze Column = 0
+index = 9 ######## begin: /04NCLB-A.xls'########
+[pool-1-thread-5]: ----Sheet ' Middle School Courses'----
+freeze Column = 0
+[pool-1-thread-6]: ----Sheet 'Elementary School Courses'----
+freeze Column = 0
+[pool-1-thread-7]: ----Sheet 'IB Courses -Bahrain Only'----
+freeze Column = 0
+---- Stage I begun 07-01 15-42-09----
+---- Stage I begun 07-01 15-42-09----
+---- Stage I begun 07-01 15-42-09----
+Pre-processing is finished 07-01 15-42-09
+---- Stage I finished 07-01 15-42-09----
+---- Stage I begun 07-01 15-42-09----
+[pool-1-thread-8]: ----Sheet 'Special Courses - AFNORTH Only'----
+---- Stage I begun 07-01 15-42-09----
+Tree Distance finished 07-01 15-42-09
+Pre-processing is finished 07-01 15-42-09
+---- Stage I finished 07-01 15-42-09----
+---- Stage II begin 07-01 15-42-09----
+sheet NO = 19
+Spreadsheet index = 9 ######## (Fake) End in: '04NCLB-A.xls'########
+FinishedSS = 9
+
+index = 10 ######## begin: /05-00-046.xls'########
+---- Stage II begin 07-01 15-42-09----
+Old Excel Format E-xception happened.
+Spreadsheet index = 10 ######## End in: '05-00-046.xls'########
+FinishedSS = 10
+
+index = 11 ######## begin: /05-98-024.xls'########
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\030902 tool CUSTODES2.xls
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Page 1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Page 2'----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+[pool-1-thread-4]: ----Sheet 'Page 3'----
+---- Stage II begin 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+sheet NO = 11
+Spreadsheet index = 11 ######## (Fake) End in: '05-98-024.xls'########
+FinishedSS = 11
+
+index = 12 ######## begin: /0506calendar.xls'########
+sheet NO = 2
+Spreadsheet index = 12 ######## (Fake) End in: '0506calendar.xls'########
+FinishedSS = 12
+
+index = 13 ######## begin: /0506proposed.xls'########
+---- Stage I begun 07-01 15-42-10----
+sheet NO = 2
+Spreadsheet index = 13 ######## (Fake) End in: '0506proposed.xls'########
+FinishedSS = 13
+
+index = 14 ######## begin: /0Fall00Eval.xls'########
+sheet NO = 3
+Spreadsheet index = 14 ######## (Fake) End in: '0Fall00Eval.xls'########
+FinishedSS = 14
+
+index = 15 ######## begin: /1&2%20posted%20grades.xls'########
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Page 4'----
+---- Stage I begun 07-01 15-42-10----
+clusterMark begin
+smellyCellMark begin
+sheet NO = 1
+Spreadsheet index = 15 ######## (Fake) End in: '1&2%20posted%20grades.xls'########
+FinishedSS = 15
+
+index = 16 ######## begin: /1010%20MWF%20Grades.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\01 tool CUSTODES2.xls
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+sheet NO = 2
+Spreadsheet index = 16 ######## (Fake) End in: '1010%20MWF%20Grades.xls'########
+FinishedSS = 16
+
+index = 17 ######## begin: /1010-004-post4.xls'########
+---- Stage I finished 07-01 15-42-10----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\031001 tool CUSTODES2.xls
+sheet NO = 3
+Spreadsheet index = 17 ######## (Fake) End in: '1010-004-post4.xls'########
+FinishedSS = 17
+
+index = 18 ######## begin: /104-R.xls'########
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+[pool-1-thread-1]: ----Sheet 'Page 5'----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-1]: ----Sheet 'Page 6'----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-1]: ----Sheet 'Page 7'----
+[pool-1-thread-3]: ----Sheet 'Page 8'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-3]: ----Sheet 'Page 9'----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-1]: ----Sheet 'Page 10-11'----
+---- Stage I begun 07-01 15-42-10----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+---- Stage II begin 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Page 12'----
+---- Stage I begun 07-01 15-42-10----
+sheet NO = 1
+Spreadsheet index = 18 ######## (Fake) End in: '104-R.xls'########
+FinishedSS = 18
+
+index = 19 ######## begin: /104R-Degree-Plan-worksheet.xls'########
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+---- Stage II begin 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-1]: ----Sheet 'Page 13'----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+---- Stage II begin 07-01 15-42-10----
+Seed cluster does not exist.
+[pool-1-thread-3]: ----Sheet 'Page 14'----
+---- Stage I begun 07-01 15-42-10----
+---- Stage II begin 07-01 15-42-10----
+---- Stage II begin 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'Page 15'----
+---- Stage I begun 07-01 15-42-10----
+sheet NO = 2
+Spreadsheet index = 19 ######## (Fake) End in: '104R-Degree-Plan-worksheet.xls'########
+FinishedSS = 19
+
+index = 20 ######## begin: /104r.xls'########
+---- Stage II begin 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+clusterMark begin
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+smellyCellMark begin
+[pool-1-thread-1]: ----Sheet 'Page 16'----
+---- Stage I begun 07-01 15-42-10----
+sheet NO = 1
+Spreadsheet index = 20 ######## (Fake) End in: '104r.xls'########
+FinishedSS = 20
+
+index = 21 ######## begin: /10Yr%20Enroll%209192-0001.xls'########
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Page 17'----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+sheet NO = 1
+Spreadsheet index = 21 ######## (Fake) End in: '10Yr%20Enroll%209192-0001.xls'########
+FinishedSS = 21
+
+index = 22 ######## begin: /143LIST&GRADES.xls'########
+sheet NO = 1
+Spreadsheet index = 22 ######## (Fake) End in: '143LIST&GRADES.xls'########
+FinishedSS = 22
+
+index = 23 ######## begin: /1843.xls'########
+sheet NO = 1
+Spreadsheet index = 23 ######## (Fake) End in: '1843.xls'########
+FinishedSS = 23
+
+index = 24 ######## begin: /1846.xls'########
+sheet NO = 1
+Spreadsheet index = 24 ######## (Fake) End in: '1846.xls'########
+FinishedSS = 24
+
+index = 25 ######## begin: /1999-2002_MATH_Grades#A8B8A.xls'########
+sheet NO = 6
+---- Stage II begin 07-01 15-42-10----
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+clusterMark begin
+---- Stage II finished 07-01 15-42-10----
+---- Smell detection begun 07-01 15-42-10----
+smellyCellMark begin
+[pool-1-thread-4]: ----Sheet 'Page 18'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: ----Sheet 'Page 19'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: ----Sheet 'Page 20'----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+Spreadsheet index = 25 ######## (Fake) End in: '1999-2002_MATH_Grades#A8B8A.xls'########
+FinishedSS = 25
+
+index = 26 ######## begin: /1A6EGrades.xls'########
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-7]: ----Sheet 'Comparability Overview'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Comparability list'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Section I & II'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Section III & IV'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'InstrMeth A'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Method A Non'----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+Pre-processing is finished 07-01 15-42-10
+---- Stage I finished 07-01 15-42-10----
+Seed cluster does not exist.
+[pool-1-thread-4]: ----Sheet 'Method A Title'----
+---- Stage I begun 07-01 15-42-10----
+Tree Distance finished 07-01 15-42-10
+sheet NO = 1
+---- Stage II begin 07-01 15-42-10----
+Spreadsheet index = 26 ######## (Fake) End in: '1A6EGrades.xls'########
+FinishedSS = 26
+
+index = 27 ######## begin: /2000_places_School.xls'########
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+sheet NO = 1
+Spreadsheet index = 27 ######## (Fake) End in: '2000_places_School.xls'########
+FinishedSS = 27
+
+index = 28 ######## begin: /2000_reser_School.xls'########
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+---- Stage II begin 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+---- Stage II begin 07-01 15-42-11----
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-4]: ----Sheet 'InstrMeth B'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: ----Sheet 'Method B Non'----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+---- Stage I begun 07-01 15-42-11----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-3]: ----Sheet 'Method B Title'----
+---- Stage I begun 07-01 15-42-11----
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+sheet NO = 1
+Spreadsheet index = 28 ######## (Fake) End in: '2000_reser_School.xls'########
+FinishedSS = 28
+
+index = 29 ######## begin: /2001-2002DistrictSchool7-8.xls'########
+---- Stage II begin 07-01 15-42-11----
+---- Stage II begin 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+sheet NO = 1
+Spreadsheet index = 29 ######## (Fake) End in: '2001-2002DistrictSchool7-8.xls'########
+FinishedSS = 29
+
+index = 30 ######## begin: /2001-2002DistrictSchool9-12.xls'########
+---- Stage II begin 07-01 15-42-11----
+clusterMark begin
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+smellyCellMark begin
+[pool-1-thread-7]: ----Sheet 'Checklist'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet '2005-06 Official'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Sum2006 Official'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\0506calendar tool CUSTODES2.xls
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+[pool-1-thread-7]: ----Sheet '2005-06 Official'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Sum2006 Official'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\0506proposed tool CUSTODES2.xls
+---- Stage II begin 07-01 15-42-11----
+clusterMark begin
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+smellyCellMark begin
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+sheet NO = 1
+Spreadsheet index = 30 ######## (Fake) End in: '2001-2002DistrictSchool9-12.xls'########
+FinishedSS = 30
+
+index = 31 ######## begin: /2002-Table6.xls'########
+clusterMark begin
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-3]: ----Sheet 'Sheet2'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-3]: ----Sheet 'Sheet3'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-3]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-42-11----
+smellyCellMark begin
+[pool-1-thread-1]: ----Sheet 'student'----
+---- Stage I begun 07-01 15-42-11----
+[pool-1-thread-1]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-1]: ----Sheet 'Spring2004'----
+freeze Column = 1
+[pool-1-thread-7]: ----Sheet 'Sheet1'----
+sheet NO = 2
+Spreadsheet index = 31 ######## (Fake) End in: '2002-Table6.xls'########
+FinishedSS = 31
+
+index = 32 ######## begin: /2002Qvols.xls'########
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+---- Stage I begun 07-01 15-42-11----
+---- Stage II begin 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+clusterMark begin
+smellyCellMark begin
+clusterMark begin
+smellyCellMark begin
+sheet NO = 1
+Spreadsheet index = 32 ######## (Fake) End in: '2002Qvols.xls'########
+FinishedSS = 32
+
+index = 33 ######## begin: /2003-2004%20Class%20S#A8B7E.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\04NCLB-A tool CUSTODES2.xls
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\05-98-024 tool CUSTODES2.xls
+sheet NO = 3
+Spreadsheet index = 33 ######## (Fake) End in: '2003-2004%20Class%20S#A8B7E.xls'########
+FinishedSS = 33
+
+index = 34 ######## begin: /2003BMShowWinners.xls'########
+[pool-1-thread-4]: ----Sheet 'Sheet2'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: ----Sheet 'Sheet3'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-4]: ----Sheet 'New Draft 104R (18 terms)'----
+[pool-1-thread-8]: ----Sheet '2-type-&-use-digitally'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 1
+Spreadsheet index = 34 ######## (Fake) End in: '2003BMShowWinners.xls'########
+FinishedSS = 34
+
+index = 35 ######## begin: /2003FP785DZ.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\104-R tool CUSTODES2.xls
+---- Stage I begun 07-01 15-42-11----
+[pool-1-thread-4]: ----Sheet '2-print-&-complete-by-hand'----
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+---- Stage I begun 07-01 15-42-11----
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+sheet NO = 1
+Spreadsheet index = 35 ######## (Fake) End in: '2003FP785DZ.xls'########
+FinishedSS = 35
+
+index = 36 ######## begin: /2003GuideList.xls'########
+---- Stage II begin 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\1&2%20posted%20grades tool CUSTODES2.xls
+[pool-1-thread-3]: ----Sheet 'New Draft 104R (18 terms)'----
+---- Stage I begun 07-01 15-42-11----
+sheet NO = 3
+Spreadsheet index = 36 ######## (Fake) End in: '2003GuideList.xls'########
+FinishedSS = 36
+
+index = 37 ######## begin: /2003Shopper'sIndex.xls'########
+Seed cluster does not exist.
+[pool-1-thread-4]: ----Sheet 'State Total Enrollments'----
+[pool-1-thread-4]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\10Yr%20Enroll%209192-0001 tool CUSTODES2.xls
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+Tree Distance finished 07-01 15-42-11
+Pre-processing is finished 07-01 15-42-11
+---- Stage I finished 07-01 15-42-11----
+sheet NO = 1
+Spreadsheet index = 37 ######## (Fake) End in: '2003Shopper'sIndex.xls'########
+FinishedSS = 37
+
+index = 38 ######## begin: /2003_Q1-Q4pr.xls'########
+---- Stage II begin 07-01 15-42-11----
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+[pool-1-thread-4]: ----Sheet '143'----
+---- Stage I begun 07-01 15-42-11----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\104r tool CUSTODES2.xls
+[pool-1-thread-3]: ----Sheet 'DAS2001'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\1843 tool CUSTODES2.xls
+sheet NO = 3
+Spreadsheet index = 38 ######## (Fake) End in: '2003_Q1-Q4pr.xls'########
+FinishedSS = 38
+
+index = 39 ######## begin: /2003_Test_List.xls'########
+---- Stage II begin 07-01 15-42-11----
+[pool-1-thread-3]: ----Sheet 'District 2002'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\1846 tool CUSTODES2.xls
+---- Stage II finished 07-01 15-42-11----
+---- Smell detection begun 07-01 15-42-11----
+[pool-1-thread-3]: ----Sheet 'mathALL_lev 3+4'----
+---- Stage I begun 07-01 15-42-11----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\104R-Degree-Plan-worksheet tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 39 ######## (Fake) End in: '2003_Test_List.xls'########
+FinishedSS = 39
+
+index = 40 ######## begin: /2004%20SPP%20Charts.xls'########
+[pool-1-thread-8]: ----Sheet 'mathALL_lev 3+4 _Rank2002'----
+sheet NO = 8
+Spreadsheet index = 40 ######## (Fake) End in: '2004%20SPP%20Charts.xls'########
+FinishedSS = 40
+
+index = 41 ######## begin: /204_scores.xls'########
+---- Stage I begun 07-01 15-42-11----
+sheet NO = 1
+Spreadsheet index = 41 ######## (Fake) End in: '204_scores.xls'########
+FinishedSS = 41
+
+index = 42 ######## begin: /2103.xls'########
+sheet NO = 1
+Spreadsheet index = 42 ######## (Fake) End in: '2103.xls'########
+FinishedSS = 42
+
+index = 43 ######## begin: /2105.xls'########
+sheet NO = 1
+Spreadsheet index = 43 ######## (Fake) End in: '2105.xls'########
+FinishedSS = 43
+
+index = 44 ######## begin: /212av9F2003.xls'########
+sheet NO = 1
+Spreadsheet index = 44 ######## (Fake) End in: '212av9F2003.xls'########
+FinishedSS = 44
+
+index = 45 ######## begin: /220gradecalc.xls'########
+sheet NO = 3
+Spreadsheet index = 45 ######## (Fake) End in: '220gradecalc.xls'########
+FinishedSS = 45
+
+index = 46 ######## begin: /235kdroba1.xls'########
+sheet NO = 22
+Tree Distance finished 07-01 15-42-12
+Pre-processing is finished 07-01 15-42-12
+---- Stage I finished 07-01 15-42-12----
+---- Stage II begin 07-01 15-42-12----
+---- Stage I begun 07-01 15-42-12----
+Tree Distance finished 07-01 15-42-12
+Pre-processing is finished 07-01 15-42-12
+---- Stage I finished 07-01 15-42-12----
+---- Stage II finished 07-01 15-42-12----
+---- Smell detection begun 07-01 15-42-12----
+---- Stage II begin 07-01 15-42-12----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-3]: ----Sheet 'mathALL_lev 3+4 _Rank1yrchange'----
+---- Stage I begun 07-01 15-42-12----
+---- Stage II finished 07-01 15-42-13----
+---- Smell detection begun 07-01 15-42-13----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\143LIST&GRADES tool CUSTODES2.xls
+[pool-1-thread-4]: ----Sheet 'mathALL_lev 1'----
+---- Stage I begun 07-01 15-42-13----
+Tree Distance finished 07-01 15-42-13
+Pre-processing is finished 07-01 15-42-13
+---- Stage I finished 07-01 15-42-13----
+---- Stage II begin 07-01 15-42-13----
+Tree Distance finished 07-01 15-42-13
+Pre-processing is finished 07-01 15-42-13
+---- Stage I finished 07-01 15-42-13----
+---- Stage II begin 07-01 15-42-13----
+---- Stage II finished 07-01 15-42-13----
+---- Smell detection begun 07-01 15-42-13----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-4]: ----Sheet 'mathALL_lev 1_Rank2002'----
+---- Stage I begun 07-01 15-42-13----
+Tree Distance finished 07-01 15-42-14
+Pre-processing is finished 07-01 15-42-14
+---- Stage I finished 07-01 15-42-14----
+---- Stage II begin 07-01 15-42-14----
+---- Stage II finished 07-01 15-42-14----
+---- Smell detection begun 07-01 15-42-14----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-8]: ----Sheet 'mathALL_lev 1_Rank1yrchange'----
+---- Stage I begun 07-01 15-42-14----
+---- Stage II finished 07-01 15-42-14----
+---- Smell detection begun 07-01 15-42-14----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-5]: ----Sheet '1A06E Grades'----
+---- Stage I begun 07-01 15-42-14----
+Tree Distance finished 07-01 15-42-15
+Pre-processing is finished 07-01 15-42-15
+---- Stage I finished 07-01 15-42-15----
+---- Stage II begin 07-01 15-42-15----
+---- Stage II finished 07-01 15-42-15----
+---- Smell detection begun 07-01 15-42-15----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-4]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-42-15----
+Tree Distance finished 07-01 15-42-16
+Pre-processing is finished 07-01 15-42-16
+---- Stage I finished 07-01 15-42-16----
+---- Stage II begin 07-01 15-42-17----
+Tree Distance finished 07-01 15-42-18
+Pre-processing is finished 07-01 15-42-18
+---- Stage I finished 07-01 15-42-18----
+---- Stage II begin 07-01 15-42-18----
+---- Stage II finished 07-01 15-42-18----
+---- Smell detection begun 07-01 15-42-18----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-3]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-42-18----
+Tree Distance finished 07-01 15-42-18
+Pre-processing is finished 07-01 15-42-18
+---- Stage I finished 07-01 15-42-18----
+---- Stage II begin 07-01 15-42-18----
+---- Stage II finished 07-01 15-42-19----
+---- Smell detection begun 07-01 15-42-19----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2000_reser_School tool CUSTODES2.xls
+[pool-1-thread-3]: ----Sheet 'Grades 7-8'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2001-2002DistrictSchool7-8 tool CUSTODES2.xls
+[pool-1-thread-3]: ----Sheet 'Grades 9-12'----
+[pool-1-thread-3]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2001-2002DistrictSchool9-12 tool CUSTODES2.xls
+[pool-1-thread-3]: ----Sheet 'Source Data'----
+---- Stage I begun 07-01 15-42-19----
+Tree Distance finished 07-01 15-42-19
+Pre-processing is finished 07-01 15-42-19
+---- Stage I finished 07-01 15-42-19----
+Seed cluster does not exist.
+[pool-1-thread-3]: ----Sheet 'Table 6'----
+---- Stage I begun 07-01 15-42-19----
+Tree Distance finished 07-01 15-42-19
+Pre-processing is finished 07-01 15-42-19
+---- Stage I finished 07-01 15-42-19----
+---- Stage II begin 07-01 15-42-19----
+---- Stage II finished 07-01 15-42-19----
+---- Smell detection begun 07-01 15-42-19----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2002-Table6 tool CUSTODES2.xls
+[pool-1-thread-3]: ----Sheet 'Sheet2'----
+---- Stage I begun 07-01 15-42-19----
+Tree Distance finished 07-01 15-42-20
+Pre-processing is finished 07-01 15-42-20
+---- Stage I finished 07-01 15-42-20----
+---- Stage II begin 07-01 15-42-20----
+---- Stage II finished 07-01 15-42-20----
+---- Smell detection begun 07-01 15-42-20----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\1999-2002_MATH_Grades#A8B8A tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+freeze Column = 1
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003-2004%20Class%20S#A8B7E tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Winners for Jen for Show Use'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003BMShowWinners tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet '2003FP785DZ'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003FP785DZ tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003GuideList tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet '2002-Shoppers Index'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003Shopper'sIndex tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+Spreadsheet index = 46 ######## (Fake) End in: '235kdroba1.xls'########
+FinishedSS = 46
+
+index = 47 ######## begin: /244grcalc.xls'########
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003_Q1-Q4pr tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'test_list'----
+freeze Column = 0
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2003_Test_List tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Grade K'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 1'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 4'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 5'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 6-8'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Grade 9-12'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2004%20SPP%20Charts tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'Grades'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\204_scores tool CUSTODES2.xls
+[pool-1-thread-8]: ----Sheet 'A'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2103 tool CUSTODES2.xls
+sheet NO = 1
+Spreadsheet index = 47 ######## (Fake) End in: '244grcalc.xls'########
+FinishedSS = 47
+
+index = 48 ######## begin: /262grades.xls'########
+sheet NO = 3
+Spreadsheet index = 48 ######## (Fake) End in: '262grades.xls'########
+FinishedSS = 48
+
+index = 49 ######## begin: /2810gradesfa03.xls'########
+[pool-1-thread-8]: ----Sheet 'A'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2105 tool CUSTODES2.xls
+sheet NO = 5
+Spreadsheet index = 49 ######## (Fake) End in: '2810gradesfa03.xls'########
+FinishedSS = 49
+
+index = 50 ######## begin: /2E1%20Marks%20Grades%20Only.xls'########
+[pool-1-thread-8]: ----Sheet 'CHEM-212 Fall 2003'----
+freeze Column = 2
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\212av9F2003 tool CUSTODES2.xls
+sheet NO = 4
+Spreadsheet index = 50 ######## (Fake) End in: '2E1%20Marks%20Grades%20Only.xls'########
+FinishedSS = 50
+
+index = 51 ######## begin: /2k00.xls'########
+sheet NO = 3
+Spreadsheet index = 51 ######## (Fake) End in: '2k00.xls'########
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+FinishedSS = 51
+
+index = 52 ######## begin: /310Grades.xls'########
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet2'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-8]: ----Sheet 'Sheet3'----
+[pool-1-thread-8]: Worksheet does not contain formula cells, so skip it.
+sheet NO = 1
+Spreadsheet index = 52 ######## (Fake) End in: '310Grades.xls'########
+FinishedSS = 52
+
+index = 53 ######## begin: /315%20Grades%20-%20Fa#A889A.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\220gradecalc tool CUSTODES2.xls
+sheet NO = 4
+[pool-1-thread-8]: ----Sheet 'Sheet1'----
+---- Stage I begun 07-01 15-42-21----
+Tree Distance finished 07-01 15-42-22
+Pre-processing is finished 07-01 15-42-22
+---- Stage I finished 07-01 15-42-22----
+Tree Distance finished 07-01 15-42-23
+Pre-processing is finished 07-01 15-42-23
+---- Stage I finished 07-01 15-42-23----
+---- Stage II begin 07-01 15-42-23----
+Tree Distance finished 07-01 15-42-23
+Pre-processing is finished 07-01 15-42-23
+---- Stage I finished 07-01 15-42-24----
+---- Stage II begin 07-01 15-42-24----
+---- Stage II begin 07-01 15-42-24----
+---- Stage II finished 07-01 15-42-25----
+---- Smell detection begun 07-01 15-42-25----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\0Fall00Eval tool CUSTODES2.xls
+[pool-1-thread-6]: ----Sheet 'Chart2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 53 ######## (Fake) End in: '315%20Grades%20-%20Fa#A889A.xls'########
+[pool-1-thread-6]: ----Sheet 'Chart4'----
+FinishedSS = 53
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+
+index = 54 ######## begin: /3C_Marks.xls'########
+[pool-1-thread-6]: ----Sheet 'Chart5'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Chart7'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Chart1'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Chart3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet7'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet6'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet4'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet5'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet8'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet9'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet10'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet11'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet12'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet13'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet14'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet15'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet16'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Grade Calculator'----
+---- Stage I begun 07-01 15-42-26----
+sheet NO = 2
+Spreadsheet index = 54 ######## (Fake) End in: '3C_Marks.xls'########
+FinishedSS = 54
+
+index = 55 ######## begin: /4-06.xls'########
+sheet NO = 9
+Spreadsheet index = 55 ######## (Fake) End in: '4-06.xls'########
+FinishedSS = 55
+
+index = 56 ######## begin: /4-h%20Priorities%2020#A7BAB.xls'########
+sheet NO = 1
+Spreadsheet index = 56 ######## (Fake) End in: '4-h%20Priorities%2020#A7BAB.xls'########
+FinishedSS = 56
+
+index = 57 ######## begin: /414GradeCalc.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 57 ######## End in: '414GradeCalc.xls'########
+FinishedSS = 57
+
+index = 58 ######## begin: /415%20TR%20Grades.xls'########
+sheet NO = 2
+Spreadsheet index = 58 ######## (Fake) End in: '415%20TR%20Grades.xls'########
+FinishedSS = 58
+
+index = 59 ######## begin: /421GradeCalc.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 59 ######## End in: '421GradeCalc.xls'########
+FinishedSS = 59
+
+index = 60 ######## begin: /483_grades_web.xls'########
+sheet NO = 3
+Spreadsheet index = 60 ######## (Fake) End in: '483_grades_web.xls'########
+FinishedSS = 60
+
+index = 61 ######## begin: /505_syllabus.xls'########
+sheet NO = 1
+Spreadsheet index = 61 ######## (Fake) End in: '505_syllabus.xls'########
+FinishedSS = 61
+
+index = 62 ######## begin: /511Grades.xls'########
+sheet NO = 3
+Tree Distance finished 07-01 15-42-26
+Pre-processing is finished 07-01 15-42-26
+---- Stage I finished 07-01 15-42-26----
+---- Stage II begin 07-01 15-42-26----
+---- Stage II finished 07-01 15-42-26----
+---- Smell detection begun 07-01 15-42-26----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\244grcalc tool CUSTODES2.xls
+Spreadsheet index = 62 ######## (Fake) End in: '511Grades.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+FinishedSS = 62
+
+index = 63 ######## begin: /531Grades.xls'########
+---- Stage I begun 07-01 15-42-26----
+---- Stage II finished 07-01 15-42-26----
+---- Smell detection begun 07-01 15-42-26----
+sheet NO = 3
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\1010-004-post4 tool CUSTODES2.xls
+[pool-1-thread-7]: ----Sheet 'Sheet2'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Sheet3'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 63 ######## (Fake) End in: '531Grades.xls'########
+FinishedSS = 63
+
+[pool-1-thread-7]: ----Sheet 'exam stats'----
+index = 64 ######## begin: /5_11.xls'########
+---- Stage I begun 07-01 15-42-27----
+sheet NO = 1
+Tree Distance finished 07-01 15-42-27
+Pre-processing is finished 07-01 15-42-27
+---- Stage I finished 07-01 15-42-27----
+---- Stage II begin 07-01 15-42-27----
+---- Stage II finished 07-01 15-42-27----
+---- Smell detection begun 07-01 15-42-27----
+clusterMark begin
+smellyCellMark begin
+Spreadsheet index = 64 ######## (Fake) End in: '5_11.xls'########
+FinishedSS = 64
+
+[pool-1-thread-7]: ----Sheet '2810 info 9am'----
+index = 65 ######## begin: /656%20Website%20Analy#A8A79.xls'########
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet '2810 info 10am'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet '9 am grades'----
+freeze Column = 1
+sheet NO = 1
+Spreadsheet index = 65 ######## (Fake) End in: '656%20Website%20Analy#A8A79.xls'########
+FinishedSS = 65
+
+index = 66 ######## begin: /7_gradebook_xls.xls'########
+---- Stage I begun 07-01 15-42-27----
+sheet NO = 5
+---- Stage II finished 07-01 15-42-29----
+---- Smell detection begun 07-01 15-42-29----
+Tree Distance finished 07-01 15-42-30
+Pre-processing is finished 07-01 15-42-30
+---- Stage I finished 07-01 15-42-30----
+---- Stage II begin 07-01 15-42-30----
+---- Stage II finished 07-01 15-42-30----
+---- Smell detection begun 07-01 15-42-30----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-7]: ----Sheet '10 am grades'----
+freeze Column = 1
+---- Stage I begun 07-01 15-42-30----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\1A6EGrades tool CUSTODES2.xls
+[pool-1-thread-5]: ----Sheet 'Coursework'----
+freeze Column = 1
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Sheet1'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Sheet2'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Sheet3'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 66 ######## (Fake) End in: '7_gradebook_xls.xls'########
+FinishedSS = 66
+
+index = 67 ######## begin: /9-Grades.xls'########
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2E1%20Marks%20Grades%20Only tool CUSTODES2.xls
+sheet NO = 5
+[pool-1-thread-5]: ----Sheet 'DP-2'----
+---- Stage I begun 07-01 15-42-31----
+Tree Distance finished 07-01 15-42-31
+Pre-processing is finished 07-01 15-42-31
+---- Stage I finished 07-01 15-42-31----
+---- Stage II begin 07-01 15-42-31----
+---- Stage II finished 07-01 15-42-31----
+---- Smell detection begun 07-01 15-42-31----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-5]: ----Sheet 'DP-3'----
+---- Stage I begun 07-01 15-42-31----
+Tree Distance finished 07-01 15-42-32
+Pre-processing is finished 07-01 15-42-32
+---- Stage I finished 07-01 15-42-32----
+---- Stage II begin 07-01 15-42-32----
+---- Stage II finished 07-01 15-42-32----
+---- Smell detection begun 07-01 15-42-32----
+Tree Distance finished 07-01 15-42-32
+Pre-processing is finished 07-01 15-42-32
+---- Stage I finished 07-01 15-42-32----
+---- Stage II begin 07-01 15-42-32----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-5]: ----Sheet 'DP-4'----
+---- Stage I begun 07-01 15-42-32----
+---- Stage II finished 07-01 15-42-32----
+---- Smell detection begun 07-01 15-42-32----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2810gradesfa03 tool CUSTODES2.xls
+Spreadsheet index = 67 ######## (Fake) End in: '9-Grades.xls'########
+[pool-1-thread-7]: ----Sheet 'Grades'----
+FinishedSS = 67
+
+index = 68 ######## begin: /97.xls'########
+---- Stage I begun 07-01 15-42-32----
+sheet NO = 16
+Tree Distance finished 07-01 15-42-32
+Pre-processing is finished 07-01 15-42-32
+---- Stage I finished 07-01 15-42-32----
+Tree Distance finished 07-01 15-42-32
+Pre-processing is finished 07-01 15-42-32
+---- Stage I finished 07-01 15-42-32----
+---- Stage II begin 07-01 15-42-32----
+---- Stage II begin 07-01 15-42-32----
+---- Stage II finished 07-01 15-42-32----
+---- Smell detection begun 07-01 15-42-32----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\2k00 tool CUSTODES2.xls
+[pool-1-thread-5]: ----Sheet 'Section 1 Attendance'----
+freeze Column = 1
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Section 1 Assignments'----
+freeze Column = 1
+---- Stage I begun 07-01 15-42-33----
+Tree Distance finished 07-01 15-42-33
+Pre-processing is finished 07-01 15-42-33
+---- Stage I finished 07-01 15-42-33----
+---- Stage II begin 07-01 15-42-33----
+---- Stage II finished 07-01 15-42-33----
+---- Smell detection begun 07-01 15-42-33----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-5]: ----Sheet 'Section 2 Attendance'----
+freeze Column = 1
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Section 2 Assignments'----
+freeze Column = 1
+---- Stage I begun 07-01 15-42-33----
+Tree Distance finished 07-01 15-42-33
+Pre-processing is finished 07-01 15-42-33
+---- Stage I finished 07-01 15-42-33----
+Tree Distance finished 07-01 15-42-33
+Pre-processing is finished 07-01 15-42-33
+---- Stage I finished 07-01 15-42-33----
+---- Stage II begin 07-01 15-42-33----
+---- Stage II finished 07-01 15-42-33----
+---- Smell detection begun 07-01 15-42-33----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\315%20Grades%20-%20Fa#A889A tool CUSTODES2.xls
+[pool-1-thread-5]: ----Sheet 'Raw_scores'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'grades'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\3C_Marks tool CUSTODES2.xls
+[pool-1-thread-5]: ----Sheet 'North East'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'North West'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Yorkshire and the Humber'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'East Midlands'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'West Midlands'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'East'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'London'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'South East'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'South West'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\4-06 tool CUSTODES2.xls
+Spreadsheet index = 68 ######## (Fake) End in: '97.xls'########
+[pool-1-thread-5]: ----Sheet 'sorted by program area alone'----
+FinishedSS = 68
+
+index = 69 ######## begin: /99execgrades.xls'########
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\4-h%20Priorities%2020#A7BAB tool CUSTODES2.xls
+[pool-1-thread-5]: ----Sheet 'student'----
+[pool-1-thread-5]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-5]: ----Sheet 'Spring2004'----
+freeze Column = 1
+sheet NO = 1
+Spreadsheet index = 69 ######## (Fake) End in: '99execgrades.xls'########
+FinishedSS = 69
+
+index = 70 ######## begin: /99staff.xls'########
+sheet NO = 1
+Spreadsheet index = 70 ######## (Fake) End in: '99staff.xls'########
+FinishedSS = 70
+
+index = 71 ######## begin: /A&S_Student_awards_10-17-03.xls'########
+sheet NO = 3
+---- Stage II begin 07-01 15-42-33----
+---- Stage I begun 07-01 15-42-33----
+---- Stage II finished 07-01 15-42-34----
+---- Smell detection begun 07-01 15-42-34----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\310Grades tool CUSTODES2.xls
+[pool-1-thread-7]: ----Sheet 'grades'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-7]: ----Sheet 'Sheet2'----
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+Spreadsheet index = 71 ######## (Fake) End in: 'A&S_Student_awards_10-17-03.xls'########
+FinishedSS = 71
+
+[pool-1-thread-7]: ----Sheet 'Sheet3'----
+index = 72 ######## begin: /abetSampleGrades.xls'########
+[pool-1-thread-7]: Worksheet does not contain formula cells, so skip it.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\483_grades_web tool CUSTODES2.xls
+sheet NO = 3
+[pool-1-thread-7]: ----Sheet 'Micro 505 Syllabus'----
+---- Stage I begun 07-01 15-42-34----
+Tree Distance finished 07-01 15-42-34
+Pre-processing is finished 07-01 15-42-34
+---- Stage I finished 07-01 15-42-34----
+---- Stage II begin 07-01 15-42-34----
+---- Stage II finished 07-01 15-42-34----
+---- Smell detection begun 07-01 15-42-34----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\505_syllabus tool CUSTODES2.xls
+[pool-1-thread-7]: ----Sheet 'Sheet1'----
+freeze Column = 1
+---- Stage I begun 07-01 15-42-35----
+---- Stage II finished 07-01 15-42-35----
+---- Smell detection begun 07-01 15-42-35----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\262grades tool CUSTODES2.xls
+Spreadsheet index = 72 ######## (Fake) End in: 'abetSampleGrades.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet2'----
+FinishedSS = 72
+
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+index = 73 ######## begin: /academic%20calendar%2#A7FE0.xls'########
+[pool-1-thread-6]: ----Sheet 'Sheet3'----
+[pool-1-thread-6]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-6]: ----Sheet 'Sheet1'----
+freeze Column = 1
+sheet NO = 3
+---- Stage I begun 07-01 15-42-36----
+---- Stage II finished 07-01 15-42-53----
+---- Smell detection begun 07-01 15-42-53----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\03_04cor tool CUSTODES2.xls
+Spreadsheet index = 73 ######## (Fake) End in: 'academic%20calendar%2#A7FE0.xls'########
+[pool-1-thread-2]: ----Sheet 'Sheet2'----
+FinishedSS = 73
+
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+index = 74 ######## begin: /academic_calendar_03-04.xls'########
+[pool-1-thread-2]: ----Sheet 'Sheet3'----
+[pool-1-thread-2]: Worksheet does not contain formula cells, so skip it.
+[pool-1-thread-2]: ----Sheet '5.11'----
+---- Stage I begun 07-01 15-42-57----
+sheet NO = 2
+Spreadsheet index = 74 ######## (Fake) End in: 'academic_calendar_03-04.xls'########
+FinishedSS = 74
+
+index = 75 ######## begin: /accessiblearchives.xls'########
+Old Excel Format E-xception happened.
+Spreadsheet index = 75 ######## End in: 'accessiblearchives.xls'########
+FinishedSS = 75
+
+index = 76 ######## begin: /Access_Line_Form_2002.xls'########
+sheet NO = 16
+Tree Distance finished 07-01 15-43-00
+Pre-processing is finished 07-01 15-43-00
+---- Stage I finished 07-01 15-43-00----
+---- Stage II begin 07-01 15-43-00----
+---- Stage II finished 07-01 15-43-03----
+---- Smell detection begun 07-01 15-43-03----
+clusterMark begin
+smellyCellMark begin
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\5_11 tool CUSTODES2.xls
+[pool-1-thread-2]: ----Sheet 'by name'----
+freeze Column = 0
+---- Stage I begun 07-01 15-43-03----
+Tree Distance finished 07-01 15-43-03
+Pre-processing is finished 07-01 15-43-03
+---- Stage I finished 07-01 15-43-03----
+Seed cluster does not exist.
+A:\CC1s-concurrent\Outputs\CUSTODES2\grades\656%20Website%20Analy#A8A79 tool CUSTODES2.xls
+[pool-1-thread-2]: ----Sheet 'MP1'----
+---- Stage I begun 07-01 15-43-03----
+Tree Distance finished 07-01 15-43-33
+Pre-processing is finished 07-01 15-43-39
+Tree Distance finished 07-01 15-43-49
+Pre-processing is finished 07-01 15-43-49
+---- Stage I finished 07-01 15-43-49----
+---- Stage II begin 07-01 15-43-49----
+---- Stage II finished 07-01 15-43-49----
+---- Smell detection begun 07-01 15-43-49----
+clusterMark begin
+smellyCellMark begin
+[pool-1-thread-2]: ----Sheet 'MP2'----
+---- Stage I begun 07-01 15-43-49----
+---- Stage I finished 07-01 15-43-49----
+---- Stage II begin 07-01 15-43-52----

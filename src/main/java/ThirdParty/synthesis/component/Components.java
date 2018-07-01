@@ -1,9 +1,9 @@
 package ThirdParty.synthesis.component;
 
+import com.microsoft.z3.Context;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.microsoft.z3.Context;
 
 public class Components {
 	public static int index = 1;
@@ -121,7 +121,7 @@ public class Components {
 			try {
 				c.init(ctx);
 			} catch (Exception e) {
-				System.err.print(e);
+				System.err.print("CACheck's err-put: " + e);
 			}
 			newComps.add(c);
 		}
