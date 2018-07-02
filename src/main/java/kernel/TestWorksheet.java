@@ -118,10 +118,11 @@ public class TestWorksheet implements Runnable {
             numberOfFormula.addAndGet(formulaInfoList.size());
 
             if (formulaInfoList.size() == 0) {
-                System.out.println("[" + Thread.currentThread().getName() +
-                        "]: Worksheet does not contain formula cells, so skip it.");
+                System.err.println(Thread.currentThread().getName() +
+                        ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
+                        ", worksheet index = " + finishedWS.incrementAndGet());
                 //虽然没有公式，但是也要在完成的worksheet数量上减一
-                printLastSheet();
+//                printLastSheet();
                 return;
             }
 
@@ -272,7 +273,7 @@ public class TestWorksheet implements Runnable {
             //在这里单独输出每个有意义的被标记的worksheet
             //似乎workbook在多个线程共享的时候，进行并发的写操作，出现了问题，修改没有反应到最后的输出结果中
 
-            printLastSheet();
+//            printLastSheet();
         }
         catch (InterruptedException ignored) {
             staSheet.setEndTime(System.nanoTime());
@@ -296,7 +297,7 @@ public class TestWorksheet implements Runnable {
             //TODO：我不清楚这里为什么会报告空指针异常，先忽略吧。
             System.out.println("TestWorksheet.java line 254: NullPointerE_xception");
         }
-        if (currentFlag != 0) return;
+        if (currentFlag > 0) return;
 
 //        System.out.println("Begin to flush out.");
 

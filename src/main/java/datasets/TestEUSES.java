@@ -48,7 +48,7 @@ public class TestEUSES {
     */
     private static void testEUESE() throws IOException {
 
-        int lower_bound = 4;
+        int lower_bound = 5;
         int upper_bound = lower_bound+1;
 
         //range: [file_lower_bound, file_upper_bound - 1]
@@ -117,7 +117,7 @@ public class TestEUSES {
                 e.printStackTrace();
             }
 
-            System.err.printf("finishedThreadCount = %d, task_size = %d\n\n" , finishedThreadCount, tasks.size() );
+            System.err.printf("finishedTaskCount = %d, task_size = %d\n\n" , finishedThreadCount, tasks.size());
 
 
             for (int i = 0; i < tasks.size(); i++) {
@@ -139,15 +139,17 @@ public class TestEUSES {
                 finishs[i] = true;
                 finishedThreadCount++;
 
+                testWorksheet.staSheet.setCpuTime(threadCPUTime);
+
                 if (threadCPUTime >= TIMEOUT) {
-                        future.cancel(true);
-                        testWorksheet.staSheet.clear();
-                        testWorksheet.staSheet.timeout = true;
-                        timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));
+                    future.cancel(true);
+                    testWorksheet.staSheet.clear();
+                    testWorksheet.staSheet.timeout = true;
+                    timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));
                 }
 
-                testWorksheet.staSheet.setCpuTime(threadCPUTime);
                 testWorksheet.printLastSheet();
+
                 staAll.add(testWorksheet.staSheet, logBuffer);
             }
         }
