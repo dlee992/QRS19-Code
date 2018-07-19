@@ -169,10 +169,10 @@ public class TestEUSES {
 
         staAll.getInfo();
 
-        return;
-//        exeService.shutdownNow();
+//        return;
+        exeService.shutdownNow();
 //        createAndShowGUI();
-//        System.exit(0);
+        System.exit(0);
     }
 
     private static void testEnron() throws IOException {

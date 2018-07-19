@@ -47,7 +47,10 @@ public class BasicUtility {
         for (int i = 0; i<= sheet.getLastRowNum(); i++) {
             Row r = sheet.getRow(i);
             if (null == r) continue;
-            for (Cell c : r) {
+            List<Cell> cells = new ArrayList<>();
+            for (Cell c : r)
+                cells.add(c);
+            for (Cell c : cells) {
                 if (Thread.interrupted()) {
                     throw new InterruptedException();
                 }
@@ -413,9 +416,9 @@ public class BasicUtility {
 //            if (count == 2)
 //                System.err.println("2");
 //        }
-        if (cellAddA1.equals("V13")) {
-            int k = 0;
-        }
+//        if (cellAddA1.equals("V13")) {
+//            int k = 0;
+//        }
 
         String dependencyTree = "";
         if (depth == 0) dependencyTree = "{RR";
@@ -627,7 +630,7 @@ public class BasicUtility {
                     if (cell != null) {
                         Row row = sheet.createRow(lastRowNum);
                         Cell cell1 = row.createCell(0);
-                        cell1.setCellValue("Defect " + smells.indexOf(sl) + 1);
+                        cell1.setCellValue("Defect " + (smells.indexOf(sl) + 1));
                         Cell cell2 = row.createCell(1);
                         cell2.setCellValue(cell.getAddress().toString());
 
@@ -748,7 +751,7 @@ public class BasicUtility {
 
                     Row row = sheet.createRow(lastRowNum);
                     Cell cell1 = row.createCell(0);
-                    cell1.setCellValue("Cluster " + clusters.indexOf(cluster)+1);
+                    cell1.setCellValue("Cluster " + (clusters.indexOf(cluster)+1));
                     Cell cell2 = row.createCell(1);
                     cell2.setCellValue(strList.toString());
 

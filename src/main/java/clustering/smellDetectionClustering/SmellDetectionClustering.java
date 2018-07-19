@@ -119,7 +119,8 @@ public class SmellDetectionClustering {
 				correctFormulaList = reportAll(outliers, formulaRefInCluster, fcM);
 			}
 
-            //TODO: 先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
+            //TODO: 1.先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
+            //TODO: 2.（尚未实现的想法）其实cluster内部的公式也有一个覆盖率的问题，如果很多公式都不能相容，整个类都可以舍弃
             if (addA) {
                 double coverageRate = coverageInFormulas(formulaInCluster);
                 cl.coverage = coverageRate;

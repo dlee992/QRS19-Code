@@ -32,7 +32,7 @@ public class MainClass {
 
         if (args.length==0) {
             args = new String[1];
-            args[0] = "null";
+            args[0] = "-custom";
         }
 
         programState = "Debugging";
@@ -95,6 +95,7 @@ public class MainClass {
 
 
     private static void commandHandling(String[] args) throws Exception {
+        System.err.println(args[0]);
         switch (args[0]) {
             case "-default":
                 /*|| programState.equals("developing on default")*/

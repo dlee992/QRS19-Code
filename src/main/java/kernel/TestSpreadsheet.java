@@ -33,7 +33,7 @@ public class TestSpreadsheet {
         //"/" + file.getName() + "'########");
         //logBuffer.newLine();
 
-//        if (!file.getName().equals("2004_PUBLIC_BUGS_INVENTORY.xls")) return;
+//        if (!file.getName().equals("Funded%20-%20February#A835C.xls")) return;
 
         String fileName = null;
         Workbook workbook;
