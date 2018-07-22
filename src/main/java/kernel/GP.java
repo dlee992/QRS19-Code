@@ -15,8 +15,8 @@
  */
 public class GP {
     // in the chronological order
-    public static boolean filterString = true; // filter string-type formula cells.
-    public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
+    public static boolean filterString = false; // filter string-type formula cells.
+    public static boolean plusFrozen = false; // differ frozen blocks and free blocks.
 
     //effectiveness
 	public static boolean addA = false;

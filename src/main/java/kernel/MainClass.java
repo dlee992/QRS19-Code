@@ -7,6 +7,7 @@ import statistics.StatisticsForAll;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -28,6 +29,9 @@ public class MainClass {
 
 
     public static void main(String[] args) throws Exception {
+        PrintStream file_stream = new PrintStream("debug_log.txt");
+        System.setOut(file_stream);
+
         inDirPath  = parent_dir + fileSeparator + "Inputs";
 
         if (args.length==0) {

@@ -12,6 +12,7 @@ target
 pom.xml
 CellArray/*.txt
 debug_log.txt
+out
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
