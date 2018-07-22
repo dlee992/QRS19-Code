@@ -19,9 +19,10 @@ public class GP {
     public static boolean plusFrozen = true; // differ frozen blocks and free blocks.
 
     //effectiveness
-	public static boolean addA = true;
-	public static boolean addB = true;
-	public static boolean addC = true;
+	public static boolean addA = false;
+	public static boolean addB = false;
+	public static boolean addC = false;
+	public static boolean clusterOptimization = false;
 
 	//efficiency
     //TODO: bugs happen which result in wrong results
@@ -38,7 +39,7 @@ public class GP {
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "CUSTODES2";
+    public static String testDate = "CUSTODES1s";
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();

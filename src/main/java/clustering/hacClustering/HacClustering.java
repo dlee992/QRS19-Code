@@ -7,6 +7,7 @@ import convenience.RTED;
 import distance.APTED;
 import entity.Cluster;
 import extraction.strongFeatureExtraction.AST;
+import kernel.GP;
 import node.Node;
 import org.apache.poi.ss.usermodel.Sheet;
 import util.LblTree;
@@ -16,7 +17,6 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import static kernel.GP.addD;
-import static datasets.TestEUSES.TIMEOUT;
 
 public class HacClustering {
 	private Logger logger = Logger.getLogger("HAC");
@@ -28,10 +28,8 @@ public class HacClustering {
 	private Sheet sheet;
 	private long beginTime;
 
-	long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 
-
-    public HacClustering(Sheet sheet, Map<String, List<String>> formulaInfoList, long beginTime) {
+	public HacClustering(Sheet sheet, Map<String, List<String>> formulaInfoList, long beginTime) {
     	this.sheet = sheet;
 		this.formulaInfoList = formulaInfoList;
 		N = formulaInfoList.size();
@@ -275,29 +273,6 @@ public class HacClustering {
         return "R" + row + "C" + column;
     }
 
-    public List<Cluster> clusteringWrapper(List<Cluster> caCheckCluster, Set<String> caCheckFormula) throws InterruptedException {
-
-		//TODO: cluster initialization
-		List<Cluster> clusters = new ArrayList<>();
-
-		for (Cluster cluster: caCheckCluster) {
-			clusters.add(cluster);
-		}
-
-		for (String aFormulaCellAdd : formulaCellAdd)
-		{
-			if (!caCheckFormula.contains(aFormulaCellAdd)) {
-				clusters.add(new Cluster(aFormulaCellAdd));
-			}
-		}
-		System.out.println();
-
-		//TODO: clustering process
-		clusteringCoreProcess(clusters);
-
-		return clusters;
-	}
-
 	private List<Cluster> performClustering() throws InterruptedException {
 		//TODO: cluster initialization
 		List<Cluster> clusters = new ArrayList<>();
@@ -305,12 +280,66 @@ public class HacClustering {
 			clusters.add(new Cluster(formulaCell));
 
 		//TODO: clustering process
-		return clusteringCoreProcess(clusters);
+		if (GP.clusterOptimization)
+			return optimizedClusteringCoreProcess(clusters);
+		else
+			return originalClusteringCoreProcess(clusters);
 	}
 
-	private List<Cluster> clusteringCoreProcess(List<Cluster> clusters) throws InterruptedException {
+	private List<Cluster> originalClusteringCoreProcess(List<Cluster> clusters) throws InterruptedException {
+
+    	int clusterIndex = clusters.size();
+		double minDist = 0;
+		double eps = 0.02;
+		while (minDist <= eps) {
+			if (Thread.interrupted()) {
+				throw new InterruptedException();
+			}
+
+			minDist = 0.5;
+			Cluster clusterLeft = null;
+			Cluster clusterRight = null;
+
+			for (int i=0;i<=clusters.size()-2;i++) {
+				for (int j=i+1;j<=clusters.size()-1;j++) {
+					if (Thread.interrupted()) {
+						throw new InterruptedException();
+					}
+
+					double tmpDist = computeDist(clusters.get(i), clusters.get(j));
+					if (tmpDist < minDist) {
+						minDist = tmpDist;
+						clusterLeft = clusters.get(i);
+						clusterRight = clusters.get(j);
+					}
+				}
+			}
+
+			if (minDist <= eps) {
+				if (Thread.interrupted()) {
+					throw new InterruptedException();
+				}
+
+				//System.out.println("Merge two different clusters.");
+				Cluster pCluster = new Cluster("#"+(++clusterIndex));
+				pCluster.addChild(clusterLeft);
+				pCluster.addChild(clusterRight);
+				assert clusterLeft != null;
+				clusterLeft.setParent();
+				clusterRight.setParent();
+
+				clusters.add(pCluster);
+				clusters.remove(clusterLeft);
+				clusters.remove(clusterRight);
+			}
+		}
+
+		return clusters;
+	}
+
+	private List<Cluster> optimizedClusteringCoreProcess(List<Cluster> clusters) throws InterruptedException {
 	    /*
-	    * TODO: 显然可以加一个优化：预先把完全一样的格放在同一个类中
+	     * TODO: 显然可以加一个优化：预先把完全一样的格放在同一个类中
 	     */
 		ArrayList<Integer> joinList = new ArrayList<>();
 		/*
@@ -502,41 +531,6 @@ public class HacClustering {
 
 		return clusters;
 
-		/*
-		double minDist = 0;
-		double eps = 0.02;
-		while (minDist <= eps) {
-			minDist = 0.5;
-			Cluster clusterLeft = null;
-			Cluster clusterRight = null;
-
-			for (int i=0;i<=clusters.size()-2;i++) {
-				for (int j=i+1;j<=clusters.size()-1;j++) {
-					double tmpDist = computeDist(clusters.get(i), clusters.get(j));
-					if (tmpDist < minDist) {
-						minDist = tmpDist;
-						clusterLeft = clusters.get(i);
-						clusterRight = clusters.get(j);
-					}
-				}
-			}
-
-			if (minDist <= eps) {
-				//System.out.println("Merge two different clusters.");
-				Cluster pCluster = new Cluster("#"+(++clusterIndex));
-				pCluster.addChild(clusterLeft);
-				pCluster.addChild(clusterRight);
-				assert clusterLeft != null;
-				clusterLeft.setParent();
-				clusterRight.setParent();
-
-				clusters.add(pCluster);
-				clusters.remove(clusterLeft);
-				clusters.remove(clusterRight);
-
-			}
-		}
-		*/
 	}
 
 	private void duplicateCode(List<Cluster> clusters, int i, int j) throws InterruptedException {

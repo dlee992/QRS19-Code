@@ -32,7 +32,7 @@ public class MainClass {
 
         if (args.length==0) {
             args = new String[1];
-            args[0] = "-custom";
+            args[0] = "null";
         }
 
         programState = "Debugging";
