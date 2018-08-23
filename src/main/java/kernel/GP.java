@@ -22,7 +22,7 @@ public class GP {
 	public static boolean addA = false;
 	public static boolean addB = false;
 	public static boolean addC = false;
-	public static boolean clusterOptimization = false;
+	public static boolean clusterOptimization = true;
 
 	//efficiency
     //TODO: bugs happen which result in wrong results

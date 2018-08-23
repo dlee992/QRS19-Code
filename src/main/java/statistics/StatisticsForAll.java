@@ -90,17 +90,20 @@ public class StatisticsForAll {
         rowHeader.createCell(16).setCellValue("绝对时间");
         rowHeader.createCell(17).setCellValue("CPU时间");
 
-        sheetList.sort(new Comparator<StatisticsForSheet>() {
-            @Override
-            public int compare(StatisticsForSheet o1, StatisticsForSheet o2) {
-                int cmp1 = o1.getSpreadsheet().compareTo(o2.getSpreadsheet());
-                int cmp2 = o1.getWorksheet().compareTo(o2.getWorksheet());
+        rowHeader.createCell(19).setCellValue("cluster precision");
+        rowHeader.createCell(20).setCellValue("cluster recall");
+        rowHeader.createCell(21).setCellValue("detection precision");
+        rowHeader.createCell(22).setCellValue("detection recall");
 
-                if (cmp1 != 0)
-                    return cmp1;
 
-                return cmp2;
-            }
+        sheetList.sort((o1, o2) -> {
+            int cmp1 = o1.getSpreadsheet().compareTo(o2.getSpreadsheet());
+            int cmp2 = o1.getWorksheet().compareTo(o2.getWorksheet());
+
+            if (cmp1 != 0)
+                return cmp1;
+
+            return cmp2;
         });
 
         StatisticsForSheet prevSheet = null;
@@ -114,6 +117,9 @@ public class StatisticsForAll {
         gt_smellSize = 0;
         stageClusterSize = 0;
         stageSmellSize = 0;
+
+        double clusterP = 0, clusterR = 0, detectP = 0, detectR =0;
+        int clusterN = 0, detectN = 0;
 
         for (StatisticsForSheet staSheet : sheetList) {
             //TODO:
@@ -170,6 +176,22 @@ public class StatisticsForAll {
             //row.createCell(16).setCellValue(consumedTime);
             row.createCell(17).setCellValue(staSheet.cpuTime);
 
+            row.createCell(19).setCellValue(staSheet.precision[0]);
+            row.createCell(20).setCellValue(staSheet.recall[0]);
+            row.createCell(21).setCellValue(staSheet.precision[1]);
+            row.createCell(22).setCellValue(staSheet.recall[1]);
+
+            if (staSheet.precision[0] + staSheet.recall[0] > 0) {
+                clusterN++;
+                clusterP += staSheet.precision[0];
+                clusterR += staSheet.recall[0];
+            }
+            if (staSheet.precision[1] + staSheet.recall[1] > 0) {
+                detectN++;
+                detectP += staSheet.precision[1];
+                detectR += staSheet.recall[1];
+            }
+
             gt_clustersSize += staSheet.getGt_clusterList().size();
             gt_smellSize += staSheet.getGt_smellList().size();
             stageClusterSize += staSheet.getStageIIClusters().size();
@@ -207,6 +229,12 @@ public class StatisticsForAll {
                 +", "+ roundDouble(fMeasure[0]) +")");
 
         rowTailor.createCell(16).setCellValue((endTime-beginTime)/1000_000_000);
+
+        rowTailor.createCell(19).setCellValue(roundDouble(clusterP/ clusterN));
+        rowTailor.createCell(20).setCellValue(roundDouble(clusterR/ clusterN));
+        rowTailor.createCell(21).setCellValue(roundDouble(detectP / detectN));
+        rowTailor.createCell(22).setCellValue(roundDouble(detectR / detectN));
+
 
         String fileName = category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
         out.println(fileName);
