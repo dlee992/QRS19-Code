@@ -46,7 +46,7 @@ public class TestEUSES {
         出于保守考虑,应该全记录下来,也方便后续统计每张SS包含#worksheet,含有公式的#worksheet.
      5:暂时还没有想到第四点.
     */
-    private static void testEUESE() throws IOException {
+    public static void testEUESE() throws IOException {
 
         int lower_bound = 10;
         int upper_bound = lower_bound+1;
@@ -85,7 +85,7 @@ public class TestEUSES {
                         continue;
                     }
                     count++;
-                    new TestSpreadsheet().testSpreadsheet(excelFile, staAll, logBuffer, index, true, subDir.getName());
+                    new TestSpreadsheet().testSpreadsheet(excelFile, staAll, index, true, subDir.getName());
                     if (count % 100 == 0) staAll.log(prefixOutDir,  null);
                 } catch (Exception  | OutOfMemoryError e) {
                     e.printStackTrace();

@@ -3,21 +3,21 @@ package clustering.smellDetectionClustering;
 import clustering.bootstrappingClustering.CellClusterMatrix;
 import clustering.bootstrappingClustering.FeatureCellMatrix;
 import clustering.bootstrappingClustering.FeatureClusterMatrix;
+import entity.CellFeature;
+import entity.Cluster;
 import entity.FakeCell;
 import entity.Smell;
+import extraction.semllDetectionFeatureExtraction.TokenFeature;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.poi.ss.formula.FormulaParseException;
 import org.apache.poi.ss.formula.FormulaType;
 import org.apache.poi.ss.formula.ptg.AreaPtg;
 import org.apache.poi.ss.formula.ptg.Ptg;
 import org.apache.poi.ss.formula.ptg.RefPtg;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellReference;
 import sun.security.ssl.Debug;
 import utility.BasicUtility;
-import entity.CellFeature;
-import entity.Cluster;
-import extraction.semllDetectionFeatureExtraction.TokenFeature;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.poi.ss.util.CellReference;
 import utility.FormulaParsing;
 import weka.classifiers.rules.DecisionTableHashKey;
 import weka.core.Attribute;
@@ -26,14 +26,13 @@ import weka.core.Instances;
 import weka.core.SparseInstance;
 import weka.filters.Filter;
 
-
 import java.util.*;
 import java.util.Map.Entry;
 
+import static datasets.TestEUSES.TIMEOUT;
 import static kernel.GP.addA;
 import static kernel.GP.addB;
 import static kernel.GP.addC;
-import static datasets.TestEUSES.TIMEOUT;
 
 public class SmellDetectionClustering {
 
@@ -121,6 +120,14 @@ public class SmellDetectionClustering {
 
             //TODO: 1.先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
             //TODO: 2.（尚未实现的想法）其实cluster内部的公式也有一个覆盖率的问题，如果很多公式都不能相容，整个类都可以舍弃
+
+            //tackleDataCells(cl, correctFormulaList);
+            if (addC)
+                filterDataCellsByReplace(cl);
+
+            if (addB)
+                filterDataCellsByOverlap(cl, correctFormulaList);
+
             if (addA) {
                 double coverageRate = coverageInFormulas(formulaInCluster);
                 cl.coverage = coverageRate;
@@ -129,26 +136,21 @@ public class SmellDetectionClustering {
                 }
             }
 
-            tackleDataCells(cl, correctFormulaList);
+            //把剩余的data cells标记为smell
+            for (Cell cell:
+                    cl.getClusterCells()) {
+                if (cell.getCellType() == 0) {
+                    CellReference cr = new CellReference(cell);
+                    Smell smell = new Smell(cr);
+                    smell.isMissingFormulaSmell = true;
+                    detectedSmellyCells.add(smell);
+                }
+            }
 		}
 	}
 
 	private void tackleDataCells(Cluster cl, List<Cell> correctFormulaList) {
-	    if (addB)
-	        filterDataCellsByOverlap(cl, correctFormulaList);
-	    if (addC)
-	        filterDataCellsByReplace(cl);
 
-	    //把剩余的data cells标记为smell
-        for (Cell cell:
-                cl.getClusterCells()) {
-            if (cell.getCellType() == 0) {
-                CellReference cr = new CellReference(cell);
-                Smell smell = new Smell(cr);
-                smell.isMissingFormulaSmell = true;
-                detectedSmellyCells.add(smell);
-            }
-        }
     }
 
     /*

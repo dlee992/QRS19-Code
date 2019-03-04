@@ -22,8 +22,8 @@ public class TestSpreadsheet {
 
     private final Object lockForSS = new Object();
 
-    public void testSpreadsheet(File file, StatisticsForAll staAll, BufferedWriter logBuffer,
-                                       AtomicInteger index, boolean test, String category)
+    public void testSpreadsheet(File file, StatisticsForAll staAll,
+                                AtomicInteger index, boolean test, String category)
             throws Exception, OutOfMemoryError {
 
         int identicalIndex = index.incrementAndGet();

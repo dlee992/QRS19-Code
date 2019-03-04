@@ -102,6 +102,7 @@ public class TestWorksheet implements Runnable {
 
             GroundTruthStatistics groundTruthStatistics = new GroundTruthStatistics();
             if (!test) {
+                groundTruthPath = GP.parent_dir + fileSeparator + "Inputs" + fileSeparator + "Groundtruth";
                 groundTruthStatistics.read(groundTruthPath + fileSeparator + fileName, sheet.getSheetName());
                 staSheet.setGt_clusterList(groundTruthStatistics.clusterList);
                 staSheet.setGt_smellList(groundTruthStatistics.smellList);

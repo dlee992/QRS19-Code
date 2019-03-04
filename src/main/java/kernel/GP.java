@@ -31,15 +31,12 @@ public class GP {
     static AtomicInteger finishedSS = new AtomicInteger(0);
     static AtomicInteger finishedWS = new AtomicInteger(0);
 
-    public static boolean plusCellArray = false; // Extract cell array first, before the 1st stage clustering.
-    public static boolean plusFirstSecond = false; //First formula and their dependence, 2nd data during the 2nd stage.
     public static boolean plusTuning = false; // wisely tune the threshold used in 2nd stage clustering.
-    public static boolean plusExtendSmallClu = false; // After 2nd stage, extend small clusters by cell array info.
 
     public static String fileSeparator = System.getProperty("file.separator");
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
-    public static String testDate = "CUSTODES1s";
+    public static String testDate;
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();
@@ -93,7 +90,7 @@ public class GP {
 //         }
 
          index = new AtomicInteger();
-    }
+     }
 
 	public static String addSuffix() {
 		StringBuilder builder = new StringBuilder();

@@ -60,15 +60,11 @@ public class MainClass {
 
             int count = 0;
             for (File eachFile : files) {
-//                if (eachFile.getName().startsWith("0000")) continue;
-//                if (!eachFile.getName().equals("BTVSCCG Inventory.xls")) continue;
                 count ++;
-//                if (count > 10) break;
-
                 final File finalEachFile = new File(eachFile.getAbsolutePath());
 
                 try {
-                    new TestSpreadsheet().testSpreadsheet(finalEachFile, staAll, logBuffer, index, false, perCategory.getName());
+                    new TestSpreadsheet().testSpreadsheet(finalEachFile, staAll, index, false, perCategory.getName());
                 }
                 catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();

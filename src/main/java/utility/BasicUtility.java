@@ -41,7 +41,7 @@ public class BasicUtility {
         if (paneInformation != null && paneInformation.isFreezePane())
         {
             freezeColumn = paneInformation.getVerticalSplitPosition();
-            System.out.println("freeze Column = " +freezeColumn);
+            //System.out.println("freeze Column = " +freezeColumn);
         }
 
         for (int i = 0; i<= sheet.getLastRowNum(); i++) {
