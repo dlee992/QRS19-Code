@@ -18,7 +18,7 @@ import java.util.concurrent.Future;
 
 import static kernel.GP.*;
 
-public class WARD {
+public class WARDER {
     public static long TIMEOUT = 60*30;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 

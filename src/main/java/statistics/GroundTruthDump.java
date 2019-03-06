@@ -31,8 +31,8 @@ public class GroundTruthDump {
         row.createCell(0).setCellValue("Category");
         row.createCell(1).setCellValue("Spreadsheet");
         row.createCell(2).setCellValue("Worksheet");
-        row.createCell(3).setCellValue("# Smells");
-        row.createCell(4).setCellValue("List of Smells");
+        row.createCell(4).setCellValue("# Smells");
+        row.createCell(3).setCellValue("List of Smells");
 
         for (File file : GTDir.listFiles()) {
 
@@ -53,8 +53,8 @@ public class GroundTruthDump {
             row.createCell(0).setCellValue("Unknown");
             row.createCell(1).setCellValue(file.getName().substring(0, file.getName().lastIndexOf('_'))+".xls");
             row.createCell(2).setCellValue(currentSheet.getSheetName());
-            row.createCell(3).setCellValue(smellList.size());
-            row.createCell(4).setCellValue(smellList.toString());
+            row.createCell(4).setCellValue(smellList.size());
+            row.createCell(3).setCellValue(smellList.toString());
         }
 
         System.out.println("SmellCount = " + smellCount);
