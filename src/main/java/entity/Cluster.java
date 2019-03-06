@@ -31,7 +31,7 @@ public class Cluster {
 
 	private int upperBorder, belowBorder, leftBorder, rightBorder;
 
-	public double coverage = -1;
+	public double coverage = 1;
 
 	@Override
 	public String toString () {

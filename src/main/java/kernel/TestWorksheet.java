@@ -106,6 +106,8 @@ public class TestWorksheet implements Runnable {
                 groundTruthStatistics.read(groundTruthPath + fileSeparator + fileName, sheet.getSheetName());
                 staSheet.setGt_clusterList(groundTruthStatistics.clusterList);
                 staSheet.setGt_smellList(groundTruthStatistics.smellList);
+
+
             }
 
             System.out.println("[" + Thread.currentThread().getName() + "]: ----Sheet '" + sheet.getSheetName() + "'----");

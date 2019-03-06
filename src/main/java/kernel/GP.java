@@ -1,14 +1,13 @@
  package kernel;
 
  import statistics.StatisticsForAll;
- import utility.BasicUtility;
 
- import java.io.BufferedWriter;
- import java.io.File;
- import java.util.ArrayList;
- import java.util.List;
- import java.util.concurrent.*;
- import java.util.concurrent.atomic.AtomicInteger;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
  /**
  * Created by lida on 2016/11/7.
@@ -65,19 +64,6 @@ public class GP {
          exeService = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
                  new ArrayBlockingQueue<Runnable>(CAPACITY));
 
-
-         prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
-         File middleDir = new File(prefixOutDir);
-         if (!middleDir.exists()) {
-             middleDir.mkdir();
-         }
-
-         prefixOutDir += fileSeparator + new BasicUtility().getCurrentTime() + fileSeparator;
-
-         middleDir = new File(prefixOutDir);
-         if (!middleDir.exists()) {
-             middleDir.mkdir();
-         }
 
 //         logFile = new File(prefixOutDir + "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
 //         if (!logFile.exists()) {

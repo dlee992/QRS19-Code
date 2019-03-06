@@ -133,8 +133,20 @@ public class HacClustering {
 //                out.printf("%s = %s, %s = %s\n", left[0], dpTreeStrLeft, right[0], dpTreeStrRight);
 
 				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
-				distances[n][m] = distances[m][n] = astDist * dpDist;
+				//distances[n][m] = distances[m][n] = astDist * dpDist;
 				//distances[n][m] = distances[m][n] = (astDist + dpDist - astDist*dpDist);
+				if (astDist == 0) {
+					if (dpDist == 0)
+						distances[n][m] = distances[m][n] = 0;
+					else
+						distances[n][m] = distances[m][n] = dpDist * 0.001;
+				}
+				else {
+					if (dpDist == 0)
+						distances[n][m] = distances[m][n] = astDist * 0.001;
+					else
+						distances[n][m] = distances[m][n] = astDist * dpDist;
+				}
 				//distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist + 0.001);
 				//System.out.printf("distance(%s, %s) = %f\n", left[1], right[1], distances[n][m]);
 				n++;
@@ -238,8 +250,20 @@ public class HacClustering {
 //                out.printf("%s = %s, %s = %s\n", cellOne[0], cdtStringOne, cellTwo[0], cdtStringTwo);
 
 				//TODO: 似乎这些计算是不可避免的 讲道理下面被注释掉的才是和原文相符的计算过程
-				distances[n][m] = distances[m][n] = astDist + dpDist;
+				//distances[n][m] = distances[m][n] = astDist + dpDist;
 				//distances[n][m] = distances[m][n] = (astDist + dpDist - astDist*dpDist);
+				if (astDist == 0) {
+					if (dpDist == 0)
+						distances[n][m] = distances[m][n] = 0;
+					else
+						distances[n][m] = distances[m][n] = dpDist * 0.001;
+				}
+				else {
+					if (dpDist == 0)
+						distances[n][m] = distances[m][n] = astDist * 0.001;
+					else
+						distances[n][m] = distances[m][n] = astDist * dpDist;
+				}
 				//distances[n][m] = distances[m][n] = (astDist + 0.001) * (dpDist + 0.001);
 				//System.out.printf("distance[%d][%d] = %f\n", n, m, (astDist + 0.001) * (dpDist + 0.001));
 				n++;

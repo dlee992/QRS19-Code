@@ -80,6 +80,20 @@ public class SmellDetectionClustering {
 				}
 			}
 
+            if (addC)
+                filterDataCellsByReplace(cl);
+
+            if (addB)
+                filterDataCellsByOverlap(cl);
+
+            if (addA) {
+                double coverageRate = coverageInFormulas(formulaInCluster);
+                cl.coverage = coverageRate;
+                if (coverageRate < 0.5) {
+                    continue;
+                }
+            }
+
 			//TODO: 直接把和占多数的公式形式不同的formula cell直接标记为smell 效果会不会更好
             //尚未实现
 			
@@ -90,7 +104,7 @@ public class SmellDetectionClustering {
 			Instances originalDataset = createInstances(fcM);
 			Instances outliers;
 
-			List<Cell> correctFormulaList = new ArrayList<>();
+
 
 			if (originalDataset.size() == 3) {
 				//这里似乎有点问题，对于仅有3个formula cells的类型 似乎没有做任何处理
@@ -115,26 +129,13 @@ public class SmellDetectionClustering {
 			}
 			else if (originalDataset.size() > 3) {
 				outliers = LofAnalysis(originalDataset);
-				correctFormulaList = reportAll(outliers, formulaRefInCluster, fcM);
+				reportAll(outliers, formulaRefInCluster, fcM);
 			}
 
             //TODO: 1.先考虑公式的覆盖率 如果满足合适的约束 才能够将这个类中的data cells标记为defects
             //TODO: 2.（尚未实现的想法）其实cluster内部的公式也有一个覆盖率的问题，如果很多公式都不能相容，整个类都可以舍弃
 
             //tackleDataCells(cl, correctFormulaList);
-            if (addC)
-                filterDataCellsByReplace(cl);
-
-            if (addB)
-                filterDataCellsByOverlap(cl, correctFormulaList);
-
-            if (addA) {
-                double coverageRate = coverageInFormulas(formulaInCluster);
-                cl.coverage = coverageRate;
-                if (coverageRate <= 0.5) {
-                    continue;
-                }
-            }
 
             //把剩余的data cells标记为smell
             for (Cell cell:
@@ -147,11 +148,15 @@ public class SmellDetectionClustering {
                 }
             }
 		}
+
+        for (int i = clusters.size()-1; i>=0; i--) {
+		    Cluster cl = clusters.get(i);
+            if (cl.coverage < 0.5) {
+                clusters.remove(cl);
+            }
+        }
 	}
 
-	private void tackleDataCells(Cluster cl, List<Cell> correctFormulaList) {
-
-    }
 
     /*
     1: 统计1项预定义指标：引用是否重叠。
@@ -160,7 +165,7 @@ public class SmellDetectionClustering {
        那么就认定这个data cell(s)需要被剔除。
     Note:另外需要注意，整个操作必须保留所有data cells进行全体判断，不能先判断先删除，否则会影响其他cells的判断结果。
      */
-	private void filterDataCellsByOverlap(Cluster cluster, List<Cell> correctFormulaList) {
+	private void filterDataCellsByOverlap(Cluster cluster) {
 	    // step 1
         //out.println("begin Filter On overlap");
 

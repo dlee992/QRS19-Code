@@ -5,6 +5,7 @@ import kernel.TestSpreadsheet;
 import kernel.TestWorksheet;
 import kernel.TimeoutSheet;
 import statistics.StatisticsForAll;
+import utility.BasicUtility;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,7 +28,20 @@ public class WARD {
         GP.addC = true;
         GP.filterString = true;
         GP.plusFrozen = true;
-        GP.testDate = "WARD";
+        GP.testDate = "WARDER";
+
+        prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
+        File middleDir = new File(prefixOutDir);
+        if (!middleDir.exists()) {
+            middleDir.mkdir();
+        }
+
+        prefixOutDir += fileSeparator + new BasicUtility().getCurrentTime() + fileSeparator;
+
+        middleDir = new File(prefixOutDir);
+        if (!middleDir.exists()) {
+            middleDir.mkdir();
+        }
     }
 
     public static void main(String[] args) throws Exception {

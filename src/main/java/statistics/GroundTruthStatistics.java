@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by nju-lida on 16-6-28.
@@ -17,6 +18,7 @@ import java.util.List;
 public class GroundTruthStatistics {
     public List<Cluster> clusterList;
     public List<CellReference> smellList;
+    public static AtomicInteger smellCount = new AtomicInteger(0);
 
     public void read(String fileName, String sheetName) throws IOException, InvalidFormatException {
         clusterList = new ArrayList<Cluster>();
@@ -25,9 +27,7 @@ public class GroundTruthStatistics {
         //hard code bug.
         // * @param      beginIndex   the beginning index, inclusive.
         // * @param      endIndex     the ending index, exclusive.
-        File file = new File(fileName.substring(0, fileName.lastIndexOf('.'))
-                             + "_" + sheetName +
-                             fileName.substring(fileName.lastIndexOf('.'), fileName.length()));
+        File file = new File(fileName.substring(0, fileName.lastIndexOf('.')) + "_" + sheetName + ".xls");
 
         if (!file.exists()) return;
         Workbook workbook = WorkbookFactory.create(new FileInputStream(file));
@@ -54,6 +54,7 @@ public class GroundTruthStatistics {
             }
         }
 
+        System.out.print("@@@@@@ SmellCount = " + smellCount.addAndGet(smellList.size()));
         workbook.close();
     }
 

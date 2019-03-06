@@ -90,10 +90,9 @@ public class StatisticsForAll {
         rowHeader.createCell(16).setCellValue("绝对时间");
         rowHeader.createCell(17).setCellValue("CPU时间");
 
-        rowHeader.createCell(19).setCellValue("cluster precision");
-        rowHeader.createCell(20).setCellValue("cluster recall");
-        rowHeader.createCell(21).setCellValue("detection precision");
-        rowHeader.createCell(22).setCellValue("detection recall");
+        rowHeader.createCell(18).setCellValue("cluster-p");
+        rowHeader.createCell(19).setCellValue("cluster-R");
+        rowHeader.createCell(20).setCellValue("cluster-F");
 
 
         sheetList.sort((o1, o2) -> {
@@ -176,10 +175,9 @@ public class StatisticsForAll {
             //row.createCell(16).setCellValue(consumedTime);
             row.createCell(17).setCellValue(staSheet.cpuTime);
 
-            row.createCell(19).setCellValue(staSheet.precision[0]);
-            row.createCell(20).setCellValue(staSheet.recall[0]);
-            row.createCell(21).setCellValue(staSheet.precision[1]);
-            row.createCell(22).setCellValue(staSheet.recall[1]);
+            row.createCell(18).setCellValue(roundDouble(staSheet.precision[0]));
+            row.createCell(19).setCellValue(roundDouble(staSheet.recall[0]));
+            row.createCell(20).setCellValue(roundDouble(staSheet.fMeasure[0]));
 
             if (staSheet.precision[0] + staSheet.recall[0] > 0) {
                 clusterN++;
@@ -230,10 +228,10 @@ public class StatisticsForAll {
 
         rowTailor.createCell(16).setCellValue((endTime-beginTime)/1000_000_000);
 
-        rowTailor.createCell(19).setCellValue(roundDouble(clusterP/ clusterN));
-        rowTailor.createCell(20).setCellValue(roundDouble(clusterR/ clusterN));
-        rowTailor.createCell(21).setCellValue(roundDouble(detectP / detectN));
-        rowTailor.createCell(22).setCellValue(roundDouble(detectR / detectN));
+        rowTailor.createCell(18).setCellValue(roundDouble(precision[0]));
+        rowTailor.createCell(19).setCellValue(roundDouble(recall[0]));
+        rowTailor.createCell(20).setCellValue(roundDouble(fMeasure[0]));
+
 
 
         String fileName = category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";

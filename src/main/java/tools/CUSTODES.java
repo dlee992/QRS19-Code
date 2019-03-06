@@ -5,6 +5,7 @@ import kernel.TestSpreadsheet;
 import kernel.TestWorksheet;
 import kernel.TimeoutSheet;
 import statistics.StatisticsForAll;
+import utility.BasicUtility;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,7 +20,7 @@ import static kernel.GP.*;
 
 public class CUSTODES {
     public static String toolID = "CUSTODES";
-    public static long TIMEOUT = 60*40;
+    public static long TIMEOUT = 60*30;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
     static {
@@ -27,6 +28,19 @@ public class CUSTODES {
         GP.addB = false;
         GP.addC = false;
         GP.testDate = "CUSTODES";
+
+        prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
+        File middleDir = new File(prefixOutDir);
+        if (!middleDir.exists()) {
+            middleDir.mkdir();
+        }
+
+        prefixOutDir += fileSeparator + new BasicUtility().getCurrentTime() + fileSeparator;
+
+        middleDir = new File(prefixOutDir);
+        if (!middleDir.exists()) {
+            middleDir.mkdir();
+        }
     }
 
     public static void main(String[] args) throws Exception {

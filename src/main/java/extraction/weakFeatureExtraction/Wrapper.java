@@ -1,19 +1,18 @@
 package extraction.weakFeatureExtraction;
 
+import org.apache.poi.ss.usermodel.Sheet;
 import thirdparty.CACheck.AMSheet;
 import thirdparty.CACheck.amcheck.AnalysisPattern;
 import thirdparty.CACheck.amcheck.ExcelPreProcess;
 import thirdparty.CACheck.cellarray.extract.CAResult;
-import thirdparty.CACheck.snippet.*;
-
+import thirdparty.CACheck.snippet.ExtractSnippet;
 import thirdparty.CACheck.util.Log;
 import thirdparty.CACheck.util.SpreadsheetMark;
 import thirdparty.CACheck.util.Utils;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +38,11 @@ public class Wrapper {
         analysisPattern.setType(type);
     }
 
-    public List<CellArray> processSheet() {
+    public List<CellArray> processSheet(String toolName) {
         try {
             //TODO: log file should be removed.
             String parent_dir = System.getProperty("user.dir");
-            String logFile = parent_dir + System.getProperty("file.separator") + "log.txt";
+            String logFile = parent_dir + System.getProperty("file.separator") + toolName + "log.txt";
             Log.writer = new BufferedWriter(new FileWriter(logFile, true));
 
 //            Log.logNewLine("----Sheet '" + st.getSheetName() + "'----", Log.writer);
@@ -85,22 +84,4 @@ public class Wrapper {
         return new ArrayList<>();
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(System.getenv("JAVA_LIBRARY_PATH"));
-        String logFile = "/Users/lida/Desktop/log.txt";
-        Log.writer = new BufferedWriter(new FileWriter(logFile, true));
-
-        File xlsFile = new File("/Users/lida/Desktop/test.xls");
-        Workbook workbook = WorkbookFactory.create(new FileInputStream(xlsFile));
-        Sheet st = workbook.getSheetAt(0);
-
-        Wrapper wrapper = new Wrapper(st, 6);
-        wrapper.processSheet();
-
-        File outFilepath = new File("/Users/lida/Desktop/testOutput.xls");
-        FileOutputStream outFile = new FileOutputStream(outFilepath);
-        workbook.write(outFile);
-        outFile.close();
-        workbook.close();
-    }
 }
