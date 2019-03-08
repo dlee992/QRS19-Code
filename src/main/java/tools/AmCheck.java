@@ -21,7 +21,9 @@ import static kernel.GP.parent_dir;
  */
 public class AmCheck {
     public static String toolName = "AmCheck";
+    public static String dataset = "VEnron2";
     public static boolean checking = false;
+    public static int stepIndex = 6;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
 
@@ -29,13 +31,16 @@ public class AmCheck {
             UCheck.computeDetectionResult(toolName);
             return;
         }
-        runTests(toolName, 3);
+        runTests(toolName, 3, stepIndex);
     }
 
-    public static void runTests(String toolName, int type) throws IOException, InvalidFormatException {
-        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES";
+    public static void runTests(String toolName, int type, int stepIndex) throws IOException, InvalidFormatException {
+        // [1+ stepWidth*stepIndex, stepWidth*(stepIndex+1) ]
+        int stepWidth = 300;
+
+        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + dataset;
         String outDirPath = parent_dir + fileSeparator + "Outputs" +
-                fileSeparator + toolName;
+                fileSeparator + toolName + stepIndex;
         File inDir = new File(inDirPath);
         File outDir = new File(outDirPath);
         if (!outDir.exists()) outDir.mkdir();
@@ -53,11 +58,14 @@ public class AmCheck {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
 
-        int timeBudget = 0;
+        int fileCount = 0;
         for (File category : inDir.listFiles()) {
             //if (timeBudget > 5) break;
-            for (File file: category.listFiles()) {
-                //if (timeBudget++ > 5) break;
+            for (File file : category.listFiles()) {
+                ++fileCount;
+
+                if (!(fileCount > stepWidth*stepIndex && fileCount <= stepWidth*(stepIndex+1))) continue;
+                System.out.println("---- fileCount = " + (fileCount - stepWidth*stepIndex));
 
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
                 for (Sheet currentSheet : currentWorkbook) {

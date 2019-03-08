@@ -9,13 +9,15 @@ import java.io.IOException;
  */
 public class CACheck {
     public static String toolName = "CACheck";
+    public static String dataset = "EUSES";
     public static boolean checking = false;
+    public static int stepIndex = 0;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
         if (checking) {
             UCheck.computeDetectionResult(toolName);
             return;
         }
-        AmCheck.runTests(toolName, 6);
+        AmCheck.runTests(toolName, 6, stepIndex);
     }
 }

@@ -1,5 +1,10 @@
 package thirdparty.CACheck.amcheck;
 
+import org.apache.poi.ss.usermodel.*;
+import thirdparty.CACheck.util.CellUtils;
+import thirdparty.CACheck.util.Log;
+import thirdparty.CACheck.util.TotalResultWriter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
@@ -7,16 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
-import thirdparty.CACheck.util.CellUtils;
-import thirdparty.CACheck.util.Log;
-import thirdparty.CACheck.util.TotalResultWriter;
 
 public class ExcelPreProcess {
 
@@ -143,7 +138,12 @@ public class ExcelPreProcess {
 						&& CellUtils.isFormula(cell)) {
 					// try to get the formula, may throw
 					// exceptions.
-					cell.getCellFormula();
+					try {
+						cell.getCellFormula();
+					}
+					catch (RuntimeException runtimeE) {
+						//fixme: ignore
+					}
 					numOfFormula++;
 				}
 			}
