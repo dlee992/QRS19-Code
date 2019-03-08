@@ -21,7 +21,7 @@ import static kernel.GP.parent_dir;
  */
 public class AmCheck {
     public static String toolName = "AmCheck";
-    public static boolean checking = true;
+    public static boolean checking = false;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
 

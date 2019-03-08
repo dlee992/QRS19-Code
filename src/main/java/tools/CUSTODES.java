@@ -20,6 +20,7 @@ import static kernel.GP.*;
 
 public class CUSTODES {
     public static String toolID = "CUSTODES";
+    public static String dataset = "VEnron2";
     public static long TIMEOUT = 60*30;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
@@ -44,19 +45,19 @@ public class CUSTODES {
     }
 
     public static void main(String[] args) throws Exception {
-        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES";
-        File EUSES = new File(inDirPath);
+        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + dataset;
+        File datasetDir = new File(inDirPath);
 
         staAll = new StatisticsForAll();
         staAll.setBeginTime(System.nanoTime());
 
         int count = 0;
-        for (File subDir: EUSES.listFiles()) {
+        for (File subDir: datasetDir.listFiles()) {
             System.out.println(subDir.getName());
-
+            if (count > 5) break;
             for (File excelFile: subDir.listFiles()) {
                 try {
-                    count++;
+                    if (count++ > 5) break;
                     new TestSpreadsheet().testSpreadsheet(excelFile, staAll, index, false, subDir.getName());
                 } catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();

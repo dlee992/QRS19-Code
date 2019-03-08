@@ -53,7 +53,7 @@ public class AllianceExtraction {
 									}
 								}
 							} catch (FormulaParseException e) {
-								e.printStackTrace();
+								System.out.println("20190307-1"+e.getMessage());
 							}
 						}
 				}
@@ -62,7 +62,10 @@ public class AllianceExtraction {
 					System.out.println(null_pointer_e.toString() + ": " + null_pointer_e.getMessage() + ": " +
 					sheet.getSheetName() + ": " + cell.getAddress());
 					//null_pointer_e.printStackTrace();
+				} catch (RuntimeException e) {
+					System.out.println("20190307-1"+e.getMessage());
 				}
+
 			}
 		}
 		

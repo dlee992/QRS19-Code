@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public class CACheck {
     public static String toolName = "CACheck";
-    public static boolean checking = true;
+    public static boolean checking = false;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
         if (checking) {
