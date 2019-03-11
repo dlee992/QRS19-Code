@@ -23,12 +23,16 @@ public class WARDER {
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
     static {
+        /*
+        in order:
+        single-cell validity
+        multi-cell validity
+        cluster validity
+         */
+        GP.addC = GP.filterString = GP.plusFrozen = false;
+        GP.addB = false;
         GP.addA = true;
-        GP.addB = true;
-        GP.addC = true;
-        GP.filterString = true;
-        GP.plusFrozen = true;
-        GP.testDate = "WARDER";
+        GP.testDate = "WARDER" + " cluster validity";
 
         prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
         File middleDir = new File(prefixOutDir);

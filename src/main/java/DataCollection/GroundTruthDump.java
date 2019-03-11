@@ -1,4 +1,4 @@
-package statistics;
+package DataCollection;
 
 import kernel.GP;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

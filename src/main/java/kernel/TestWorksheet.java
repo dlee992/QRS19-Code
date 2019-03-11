@@ -121,7 +121,7 @@ public class TestWorksheet implements Runnable {
             numberOfFormula.addAndGet(formulaInfoList.size());
 
             if (formulaInfoList.size() == 0) {
-                System.err.println(Thread.currentThread().getName() +
+                System.out.println(Thread.currentThread().getName() +
                         ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
                         ", worksheet index = " + finishedWS.incrementAndGet());
                 //虽然没有公式，但是也要在完成的worksheet数量上减一
@@ -266,7 +266,7 @@ public class TestWorksheet implements Runnable {
             staSheet.setEndTime(System.nanoTime());
 
 
-            System.err.println(Thread.currentThread().getName() +
+            System.out.println(Thread.currentThread().getName() +
                     ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
                     ", worksheet index = " + finishedWS.incrementAndGet());
             //logBuffer.write("----Finished Analysis---");

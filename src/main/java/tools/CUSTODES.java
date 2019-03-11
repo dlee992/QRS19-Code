@@ -20,7 +20,7 @@ import static kernel.GP.*;
 
 public class CUSTODES {
     public static String toolID = "CUSTODES";
-    public static String dataset = "VEnron2";
+    public static String dataset = "VEnron2-Clean";
     public static long TIMEOUT = 60*30;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
@@ -54,10 +54,10 @@ public class CUSTODES {
         int count = 0;
         for (File subDir: datasetDir.listFiles()) {
             System.out.println(subDir.getName());
-            if (count > 5) break;
+            //if (count > 5) break;
             for (File excelFile: subDir.listFiles()) {
                 try {
-                    if (count++ > 5) break;
+                    //if (count++ > 5) break;
                     new TestSpreadsheet().testSpreadsheet(excelFile, staAll, index, false, subDir.getName());
                 } catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();
