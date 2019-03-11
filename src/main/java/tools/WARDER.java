@@ -21,6 +21,7 @@ import static kernel.GP.*;
 public class WARDER {
     public static long TIMEOUT = 60*30;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
+    public static String dataset = "VEnron2-Clean";
 
     static {
         /*
@@ -29,8 +30,8 @@ public class WARDER {
         multi-cell validity
         cluster validity
          */
-        GP.addC = GP.filterString = GP.plusFrozen = false;
-        GP.addB = false;
+        GP.addC = GP.filterString = GP.plusFrozen = true;
+        GP.addB = true;
         GP.addA = true;
         GP.testDate = "WARDER" + " cluster validity";
 
@@ -49,7 +50,7 @@ public class WARDER {
     }
 
     public static void main(String[] args) throws Exception {
-        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + "EUSES";
+        String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + dataset;
         File EUSES = new File(inDirPath);
 
         staAll = new StatisticsForAll();
