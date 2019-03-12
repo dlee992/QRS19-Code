@@ -62,7 +62,7 @@ public class TestWorksheet implements Runnable {
     public void run() {
         ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
         try {
-            System.err.println(Thread.currentThread().getName() + ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
+            System.out.println(Thread.currentThread().getName() + ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
             threadID = Thread.currentThread().getId();
             this.beginTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
             testWorksheet();

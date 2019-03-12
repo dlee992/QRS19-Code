@@ -1,25 +1,18 @@
 package thirdparty.CACheck.util;
 
-import java.util.List;
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Comment;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.RichTextString;
-
+import org.apache.poi.ss.usermodel.*;
 import thirdparty.CACheck.AMSheet;
 import thirdparty.CACheck.CellArray;
 import thirdparty.CACheck.cellarray.extract.CAResult;
 import thirdparty.CACheck.cellarray.synthesis.SynthesisUtils;
 import thirdparty.CACheck.formula.ParseFormula;
 
+import java.util.List;
+
 public class SpreadsheetMark {
 
-	public static void markDetectResult(AMSheet sheet, List<CAResult> allCARs) {
+	public static void markDetectResult(AMSheet sheet, List<CAResult> allCARs) throws IllegalStateException {
 		// markClearStyle(sheet);
 		for (CAResult car : allCARs) {
 			markClearStyle(sheet, car.cellArray);
@@ -95,7 +88,7 @@ public class SpreadsheetMark {
 		}
 	}
 
-	public static void markSmellyCellArray(AMSheet sheet, CAResult car) {
+	public static void markSmellyCellArray(AMSheet sheet, CAResult car) throws IllegalStateException {
 		CellStyle style = sheet.getSheet().getWorkbook().createCellStyle();
 		if (car.isOverlap) {
 			style.setFillBackgroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
