@@ -21,9 +21,9 @@ import static kernel.GP.parent_dir;
  */
 public class AmCheck {
     public static String toolName = "AmCheck";
-    public static String dataset = "VEnron2";
+    public static String dataset = "VEnron2-Clean";
     public static boolean checking = false;
-    public static int stepIndex = 6;
+    public static int stepIndex = 5;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
 
@@ -54,6 +54,7 @@ public class AmCheck {
         row.createCell(2).setCellValue("Worksheet");
         row.createCell(3).setCellValue("List of Smells");
         row.createCell(4).setCellValue("# Smells");
+        row.createCell(5).setCellValue("Exception Type");
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -69,24 +70,34 @@ public class AmCheck {
 
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
                 for (Sheet currentSheet : currentWorkbook) {
-                    Wrapper singletonWrapper = new Wrapper(currentSheet, type);
-                    List<CAResult> caResults = singletonWrapper.processSheet(toolName);
+                    try {
+                        Wrapper singletonWrapper = new Wrapper(currentSheet, type);
+                        List<CAResult> caResults = singletonWrapper.processSheet(toolName);
 
-                    if (caResults == null) continue;
-                    List<String> smellList = new ArrayList<>();
-                    for (CAResult ca_result: caResults) {
-                        for (Cell smellyCell: ca_result.ambiguousCells) {
-                            smellList.add(new CellReference(smellyCell).formatAsString());
-                            smellCount++;
+                        if (caResults == null) continue;
+                        List<String> smellList = new ArrayList<>();
+                        for (CAResult ca_result : caResults) {
+                            for (Cell smellyCell : ca_result.ambiguousCells) {
+                                smellList.add(new CellReference(smellyCell).formatAsString());
+                                smellCount++;
+                            }
                         }
+
+                        row = sheet.createRow(rowIndex++);
+                        row.createCell(0).setCellValue(category.getName());
+                        row.createCell(1).setCellValue(file.getName());
+                        row.createCell(2).setCellValue(currentSheet.getSheetName());
+
+                        row.createCell(4).setCellValue(smellList.size());
+                        row.createCell(3).setCellValue(smellList.toString());
+                    } catch (IllegalStateException illegalState) {
+                        System.err.println("IllegalStateException in "+ file.getName()+"/" + currentSheet.getSheetName());
+                        row.createCell(5).setCellValue("illegalState");
+                    } catch (IllegalArgumentException illegalArgument) {
+                        System.err.println("illegalArgumentException in "+ file.getName()+"/" + currentSheet.getSheetName());
+                        row.createCell(5).setCellValue("illegalArgument");
                     }
 
-                    row = sheet.createRow(rowIndex++);
-                    row.createCell(0).setCellValue(category.getName());
-                    row.createCell(1).setCellValue(file.getName());
-                    row.createCell(2).setCellValue(currentSheet.getSheetName());
-                    row.createCell(3).setCellValue(smellList.toString());
-                    row.createCell(4).setCellValue(smellList.size());
                 }
 
                 File category_output = new File(outDirPath + fileSeparator + category.getName());
@@ -100,7 +111,7 @@ public class AmCheck {
         }
 
         System.out.println("SmellCount = " + smellCount);
-        File desFile = new File(outDirPath, toolName+" results.xls");
+        File desFile = new File(outDirPath, toolName+stepIndex+" results.xls");
         if (!desFile.exists()) desFile.createNewFile();
         FileOutputStream output = new FileOutputStream(desFile);
         workbook.write(output);

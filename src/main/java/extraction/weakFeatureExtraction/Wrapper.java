@@ -28,7 +28,7 @@ public class Wrapper {
         analysisPattern.setType(type);
     }
 
-    public List<CAResult> processSheet(String toolName) throws IOException {
+    public List<CAResult> processSheet(String toolName) throws IOException, IllegalStateException {
 
         if (ExcelPreProcess.countFormulas(sheet) == 0) return null;
 

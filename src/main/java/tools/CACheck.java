@@ -9,9 +9,9 @@ import java.io.IOException;
  */
 public class CACheck {
     public static String toolName = "CACheck";
-    public static String dataset = "EUSES";
+    public static String dataset = "VEnron2-Clean";
     public static boolean checking = false;
-    public static int stepIndex = 0;
+    public static int stepIndex = 5;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
         if (checking) {
