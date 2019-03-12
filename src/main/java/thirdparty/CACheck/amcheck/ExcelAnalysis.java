@@ -1,38 +1,22 @@
 package thirdparty.CACheck.amcheck;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 import thirdparty.CACheck.AMSheet;
 import thirdparty.CACheck.CellArray;
-import thirdparty.CACheck.cellarray.extract.AmbiguousDetector;
-import thirdparty.CACheck.cellarray.extract.CAResult;
-import thirdparty.CACheck.cellarray.extract.CellArrayExtractor;
-import thirdparty.CACheck.cellarray.extract.CellArrayFilter;
-import thirdparty.CACheck.cellarray.extract.CorrectCellArrayExtractor;
-import thirdparty.CACheck.cellarray.extract.Dependence;
-import thirdparty.CACheck.cellarray.extract.DependenceCellArraySharedExtractor;
-import thirdparty.CACheck.cellarray.extract.DependenceConstantExtractor;
-import thirdparty.CACheck.cellarray.extract.FixOverlapDataCell;
-import thirdparty.CACheck.cellarray.extract.SmellyCellArrayIdentification;
+import thirdparty.CACheck.cellarray.extract.*;
 import thirdparty.CACheck.cellarray.inference.ConstraintGenerator;
 import thirdparty.CACheck.cellarray.inference.FormulaInference;
 import thirdparty.CACheck.snippet.ExtractSnippet;
 import thirdparty.CACheck.snippet.Snippet;
-import thirdparty.CACheck.util.CellUtils;
-import thirdparty.CACheck.util.DetailResultWriter;
-import thirdparty.CACheck.util.Log;
-import thirdparty.CACheck.util.SmellyCellWriter;
-import thirdparty.CACheck.util.SpreadsheetMark;
-import thirdparty.CACheck.util.TotalResultWriter;
-import thirdparty.CACheck.util.Utils;
+import thirdparty.CACheck.util.*;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class ExcelAnalysis {
 
@@ -196,7 +180,8 @@ public class ExcelAnalysis {
 	}
 
 	public static List<CAResult> processSnippet(String filename, AMSheet sheet,
-			Snippet snippet, List<Snippet> allSnippets, BufferedWriter writer, AnalysisPattern analysisPattern) {
+			Snippet snippet, List<Snippet> allSnippets, BufferedWriter writer, AnalysisPattern analysisPattern)
+	throws ArrayIndexOutOfBoundsException {
 
 		Log.logNewLine("Processing snippet: " + snippet.toString(), writer);
 

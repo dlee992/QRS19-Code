@@ -1,13 +1,12 @@
 package thirdparty.CACheck;
 
-import java.util.Iterator;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-
 import thirdparty.CACheck.snippet.Snippet;
 import thirdparty.CACheck.util.CellUtils;
+
+import java.util.Iterator;
 
 public class AMSheet {
 	private Sheet sheet = null;
@@ -52,7 +51,7 @@ public class AMSheet {
 		return sheet;
 	}
 
-	public Cell getCell(int row, int column) {
+	public Cell getCell(int row, int column) throws ArrayIndexOutOfBoundsException {
 		if (row >= rowNum || column >= columnNum) {
 			return null;
 		}

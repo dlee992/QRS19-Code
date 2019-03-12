@@ -7,7 +7,12 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import thirdparty.CACheck.cellarray.extract.CAResult;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -52,9 +57,10 @@ public class AmCheck {
         row.createCell(0).setCellValue("Category");
         row.createCell(1).setCellValue("Spreadsheet");
         row.createCell(2).setCellValue("Worksheet");
-        row.createCell(3).setCellValue("List of Smells");
+        row.createCell(6).setCellValue("List of Smells");
         row.createCell(4).setCellValue("# Smells");
         row.createCell(5).setCellValue("Exception Type");
+        row.createCell(3).setCellValue("ConsumedTime/s");
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -66,9 +72,10 @@ public class AmCheck {
                 ++fileCount;
 
                 if (!(fileCount > stepWidth*stepIndex && fileCount <= stepWidth*(stepIndex+1))) continue;
-                System.out.println("---- fileCount = " + (fileCount - stepWidth*stepIndex));
+                System.out.println("---- fileCount = " + (fileCount - stepWidth*stepIndex) + "/ filename = " + file.getName());
 
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
+                Instant beginTime = Instant.now();
                 for (Sheet currentSheet : currentWorkbook) {
                     try {
                         Wrapper singletonWrapper = new Wrapper(currentSheet, type);
@@ -83,19 +90,31 @@ public class AmCheck {
                             }
                         }
 
+                        Instant endTime = Instant.now();
                         row = sheet.createRow(rowIndex++);
                         row.createCell(0).setCellValue(category.getName());
                         row.createCell(1).setCellValue(file.getName());
                         row.createCell(2).setCellValue(currentSheet.getSheetName());
-
                         row.createCell(4).setCellValue(smellList.size());
-                        row.createCell(3).setCellValue(smellList.toString());
+                        row.createCell(3).setCellValue(Duration.between(beginTime, endTime).getSeconds());
+
+                        String smellString = smellList.toString();
+                        int index = 6;
+                        for (int i=0; i*1000 < smellString.length(); i++) {
+                            row.createCell(index++).setCellValue(
+                                    smellString.substring(i, Math.min(i*1000, smellString.length())));
+                        }
+
+
                     } catch (IllegalStateException illegalState) {
                         System.err.println("IllegalStateException in "+ file.getName()+"/" + currentSheet.getSheetName());
                         row.createCell(5).setCellValue("illegalState");
                     } catch (IllegalArgumentException illegalArgument) {
                         System.err.println("illegalArgumentException in "+ file.getName()+"/" + currentSheet.getSheetName());
                         row.createCell(5).setCellValue("illegalArgument");
+                    } catch (ArrayIndexOutOfBoundsException arrayIndexOut) {
+                        System.err.println("ArrayIndexOutOfBoundsException in "+ file.getName()+"/" + currentSheet.getSheetName());
+                        row.createCell(5).setCellValue("ArrayIndexOutOfBounds");
                     }
 
                 }
