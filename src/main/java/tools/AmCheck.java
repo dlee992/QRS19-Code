@@ -74,6 +74,9 @@ public class AmCheck {
                 if (!(fileCount > stepWidth*stepIndex && fileCount <= stepWidth*(stepIndex+1))) continue;
                 System.out.println("---- fileCount = " + (fileCount - stepWidth*stepIndex) + "/ filename = " + file.getName());
 
+                // restart from breakpoint
+                if (fileCount < CACheck.restart) continue;
+
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
                 Instant beginTime = Instant.now();
                 for (Sheet currentSheet : currentWorkbook) {
@@ -102,8 +105,15 @@ public class AmCheck {
                         int index = 6;
                         for (int i=0; i*1000 < smellString.length(); i++) {
                             row.createCell(index++).setCellValue(
-                                    smellString.substring(i, Math.min(i*1000, smellString.length())));
+                                    smellString.substring(i*1000, Math.min((i+1)*1000, smellString.length())));
                         }
+
+                        System.out.println("SmellCount = " + smellCount);
+                        File desFile = new File(outDirPath, toolName+stepIndex + "-" + (fileCount - stepWidth*stepIndex) +" results.xls");
+                        if (!desFile.exists()) desFile.createNewFile();
+                        FileOutputStream output = new FileOutputStream(desFile);
+                        workbook.write(output);
+                        output.close();
 
 
                     } catch (IllegalStateException illegalState) {
