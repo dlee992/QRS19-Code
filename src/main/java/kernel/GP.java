@@ -61,9 +61,9 @@ public class GP {
 
          //TODO: 当队列长度饱和时，采用CallerRuns策略，让主线程阻塞，并开始执行当前准备发布的子线程任务。
          //RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
-         exeService = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
-                 new ArrayBlockingQueue<Runnable>(CAPACITY));
-
+         //exeService = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
+                 //new ArrayBlockingQueue<Runnable>(CAPACITY));
+            exeService = Executors.newFixedThreadPool(7);
 
 //         logFile = new File(prefixOutDir + "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
 //         if (!logFile.exists()) {

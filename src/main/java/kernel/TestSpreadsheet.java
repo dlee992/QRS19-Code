@@ -1,7 +1,5 @@
 package kernel;
 
-import statistics.StatisticsForAll;
-import statistics.StatisticsForSheet;
 import org.apache.poi.EmptyFileException;
 import org.apache.poi.hssf.OldExcelFormatException;
 import org.apache.poi.hssf.record.RecordInputStream;
@@ -9,9 +7,12 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import statistics.StatisticsForAll;
+import statistics.StatisticsForSheet;
 
-import java.io.*;
-import java.util.concurrent.RejectedExecutionException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -92,18 +93,13 @@ public class TestSpreadsheet {
 
         System.out.println("sheet NO = " + workbook.getNumberOfSheets());
         for (int j = 0; j < workbook.getNumberOfSheets(); j++) {
-            //TODO: test the specific worksheet
-//            if (!workbook.getSheetAt(j).getSheetName().equals("Inventory")) continue;
-
             Sheet curSheet = workbook.getSheetAt(j);
-
-            //测试
-//            if (!curSheet.getSheetName().equals("Pergamum Prophecy")) continue;
 
             TestWorksheet testWorksheetTask = new TestWorksheet(fileName, curSheet, logBuffer, test,
                     category, categoryDirStr, lockForSS);
             tasks.add(testWorksheetTask);
 
+            /*
             semaphore.acquire();
             try {
                 futures.add(exeService.submit(testWorksheetTask));
@@ -111,14 +107,9 @@ public class TestSpreadsheet {
             catch (RejectedExecutionException neverHappen) {
                 semaphore.release();
             }
+            */
+            futures.add(exeService.submit(testWorksheetTask));
         }
-
-        //TODO:这里注释掉了 可能在最终的输出上不完整 丢失了那些没有任何信息的spreadsheet
-//        if (!flagAdd.get()) {
-//            addVirtualSS(category, fileName, 2);
-//        }
-
-
 
         //并发，导致下面的代码优先于其他线程先执行结束
         System.out.println("Spreadsheet index = "+ identicalIndex +" ######## (Fake) End in: '" + fileName + "'########");

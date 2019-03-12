@@ -22,6 +22,8 @@ public class CUSTODES {
     public static String toolID = "CUSTODES";
     public static String dataset = "VEnron2-Clean";
     public static long TIMEOUT = 60*30;
+    public static int stepIndex = 0;
+
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
     static {
@@ -51,13 +53,17 @@ public class CUSTODES {
         staAll = new StatisticsForAll();
         staAll.setBeginTime(System.nanoTime());
 
-        int count = 0;
+        int fileCount = 0;
+        int stepWidth = 300;
+
         for (File subDir: datasetDir.listFiles()) {
+            fileCount++;
+            if (!(fileCount > stepWidth*stepIndex && fileCount <= stepWidth*(stepIndex+1))) continue;
+
             System.out.println(subDir.getName());
-            //if (count > 5) break;
+
             for (File excelFile: subDir.listFiles()) {
                 try {
-                    //if (count++ > 5) break;
                     new TestSpreadsheet().testSpreadsheet(excelFile, staAll, index, false, subDir.getName());
                 } catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();
@@ -89,8 +95,7 @@ public class CUSTODES {
                 TestWorksheet testWorksheet = tasks.get(i);
 
                 if (finishs[i]) continue;
-                count++;
-                count--;
+                int temp = 0;
                 if (testWorksheet.threadID == 0) continue;
 
                 long threadCPUTime;
@@ -107,9 +112,9 @@ public class CUSTODES {
                 testWorksheet.staSheet.setCpuTime(threadCPUTime);
 
                 if (threadCPUTime >= TIMEOUT) {
+                    int tmp = 0;
                     future.cancel(true);
                     testWorksheet.staSheet.clear();
-                    count++;count--;
                     testWorksheet.staSheet.timeout = true;
                     timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));
                 }
@@ -117,6 +122,8 @@ public class CUSTODES {
                 testWorksheet.printLastSheet();
 
                 staAll.add(testWorksheet.staSheet, logBuffer);
+                System.out.println("staAll size = " + staAll.sheetList.size());
+                staAll.log(prefixOutDir, null);
             }
         }
 
