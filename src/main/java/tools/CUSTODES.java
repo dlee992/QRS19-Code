@@ -21,7 +21,7 @@ import static kernel.GP.*;
 public class CUSTODES {
     public static String toolID = "CUSTODES";
     public static String dataset = "VEnron2-Clean";
-    public static long TIMEOUT = 60*30;
+    public static long TIMEOUT = 60*5;
     public static int stepIndex = 0;
 
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
@@ -54,7 +54,7 @@ public class CUSTODES {
         staAll.setBeginTime(System.nanoTime());
 
         int fileCount = 0;
-        int stepWidth = 100;
+        int stepWidth = 300;
 
         for (File subDir: datasetDir.listFiles()) {
             fileCount++;
@@ -82,12 +82,13 @@ public class CUSTODES {
 
         while (finishedThreadCount < tasks.size()) {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            System.out.printf("finishedTaskCount = %d, task_size = %d\n\n" , finishedThreadCount, tasks.size());
+            System.out.printf("finishedTaskCount = %d, task_size = %d at %s\n\n" , finishedThreadCount, tasks.size(),
+                    new BasicUtility().getCurrentTime());
 
 
             for (int i = 0; i < tasks.size(); i++) {
