@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
 import static kernel.GP.*;
 
 public class WARDER {
-    public static long TIMEOUT = 60*30;
+    public static long TIMEOUT = 60*5;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
     public static String dataset = "VEnron2-Clean";
     public static int stepIndex = 0;
@@ -34,7 +34,7 @@ public class WARDER {
         GP.addC = GP.filterString = GP.plusFrozen = true;
         GP.addB = true;
         GP.addA = true;
-        GP.testDate = "WARDER" + " cluster validity";
+        GP.testDate = "WARDER";
 
         prefixOutDir = outDirPath + fileSeparator + testDate + stepIndex + fileSeparator;
         File middleDir = new File(prefixOutDir);
@@ -52,18 +52,21 @@ public class WARDER {
 
     public static void main(String[] args) throws Exception {
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + dataset;
-        File EUSES = new File(inDirPath);
+        File datasetDir = new File(inDirPath);
 
         staAll = new StatisticsForAll();
         staAll.setBeginTime(System.nanoTime());
 
-        int count = 0;
-        for (File subDir: EUSES.listFiles()) {
+        int fileCount = 0;
+        int stepWidth = 300;
+        for (File subDir: datasetDir.listFiles()) {
+            fileCount++;
+            if (!(fileCount > stepWidth*stepIndex && fileCount <= stepWidth*(stepIndex+1))) continue;
+
             System.out.println(subDir.getName());
 
             for (File excelFile: subDir.listFiles()) {
                 try {
-                    count++;count++;count--;
                     new TestSpreadsheet().testSpreadsheet(excelFile, staAll, index, false, subDir.getName());
                 } catch (Exception | OutOfMemoryError e) {
                     e.printStackTrace();
@@ -87,7 +90,8 @@ public class WARDER {
                 e.printStackTrace();
             }
 
-            System.out.printf("finishedSheetCount = %d / %d\n\n" , finishedThreadCount, tasks.size());
+            System.out.printf("finishedSheetCount = %d / %d at %s\n\n" , finishedThreadCount, tasks.size(),
+                    new BasicUtility().getCurrentTime());
 
 
             for (int i = 0; i < tasks.size(); i++) {
@@ -95,8 +99,6 @@ public class WARDER {
                 TestWorksheet testWorksheet = tasks.get(i);
 
                 if (finishs[i]) continue;
-                count++;
-                count--;
                 if (testWorksheet.threadID == 0) continue;
 
                 long threadCPUTime;
@@ -115,7 +117,6 @@ public class WARDER {
                 if (threadCPUTime >= TIMEOUT) {
                     future.cancel(true);
                     testWorksheet.staSheet.clear();
-                    count--;count++;
                     testWorksheet.staSheet.timeout = true;
                     timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));
                 }

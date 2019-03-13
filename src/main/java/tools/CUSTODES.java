@@ -22,7 +22,7 @@ public class CUSTODES {
     public static String toolID = "CUSTODES";
     public static String dataset = "VEnron2-Clean";
     public static long TIMEOUT = 60*5;
-    public static int stepIndex = 0;
+    public static int stepIndex = 5;
 
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
