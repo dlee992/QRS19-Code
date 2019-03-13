@@ -1,18 +1,20 @@
 package statistics;
 
+import entity.Smell;
+import kernel.GP;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import kernel.GP;
 import utility.BasicUtility;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -94,6 +96,8 @@ public class StatisticsForAll {
         rowHeader.createCell(19).setCellValue("cluster-R");
         rowHeader.createCell(20).setCellValue("cluster-F");
 
+        rowHeader.createCell(21).setCellValue("Defects");
+
 
         sheetList.sort((o1, o2) -> {
             int cmp1 = o1.getSpreadsheet().compareTo(o2.getSpreadsheet());
@@ -165,7 +169,7 @@ public class StatisticsForAll {
 
 //            printCellRefsForSmell(staSheet.getGt_smellList(), row.createCell(10));
 //            printCellRefsForSmell(staSheet.getStageCRs(), row.createCell(11));
-
+            row.createCell(12).setCellValue(staSheet.getStageIIClusters().size());
             row.createCell(13).setCellValue("("+ staSheet.getGt_clusterList().size() +",  "+
                     staSheet.getStageIIClusters().size() +")");
             row.createCell(14).setCellValue("("+ staSheet.TP[0] +",  "+ staSheet.FP[0] +",  "+ staSheet.FN[0] +")");
@@ -178,6 +182,17 @@ public class StatisticsForAll {
             row.createCell(18).setCellValue(roundDouble(staSheet.precision[0]));
             row.createCell(19).setCellValue(roundDouble(staSheet.recall[0]));
             row.createCell(20).setCellValue(roundDouble(staSheet.fMeasure[0]));
+
+            List<Smell> defectList = staSheet.getSmellyCells();
+            List<String> smellList = new ArrayList<>();
+            for (Smell smell : defectList)
+                    smellList.add(smell.getCr().formatAsString());
+            String smellString = smellList.toString();
+            int defectIndex = 20;
+            for (int i=0; i*1000 < smellString.length(); i++) {
+                row.createCell(defectIndex++).setCellValue(
+                        smellString.substring(i*1000, Math.min((i+1)*1000, smellString.length())));
+            }
 
             if (staSheet.precision[0] + staSheet.recall[0] > 0) {
                 clusterN++;

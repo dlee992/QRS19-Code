@@ -28,7 +28,8 @@ public class AmCheck {
     public static String toolName = "AmCheck";
     public static String dataset = "VEnron2-Clean";
     public static boolean checking = false;
-    public static int stepIndex = 5;
+    public static int stepIndex = 0;
+    public static int restart = 1129;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
 
@@ -41,7 +42,7 @@ public class AmCheck {
 
     public static void runTests(String toolName, int type, int stepIndex) throws IOException, InvalidFormatException {
         // [1+ stepWidth*stepIndex, stepWidth*(stepIndex+1) ]
-        int stepWidth = 300;
+        int stepWidth = 1600;
 
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + dataset;
         String outDirPath = parent_dir + fileSeparator + "Outputs" +
@@ -77,6 +78,7 @@ public class AmCheck {
                 // restart from breakpoint
                 System.out.println((fileCount - stepWidth*stepIndex) + " < " + CACheck.restart);
                 if (fileCount- stepWidth*stepIndex < CACheck.restart) continue;
+
 
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
                 Instant beginTime = Instant.now();

@@ -63,7 +63,7 @@ public class GP {
          //RejectedExecutionHandler rejectedExecutionHandler = new ThreadPoolExecutor.CallerRunsPolicy();
          //exeService = new ThreadPoolExecutor(8, 8, 0, TimeUnit.MILLISECONDS,
                  //new ArrayBlockingQueue<Runnable>(CAPACITY));
-            exeService = Executors.newFixedThreadPool(7);
+            exeService = Executors.newFixedThreadPool(8);
 
 //         logFile = new File(prefixOutDir + "logInfo " + new BasicUtility().getCurrentTime() + ".txt");
 //         if (!logFile.exists()) {

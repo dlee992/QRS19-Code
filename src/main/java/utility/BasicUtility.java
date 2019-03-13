@@ -607,7 +607,7 @@ public class BasicUtility {
 
     public void smellyCellMark(Object lockForSS, Sheet sheet,
                                List<Smell> smells) throws InterruptedException {
-        System.out.println("smellyCellMark begin");
+        //System.out.println("smellyCellMark begin");
 
         Workbook workbook = sheet.getWorkbook();
 
@@ -628,13 +628,6 @@ public class BasicUtility {
                     Cell cell = sheet.getRow(cr.getRow()).getCell(cr.getCol());
 
                     if (cell != null) {
-                        Row row = sheet.createRow(lastRowNum);
-                        Cell cell1 = row.createCell(0);
-                        cell1.setCellValue("Defect " + (smells.indexOf(sl) + 1));
-                        Cell cell2 = row.createCell(1);
-                        cell2.setCellValue(cell.getAddress().toString());
-
-
                         Comment comment = cell.getCellComment();
                         if (comment != null) {
                             RichTextString rts = comment.getString();
@@ -671,7 +664,7 @@ public class BasicUtility {
     }
 
     public void clusterMark(List<Cluster> clusters, Sheet sheet) throws InterruptedException {
-        System.out.println("clusterMark begin");
+        //System.out.println("clusterMark begin");
 
         Workbook workbook = sheet.getWorkbook();
 
@@ -748,12 +741,6 @@ public class BasicUtility {
                         strList.append(", " + cell.getAddress());
                     }
                     strList.append(")");
-
-                    Row row = sheet.createRow(lastRowNum);
-                    Cell cell1 = row.createCell(0);
-                    cell1.setCellValue("Cluster " + (clusters.indexOf(cluster)+1));
-                    Cell cell2 = row.createCell(1);
-                    cell2.setCellValue(strList.toString());
 
                     // iterating
                     i++;
