@@ -22,6 +22,7 @@ public class WARDER {
     public static long TIMEOUT = 60*30;
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
     public static String dataset = "VEnron2-Clean";
+    public static int stepIndex = 0;
 
     static {
         /*
@@ -35,7 +36,7 @@ public class WARDER {
         GP.addA = true;
         GP.testDate = "WARDER" + " cluster validity";
 
-        prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
+        prefixOutDir = outDirPath + fileSeparator + testDate + stepIndex + fileSeparator;
         File middleDir = new File(prefixOutDir);
         if (!middleDir.exists()) {
             middleDir.mkdir();
@@ -81,12 +82,12 @@ public class WARDER {
 
         while (finishedThreadCount < tasks.size()) {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            System.out.printf("finishedTaskCount = %d, task_size = %d\n\n" , finishedThreadCount, tasks.size());
+            System.out.printf("finishedSheetCount = %d / %d\n\n" , finishedThreadCount, tasks.size());
 
 
             for (int i = 0; i < tasks.size(); i++) {

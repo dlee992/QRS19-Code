@@ -6,14 +6,14 @@ import clustering.hacClustering.HacClustering;
 import clustering.smellDetectionClustering.SmellDetectionClustering;
 import entity.Cluster;
 import entity.InfoOfSheet;
-import statistics.GroundTruthStatistics;
-import statistics.StatisticsForSheet;
 import extraction.FeatureExtraction;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import statistics.GroundTruthStatistics;
+import statistics.StatisticsForSheet;
 import utility.BasicUtility;
 
 import java.io.BufferedWriter;
@@ -21,7 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 import static kernel.GP.*;
 import static kernel.MainClass.groundTruthPath;
@@ -62,7 +63,7 @@ public class TestWorksheet implements Runnable {
     public void run() {
         ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
         try {
-            System.out.println(Thread.currentThread().getName() + ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
+            //System.out.println(Thread.currentThread().getName() + ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
             threadID = Thread.currentThread().getId();
             this.beginTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
             testWorksheet();
@@ -110,7 +111,8 @@ public class TestWorksheet implements Runnable {
 
             }
 
-            System.out.println("[" + Thread.currentThread().getName() + "]: ----Sheet '" + sheet.getSheetName() + "'----");
+            System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                    + " starts at " + new BasicUtility().getCurrentTime());
             //logBuffer.write("----Sheet '" + sheet.getSheetName() + "'----");
             //logBuffer.newLine();
             BasicUtility bu = new BasicUtility();
@@ -121,49 +123,44 @@ public class TestWorksheet implements Runnable {
             numberOfFormula.addAndGet(formulaInfoList.size());
 
             if (formulaInfoList.size() == 0) {
-                System.out.println(Thread.currentThread().getName() +
-                        ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
-                        ", worksheet index = " + finishedWS.incrementAndGet());
+                finishedWS.incrementAndGet();
+                //System.out.println(Thread.currentThread().getName() +
+                //        ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
+                //        ", worksheet index = " + finishedWS.incrementAndGet());
                 //虽然没有公式，但是也要在完成的worksheet数量上减一
-//                printLastSheet();
+                //printLastSheet();
                 return;
             }
 
             HacClustering hacCluster = new HacClustering(sheet, formulaInfoList, beginTime);
 
-            List<Cluster> caCheckCluster = new ArrayList<>();
-            Set<String> caCheckFormula = new HashSet<>();
-
             //TODO: 2 from Cell Array to clusters in the HAC algorithm to generate seed clusters
-            System.out.println("---- Stage I begun " + new BasicUtility().getCurrentTime() + "----");
+            System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                    + " Stage I starts at " + new BasicUtility().getCurrentTime() );
             //logBuffer.write("---- Stage I begun ----");
             //logBuffer.newLine();
 
             List<Cluster> stageIClusters = hacCluster.clustering();
 
-            System.out.println("---- Stage I finished " + new BasicUtility().getCurrentTime() + "----");
-            //logBuffer.write("---- Stage I finished ----");
-            //logBuffer.newLine();
+            System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                    + " Stage I finishes at " + new BasicUtility().getCurrentTime());
 
             for (Cluster cluster : stageIClusters) {
                 cluster.extractCellRefs(cluster, 1);
                 cluster.extractCells(sheet, cluster, 1);
                 cluster.computeBorders();
 
-                //System.out.print("Stage One Clusters = [");
-                for (CellReference leaf : cluster.getClusterCellRefs()) {
-
-                    //System.out.printf("%s, ", leaf.formatAsString());
-                }
-                //System.out.println("]");
             }
 
-            //System.out.printf("Cluster size = %d\n", stageIClusters.size());
-
-
-            //TODO: 3 weak feature extraction
+            //3 weak feature extraction
+            System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                    + " Stage II (fe) starts at " + new BasicUtility().getCurrentTime());
             FeatureExtraction fe = new FeatureExtraction(sheet, stageIClusters, beginTime);
             fe.featureExtractionFromSheet(infoOfSheet.getDataCells());
+
+            System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                    + " Stage II (fe) finishes at " + new BasicUtility().getCurrentTime());
+
 
             List<Cluster> seedClusters = fe.getSeedCluster();
             if (seedClusters != null && !seedClusters.isEmpty()) {
@@ -173,11 +170,9 @@ public class TestWorksheet implements Runnable {
 
                 RealMatrix featureCellM = fcc.matrixCreationForClustering(fe.getCellFeatureList());
 
-                System.out.println("---- Stage II begin " + new BasicUtility().getCurrentTime() + "----");
-                //logBuffer.write("---- Stage II begin ----");
-                //logBuffer.newLine();
+                System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                        + " Stage II (boost) starts at " + new BasicUtility().getCurrentTime());
 
-                // If there is isolated cells
                 List<CellReference> nonSeedCellRefs = fe.getNonSeedCellRefs();
                 List<Cell> nonSeedCells = fe.getNonSeedCells();
 
@@ -203,26 +198,14 @@ public class TestWorksheet implements Runnable {
                 for (Cluster cluster : stageIIClusters) {
                     cluster.extractCellRefs(cluster, 2);
                     cluster.extractCells(sheet, cluster, 2);
-
-                    //System.out.printf("Stage Two Clusters = [");
-                    for (CellReference leaf : cluster.getClusterCellRefs()) {
-                        //System.out.printf("%s, ", leaf.formatAsString());
-                    }
-                    //System.out.println("]");
                 }
 
-                System.out.println("---- Stage II finished " + new BasicUtility().getCurrentTime() + "----");
-                //logBuffer.write("---- Stage II finished ----");
-                //logBuffer.newLine();
+                System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                        + " Stage II (boost) finishes at " + new BasicUtility().getCurrentTime());
 
-                //TODO: add an additional step, try to extend the cluster composed of 2~3 formula cells using the
-                //TODO: "cell array" information, see whether the recall ratio can be improved.
-                //Result: not nice precision% = 81, recall% = 82, Tag v1.3.1
-
-                //TODO: 5 local outlier detection
-                System.out.println("---- Smell detection begun " + new BasicUtility().getCurrentTime() + "----");
-                //logBuffer.write("---- Smell detection begun ----");
-                //logBuffer.newLine();
+                //local outlier detection
+                System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                        + " Stage III defect detection starts at " + new BasicUtility().getCurrentTime());
 
                 SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList(), beginTime);
                 sdc.outlierDetection();
@@ -231,60 +214,46 @@ public class TestWorksheet implements Runnable {
                     throw new InterruptedException();
                 }
 
-                for (Cluster cluster : stageIClusters) {
+                System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                        + " Stage III defect detection finishes at " + new BasicUtility().getCurrentTime());
 
-                    //System.out.printf("(%.3f) Smell Detection Clusters = [", cluster.coverage);
-                    //logBuffer.write("(" + cluster.coverage + ") Smell Detection Clusters = [");
-                    for (CellReference leaf : cluster.getClusterCellRefs()) {
+                // mark the worksheet
+                System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                        + " Marking starts at " + new BasicUtility().getCurrentTime());
 
-                        //System.out.printf("%s, ", leaf.formatAsString());
-                        //logBuffer.write(leaf.formatAsString() + ", ");
-                    }
-                    //System.out.println("]");
-                    //logBuffer.write("]");
-                    //logBuffer.newLine();
-                }
-
-                //logBuffer.write("---- Smell detection finished ----");
-                //logBuffer.newLine();
-
-                //TODO: 6 mark the worksheet
                 bu.clusterMark(stageIIClusters, sheet);
                 bu.smellyCellMark(this.lockForSS, sheet, sdc.getDetectedSmellyCells());
+
+                System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
+                        + " Marking finishes at " + new BasicUtility().getCurrentTime());
+
 
                 //Evaluation
                 staSheet.setStageIIClusters(stageIIClusters);
                 staSheet.setSmellyCells(sdc.getDetectedSmellyCells());
             } else {
                 System.out.println("Seed cluster does not exist.");
-                //logBuffer.write("Seed cluster is null.");
-                //logBuffer.newLine();
             }
 
             staSheet.calculateForDetection();
             staSheet.calculateForSmell();
             staSheet.setEndTime(System.nanoTime());
 
-
             System.out.println(Thread.currentThread().getName() +
                     ": Spreadsheet = " + staSheet.fileName + ", sheet name = " + sheet.getSheetName() +
                     ", worksheet index = " + finishedWS.incrementAndGet());
-            //logBuffer.write("----Finished Analysis---");
-            //logBuffer.newLine();
-            //logBuffer.newLine();
 
             //在这里单独输出每个有意义的被标记的worksheet
             //似乎workbook在多个线程共享的时候，进行并发的写操作，出现了问题，修改没有反应到最后的输出结果中
 
-//            printLastSheet();
+            //printLastSheet();
         }
         catch (InterruptedException ignored) {
             staSheet.setEndTime(System.nanoTime());
             staSheet.timeout = true;
 
-            System.out.println(Thread.currentThread().getName() +
-                    ": Spreadsheet = " + staSheet.fileName + ", Sheet = " + sheet.getSheetName()
-                    + ". This thread has exceeded its time.");
+            System.out.println("#*#*#*#*#*#*#*#*#*"+Thread.currentThread().getName() +
+                    ": " + staSheet.fileName + "/" + sheet.getSheetName() + " timeouts.");
         }
 
     }
@@ -295,6 +264,7 @@ public class TestWorksheet implements Runnable {
         int currentFlag = 0;
         try {
             currentFlag = printFlag.get(fileName).decrementAndGet();
+            //System.out.println("fileName = " + fileName + ", CurrentCount = " + currentFlag);
         }
         catch (NullPointerException ignored) {
             //TODO：我不清楚这里为什么会报告空指针异常，先忽略吧。

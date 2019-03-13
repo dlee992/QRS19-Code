@@ -32,7 +32,7 @@ public class CUSTODES {
         GP.addC = false;
         GP.testDate = "CUSTODES";
 
-        prefixOutDir = outDirPath + fileSeparator + testDate + fileSeparator;
+        prefixOutDir = outDirPath + fileSeparator + testDate + stepIndex + fileSeparator;
         File middleDir = new File(prefixOutDir);
         if (!middleDir.exists()) {
             middleDir.mkdir();
@@ -54,7 +54,7 @@ public class CUSTODES {
         staAll.setBeginTime(System.nanoTime());
 
         int fileCount = 0;
-        int stepWidth = 300;
+        int stepWidth = 100;
 
         for (File subDir: datasetDir.listFiles()) {
             fileCount++;
