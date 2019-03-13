@@ -75,7 +75,8 @@ public class AmCheck {
                 System.out.println("---- fileCount = " + (fileCount - stepWidth*stepIndex) + "/ filename = " + file.getName());
 
                 // restart from breakpoint
-                if (fileCount < CACheck.restart) continue;
+                System.out.println((fileCount - stepWidth*stepIndex) + " < " + CACheck.restart);
+                if (fileCount- stepWidth*stepIndex < CACheck.restart) continue;
 
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
                 Instant beginTime = Instant.now();
@@ -103,13 +104,13 @@ public class AmCheck {
 
                         String smellString = smellList.toString();
                         int index = 6;
-                        for (int i=0; i*1000 < smellString.length(); i++) {
+                        for (int i = 0; i * 1000 < smellString.length(); i++) {
                             row.createCell(index++).setCellValue(
-                                    smellString.substring(i*1000, Math.min((i+1)*1000, smellString.length())));
+                                    smellString.substring(i * 1000, Math.min((i + 1) * 1000, smellString.length())));
                         }
 
                         System.out.println("SmellCount = " + smellCount);
-                        File desFile = new File(outDirPath, toolName+stepIndex + "-" + (fileCount - stepWidth*stepIndex) +" results.xls");
+                        File desFile = new File(outDirPath, toolName + stepIndex + "-" + (fileCount - stepWidth * stepIndex) + " results.xls");
                         if (!desFile.exists()) desFile.createNewFile();
                         FileOutputStream output = new FileOutputStream(desFile);
                         workbook.write(output);
@@ -117,25 +118,30 @@ public class AmCheck {
 
 
                     } catch (IllegalStateException illegalState) {
-                        System.err.println("IllegalStateException in "+ file.getName()+"/" + currentSheet.getSheetName());
+                        System.err.println("IllegalStateException in " + file.getName() + "/" + currentSheet.getSheetName());
                         row.createCell(5).setCellValue("illegalState");
                     } catch (IllegalArgumentException illegalArgument) {
-                        System.err.println("illegalArgumentException in "+ file.getName()+"/" + currentSheet.getSheetName());
+                        System.err.println("illegalArgumentException in " + file.getName() + "/" + currentSheet.getSheetName());
                         row.createCell(5).setCellValue("illegalArgument");
                     } catch (ArrayIndexOutOfBoundsException arrayIndexOut) {
-                        System.err.println("ArrayIndexOutOfBoundsException in "+ file.getName()+"/" + currentSheet.getSheetName());
+                        System.err.println("ArrayIndexOutOfBoundsException in " + file.getName() + "/" + currentSheet.getSheetName());
                         row.createCell(5).setCellValue("ArrayIndexOutOfBounds");
                     }
 
                 }
 
-                File category_output = new File(outDirPath + fileSeparator + category.getName());
-                if (!(category_output.exists())) category_output.mkdir();
 
-                File file_output = new File(category_output.getPath(), file.getName());
-                FileOutputStream outFileStream = new FileOutputStream(file_output);
-                currentWorkbook.write(outFileStream);
-                outFileStream.close();
+                try {
+                    File category_output = new File(outDirPath + fileSeparator + category.getName());
+                    if (!(category_output.exists())) category_output.mkdir();
+
+                    File file_output = new File(category_output.getPath(), file.getName());
+                    FileOutputStream outFileStream = new FileOutputStream(file_output);
+                    currentWorkbook.write(outFileStream);
+                    outFileStream.close();
+                } catch (IllegalStateException illegalState) {
+
+                }
             }
         }
 
