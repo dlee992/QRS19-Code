@@ -42,8 +42,11 @@ public class BootstrappingClustering {
 
 	private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 	private long beginTime;
-	
-	public BootstrappingClustering(FeatureExtraction fe, Sheet sheetOrigin, long beginTime) {
+	private volatile Thread blinker;
+
+
+	public BootstrappingClustering(Thread blinker, FeatureExtraction fe, Sheet sheetOrigin, long beginTime) {
+		this.blinker = blinker;
 		this.cellRefsVector  = fe.getCellRefsVector();
 		this.clusterVector   = fe.getClusterVector();
 		this.featureVector   = fe.getFeatureVectorForClustering();
@@ -139,7 +142,7 @@ public class BootstrappingClustering {
     }
 
 	public List<Cluster> addCellToCluster(RealMatrix cellClusterMF, List<CellReference> nonSeedCellRefs,
-			List<Cell> nonSeedCells, double parameter) throws InterruptedException {
+			List<Cell> nonSeedCells, double parameter) throws RuntimeException {
 
 		//对整个worksheet进行分割，划分成若干个table单位，然后对其进行编号
 		//统计某个cluster中的seed cells位于某几个table中
@@ -201,8 +204,8 @@ public class BootstrappingClustering {
         int index = 0;
 
         while (index < 2) {
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
+			if (blinker != Thread.currentThread()) {
+				throw new RuntimeException();
 			}
 
             if (isolatedCellMatrix != null) {
@@ -215,8 +218,8 @@ public class BootstrappingClustering {
 
                     if (maxValue > 0) {
                         for (int j1 = 0; j1 < isolatedCellMatrix.getColumnDimension(); j1++) {
-							if (Thread.interrupted()) {
-								throw new InterruptedException();
+							if (blinker != Thread.currentThread()) {
+								throw new RuntimeException();
 							}
 
                             if (isolatedCellMatrix.getEntry(i1, j1) == maxValue) {

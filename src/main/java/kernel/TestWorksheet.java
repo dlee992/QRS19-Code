@@ -46,6 +46,8 @@ public class TestWorksheet implements Runnable {
 
     private Object lockForSS;
 
+    private volatile Thread blinker;
+
 
     public TestWorksheet(String fileName, Sheet sheet, BufferedWriter logBuffer,
                          boolean test, String category, String categoryDirStr, Object lockForSS) {
@@ -59,10 +61,15 @@ public class TestWorksheet implements Runnable {
         this.lockForSS = lockForSS;
     }
 
+    public void stop() {
+        blinker = null;
+    }
+
     @Override
     public void run() {
         ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
         try {
+            blinker = Thread.currentThread();
             //System.out.println(Thread.currentThread().getName() + ": Spreadsheet = " + fileName + ", sheet name = " + sheet.getSheetName() + ": Begin");
             threadID = Thread.currentThread().getId();
             this.beginTime = monitor.getThreadCpuTime(Thread.currentThread().getId())  / 1000_000_000;
@@ -117,7 +124,7 @@ public class TestWorksheet implements Runnable {
             //logBuffer.newLine();
             BasicUtility bu = new BasicUtility();
 
-            InfoOfSheet infoOfSheet = bu.infoExtractedPOI(sheet, beginTime);
+            InfoOfSheet infoOfSheet = bu.infoExtractedPOI(blinker, sheet, beginTime);
 
             Map<String, List<String>> formulaInfoList = infoOfSheet.getFormulaMap();
             numberOfFormula.addAndGet(formulaInfoList.size());
@@ -132,7 +139,7 @@ public class TestWorksheet implements Runnable {
                 return;
             }
 
-            HacClustering hacCluster = new HacClustering(sheet, formulaInfoList, beginTime);
+            HacClustering hacCluster = new HacClustering(blinker, sheet, formulaInfoList, beginTime);
 
             //TODO: 2 from Cell Array to clusters in the HAC algorithm to generate seed clusters
             System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
@@ -155,7 +162,7 @@ public class TestWorksheet implements Runnable {
             //3 weak feature extraction
             System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
                     + " Stage II (fe) starts at " + new BasicUtility().getCurrentTime());
-            FeatureExtraction fe = new FeatureExtraction(sheet, stageIClusters, beginTime);
+            FeatureExtraction fe = new FeatureExtraction(blinker, sheet, stageIClusters, beginTime);
             fe.featureExtractionFromSheet(infoOfSheet.getDataCells());
 
             System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
@@ -164,7 +171,7 @@ public class TestWorksheet implements Runnable {
 
             List<Cluster> seedClusters = fe.getSeedCluster();
             if (seedClusters != null && !seedClusters.isEmpty()) {
-                FeatureCellMatrix fcc = new FeatureCellMatrix(
+                FeatureCellMatrix fcc = new FeatureCellMatrix(blinker,
                         fe.getFeatureVectorForClustering(),
                         fe.getCellRefsVector(), beginTime);
 
@@ -177,12 +184,12 @@ public class TestWorksheet implements Runnable {
                 List<Cell> nonSeedCells = fe.getNonSeedCells();
 
                 //TODO: 4 second-stage clustering
-                BootstrappingClustering bc = new BootstrappingClustering(fe, sheet, beginTime);
+                BootstrappingClustering bc = new BootstrappingClustering(blinker, fe, sheet, beginTime);
                 RealMatrix cellClusterM = bc.clustering(featureCellM);
                 List<Cluster> stageIIClusters;
 
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (blinker != Thread.currentThread()) {
+                    throw new RuntimeException();
                 }
 
                 if (nonSeedCells != null && !nonSeedCells.isEmpty()) {
@@ -207,11 +214,11 @@ public class TestWorksheet implements Runnable {
                 System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
                         + " Stage III defect detection starts at " + new BasicUtility().getCurrentTime());
 
-                SmellDetectionClustering sdc = new SmellDetectionClustering(sheet, stageIIClusters, fe.getCellFeatureList(), beginTime);
+                SmellDetectionClustering sdc = new SmellDetectionClustering(blinker, sheet, stageIIClusters, fe.getCellFeatureList(), beginTime);
                 sdc.outlierDetection();
 
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (blinker != Thread.currentThread()) {
+                    throw new RuntimeException();
                 }
 
                 System.out.println("[" + Thread.currentThread().getName() + "]: Sheet " + sheet.getSheetName()
@@ -248,7 +255,7 @@ public class TestWorksheet implements Runnable {
 
             //printLastSheet();
         }
-        catch (InterruptedException ignored) {
+        catch (RuntimeException ignored) {
             staSheet.setEndTime(System.nanoTime());
             staSheet.timeout = true;
 

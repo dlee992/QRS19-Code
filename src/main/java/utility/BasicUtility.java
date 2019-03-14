@@ -1,34 +1,27 @@
 package utility;
 
-import entity.CellLocation;
-import entity.Smell;
-import entity.InfoOfSheet;
-import entity.Cluster;
-import entity.R1C1Cell;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import entity.*;
+import kernel.GP;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.ss.util.PaneInformation;
 import org.apache.poi.xssf.usermodel.XSSFFont;
-import kernel.GP;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static kernel.GP.filterString;
 import static datasets.TestEUSES.TIMEOUT;
+import static kernel.GP.filterString;
 
 
 public class BasicUtility {
     private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
     private long beginTime;
     private int lastRowNum = -1;
+    private volatile Thread blinker;
 
-    private static Logger logger = LogManager.getLogger(BasicUtility.class.getName());
-
-    public InfoOfSheet infoExtractedPOI(Sheet sheet, long beginTime) throws InterruptedException {
-
+    public InfoOfSheet infoExtractedPOI(Thread blinker, Sheet sheet, long beginTime) throws RuntimeException {
+        this.blinker = blinker;
         this.beginTime = beginTime;
 
         List<Cell> dataCells                 = new ArrayList<Cell>();
@@ -51,8 +44,9 @@ public class BasicUtility {
             for (Cell c : r)
                 cells.add(c);
             for (Cell c : cells) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (blinker != Thread.currentThread()) {
+                    System.err.println(blinker+ " " +Thread.currentThread());
+                    throw new RuntimeException();
                 }
 
                 uiCells.add(c);
@@ -606,7 +600,7 @@ public class BasicUtility {
     }
 
     public void smellyCellMark(Object lockForSS, Sheet sheet,
-                               List<Smell> smells) throws InterruptedException {
+                               List<Smell> smells) throws RuntimeException {
         //System.out.println("smellyCellMark begin");
 
         Workbook workbook = sheet.getWorkbook();
@@ -616,8 +610,8 @@ public class BasicUtility {
 
             lastRowNum+=2;
             for (Smell sl : smells) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (blinker != Thread.currentThread()) {
+                    throw new RuntimeException();
                 }
 
                 CellReference cr = sl.getCr();
@@ -663,7 +657,7 @@ public class BasicUtility {
         }
     }
 
-    public void clusterMark(List<Cluster> clusters, Sheet sheet) throws InterruptedException {
+    public void clusterMark(List<Cluster> clusters, Sheet sheet) throws RuntimeException {
         //System.out.println("clusterMark begin");
 
         Workbook workbook = sheet.getWorkbook();
@@ -701,8 +695,8 @@ public class BasicUtility {
 
             lastRowNum = sheet.getLastRowNum() + 2;
             for (Cluster cluster : clusters) {
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                if (blinker != Thread.currentThread()) {
+                    throw new RuntimeException();
                 }
 
                 if (cluster != null) {

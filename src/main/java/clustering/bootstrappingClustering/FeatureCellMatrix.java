@@ -25,9 +25,10 @@ public class FeatureCellMatrix {
 
 	private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 	private long beginTime;
-
+	private volatile Thread blinker;
 	
-	public FeatureCellMatrix(List<String> featureVector, List<CellReference> cellRefsVector, long beginTime) {
+	public FeatureCellMatrix(Thread blinker, List<String> featureVector, List<CellReference> cellRefsVector, long beginTime) {
+		this.blinker = blinker;
 		this.setCellRefsVector(cellRefsVector);
 		this.setFeatureVector(featureVector);
 		this.beginTime = beginTime;
@@ -41,13 +42,13 @@ public class FeatureCellMatrix {
 		this.featureVector = featureVector;
 	}
 
-	public RealMatrix matrixCreationForClustering(List<CellFeature> cellFeatureList) throws InterruptedException {
+	public RealMatrix matrixCreationForClustering(List<CellFeature> cellFeatureList) throws RuntimeException {
 		RealMatrix rm = new Array2DRowRealMatrix(featureVector.size(),cellRefsVector.size());
 		
 		for (CellFeature ft: cellFeatureList){
 
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
+			if (blinker != Thread.currentThread()) {
+				throw new RuntimeException();
 			}
 			
 			if (cellRefsVector.contains(ft.getCellReference())) {

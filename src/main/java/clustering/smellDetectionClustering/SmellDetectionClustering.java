@@ -48,9 +48,11 @@ public class SmellDetectionClustering {
 
     private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
     private long beginTime;
+    private volatile Thread blinker;
 	
-	public SmellDetectionClustering(Sheet sheet, List<Cluster> clusters, List<CellFeature> fts, long beginTime) {
-		this.sheet = sheet;
+	public SmellDetectionClustering(Thread blinker, Sheet sheet, List<Cluster> clusters, List<CellFeature> fts, long beginTime) {
+		this.blinker = blinker;
+	    this.sheet = sheet;
 		this.clusters = clusters;
 		this.fts = fts;
 		this.beginTime = beginTime;
@@ -58,8 +60,8 @@ public class SmellDetectionClustering {
 
 	public void outlierDetection() throws Exception {
 		for (Cluster cl : clusters) {
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
+            if (blinker != Thread.currentThread()) {
+                throw new RuntimeException();
             }
 
 			Map<CellReference, Double> cellRefsValue = cl.cellRefsWithValue();
@@ -98,7 +100,7 @@ public class SmellDetectionClustering {
             //尚未实现
 			
 			detectionFeatureExtraction(sheet.getWorkbook(), formulaInCluster);
-			FeatureCellMatrix fc = new FeatureCellMatrix(featureVector, formulaRefInCluster, beginTime);
+			FeatureCellMatrix fc = new FeatureCellMatrix(blinker, featureVector, formulaRefInCluster, beginTime);
 			RealMatrix fcM = fc.matrixCreationForDetection(subFtList);
 			
 			Instances originalDataset = createInstances(fcM);

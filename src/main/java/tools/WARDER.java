@@ -115,7 +115,8 @@ public class WARDER {
                 testWorksheet.staSheet.setCpuTime(threadCPUTime);
 
                 if (threadCPUTime >= TIMEOUT) {
-                    future.cancel(true);
+                    //future.cancel(true);
+                    testWorksheet.stop();
                     testWorksheet.staSheet.clear();
                     testWorksheet.staSheet.timeout = true;
                     timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));

@@ -22,7 +22,7 @@ public class CUSTODES {
     public static String toolID = "CUSTODES";
     public static String dataset = "VEnron2-Clean";
     public static long TIMEOUT = 60*5;
-    public static int stepIndex = 5;
+    public static int stepIndex = 0;
 
     private static List<TimeoutSheet> timeoutList = new ArrayList<>();
 
@@ -82,7 +82,7 @@ public class CUSTODES {
 
         while (finishedThreadCount < tasks.size()) {
             try {
-                Thread.sleep(60000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -114,7 +114,8 @@ public class CUSTODES {
 
                 if (threadCPUTime >= TIMEOUT) {
                     int tmp = 0;
-                    future.cancel(true);
+                    //future.cancel(true);
+                    testWorksheet.stop();
                     testWorksheet.staSheet.clear();
                     testWorksheet.staSheet.timeout = true;
                     timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));

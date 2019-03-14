@@ -40,18 +40,19 @@ public class FeatureExtraction {
 
 	private long timeout = (long) (TIMEOUT * 1_000_000_000.0);
 	private long beginTime;
-
+	private volatile Thread blinker;
 	
-	public FeatureExtraction(Sheet sheet, List<Cluster> stageIClusters, long beginTime){
+	public FeatureExtraction(Thread blinker, Sheet sheet, List<Cluster> stageIClusters, long beginTime){
+		this.blinker = blinker;
 		this.sheet = sheet;
 		this.stageIClusters = stageIClusters;
 		this.beginTime = beginTime;
 	}
 
-	public void featureExtractionFromSheet(List<Cell> dataCells) throws InterruptedException {
+	public void featureExtractionFromSheet(List<Cell> dataCells) throws RuntimeException {
 		for (Cluster cluster: stageIClusters){
-			if (Thread.interrupted()) {
-                throw new InterruptedException();
+			if (blinker != Thread.currentThread()) {
+                throw new RuntimeException();
 			}
 
 			if (cluster.getClusterCellRefs().size()>1){
@@ -72,8 +73,8 @@ public class FeatureExtraction {
 		List<CellArray> allCAs = null;
 //		if (!O5) {
 
-		if (Thread.interrupted()) {
-            throw new InterruptedException();
+		if (blinker != Thread.currentThread()) {
+			throw new RuntimeException();
 		}
 
 		CellArrayExtraction smellyCAExtract = new CellArrayExtraction(sheet, snippets);
@@ -122,7 +123,7 @@ public class FeatureExtraction {
 		*/
 	}
 
-	private void featureExtractionFromCluster(List<Snippet> snippets, List<CellArray> allCAs) throws InterruptedException {
+	private void featureExtractionFromCluster(List<Snippet> snippets, List<CellArray> allCAs) throws RuntimeException {
 		GapExtraction ge;
 		Map<Cell, Gap> gaps = null;
 		
@@ -144,13 +145,13 @@ public class FeatureExtraction {
 				nonSeedCells.addAll(cluster.getClusterCells());
 			}
 
-			if (Thread.interrupted()) {
-                throw new InterruptedException();
+			if (blinker != Thread.currentThread()) {
+				throw new RuntimeException();
 			}
 
 			for (Cell cell : cluster.getClusterCells()) {
-				if (Thread.interrupted()) {
-                    throw new InterruptedException();
+				if (blinker != Thread.currentThread()) {
+					throw new RuntimeException();
 				}
 
 				CellReference cellRef = new CellReference(cell);
@@ -282,14 +283,14 @@ public class FeatureExtraction {
 	}
 	
 	private void FeatureExtractionFromDataCells(List<Cell> dataCells, List<Snippet> snippets, List<CellArray> allCAs)
-			throws InterruptedException {
+			throws RuntimeException {
 
 		AllianceExtraction ae = new AllianceExtraction(sheet);
 		List<Alliance> allianceList = ae.allianceExtraction();
 		
 		for (Cell cell: dataCells){
-			if (Thread.interrupted()) {
-                throw new InterruptedException();
+			if (blinker != Thread.currentThread()) {
+				throw new RuntimeException();
 			}
 
 			CellReference cellRef = new CellReference(cell);
@@ -343,8 +344,8 @@ public class FeatureExtraction {
 			Set<Gap> gapSet = new HashSet<Gap>();
 			
 			for (Cluster clusterTemp: seedCluster){
-				if (Thread.interrupted()) {
-                    throw new InterruptedException();
+				if (blinker != Thread.currentThread()) {
+					throw new RuntimeException();
 				}
 
 				GapExtraction geTmp = new GapExtraction(clusterTemp);
