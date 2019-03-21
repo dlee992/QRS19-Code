@@ -5,36 +5,38 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FilterInEachList {
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
-        String inputFN = "C:\\Users\\njuli\\Desktop\\实验结果\\大数据检测结果\\case study non-timeout results.xlsx";
-        String outputFN = "C:\\Users\\njuli\\Desktop\\实验结果\\大数据检测结果\\UnionSet.xlsx";
+        String inputFN = "C:\\Users\\njuli\\Desktop\\实验结果\\大数据检测结果\\final Scope.xlsx";
+        String outputFN = "C:\\Users\\njuli\\Desktop\\实验结果\\大数据检测结果\\final Scope.xlsx";
 
         File inputF = new File(inputFN);
         Workbook workbook = WorkbookFactory.create(new FileInputStream(inputF));
 
 
-        Sheet nonTCSheet = workbook.getSheet("non-TC VEnron2");
+        Sheet unionSetSheet = workbook.getSheet("UnionSet");
         Sheet amSheet = workbook.getSheet("AmCheck (2)");
         Sheet caSheet = workbook.getSheet("CACheck (2)");
         Sheet cuSheet = workbook.getSheet("CUSTODES (2)");
         Sheet waSheet = workbook.getSheet("WARDER (2)");
 
-        existOrNot(nonTCSheet, amSheet);
-        existOrNot(nonTCSheet, caSheet);
-        existOrNot(nonTCSheet, cuSheet);
-        existOrNot(nonTCSheet, waSheet);
+        existOrNot(unionSetSheet, unionSetSheet, 20);
+        /*
+        existOrNot(unionSetSheet, amSheet, 4);
+        existOrNot(unionSetSheet, caSheet, 5);
+        existOrNot(unionSetSheet, cuSheet, 6);
+        existOrNot(unionSetSheet, waSheet, 7);
 
         FileOutputStream resultStream = new FileOutputStream(new File(outputFN));
         workbook.write(resultStream);
         resultStream.close();
+        */
     }
 
-    private static void existOrNot(Sheet nonTCSheet, Sheet waSheet) {
+    private static void existOrNot(Sheet unionSetSheet, Sheet waSheet, int columnIndex) {
         for (Row row: waSheet) {
             if (row.getRowNum() == 0) continue;
             Cell nonLastCell =  row.getCell(1);
@@ -42,22 +44,18 @@ public class FilterInEachList {
             String SSName = row.getCell(1).getStringCellValue();
             String WSName = row.getCell(2).getStringCellValue();
 
-            boolean exist = false;
-            for (Row nonTCRow: nonTCSheet) {
+            for (Row nonTCRow: unionSetSheet) {
                 String nonTCSSName = nonTCRow.getCell(1).getStringCellValue();
                 String nonTCWSName = nonTCRow.getCell(2).getStringCellValue();
                 if (nonTCSSName.equals(SSName) && nonTCWSName.equals(WSName)) {
-                    exist = true;
-                    Cell nonTCCell = nonTCRow.createCell(3);
-                    nonTCCell.setCellValue("union");
+                    if (row.getRowNum() != nonTCRow.getRowNum()) {
+                        Cell nonTCCell = nonTCRow.createCell(columnIndex);
+                        nonTCCell.setCellValue(1);
+                        System.err.println("duplicate worksheet: " + nonTCSSName + "/" + nonTCWSName);
+                    }
                 }
             }
 
-            Cell cell = row.createCell(6);
-            if (exist)
-                cell.setCellValue("save");
-            else
-                cell.setCellValue("delete");
         }
     }
 }
