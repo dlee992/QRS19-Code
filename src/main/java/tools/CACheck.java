@@ -11,8 +11,8 @@ public class CACheck {
     public static String toolName = "CACheck";
     public static String dataset = "VEnron2-Clean";
     public static boolean checking = false;
-    public static int stepIndex = 2;
-    public static int restart = 188;
+    public static int stepIndex = 0;
+    public static int restart =229;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
         if (checking) {

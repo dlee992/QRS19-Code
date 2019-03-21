@@ -1,5 +1,6 @@
 package tools;
 
+import DataCollection.FilterSet;
 import extraction.weakFeatureExtraction.Wrapper;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -15,8 +16,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static kernel.GP.fileSeparator;
 import static kernel.GP.parent_dir;
@@ -29,7 +28,7 @@ public class AmCheck {
     public static String dataset = "VEnron2-Clean";
     public static boolean checking = false;
     public static int stepIndex = 0;
-    public static int restart = 1129;
+    //public static int restart = 1129;
 
     public static void main(String args[]) throws IOException, InvalidFormatException {
 
@@ -42,11 +41,10 @@ public class AmCheck {
 
     public static void runTests(String toolName, int type, int stepIndex) throws IOException, InvalidFormatException {
         // [1+ stepWidth*stepIndex, stepWidth*(stepIndex+1) ]
-        int stepWidth = 1600;
+        int stepWidth = Integer.MAX_VALUE;
 
         String inDirPath = parent_dir + fileSeparator + "Inputs" + fileSeparator + dataset;
-        String outDirPath = parent_dir + fileSeparator + "Outputs" +
-                fileSeparator + toolName + stepIndex;
+        String outDirPath = parent_dir + fileSeparator + "Outputs" + fileSeparator + toolName;
         File inDir = new File(inDirPath);
         File outDir = new File(outDirPath);
         if (!outDir.exists()) outDir.mkdir();
@@ -63,12 +61,10 @@ public class AmCheck {
         row.createCell(5).setCellValue("Exception Type");
         row.createCell(3).setCellValue("ConsumedTime/s");
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
-
+        FilterSet filterSet = new FilterSet();
 
         int fileCount = 0;
         for (File category : inDir.listFiles()) {
-            //if (timeBudget > 5) break;
             for (File file : category.listFiles()) {
                 ++fileCount;
 
@@ -76,23 +72,28 @@ public class AmCheck {
                 System.out.println("---- fileCount = " + (fileCount - stepWidth*stepIndex) + "/ filename = " + file.getName());
 
                 // restart from breakpoint
-                System.out.println((fileCount - stepWidth*stepIndex) + " < " + CACheck.restart);
-                if (fileCount- stepWidth*stepIndex < CACheck.restart) continue;
+                //System.out.println((fileCount - stepWidth*stepIndex) + " < " + CACheck.restart);
+                if (fileCount < CACheck.restart) continue;
 
 
                 Workbook currentWorkbook = WorkbookFactory.create(new FileInputStream(file));
-                Instant beginTime = Instant.now();
+
                 for (Sheet currentSheet : currentWorkbook) {
                     try {
+                        String hashValue = category.getName() + "/" + file.getName() + "/" + currentSheet.getSheetName();
+                        if (!filterSet.set.contains(hashValue)) continue;
+
+                        Instant beginTime = Instant.now();
                         Wrapper singletonWrapper = new Wrapper(currentSheet, type);
                         List<CAResult> caResults = singletonWrapper.processSheet(toolName);
 
-                        if (caResults == null) continue;
                         List<String> smellList = new ArrayList<>();
-                        for (CAResult ca_result : caResults) {
-                            for (Cell smellyCell : ca_result.ambiguousCells) {
-                                smellList.add(new CellReference(smellyCell).formatAsString());
-                                smellCount++;
+                        if (caResults != null) {
+                            for (CAResult ca_result : caResults) {
+                                for (Cell smellyCell : ca_result.ambiguousCells) {
+                                    smellList.add(new CellReference(smellyCell).formatAsString());
+                                    smellCount++;
+                                }
                             }
                         }
 
@@ -111,8 +112,8 @@ public class AmCheck {
                                     smellString.substring(i * 1000, Math.min((i + 1) * 1000, smellString.length())));
                         }
 
-                        System.out.println("SmellCount = " + smellCount);
-                        File desFile = new File(outDirPath, toolName + stepIndex + "-" + (fileCount - stepWidth * stepIndex) + " results.xls");
+                        //System.out.println("SmellCount = " + smellCount);
+                        File desFile = new File(outDirPath, toolName + "-" + fileCount + " results.xls");
                         if (!desFile.exists()) desFile.createNewFile();
                         FileOutputStream output = new FileOutputStream(desFile);
                         workbook.write(output);
