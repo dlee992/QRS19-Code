@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static kernel.GP.*;
-import static kernel.MainClass.ssNameList;
+
 
 public class TestSpreadsheet {
 
@@ -69,19 +69,27 @@ public class TestSpreadsheet {
             System.out.println("FinishedSS = " + finishedSS.incrementAndGet());
             System.out.println();
 //            logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: " + fileName + "'########");
-            ssNameList.add(fileName);
+//            ssNameList.add(fileName);
             addVirtualSS(category, fileName, 1);
             return;
         }
-
-        String eachDirStr = outDirPath + fileSeparator + testDate;
+        String eachDirStr;
+        if (buildArtifact)
+            eachDirStr = outDirPath;
+        else
+            eachDirStr = outDirPath + fileSeparator + testDate;
 
         File eachDir = new File(eachDirStr);
         if (!eachDir.exists()) {
             eachDir.mkdir();
         }
 
-        String categoryDirStr = eachDirStr + fileSeparator + category;
+        String categoryDirStr;
+        if (buildArtifact)
+            categoryDirStr = eachDirStr;
+        else
+            categoryDirStr = eachDirStr + fileSeparator + category;
+
         File categoryDir = new File(categoryDirStr);
         if (!categoryDir.exists()) {
             categoryDir.mkdir();
@@ -117,7 +125,7 @@ public class TestSpreadsheet {
         System.out.println();
         //logBuffer.write("Spreadsheet index = "+ identicalIndex +" ######## End in: '" + fileName + "'########");
         //logBuffer.newLine();
-        ssNameList.add(fileName);
+//        ssNameList.add(fileName);
 
         //在每个SS执行完之后立刻输出当前所有执行完的SS的综合信息
 //        staAll.log(prefixOutDir, true, null);

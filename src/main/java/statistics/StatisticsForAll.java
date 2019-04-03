@@ -231,7 +231,8 @@ public class StatisticsForAll {
         rowTailor.createCell(7).setCellValue(FP[1]);
         rowTailor.createCell(8).setCellValue(FN[1]);
 
-        System.out.println("TP = " + TP[1] + ", FP = " + FP[1] + ", FN = " + FN[1]);
+        if (!GP.buildArtifact)
+            System.out.println("TP = " + TP[1] + ", FP = " + FP[1] + ", FN = " + FN[1]);
         rowTailor.createCell(9).setCellValue(roundDouble(precision[1]));
         rowTailor.createCell(10).setCellValue(roundDouble(recall[1]));
         rowTailor.createCell(11).setCellValue(roundDouble(fMeasure[1]));
@@ -247,11 +248,14 @@ public class StatisticsForAll {
         rowTailor.createCell(19).setCellValue(roundDouble(recall[0]));
         rowTailor.createCell(20).setCellValue(roundDouble(fMeasure[0]));
 
+        String fileName;
+        if (GP.buildArtifact)
+            fileName = GP.parent_dir + GP.fileSeparator + "clustering and detection results.xlsx";
+        else
+            fileName = prefixDir + GP.fileSeparator + category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
 
-
-        String fileName = category +"_"+ ssCount +"(" + new BasicUtility().getCurrentTime() + ").xlsx";
         out.println(fileName);
-        FileOutputStream resultStream = new FileOutputStream(new File(prefixDir + GP.fileSeparator + fileName));
+        FileOutputStream resultStream = new FileOutputStream(new File(fileName));
         workbook.write(resultStream);
         resultStream.close();
 //        out.println("log finishes and middle = " + middleFlag + ".");
@@ -321,6 +325,6 @@ public class StatisticsForAll {
     }
 
     public void getInfo() {
-        System.err.printf("Detected clusters = %d, detected smells = %d\n", stageClusterSize, stageSmellSize);
+        System.err.printf("# Identified clusters = %d, # Detected smells = %d\n", stageClusterSize, stageSmellSize);
     }
 }

@@ -156,7 +156,7 @@ public class HacClustering {
 			m++;
 		}
 
-		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
+//		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
 	}
 
 
@@ -273,7 +273,7 @@ public class HacClustering {
 			m++;
 		}
 
-		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
+//		System.out.println("Tree Distance finished " + new BasicUtility().getCurrentTime());
 
 
 	}
@@ -452,7 +452,7 @@ public class HacClustering {
 
 
 
-		System.out.println("Pre-processing is finished " + new BasicUtility().getCurrentTime());
+//		System.out.println("Pre-processing is finished " + new BasicUtility().getCurrentTime());
 
 		//TODO:采用 nearest-neighbor chain algorithm, 时间/空间复杂度都是O(n^2).
 		//算法链接: https://en.wikipedia.org/wiki/Nearest-neighbor_chain_algorithm.

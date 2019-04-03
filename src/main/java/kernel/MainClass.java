@@ -1,133 +1,135 @@
 package kernel;
 
-import datasets.TestEUSES;
-import thirdparty.CACheck.amcheck.AnalysisPattern;
 import statistics.StatisticsForAll;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
-import java.io.PrintStream;
+import java.io.FileWriter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
+import java.util.concurrent.Future;
 
 import static kernel.GP.*;
 
-/**
- * Created by lida on 2017/6/27.
- */
 public class MainClass {
+    public static long TIMEOUT = 60*5;
+    private static List<TimeoutSheet> timeoutList = new ArrayList<>();
+    public static String dataset = "VEnron2-Clean";
 
-    static String groundTruthPath;
-    private static String mode;
-    private static String inDirPath;
-    private static String programState;
+    static {
+        /*
+        in order:
+        single-cell validity
+        multi-cell validity
+        cluster validity
+         */
+        GP.addC = GP.filterString = GP.plusFrozen = true;
+        GP.addB = true;
+        GP.addA = true;
+        GP.testDate = "WARDER";
+        buildArtifact = true;
 
-    static AtomicInteger numberOfFormula = new AtomicInteger(0);
-    static ArrayList<String> ssNameList = new ArrayList<>();
-    private static AnalysisPattern analysisPattern = new AnalysisPattern();
-
-
-    public static void main(String[] args) throws Exception {
-        PrintStream file_stream = new PrintStream("debug_log.txt");
-        System.setOut(file_stream);
-
-        inDirPath  = parent_dir + fileSeparator + "Inputs";
-
-        if (args.length==0) {
-            args = new String[1];
-            args[0] = "null";
+        prefixOutDir = outDirPath  + fileSeparator;
+        File middleDir = new File(prefixOutDir);
+        if (!middleDir.exists()) {
+            middleDir.mkdir();
         }
 
-        programState = "Debugging";
-        commandHandling(args);
+        middleDir = new File(prefixOutDir);
+        if (!middleDir.exists()) {
+            middleDir.mkdir();
+        }
+    }
 
-        File inDir = new File(inDirPath);
-        FilenameFilter filter1 = (directory, fileName) -> fileName.toLowerCase().endsWith(".xls") ||
-                fileName.toLowerCase().endsWith(".xlsx");
-        FileFilter filter2 = file -> (!file.isHidden() && file.isDirectory() && file.getName().equals(mode));
-        File[] categories = inDir.listFiles(filter2);
+    public static void main(String[] args) throws Exception {
+
+        System.out.println("#####################################################################\n"+
+                           "                Please move your testing spreadsheets \n" +
+                           "                into the sub-directory \"Inputs\".\n" +
+                           "#####################################################################\n");
+
+        String inputDirName = parent_dir + fileSeparator + "Inputs";
+        File inputDir = new File(inputDirName);
 
         staAll = new StatisticsForAll();
         staAll.setBeginTime(System.nanoTime());
 
-        //把任务添加到thread pool中,最后invokeAll执行
-        for (int i = 0; categories != null && i < categories.length; i++) {
-            File perCategory = new File(categories[i].getAbsolutePath());
-            File[] files = perCategory.listFiles(filter1);
-
-            assert files != null;
-
-            int count = 0;
-            for (File eachFile : files) {
-                count ++;
-                final File finalEachFile = new File(eachFile.getAbsolutePath());
-
-                try {
-                    new TestSpreadsheet().testSpreadsheet(finalEachFile, staAll, index, false, perCategory.getName());
-                }
-                catch (Exception | OutOfMemoryError e) {
-                    e.printStackTrace();
-                }
+        for (File excelFile: inputDir.listFiles()) {
+            try {
+                new TestSpreadsheet().testSpreadsheet(excelFile, staAll, index, false, inputDir.getName());
+            } catch (Exception | OutOfMemoryError e) {
+                e.printStackTrace();
             }
         }
 
-        //执行所有任务
-        //对所有Callable的return value做相应处理
-        TestEUSES.timeoutMonitor();
-    }
+
+        ThreadMXBean monitor = ManagementFactory.getThreadMXBean();
+        int finishedThreadCount = 0;
+
+        finishs = new Boolean[tasks.size()];
+        for (int i=0; i < tasks.size(); i++) finishs[i] = false;
+
+        while (finishedThreadCount < tasks.size()) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+//            System.out.printf("finishedSheetCount = %d / %d at %s\n\n" , finishedThreadCount, tasks.size(),
+//                    new BasicUtility().getCurrentTime());
 
 
-    public static void createAndShowGUI() {
-        /*
-        JFrame frame = new JFrame("程序结束");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            for (int i = 0; i < tasks.size(); i++) {
+                Future<?> future = futures.get(i);
+                TestWorksheet testWorksheet = tasks.get(i);
 
-        JLabel label = new JLabel("程序结束");
-        frame.getContentPane().add(label);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
+                if (finishs[i]) continue;
+                if (testWorksheet.threadID == 0) continue;
 
-        frame.pack();
-        frame.setVisible(true);
-    */
-    }
+                long threadCPUTime;
+                if (testWorksheet.alreadyDone)
+                    threadCPUTime = testWorksheet.threadCPUTime;
+                else
+                    threadCPUTime = monitor.getThreadCpuTime(testWorksheet.threadID) / 1000_000_000 - testWorksheet.beginTime;
 
+                if (!testWorksheet.alreadyDone && threadCPUTime < TIMEOUT) continue;
 
-    private static void commandHandling(String[] args) throws Exception {
-        System.err.println(args[0]);
-        switch (args[0]) {
-            case "-default":
-                /*|| programState.equals("developing on default")*/
+                finishs[i] = true;
+                finishedThreadCount++;
 
-                groundTruthPath = inDirPath + fileSeparator + "Default marked worksheets (smelly cells & clusters)";
-                mode = "Default original spreadsheets";
+                testWorksheet.staSheet.setCpuTime(threadCPUTime);
 
-                if (args.length == 1) return;
-
-//                GP.O2_1 = args[1].equals("true");
-//                GP.O2_2 = args[2].equals("true");
-//                GP.O3 = args[3].equals("true");
-//                GP.logicalOperator = args[4].equals("true");
-
-//                GP.parameter_1 = Double.parseDouble(args[5]);
-//                GP.parameter_2 = 2 * GP.parameter_1;
-//                GP.parameter_3 = Double.parseDouble(args[6]);
-                break;
-            case "-custom":
-                /*|| programState.equals("developing on custom")*/
-
-                groundTruthPath = inDirPath + fileSeparator + "User-chosen marked worksheets";
-                mode = "User-chosen original spreadsheets";
-                break;
-            default:
-                if (programState.equals("Debugging")) {
-                    groundTruthPath = inDirPath + fileSeparator + "Default marked worksheets (smelly cells & clusters)";
-                    mode = "Default original spreadsheets";
+                if (threadCPUTime >= TIMEOUT) {
+                    //future.cancel(true);
+                    testWorksheet.stop();
+                    testWorksheet.staSheet.clear();
+                    testWorksheet.staSheet.timeout = true;
+                    timeoutList.add(new TimeoutSheet(testWorksheet.staSheet.fileName, testWorksheet.staSheet.sheet.getSheetName()));
                 }
-                else {
-                    throw new Exception();
-                }
+
+                testWorksheet.printLastSheet();
+
+                staAll.add(testWorksheet.staSheet, logBuffer);
+            }
         }
+
+        //System.out.println("staAll size = " + staAll.sheetList.size());
+        staAll.log(prefixOutDir, null);
+
+        BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(prefixOutDir + "TimeoutSheetList" + ".log"));
+        for (TimeoutSheet timeoutSheet:
+                timeoutList) {
+            bufferedWriter.write(timeoutSheet.spreadsheetName + " " + timeoutSheet.sheetName);
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+        staAll.getInfo();
+        exeService.shutdownNow();
+        System.exit(0);
     }
 }

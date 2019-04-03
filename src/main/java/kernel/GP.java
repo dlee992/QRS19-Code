@@ -36,6 +36,7 @@ public class GP {
     public static String parent_dir = System.getProperty("user.dir");
     public static String outDirPath = parent_dir + fileSeparator + "Outputs";
     public static String testDate;
+    public static boolean buildArtifact = false;
 
     public static ExecutorService exeService;
     public static List<TestWorksheet> tasks = new ArrayList<>();

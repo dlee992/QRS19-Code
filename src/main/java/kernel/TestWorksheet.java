@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 
 import static kernel.GP.*;
-import static kernel.MainClass.groundTruthPath;
-import static kernel.MainClass.numberOfFormula;
 
 public class TestWorksheet implements Runnable {
 
@@ -110,7 +108,7 @@ public class TestWorksheet implements Runnable {
 
             GroundTruthStatistics groundTruthStatistics = new GroundTruthStatistics();
             if (!test) {
-                groundTruthPath = GP.parent_dir + fileSeparator + "Inputs" + fileSeparator + "Groundtruth";
+                String groundTruthPath = GP.parent_dir + fileSeparator + "Inputs" + fileSeparator + "Groundtruth";
                 groundTruthStatistics.read(groundTruthPath + fileSeparator + fileName, sheet.getSheetName());
                 staSheet.setGt_clusterList(groundTruthStatistics.clusterList);
                 staSheet.setGt_smellList(groundTruthStatistics.smellList);
@@ -127,7 +125,7 @@ public class TestWorksheet implements Runnable {
             InfoOfSheet infoOfSheet = bu.infoExtractedPOI(blinker, sheet, beginTime);
 
             Map<String, List<String>> formulaInfoList = infoOfSheet.getFormulaMap();
-            numberOfFormula.addAndGet(formulaInfoList.size());
+//            numberOfFormula.addAndGet(formulaInfoList.size());
 
             if (formulaInfoList.size() == 0) {
                 finishedWS.incrementAndGet();
@@ -291,7 +289,9 @@ public class TestWorksheet implements Runnable {
 
         String prefix = fileName.substring(0, fileName.lastIndexOf('.'));
         String outFileStr = categoryDirStr + fileSeparator + prefix
-                + " tool " + GP.testDate + "." + suffix;
+                + "_" + GP.testDate + "." + suffix;
+
+        System.out.println(outFileStr);
 
         FileOutputStream outFile = new FileOutputStream(outFileStr);
         System.out.println(outFileStr);
